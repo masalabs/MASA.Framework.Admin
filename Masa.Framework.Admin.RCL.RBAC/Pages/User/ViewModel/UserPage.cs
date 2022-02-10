@@ -1,14 +1,14 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.App.User;
+﻿using Masa.Framework.Admin.RCL.RBAC.Data.User.Dto;
 
-public class UserPage
+namespace Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel;
+
+internal class UserPage
 {
     public List<UserDto> UserDatas { get; set; }
 
-    public string? Role { get; set; }
+    public string? Account { get; set; }
 
-    public string? Plan { get; set; }
-
-    public string? Status { get; set; }
+    public string? State { get; set; }
 
     public string? Search { get; set; }
 
@@ -33,21 +33,6 @@ public class UserPage
         if (Search is not null)
         {
             datas = datas.Where(d => d.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase) || d.Email?.Contains(Search, StringComparison.OrdinalIgnoreCase) == true);
-        }
-
-        if (Role is not null)
-        {
-            datas = datas.Where(d => d.Role == Role);
-        }
-
-        if (Plan is not null)
-        {
-            datas = datas.Where(d => d.Plan == Plan);
-        }
-
-        if (Status is not null)
-        {
-            datas = datas.Where(d => d.Status == Status);
         }
 
         if (datas.Count() < (PageIndex - 1) * PageSize) PageIndex = 1;

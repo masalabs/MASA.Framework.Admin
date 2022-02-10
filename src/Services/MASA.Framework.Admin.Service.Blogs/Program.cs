@@ -21,6 +21,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
+using MASA.Contrib.Data.Contracts.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +44,10 @@ builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {
     options.UseEventBus()
         .UseUoW<BlogDbContext>(dbOptions =>
-            dbOptions.UseSqlServer(builder.Configuration["ConnectionString"]))
+        {
+            dbOptions.UseSqlServer(builder.Configuration["ConnectionString"]);
+            dbOptions.UseSoftDelete(builder.Services);
+        })
         .UseEventLog<BlogDbContext>();
 });
 

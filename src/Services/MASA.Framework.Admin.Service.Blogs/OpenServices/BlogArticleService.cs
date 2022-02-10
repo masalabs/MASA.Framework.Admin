@@ -12,9 +12,15 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
     {
         private readonly IEventBus _eventBus;
 
-        public BlogArticleService(IServiceCollection services) : base(services, "api/blogs")
+        public BlogArticleService(IServiceCollection services) : base(services, "api/articles")
         {
-            MapPost(GetListAsync, "/api/blogs/articles");
+            _eventBus = this.GetService<IEventBus>() ?? throw new ArgumentNullException(nameof(IEventBus));
+
+            MapPost(GetListAsync);
+            MapPost(CreateAsync);
+            MapPut(UpdateAsync);
+            MapDelete(RemoveAsync);
+            MapGet(GetAsync);
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options)
@@ -28,6 +34,17 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             return Results.Ok(blogQuery.Result);
         }
 
+        public async Task<IResult> GetAsync(Guid id)
+        {
+            var blogDetailsQuery = new BlogArticleDetailsQuery
+            {
+                Id = id
+            };
+            await _eventBus.PublishAsync(blogDetailsQuery);
+
+            return Results.Ok(blogDetailsQuery.Result);
+        }
+
         public async Task CreateAsync(CreateBlogInfoModel request)
         {
             await _eventBus.PublishAsync(new CreateBlogInfoCommand(request));
@@ -36,6 +53,11 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         public async Task UpdateAsync(UpdateBlogInfoModel request)
         {
             await _eventBus.PublishAsync(new UpdateBlogInfoCommand(request));
+        }
+
+        public async Task RemoveAsync([FromBody] Guid[] ids)
+        {
+            await _eventBus.PublishAsync(new RemoveBlogInfoCommand(ids));
         }
     }
 }

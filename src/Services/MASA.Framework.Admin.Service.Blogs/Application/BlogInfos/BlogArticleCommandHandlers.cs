@@ -31,13 +31,19 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             await _blogArticleRepository.UpdateAsync(new()
             {
-                Id = command.Id,
+                Id = command.Request.Id,
                 Title = command.Request.Title,
                 TypeId = command.Request.TypeId,
                 Content = command.Request.Content,
                 IsShow = command.Request.IsShow,
                 State = command.Request.State
             });
+        }
+
+        [EventHandler]
+        public async Task RemoveAsync(RemoveBlogInfoCommand command)
+        {
+            await _blogArticleRepository.RemoveAsync(command.Ids);
         }
     }
 }

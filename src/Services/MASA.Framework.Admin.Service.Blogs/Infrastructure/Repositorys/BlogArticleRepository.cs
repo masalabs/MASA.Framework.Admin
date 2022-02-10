@@ -4,6 +4,7 @@ using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;
 using MASA.Framework.Data.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
@@ -19,9 +20,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         public async Task<PageResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
             var query = from blogInfo in _blogDbContext.BlogInfoes
-                        join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
+                        join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
+                        from blogType in leftBlogType.DefaultIfEmpty()
                         select new BlogInfoListViewModel()
                         {
+                            id = blogInfo.Id,
+                            typeId=blogInfo.TypeId,
                             title = blogInfo.Title,
                             state = blogInfo.State,
                             typeName = blogType.TypeName,
@@ -44,6 +48,31 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             };
         }
 
+        public async Task<BlogInfoListViewModel> GetAsync(Guid id)
+        {
+            var data = await (from blogInfo in _blogDbContext.BlogInfoes
+                               join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
+                               into leftBlogType
+                               from blogType in leftBlogType.DefaultIfEmpty()
+                               where blogInfo.Id == id
+                               select new BlogInfoListViewModel()
+                               {
+                                   id = blogInfo.Id,
+                                   typeId = blogInfo.TypeId,
+                                   title = blogInfo.Title,
+                                   state = blogInfo.State,
+                                   typeName = blogType.TypeName,
+                                   content = blogInfo.Content,
+                                   visits = blogInfo.Visits,
+                                   commentCount = blogInfo.CommentCount,
+                                   approvedCount = blogInfo.ApprovedCount,
+                                   remark = blogInfo.Remark,
+                                   CreationTime = blogInfo.CreationTime
+                               }).FirstOrDefaultAsync();
+
+            return data;
+        }
+
         public async Task<BlogInfo> CreateAsync(BlogInfo model)
         {
             var result = await _blogDbContext.BlogInfoes.AddAsync(model);
@@ -64,6 +93,19 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 _blogDbContext.Update(updateBlogInfo);
                 await _blogDbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task RemoveAsync(params Guid[] ids)
+        {
+            var blogInfos = await _blogDbContext.BlogInfoes.Where(type => ids.Contains(type.Id)).ToListAsync();
+
+            foreach (var blogInfo in blogInfos)
+            {
+                blogInfo.IsDeleted = true;
+            }
+
+            _blogDbContext.UpdateRange(blogInfos);
+            await _blogDbContext.SaveChangesAsync();
         }
     }
 }

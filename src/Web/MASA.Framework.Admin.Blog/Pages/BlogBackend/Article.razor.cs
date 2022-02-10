@@ -1,5 +1,5 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel;
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.Options;
+using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 

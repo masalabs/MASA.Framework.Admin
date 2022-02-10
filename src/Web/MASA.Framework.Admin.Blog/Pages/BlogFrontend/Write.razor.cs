@@ -1,4 +1,5 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Model;
+﻿using MASA.Framework.Admin.Contracts.Blogs;
+using MASA.Framework.Admin.Contracts.Blogs.Model.BlogInfo.Model;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
 
@@ -8,7 +9,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
 public partial class Write: BlogFrontComponentBase
 {
     private bool _prevShow;
-    private CreateBlogInfoModel _options = new() { State = Service.Blogs.Infrastructure.Enum.StateTypes.Reviewed };
+    private CreateBlogInfoModel _options = new() { State = StateTypes.Reviewed };
     private List<(Guid, string)> _typeList = new();
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿@page "/blog-admin/article"
-@using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel
-@using MASA.Framework.Admin.Service.Blogs.Infrastructure.Enum
+@using MASA.Framework.Admin.Contracts.Blogs
+@using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel
 @inherits LayoutComponentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">

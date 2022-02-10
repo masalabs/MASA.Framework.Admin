@@ -10,7 +10,6 @@
     <Folder Include="BlogAdvertisingPictures\Enums\" />
     <Folder Include="BlogCommentInfo\Model\" />
     <Folder Include="BlogCommentInfo\Enums\" />
-    <Folder Include="BlogInfo\Enums\" />
     <Folder Include="Enums\Model\" />
   </ItemGroup>
 

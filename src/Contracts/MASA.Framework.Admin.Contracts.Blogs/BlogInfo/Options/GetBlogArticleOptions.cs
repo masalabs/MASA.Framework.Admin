@@ -6,7 +6,7 @@ namespace MASA.Framework.Admin.Contracts.Blogs.BlogInfo.Options
     {
         public string Title { get; set; }
 
-        public int? State { get; set; }
+        public StateTypes? State { get; set; }
         
         public DateTime ReleaseStartTime { get; set; }
         

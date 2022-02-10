@@ -65,4 +65,8 @@
     <_ContentIncludedByDefault Remove="Pages\Dashboard\ECommerce.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\MASA.Framework.Admin.Service.Blogs\MASA.Framework.Admin.Service.Blogs.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,8 +6,16 @@ public class CustomServiceBase : ServiceBase
     {
     }
 
-    protected ApiResultResponse<T> Success<T>(T data)
+    protected ApiResultResponse<T> Success<T>(T data, string message = "success")
     {
-        return new ApiResultResponse<T>(data);
+        return new ApiResultResponse<T>(data)
+        {
+            Message = message
+        };
+    }
+
+    protected ApiResultResponseBase Success(string message = "success")
+    {
+        return new ApiResultResponseBase(Code.SUCCESS, message);
     }
 }

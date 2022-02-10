@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MASA.BuildingBlocks.Data.UoW" Version="0.0.1706110254" />
+    <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1736024337" />
+  </ItemGroup>
 </Project>

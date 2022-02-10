@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogLable.ViewModel
+﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogLabel.ViewModel
 {
-    public class BlogLableListViewModel
+    public class BlogLabelListViewModel
     {
         /// <summary>
         /// 主键

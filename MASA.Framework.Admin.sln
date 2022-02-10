@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 		dapr\components\masa-framework-statestore.yaml = dapr\components\masa-framework-statestore.yaml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Order", "src\Services\MASA.Framework.Admin.Service\MASA.Framework.Admin.Service.Order.csproj", "{87A8E21E-DF58-4BEA-8EA1-EF333BE4D2B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Login", "src\Services\MASA.Framework.Admin.Service\MASA.Framework.Admin.Service.Login.csproj", "{87A8E21E-DF58-4BEA-8EA1-EF333BE4D2B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F3986DD3-0372-4929-B72A-09D93196541E}"
 EndProject

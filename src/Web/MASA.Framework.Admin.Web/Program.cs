@@ -1,4 +1,7 @@
 
+using MASA.Framework.Admin.Web.Hub;
+using MASA.Utils.Caller.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +18,8 @@ builder.Services.AddMasaBlazor(builder =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
+
+builder.Services.AddCaller(Assembly.Load("MASA.Framework.Admin.Caller"));
 
 var app = builder.Build();
 
@@ -40,5 +45,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapBlazorHub();
+app.MapHub<LoginHub>("/login");
 app.MapFallbackToPage("/_Host");
 app.Run();

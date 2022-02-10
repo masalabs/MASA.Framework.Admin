@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.App.Todo
+﻿using MASA.Framework.Admin.Caller.Callers;
+
+namespace MASA.Framework.Admin.Web.Pages.App.Todo
 {
     public partial class Todo
     {
@@ -11,6 +13,9 @@
         private string? _inputText;
         private List<TodoDto> _thisList = new();
         private readonly List<TodoDto> _dataList = TodoService.GetList();
+
+        [Inject]
+        public UserCaller UserCaller { get; set; } = default!;
 
         [Parameter]
         public string? FilterText

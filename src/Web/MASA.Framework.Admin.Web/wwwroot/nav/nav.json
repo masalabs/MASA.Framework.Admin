@@ -197,6 +197,12 @@
         "Title": "404",
         "Icon": "mdi-circle",
         "Href": "pages/others/404"
+      },
+      {
+        "Id": 32,
+        "Title": "login",
+        "Icon": "mdi-circle",
+        "Href": "login"
       }
     ]
   }

@@ -11,16 +11,33 @@
 	
 	<ItemGroup>
 		<PackageReference Include="MASA.BuildingBlocks.Dispatcher.Events" Version="0.0.1681936502" />
+		<PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1736024337" />
 		<PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.0.1685760477" />
 		<PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1685760477" />
 		<PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
 		<PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1685760477" />
 		<PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1685760477" />
+		<PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.0.1711196569" />
+		<PackageReference Include="MASA.Utils.Caching.Redis" Version="0.0.1711196569" />
+		<PackageReference Include="MASA.Utils.Configuration.Json" Version="0.0.1711196569" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
 		<PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1685760477" />
 		<PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1685760477" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Order\MASA.Framework.Admin.Contracts.Order.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Application\User\" />
 	</ItemGroup>
 </Project>

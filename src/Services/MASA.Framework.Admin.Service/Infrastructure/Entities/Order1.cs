@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Service.Infrastructure.Entities
 {
-    public class Order
+    public class Order1
     {
         public int Id { get; set; }
 

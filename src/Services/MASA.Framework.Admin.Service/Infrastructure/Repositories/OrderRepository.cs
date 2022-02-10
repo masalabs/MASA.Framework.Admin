@@ -2,10 +2,10 @@
 {
     public class OrderRepository : IOrderRepository
     {
-        public List<Order> List()
+        public List<Order1> List()
         {
             var data = Enumerable.Range(1, 5).Select(index =>
-                  new Order
+                  new Order1
                   {
                       CreateTime = DateTimeOffset.Now,
                       Id = index,

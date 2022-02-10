@@ -2,6 +2,6 @@
 {
     public interface IOrderRepository
     {
-        List<Order> List();
+        List<Order1> List();
     }
 }

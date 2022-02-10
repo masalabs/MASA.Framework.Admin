@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Configuration.Response;
+namespace MASA.Framework.Admin.Contracts.Configuration.Response;
 
 public class MenuItemResponse
 {
@@ -19,6 +19,8 @@ public class MenuItemResponse
     public string ParentName { get; set; }
 
     public int Sort { get; set; }
+
+    public bool Disabled { get; set; }
 
     public DateTimeOffset CreationTime { get; set; }
 }

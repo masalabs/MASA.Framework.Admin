@@ -1,5 +1,4 @@
 ﻿using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;

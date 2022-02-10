@@ -8,6 +8,7 @@
 
   <ItemGroup>
 	<PackageReference Include="MASA.Blazor" Version="0.2.10217" />
+	<PackageReference Include="MASA.Utils.Enums" Version="0.0.1711196569" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +62,11 @@
     <_ContentIncludedByDefault Remove="Pages\Others\AccountSettings\AccountSettings.razor" />
     <_ContentIncludedByDefault Remove="Pages\Dashboard\Analytics.razor" />
     <_ContentIncludedByDefault Remove="Pages\Dashboard\ECommerce.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
+    <ProjectReference Include="..\..\Services\MASA.Framework.Admin.Service.Blogs\MASA.Framework.Admin.Service.Blogs.csproj" />
   </ItemGroup>
 
 </Project>

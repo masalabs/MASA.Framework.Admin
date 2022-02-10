@@ -19,6 +19,12 @@
     "Children": [
       {
         "Id": 201,
+        "Title": "Articles",
+        "Icon": "mdi-circle",
+        "Href": "blog-admin/article"
+      },
+      {
+        "Id": 202,
         "Title": "Category",
         "Icon": "mdi-circle",
         "Href": "blog-admin/category"

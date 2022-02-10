@@ -48,9 +48,10 @@
 
   <ItemGroup>
     <Folder Include="Domain\Events\" />
-    <Folder Include="Model\BlogCommentInfo\Model\" />
-    <Folder Include="Model\BlogLabel\Model\" />
-    <Folder Include="Model\BlogType\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Blogs\MASA.Framework.Admin.Contracts.Blogs.csproj" />
   </ItemGroup>
 
 </Project>

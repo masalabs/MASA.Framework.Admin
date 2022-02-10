@@ -2,7 +2,6 @@
 using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys;
 using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos

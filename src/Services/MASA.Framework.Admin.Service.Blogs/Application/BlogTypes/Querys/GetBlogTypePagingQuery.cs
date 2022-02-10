@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
 using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
+using MASA.Framework.Admin.Contracts.Blogs.BlogType.Options;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands;
 using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.ViewModel;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys

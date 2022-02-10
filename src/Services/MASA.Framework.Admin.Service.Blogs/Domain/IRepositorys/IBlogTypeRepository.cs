@@ -1,6 +1,5 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogType.Options;
+using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
@@ -11,14 +10,14 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         /// 创建
         /// </summary>
         /// <returns></returns>
-        Task<BlogType> CreateAsync(BlogType entity);
+        Task<Entities.BlogType> CreateAsync(Entities.BlogType entity);
 
         /// <summary>
         /// 更新
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task UpdateAsync(BlogType entity);
+        Task UpdateAsync(Entities.BlogType entity);
 
         /// <summary>
         /// 刪除

@@ -1,7 +1,7 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Options;
+using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.ViewModel;
+using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

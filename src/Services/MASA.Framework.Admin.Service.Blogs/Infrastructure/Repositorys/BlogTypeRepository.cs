@@ -1,8 +1,6 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogType.Options;
+using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
 using MASA.Framework.Data.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +14,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             _blogDbContext = blogDbContext;
         }
 
-        public async Task<BlogType> CreateAsync(BlogType entity)
+        public async Task<Domain.Entities.BlogType> CreateAsync(Domain.Entities.BlogType entity)
         {
             var model = await _blogDbContext.BlogTypes.AddAsync(entity);
 
@@ -25,7 +23,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             return model.Entity;
         }
 
-        public async Task UpdateAsync(BlogType entity)
+        public async Task UpdateAsync(Domain.Entities.BlogType entity)
         {
             var blogTypes = await _blogDbContext.BlogTypes.FindAsync(entity.Id);
 

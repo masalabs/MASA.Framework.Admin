@@ -1,7 +1,7 @@
 ﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Infrastructure.Enum;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using MASA.Framework.Admin.Contracts.Blogs;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {

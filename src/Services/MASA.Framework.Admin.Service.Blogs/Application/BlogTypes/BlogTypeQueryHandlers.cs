@@ -2,7 +2,6 @@
 using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
 {

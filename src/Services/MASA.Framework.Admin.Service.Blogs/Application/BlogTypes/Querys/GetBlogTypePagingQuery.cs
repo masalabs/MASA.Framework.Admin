@@ -4,6 +4,7 @@ using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands;
 using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
+using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys
 {
@@ -20,10 +21,21 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys
         }
     }
 
-    public record class GetBlogTypePagingQuery : Query<BlogTypePagingViewModel>
+    public record class GetBlogTypePagingQuery : Query<PageResult<BlogTypePagingViewModel>>
     {
+
+        public GetBlogTypePagingQuery()
+        {
+
+        }
+
+        public GetBlogTypePagingQuery(GetBlogTypePagingOption request)
+        {
+            this.Request = request;
+        }
+
         public GetBlogTypePagingOption Request { get; set; }
 
-        public override BlogTypePagingViewModel Result { get; set; }
+        public override PageResult<BlogTypePagingViewModel> Result { get; set; }
     }
 }

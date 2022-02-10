@@ -1,6 +1,7 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands;
+using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys;
 using MASA.Framework.Admin.Service.Blogs.Application.Commands;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 
@@ -17,8 +18,8 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             App.MapPost("/api/blogtype/create", CreateAsync);
             App.MapPost("/api/blogtype/update", UpdateAsync);
             App.MapPost("/api/blogtype/remove", RemoveAsync);
+            App.MapPost("/api/blogtype/paging", GetListAsync);
         }
-
 
         public async Task CreateAsync(CreateBlogTypeModel request)
         {
@@ -30,10 +31,18 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             await _eventBus.PublishAsync(new UpdateBlogTypeCommand(request));
         }
 
-        public async Task RemoveAsync(Guid[] Ids)
+        public async Task RemoveAsync(Guid[] ids)
         {
-            await _eventBus.PublishAsync(new RemoveBolgTypeCommand(Ids));
+            await _eventBus.PublishAsync(new RemoveBolgTypeCommand(ids));
         }
 
+        public async Task<IResult> GetListAsync(GetBlogTypePagingOption option)
+        {
+            var query = new GetBlogTypePagingQuery(option);
+
+            await _eventBus.PublishAsync(query);
+
+            return Results.Ok(query.Result);
+        }
     }
 }

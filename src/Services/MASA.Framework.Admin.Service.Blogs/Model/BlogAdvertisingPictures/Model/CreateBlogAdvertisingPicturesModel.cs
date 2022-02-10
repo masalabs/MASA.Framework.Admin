@@ -1,12 +1,7 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.ViewModel
+﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Model
 {
-    public class BlogAdvertisingPicturesListViewModel: ViewModelBase
+    public class CreateBlogAdvertisingPicturesModel
     {
-        /// <summary>
-        /// Id
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// 图片地址
         /// </summary>

@@ -9,11 +9,11 @@ using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
 using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
 using Microsoft.EntityFrameworkCore;
 using MASA.Contrib.Service.MinimalAPIs;
-using MASA.Framework.Configuration;
-using MASA.Framework.Development.Dapr;
+using MASA.Framework.Admin.Service.Blogs.Infrastructure;
 using MASA.Utils.Caching.DistributedMemory.DependencyInjection;
 using MASA.Utils.Caching.Redis.DependencyInjection;
 using MASA.Utils.Caching.Redis.Models;
+using MASA.Utils.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -32,7 +32,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//* minimal api ×¢²á
+builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis")).AddMasaMemoryCache();
+
+builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
+{
+    options.UseEventBus()
+        .UseUoW<BlogDbContext>(dbOptions =>
+            dbOptions.UseSqlServer(builder.Configuration["ConnectionString"]))
+        .UseEventLog<BlogDbContext>();
+});
+
+//* minimal api ×¢ï¿½ï¿½
 var app = builder.Services.AddServices(builder);
 
 // Configure the HTTP request pipeline.

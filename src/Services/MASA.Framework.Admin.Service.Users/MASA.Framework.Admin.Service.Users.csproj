@@ -22,4 +22,8 @@
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Users\MASA.Framework.Admin.Contracts.Users.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Infrastructure" />
+    </ItemGroup>
+
 </Project>

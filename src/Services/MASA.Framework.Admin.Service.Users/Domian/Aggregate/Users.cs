@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Users.Domian.Aggregate;
+﻿using MASA.Framework.Admin.Contracts.Users.Enum;
+
+namespace MASA.Framework.Admin.Service.Users.Domian.Aggregate;
 
 public class Users : AggregateRoot<Guid>
 {

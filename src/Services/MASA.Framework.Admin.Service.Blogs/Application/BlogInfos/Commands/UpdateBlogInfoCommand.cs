@@ -4,9 +4,9 @@ using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Model;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
 {
-    public class CreateBlogInfoCommandValidator : AbstractValidator<CreateBlogInfoCommand>
+    public class UpdateBlogInfoCommandValidator : AbstractValidator<UpdateBlogInfoCommand>
     {
-        public CreateBlogInfoCommandValidator()
+        public UpdateBlogInfoCommandValidator()
         {
             RuleFor(cmd => cmd.Id).NotEqual(default(Guid)).WithMessage("wrong id");
             RuleFor(cmd => cmd.CreationTime).GreaterThanOrEqualTo(DateTime.UtcNow.AddMinutes(-5)).WithMessage("abnormal payment time");
@@ -20,17 +20,20 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
         }
     }
 
-    public record class CreateBlogInfoCommand : Command
+    public record class UpdateBlogInfoCommand : Command
     {
-        public CreateBlogInfoCommand()
+        public UpdateBlogInfoCommand()
         {
+
         }
 
-        public CreateBlogInfoCommand(CreateBlogInfoModel request)
+        public UpdateBlogInfoCommand(UpdateBlogInfoModel request)
         {
             this.Request = request;
         }
 
-        public CreateBlogInfoModel Request { get; set; }
+        public UpdateBlogInfoModel Request { get; set; }
     }
+
+  
 }

@@ -7,11 +7,11 @@ using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
-    public class BlogArticleQueryHandler
+    public class BlogArticleQueryHandlers
     {
         private readonly IBlogArticleRepository _blogArticleRepository;
 
-        public BlogArticleQueryHandler(IBlogArticleRepository blogArticleRepository)
+        public BlogArticleQueryHandlers(IBlogArticleRepository blogArticleRepository)
         {
             _blogArticleRepository = blogArticleRepository;
         }

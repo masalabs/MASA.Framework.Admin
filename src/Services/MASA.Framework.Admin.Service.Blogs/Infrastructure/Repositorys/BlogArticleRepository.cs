@@ -43,5 +43,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 TotalCount = pageResult.TotalCount
             };
         }
+
+        public async Task<BlogInfo> CreateAsync(BlogInfo model)
+        {
+            var result = await _blogDbContext.BlogInfoes.AddAsync(model);
+
+            await _blogDbContext.SaveChangesAsync();
+
+            return result.Entity;
+        }
+
+        public async Task UpdateAsync(BlogInfo model)
+        {
+            var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(model.Id);
+
+            if (blogInfo != null)
+            {
+                var updateBlogInfo = new Mapping<BlogInfo, BlogInfo>().Map(model, blogInfo);
+
+                _blogDbContext.Update(updateBlogInfo);
+                await _blogDbContext.SaveChangesAsync();
+            }
+        }
     }
 }

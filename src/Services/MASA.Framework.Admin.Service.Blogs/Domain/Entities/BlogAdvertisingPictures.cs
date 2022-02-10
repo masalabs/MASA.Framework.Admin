@@ -25,6 +25,13 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// 图片地址
         /// </summary>
         [Required]
+        [StringLength(50)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        [Required]
         [StringLength(500)]
         public string Pic { get; set; } = string.Empty;
 
@@ -36,18 +43,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public short Type { get; set; }
 
         /// <summary>
-        /// 位置：1 列表头部
-        /// </summary>
-        [Required]
-        [DefaultValue(1)]
-        public short Location { get; set; }
-
-        /// <summary>
         /// 排序
         /// </summary>
         [Required]
         [DefaultValue(1)]
 
         public int Sort { get; set; }
+
+        /// <summary>
+        /// 状态：true启用 false停用
+        /// </summary>
+        public bool Status { get; set; }
     }
 }

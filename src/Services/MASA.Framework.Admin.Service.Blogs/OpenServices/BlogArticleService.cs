@@ -1,5 +1,6 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
+using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Model;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
@@ -9,20 +10,32 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 {
     public class BlogArticleService : ServiceBase
     {
+        private readonly IEventBus _eventBus;
+
         public BlogArticleService(IServiceCollection services) : base(services, "api/blogs")
         {
             MapPost(GetListAsync, "/api/blogs/articles");
         }
 
-        public async Task<IResult> GetListAsync(GetBlogArticleOptions options, [FromServices] IEventBus eventBus)
+        public async Task<IResult> GetListAsync(GetBlogArticleOptions options)
         {
             var blogQuery = new BlogArticleQuery
             {
                 Options = options
             };
-            await eventBus.PublishAsync(blogQuery);
+            await _eventBus.PublishAsync(blogQuery);
 
             return Results.Ok(blogQuery.Result);
+        }
+
+        public async Task CreateAsync(CreateBlogInfoModel request)
+        {
+            await _eventBus.PublishAsync(new CreateBlogInfoCommand(request));
+        }
+
+        public async Task UpdateAsync(UpdateBlogInfoModel request)
+        {
+            await _eventBus.PublishAsync(new UpdateBlogInfoCommand(request));
         }
     }
 }

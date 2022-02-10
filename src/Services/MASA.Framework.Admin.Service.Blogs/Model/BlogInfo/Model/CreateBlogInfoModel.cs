@@ -2,13 +2,8 @@
 
 namespace MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Model;
 
-public class BlogInfoAddModel
+public class CreateBlogInfoModel
 {
-    /// <summary>
-    /// 主键
-    /// </summary>
-    public Guid Id { get; set; } = Guid.Empty;
-
     /// <summary>
     /// 标题
     /// </summary>
@@ -25,9 +20,9 @@ public class BlogInfoAddModel
     public string Content { get; set; }
 
     /// <summary>
-    /// 是否保存为草稿
+    /// 是否仅自己可见
     /// </summary>
-    public bool IsDraft { get; set; }
+    public bool IsShow { get; set; }
 
     /// <summary>
     /// 文章状态

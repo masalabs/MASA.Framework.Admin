@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Infrastructure.Middleware
+﻿namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Middleware
 {
     public class LogMiddleware<TEvent> : IMiddleware<TEvent>
         where TEvent : notnull, IEvent

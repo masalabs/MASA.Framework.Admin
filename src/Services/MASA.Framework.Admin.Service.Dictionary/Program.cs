@@ -37,12 +37,12 @@ builder.Services
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {
     options.UseEventBus()
-           .UseUoW<ShopDbContext>(dbOptions => dbOptions.UseSqlite("DataSource=:memory:"))
-           .UseEventLog<ShopDbContext>();
+           .UseUoW<DicDbContext>(dbOptions => dbOptions.UseSqlServer("DataSource=:memory:"))
+           .UseEventLog<DicDbContext>();
 });
 
 builder.Services.AddEventBus();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IDicRepository, DicRepository>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -50,6 +50,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MigrateDbContext<DicDbContext>((context, services) =>
+{
+    context.SaveChanges();
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();

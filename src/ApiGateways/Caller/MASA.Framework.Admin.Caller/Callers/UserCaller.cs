@@ -7,11 +7,11 @@ namespace MASA.Framework.Admin.Caller.Callers;
 
 public class UserCaller : HttpClientCallerBase
 {
-    protected override string BaseAddress { get; set; } = "http://localhost:5136/api";
+    protected override string BaseAddress { get; set; } = "http://localhost:5136";
 
     public UserCaller(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-
+        Name = "UserCaller";
     }
 
     public async Task<List<UserItemResponse>> List(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)

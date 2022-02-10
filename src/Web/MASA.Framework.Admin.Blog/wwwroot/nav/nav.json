@@ -1,0 +1,28 @@
+[
+  {
+    "Id": 100,
+    "Title": "Blog Frontend",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 101,
+        "Title": "Home",
+        "Icon": "mdi-circle",
+        "Href": "blogs"
+      }
+    ]
+  },
+  {
+    "Id": 200,
+    "Title": "Blog Backend",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 201,
+        "Title": "Category",
+        "Icon": "mdi-circle",
+        "Href": "blog-admin/category"
+      }
+    ]
+  }
+]

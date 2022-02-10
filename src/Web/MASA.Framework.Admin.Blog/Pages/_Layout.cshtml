@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace MASA.Framework.Admin.Blog.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MASA.Framework.Admin.Blog</title>
+    <link rel="shortcut icon" href="https://cdn.masastack.com/stack/images/logo/MASAStack/logo16_16.png">
+    <base href="~/" />
+    <link href="_content/MASA.Blazor/css/masa-blazor.css" rel="stylesheet">
+    <link href="_content/MASA.Blazor/css/masa-extend-blazor.css" rel="stylesheet">
+    <link href="css/materialdesign/v6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="css/material/icons.css" rel="stylesheet">
+    <link href="css/fontawesome/v5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="css/masa-blazor-pro.css" rel="stylesheet" />
+    <link href="MASA.Framework.Admin.Blog.styles.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+
+<body>
+    @RenderBody()
+    <script src="_framework/blazor.server.js"></script>
+    <script src="_content/BlazorComponent/js/blazor-component.js"></script>
+    <script src="js/echarts/5.1.1/echarts.min.js"></script>
+</body>
+
+</html>

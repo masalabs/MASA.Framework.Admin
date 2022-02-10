@@ -22,10 +22,6 @@
 	  <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1706108591" />
 	  <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1706108591" />
 	  <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1706108591" />
-	  <PackageReference Include="MASA.Framework.Configuration" Version="0.1.9832" />
-	  <PackageReference Include="MASA.Framework.Development.Dapr" Version="0.1.9832" />
-	  <PackageReference Include="MASA.Framework.Extensions.DependencyInjection" Version="0.1.9832" />
-	  <PackageReference Include="MASA.Framework.Extensions.Enums" Version="0.1.9832" />
 	  <PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.0.1705937119" />
 	  <PackageReference Include="MASA.Utils.Caching.Redis" Version="0.0.1705937119" />
 	  <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.0.1705937119" />

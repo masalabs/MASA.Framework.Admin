@@ -1,4 +1,7 @@
 ﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
+using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
 {
@@ -23,6 +26,13 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         /// <param name="ids"></param>
         /// <returns></returns>
         Task RemoveAsync(params Guid[] ids);
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        Task<PageResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options);
 
     }
 }

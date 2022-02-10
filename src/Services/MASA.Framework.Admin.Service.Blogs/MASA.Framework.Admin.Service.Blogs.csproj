@@ -47,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\BlogTypes\Querys\" />
     <Folder Include="Domain\Events\" />
     <Folder Include="Model\BlogAdvertisingPictures\Model\" />
     <Folder Include="Model\BlogCommentInfo\Model\" />

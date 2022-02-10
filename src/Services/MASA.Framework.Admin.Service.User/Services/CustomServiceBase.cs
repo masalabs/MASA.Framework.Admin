@@ -15,9 +15,9 @@ public class CustomServiceBase : ServiceBase
         };
     }
 
-    protected ApiResultResponse Success(string message = "success")
+    protected ApiResultResponseBase Success(string message = "success")
     {
-        return new ApiResultResponse(Code.SUCCESS, message);
+        return new ApiResultResponseBase(Code.SUCCESS, message);
     }
 }
 

@@ -33,9 +33,9 @@ public class UserCaller : HttpClientCallerBase
         return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(String.Format(Routing.UserDetail, id));
     }
 
-    public async Task<ApiResultResponse> CreateAsync(string id, string name)
+    public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
     {
-        return await CallerProvider.PostAsync<string, ApiResultResponse>(Routing.UserCreate, "");
+        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.UserCreate, "");
     }
 }
 

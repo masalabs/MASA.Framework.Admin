@@ -4,7 +4,7 @@ public class MenuService : CustomServiceBase
 {
     public MenuService(IServiceCollection services) : base(services)
     {
-        App.MapGet(UrlRule.MENU_SERVICE, GetItemsAsync);
+        App.MapGet(Contracts.Configuration.Const.UrlRule.MENU_SERVICE, GetItemsAsync);
     }
 
     private ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>> GetItemsAsync(

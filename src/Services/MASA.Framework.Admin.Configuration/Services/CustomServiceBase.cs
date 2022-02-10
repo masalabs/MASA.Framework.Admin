@@ -10,4 +10,9 @@ public class CustomServiceBase : ServiceBase
     {
         return new ApiResultResponse<T>(data);
     }
+
+    protected ApiResultResponseBase Success(string message = "success")
+    {
+        return new ApiResultResponseBase(Code.SUCCESS, message);
+    }
 }

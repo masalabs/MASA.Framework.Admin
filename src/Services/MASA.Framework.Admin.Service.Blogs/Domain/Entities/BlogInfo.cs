@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
     /// <summary>
     /// 文章信息表

@@ -1,20 +1,45 @@
 ﻿@page "/blogs"
 @layout BlogFrontLayout
+@inherits BlogFrontComponentBase
 
-<ul>
-    <li>
-        <a href="https://www.bbc.co.uk/programmes/p00vfknq">
-            <em>The Ribos Operation</em>
-        </a>
-    </li>
-    <li>
-        <a href="https://www.bbc.co.uk/programmes/p00vfdsb">
-            <em>The Sun Makers</em>
-        </a>
-    </li>
-    <li>
-        <a href="https://www.bbc.co.uk/programmes/p00vhc26">
-            <em>Nightmare of Eden</em>
-        </a>
-    </li>
-</ul>
+<MCard Width="1200" Class="mx-auto">
+    <MTabsItems>
+        <MTabItem>
+            <MCard Flat>
+                <MCardText><h5>最新博文</h5></MCardText>
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+    <MDivider></MDivider>
+    @foreach (var blog in Blogs)
+    {
+        <MCard>
+            <MCardTitle>@blog.Title</MCardTitle>
+            <MCardText> @blog.Content.Substring(0, 50) </MCardText>
+            <MCardActions>
+                <p>
+                    <MAvatar Color="primary" Size="56">
+                        <span class="white--text">@blog.Type</span>
+                    </MAvatar>
+                    <span>@blog.LastModificationTime.ToString("yyyy-MM-dd HH:mm")</span>
+                    <span>【@blog.Author】</span>
+                    <MIcon>mdi-thumb-up</MIcon> <span>@blog.ApprovedCount</span>
+                    <MIcon>mdi-comment-processing</MIcon> <span>@blog.CommentCount</span>
+                    <MIcon>mdi-eye</MIcon> <span>@blog.Visits</span>
+                </p>
+            </MCardActions>
+        </MCard>
+        <MDivider></MDivider>
+    }
+    <div class="text-center">
+        <MContainer>
+            <MRow Justify="JustifyTypes.Center">
+                <MCol Cols="8">
+                    <MContainer Class="max-width">
+                        <MPagination @bind-Value="_page" Class="my-4" Length=10></MPagination>
+                    </MContainer>
+                </MCol>
+            </MRow>
+        </MContainer>
+    </div>
+</MCard>

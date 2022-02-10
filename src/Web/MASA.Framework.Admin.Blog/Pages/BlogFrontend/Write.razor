@@ -1,0 +1,41 @@
+﻿@using MASA.Blazor.Presets
+@using TinyMCE.Blazor
+@inherits BlogFrontComponentBase
+
+<FormModal Visible="Show"
+           Title="文章"
+           Width="1000"
+           OnCancel="Cancel"
+           OnOk="SubmitBlog">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="标题" Clearable
+                        @bind-Value="_options.Title"/>
+        </MCol>
+        <MCol Cols="12">
+            <MSelect Label="类别"
+                         @bind-Value="_options.TypeId"
+                         Items="_typeList"
+                         ItemText="x => x.Item2"
+                         ItemValue="x => x.Item1"
+                         TItemValue="Guid"
+                         TValue="Guid"
+                         Dense
+                         Outlined
+                         HideDetails="true"
+                         TItem="(Guid, string)"/>
+        </MCol>
+        <MCol Cols="12">
+            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
+                    Field="() => _options.Content"
+                    @bind-Value="_options.Content"/>
+        </MCol>
+        <MCol Cols="12">
+            <MSwitch @bind-Value="_options.IsDraft"
+                     Class="mt-0"
+                     Label="@($"{(_options.IsDraft ? "仅自己可见" : "全部可见")}")">
+            </MSwitch>
+        </MCol>
+    </MRow>
+</FormModal>

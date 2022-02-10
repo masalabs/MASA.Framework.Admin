@@ -23,7 +23,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(200)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// 文章状态
@@ -42,7 +42,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(1000)]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         /// <summary>
         /// 访问数量
@@ -73,11 +73,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(500)]
-        public string Remark { get; set; }
+        public string Remark { get; set; } = string.Empty;
 
         /// <summary>
-        /// 
+        /// 发布时间
         /// </summary>
-        public BlogType BlogType { get; set; } = new();
+        [Required]
+        public DateTime ReleaseTime { get; set; } = DateTime.Now;
     }
 }

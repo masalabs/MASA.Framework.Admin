@@ -47,8 +47,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\BlogTypes\Querys\" />
     <Folder Include="Domain\Events\" />
+    <Folder Include="Model\BlogAdvertisingPictures\Model\" />
+    <Folder Include="Model\BlogCommentInfo\Model\" />
+    <Folder Include="Model\BlogInfo\Model\" />
+    <Folder Include="Model\BlogLable\Model\" />
+    <Folder Include="Model\BlogType\Model\" />
   </ItemGroup>
 
 </Project>

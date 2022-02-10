@@ -1,5 +1,9 @@
 ﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Options;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options.ViewModel;
+using MASA.Framework.Data.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
@@ -45,6 +49,21 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
             _blogDbContext.UpdateRange(blogTypes);
             await _blogDbContext.SaveChangesAsync();
+        }
+
+        public async Task<PageResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
+        {
+            var paging = await _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type => new BlogTypePagingViewModel
+            {
+                Id = type.Id,
+                CreationTime = type.CreationTime,
+                TypeName = type.TypeName,
+                LastModificationTime = type.LastModificationTime
+
+            }).PagingAsync(options.PageIndex, options.PageSize);
+
+
+            return paging;
         }
     }
 }

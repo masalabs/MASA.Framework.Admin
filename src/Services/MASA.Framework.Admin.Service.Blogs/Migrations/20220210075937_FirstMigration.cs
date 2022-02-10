@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MASA.Framework.Admin.Service.Blogs.Migrations
 {
-    public partial class init : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     Pic = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Type = table.Column<short>(type: "smallint", nullable: false),
+                    Location = table.Column<short>(type: "smallint", nullable: false),
+                    Sort = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeleterUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -73,6 +76,34 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogInfoes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    TypeId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Visits = table.Column<int>(type: "int", nullable: false),
+                    CommentCount = table.Column<int>(type: "int", nullable: false),
+                    IsShow = table.Column<bool>(type: "bit", nullable: false),
+                    ApprovedCount = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ReleaseTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeleterUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifierUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogInfoes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlogLabels",
                 columns: table => new
                 {
@@ -127,45 +158,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                 {
                     table.PrimaryKey("PK_IntegrationEventLog", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "BlogInfoes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    TypeId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Visits = table.Column<int>(type: "int", nullable: false),
-                    CommentCount = table.Column<int>(type: "int", nullable: false),
-                    IsShow = table.Column<bool>(type: "bit", nullable: false),
-                    ApprovedCount = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    BlogTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeleterUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifierUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogInfoes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogInfoes_BlogTypes_BlogTypeId",
-                        column: x => x.BlogTypeId,
-                        principalTable: "BlogTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogInfoes_BlogTypeId",
-                table: "BlogInfoes",
-                column: "BlogTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -186,10 +178,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                 name: "BlogLabels");
 
             migrationBuilder.DropTable(
-                name: "IntegrationEventLog");
+                name: "BlogTypes");
 
             migrationBuilder.DropTable(
-                name: "BlogTypes");
+                name: "IntegrationEventLog");
         }
     }
 }

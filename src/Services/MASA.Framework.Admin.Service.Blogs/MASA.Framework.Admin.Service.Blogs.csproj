@@ -45,7 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\BlogTypes\Querys\" />
     <Folder Include="Domain\Events\" />
     <Folder Include="Model\BlogInfo\ViewModel\" />
   </ItemGroup>

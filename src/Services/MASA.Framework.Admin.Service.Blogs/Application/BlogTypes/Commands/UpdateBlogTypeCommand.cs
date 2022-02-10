@@ -27,12 +27,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
 
         }
 
-        public UpdateBlogTypeCommand(UpdateBlogTypeRequestModel request)
+        public UpdateBlogTypeCommand(UpdateBlogTypeModel request)
         {
             this.Request = request;
         }
 
-        public UpdateBlogTypeRequestModel Request { get; set; }
+        public UpdateBlogTypeModel Request { get; set; }
 
     }
 

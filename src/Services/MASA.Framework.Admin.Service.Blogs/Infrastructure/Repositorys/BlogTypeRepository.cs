@@ -46,5 +46,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             _blogDbContext.UpdateRange(blogTypes);
             await _blogDbContext.SaveChangesAsync();
         }
+
+        //public async Task<List<>>
     }
 }

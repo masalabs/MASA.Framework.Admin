@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options
 {
-    public class UpdateBlogTypeRequestModel
+    public class UpdateBlogTypeModel
     {
         /// <summary>
         /// 主键

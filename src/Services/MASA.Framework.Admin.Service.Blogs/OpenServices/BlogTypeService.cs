@@ -25,7 +25,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             await _eventBus.PublishAsync(new CreateBlogTypeCommand(request));
         }
 
-        public async Task UpdateAsync(UpdateBlogTypeRequestModel request)
+        public async Task UpdateAsync(UpdateBlogTypeModel request)
         {
             await _eventBus.PublishAsync(new UpdateBlogTypeCommand(request));
         }

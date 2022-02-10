@@ -29,15 +29,15 @@ public class UserPage
     private IEnumerable<UserDto> GetFilterDatas()
     {
         IEnumerable<UserDto> datas = UserDatas;
-            
-        if(Search is not null)
+
+        if (Search is not null)
         {
-            datas = datas.Where(d => d.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase) || d.Email?.Contains(Search, StringComparison.OrdinalIgnoreCase) ==true);
+            datas = datas.Where(d => d.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase) || d.Email?.Contains(Search, StringComparison.OrdinalIgnoreCase) == true);
         }
 
-        if(Role is not null)
+        if (Role is not null)
         {
-            datas = datas.Where(d => d.Role==Role);
+            datas = datas.Where(d => d.Role == Role);
         }
 
         if (Plan is not null)
@@ -50,7 +50,7 @@ public class UserPage
             datas = datas.Where(d => d.Status == Status);
         }
 
-        if(datas.Count()<(PageIndex-1)* PageSize) PageIndex = 1;
+        if (datas.Count() < (PageIndex - 1) * PageSize) PageIndex = 1;
 
         return datas;
     }

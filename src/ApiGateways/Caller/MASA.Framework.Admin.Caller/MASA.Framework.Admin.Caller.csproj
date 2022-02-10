@@ -9,10 +9,12 @@
 	<ItemGroup>
 		<PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.0.1705937119" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />
 	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.Order\MASA.Framework.Admin.Contracts.Order.csproj" />
+	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
 	</ItemGroup>
 </Project>

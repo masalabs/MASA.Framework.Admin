@@ -45,7 +45,7 @@ public class UserDto : IComparable
 
     public DateOnly BirthDate { get; set; }
 
-    public string Mobile { get; set; } 
+    public string Mobile { get; set; }
 
     public string? Website { get; set; }
 
@@ -81,7 +81,7 @@ public class UserDto : IComparable
 
     internal string Color { get; }
 
-    public UserDto(string status,string role,DateOnly birthDate, string mobile,string gender,List<PermissionDto> permissions)
+    public UserDto(string status, string role, DateOnly birthDate, string mobile, string gender, List<PermissionDto> permissions)
     {
         Id = Guid.NewGuid().ToString();
         Status = status;
@@ -89,7 +89,7 @@ public class UserDto : IComparable
         BirthDate = birthDate;
         Mobile = mobile;
         Gender = gender;
-        Permissions=permissions;
+        Permissions = permissions;
 
         List<string> _colors = new List<string>
         {
@@ -106,7 +106,7 @@ public class UserDto : IComparable
         {
             return FullName.CompareTo(user.FullName);
         }
-        else return 1;   
+        else return 1;
     }
 
     public string GetFullNameInitials()

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+﻿namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
     /// <summary>
     /// 文章信息表

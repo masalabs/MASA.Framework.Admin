@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
     /// <summary>
-    /// 广告图片
+    /// 文章标签
     /// </summary>
-    public class BlogAdvertisingPictures : EntityBase
+    public class BlogLabel : EntityBase
     {
         /// <summary>
         /// 主键
@@ -17,8 +17,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
         public Guid Id { get; set; }
 
         /// <summary>
-        /// 图片地址
+        /// 标签名称
         /// </summary>
-        public string Pic { get; set; }
+        public string LableName { get; set; }
     }
 }

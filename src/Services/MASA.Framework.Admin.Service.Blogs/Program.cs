@@ -32,6 +32,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis")).AddMasaMemoryCache();
+
+//builder.Services.AddDomainEventBus(options =>
+//{
+//    options.UseEventBus()
+//        .UseDaprEventBus<IntegrationEventLogService>()
+//        .UseUoW<OrgAppUnitOfWork>(dbOptions => dbOptions.UseSqlServer(builder.Configuration["ConnectionString"]))
+//        .UseEventLog<OrgAppUnitOfWork>()
+//        .UseRepository<OrgAppUnitOfWork>();
+//});
+
 //* minimal api зЂВс
 var app = builder.Services.AddServices(builder);
 

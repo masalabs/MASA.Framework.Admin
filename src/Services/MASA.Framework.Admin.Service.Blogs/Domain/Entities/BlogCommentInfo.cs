@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
     /// <summary>
     /// 评论信息

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Bases.Response;
+﻿namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class PaginatedItemsViewModel<TEntity> where TEntity : class
 {

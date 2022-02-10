@@ -1,11 +1,14 @@
+﻿using MASA.Framework.Admin.Contracts.Base.Response;
+using MASA.Framework.Admin.Contracts.User;
+
 namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
 {
     public UserServices(IServiceCollection services) : base(services)
     {
-        App.MapGet("/api/users/items", () => GetItemsAsync);
-        App.MapGet("/api/users/{id}", () => GetAsync);
+        App.MapGet(Routing.UserList, () => GetItemsAsync);
+        App.MapGet(Routing.UserDetail, () => GetAsync);
     }
 
     private PaginatedItemsViewModel<UserItemResponse> GetItemsAsync(

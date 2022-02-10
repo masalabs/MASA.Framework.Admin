@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Bases.Const;
+﻿namespace MASA.Framework.Admin.Contracts.Base.Const;
 
 public class Action
 {

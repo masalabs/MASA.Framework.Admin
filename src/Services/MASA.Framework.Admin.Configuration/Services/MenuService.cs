@@ -2,9 +2,11 @@
 
 public class MenuService : ServiceBase
 {
+    private const string PRE = "configurations";
+
     public MenuService(IServiceCollection services) : base(services)
     {
-        App.MapGet("/api/configurations/menu/items", GetItemsAsync);
+        App.MapGet(UrlRule.MENU_SERVICE, GetItemsAsync);
     }
 
     private PaginatedItemsViewModel<MenuItemResponse> GetItemsAsync(

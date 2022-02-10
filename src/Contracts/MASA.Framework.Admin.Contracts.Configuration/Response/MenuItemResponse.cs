@@ -16,7 +16,7 @@ public class MenuItemResponse
 
     public Guid? ParentId { get; set; }
 
-    public string ParentName { get; set; }
+    public string? ParentName { get; set; }
 
     public int Sort { get; set; }
 

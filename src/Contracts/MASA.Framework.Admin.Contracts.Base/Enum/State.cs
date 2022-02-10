@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Bases.Enum;
+﻿namespace MASA.Framework.Admin.Contracts.Base.Enum;
 
 public enum State
 {

@@ -73,7 +73,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         [EventHandler]
         public async Task RemoveAsync(RemoveBlogInfoCommand command)
         {
-            await _blogArticleRepository.RemoveAsync(command.Ids);
+            await _articleRepository.RemoveAsync(command.Ids);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ public class UserServices : ServiceBase
         App.MapGet("/api/users/{id}", () => GetAsync);
     }
 
-    private PaginatedItemsViewModel<UserItemsResponse> GetItemsAsync(
+    private PaginatedItemsViewModel<UserItemResponse> GetItemsAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] UserType type,
         [FromQuery] int pageIndex = 1,
@@ -16,7 +16,7 @@ public class UserServices : ServiceBase
         [FromQuery] string account = "",
         [FromQuery] int state = -1)
     {
-        return new PaginatedItemsViewModel<UserItemsResponse>(pageIndex, pageSize, 0, new List<UserItemsResponse>());
+        return new PaginatedItemsViewModel<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
     }
 
     private UserDetailResponse GetAsync(

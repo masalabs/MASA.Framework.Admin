@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="MASA.Framework.Extensions.DependencyInjection" Version="0.1.6569" />
 	  <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
 	  <PackageReference Include="MASA.BuildingBlocks.DDD.Domain" Version="0.0.1706110254" />
 	  <PackageReference Include="MASA.Contrib.Configuration" Version="0.0.1706108591" />
@@ -22,6 +23,8 @@
 	  <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1706108591" />
 	  <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1706108591" />
 	  <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1706108591" />
+	  <PackageReference Include="MASA.Framework.Data.EntityFrameworkCore" Version="0.1.9832" />
+	  <PackageReference Include="MASA.Framework.Data.Mapping" Version="0.1.9832" />
 	  <PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.0.1705937119" />
 	  <PackageReference Include="MASA.Utils.Caching.Redis" Version="0.0.1705937119" />
 	  <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.0.1705937119" />
@@ -46,7 +49,6 @@
   <ItemGroup>
     <Folder Include="Application\BlogTypes\Querys\" />
     <Folder Include="Domain\Events\" />
-    <Folder Include="Dto\" />
   </ItemGroup>
 
 </Project>

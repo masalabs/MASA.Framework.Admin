@@ -2,12 +2,11 @@
 using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 
-namespace MASA.Framework.Admin.Service.Blogs.Application.Commands
+namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
 {
-
-    public class CreateBlogTypeCommandValidator : AbstractValidator<CreateBlogTypeCommand>
+    public class UpdateBlogTypeCommandValidator : AbstractValidator<UpdateBlogTypeCommand>
     {
-        public CreateBlogTypeCommandValidator()
+        public UpdateBlogTypeCommandValidator()
         {
             RuleFor(cmd => cmd.Id).NotEqual(default(Guid)).WithMessage("wrong id");
             RuleFor(cmd => cmd.CreationTime).GreaterThanOrEqualTo(DateTime.UtcNow.AddMinutes(-5)).WithMessage("abnormal payment time");
@@ -15,21 +14,28 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.Commands
 
 
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
+            RuleFor(cmd => cmd.Id).NotEqual(default(Guid)).WithMessage("Id is not null");
             RuleFor(cmd => cmd.Request.TypeName).NotEqual(default(string)).WithMessage("TypeName is not null");
         }
     }
 
-    public record class CreateBlogTypeCommand : Command
+    public record class UpdateBlogTypeCommand : Command
     {
-        public CreateBlogTypeCommand()
+
+        public UpdateBlogTypeCommand()
         {
+
         }
 
-        public CreateBlogTypeCommand(CreateBlogTypeModel request)
+        public UpdateBlogTypeCommand(UpdateBlogTypeRequestModel request)
         {
             this.Request = request;
         }
 
-        public CreateBlogTypeModel Request { get; set; }
+        public UpdateBlogTypeRequestModel Request { get; set; }
+
     }
+
+
+
 }

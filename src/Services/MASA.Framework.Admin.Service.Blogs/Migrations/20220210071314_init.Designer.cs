@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.Blogs.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220210051241_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20220210071314_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                     b.Property<int>("ApprovedCount")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("BlogTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("CommentCount")
                         .HasColumnType("int");
 
@@ -260,6 +263,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -273,6 +279,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BlogTypeId");
 
                     b.ToTable("BlogInfoes");
                 });
@@ -359,6 +367,17 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlogTypes");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Blogs.Domain.Entities.BlogInfo", b =>
+                {
+                    b.HasOne("MASA.Framework.Admin.Service.Blogs.Domain.Entities.BlogType", "BlogType")
+                        .WithMany()
+                        .HasForeignKey("BlogTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BlogType");
                 });
 #pragma warning restore 612, 618
         }

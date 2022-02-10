@@ -6,4 +6,5 @@ global using FluentValidation;
 global using Microsoft.OpenApi.Models;
 global using FluentValidation.AspNetCore;
 global using MASA.Framework.Admin.Service.Authentication.Services;
+global using MASA.Framework.Admin.Contracts.Authentication;
 

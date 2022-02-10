@@ -22,6 +22,8 @@ using Microsoft.OpenApi.Models;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 using MASA.Contrib.Data.Contracts.EF;
+using MASA.Framework.Admin.Service.Blogs.Model;
+using MASA.Framework.Admin.Service.Blogs.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,8 @@ builder.Services.AddScoped<IBlogCommentInfoRepository, BlogCommentInfoRepository
 builder.Services.AddScoped<IBlogEnclosureInfoRepository, BlogEnclosureInfoRepository>();
 builder.Services.AddScoped<IBlogLabelRepository, BlogLabelRepository>();
 builder.Services.AddScoped<IBlogTypeRepository, BlogTypeRepository>();
+builder.Services.AddScoped<IElasticClientProvider, ElasticClientProvider>();
+builder.Services.Configure<BlogAppSettiings>(builder.Configuration);
 
 //* minimal api ע��
 var app = builder.Services.AddServices(builder);

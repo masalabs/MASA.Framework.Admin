@@ -32,5 +32,10 @@
         /// 排序
         /// </summary>
         public int Sort { get; set; }
+
+        /// <summary>
+        /// 状态：true启用 false停用
+        /// </summary>
+        public bool Status { get; set; }
     }
 }

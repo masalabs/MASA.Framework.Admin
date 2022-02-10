@@ -17,6 +17,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
         public async Task<BlogAdvertisingPictures> CreateAsync(BlogAdvertisingPictures entity)
         {
+            entity.Status = false;
+
             var model = await _blogDbContext.BlogAdvertisingPictures.AddAsync(entity);
 
             await _blogDbContext.SaveChangesAsync();
@@ -57,7 +59,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 Pic = pictures.Pic,
                 Sort = pictures.Sort,
                 Type = pictures.Type,
-                Location = pictures.Location,
                 CreationTime = pictures.CreationTime,
                 LastModificationTime = pictures.LastModificationTime
 
@@ -65,6 +66,17 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
 
             return paging;
+        }
+
+        public async Task UpdateByStatusAsync(Guid id, bool status)
+        {
+            var blogAdvertisingPictures = await _blogDbContext.BlogAdvertisingPictures.FindAsync(id);
+
+            if (blogAdvertisingPictures != null)
+            {
+                _blogDbContext.Update(blogAdvertisingPictures);
+                await _blogDbContext.SaveChangesAsync();
+            }
         }
     }
 }

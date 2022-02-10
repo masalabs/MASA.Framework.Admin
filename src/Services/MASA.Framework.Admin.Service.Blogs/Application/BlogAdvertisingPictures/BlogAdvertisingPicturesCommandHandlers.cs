@@ -22,7 +22,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
                 Pic = command.Request.Pic,
                 Sort = command.Request.Sort,
                 Type = command.Request.Type,
-                Location = command.Request.Location
             });
         }
 
@@ -36,7 +35,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
                 Pic = command.Request.Pic,
                 Sort = command.Request.Sort,
                 Type = command.Request.Type,
-                Location = command.Request.Location
             });
         }
 
@@ -44,6 +42,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
         public async Task RemoveAsync(RemoveBlogAdvertisingPicturesCommand command)
         {
             await _advertisingPicturesRepository.RemoveAsync(command.Ids);
+        }
+
+        [EventHandler]
+        public async Task UpdateAsync(UpdateStatusBlogAdvertisingPicturesCommand command)
+        {
+            await _advertisingPicturesRepository.UpdateByStatusAsync(command.Request.Id,command.Request.Status);
         }
     }
 }

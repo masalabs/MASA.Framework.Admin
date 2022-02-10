@@ -32,7 +32,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             var result = dbExists is null ? new() : dbExists.Select(x => x.Id).ToList();
             if (needAddLabel.Any())
             {
-                var res = needAddLabel.Select(x => new BlogLabel { LabelName = x });
+                var res = needAddLabel.Select(x => new Domain.Entities.BlogLabel { LabelName = x });
                 await _blogDbContext.BlogLabels.AddRangeAsync(res);
                 result.Union(res.Select(x => x.Id));
             }

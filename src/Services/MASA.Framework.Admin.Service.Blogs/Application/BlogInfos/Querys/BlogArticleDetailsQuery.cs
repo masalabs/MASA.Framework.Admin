@@ -1,5 +1,5 @@
 ﻿using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
-using MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.ViewModel;
+using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys
 {

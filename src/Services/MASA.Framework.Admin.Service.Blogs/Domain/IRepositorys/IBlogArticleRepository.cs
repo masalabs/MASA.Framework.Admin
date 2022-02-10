@@ -7,7 +7,19 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
 {
     public interface IBlogArticleRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         Task<PageResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<BlogInfoListViewModel> GetAsync(Guid id);
 
         /// <summary>
         /// 创建
@@ -21,5 +33,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         /// <param name="entity"></param>
         /// <returns></returns>
         Task UpdateAsync(BlogInfo entity);
+
+        /// <summary>
+        /// 刪除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        Task RemoveAsync(params Guid[] ids);
     }
 }

@@ -19,7 +19,15 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         public async Task BlogArticleQueryAsync(BlogArticleQuery query)
         {
             var blogArticle = await _blogArticleRepository.GetListAsync(query.Options);
-          
+
+            query.Result = blogArticle;
+        }
+
+        [EventHandler]
+        public async Task BlogArticleDetailsQueryAsync(BlogArticleDetailsQuery query)
+        {
+            var blogArticle = await _blogArticleRepository.GetAsync(query.Id);
+
             query.Result = blogArticle;
         }
     }

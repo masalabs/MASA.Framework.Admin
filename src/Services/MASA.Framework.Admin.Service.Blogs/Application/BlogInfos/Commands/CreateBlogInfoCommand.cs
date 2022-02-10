@@ -12,7 +12,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
             RuleFor(cmd => cmd.CreationTime).GreaterThanOrEqualTo(DateTime.UtcNow.AddMinutes(-5)).WithMessage("abnormal payment time");
             RuleFor(cmd => cmd.CreationTime).LessThanOrEqualTo(DateTime.UtcNow).WithMessage("2 abnormal payment time");
 
-
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
             RuleFor(cmd => cmd.Request.Title).NotEqual(default(string)).WithMessage("Title is not null");
             RuleFor(cmd => cmd.Request.Content).NotEqual(default(string)).WithMessage("Content is not null");
@@ -23,12 +22,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
     public record class CreateBlogInfoCommand : Command
     {
         public CreateBlogInfoCommand()
-        {
+        { 
         }
 
         public CreateBlogInfoCommand(CreateBlogInfoModel request)
         {
-            this.Request = request;
+            Request = request;
         }
 
         public CreateBlogInfoModel Request { get; set; }

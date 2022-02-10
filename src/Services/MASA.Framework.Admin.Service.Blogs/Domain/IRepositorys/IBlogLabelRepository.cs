@@ -2,5 +2,6 @@
 {
     public interface IBlogLabelRepository
     {
+        Task<List<Guid>> CreateBatchAsync(List<string> labels);
     }
 }

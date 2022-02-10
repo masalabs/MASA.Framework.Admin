@@ -7,7 +7,7 @@ namespace MASA.Framework.Admin.Contracts.Blogs.Model.BlogInfo.Model
         /// <summary>
         /// 主键
         /// </summary>
-        public Guid Id { get; set; } = Guid.Empty;
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 标题

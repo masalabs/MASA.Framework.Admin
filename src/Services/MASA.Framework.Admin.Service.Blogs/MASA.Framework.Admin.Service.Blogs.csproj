@@ -48,10 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Domain\Events\" />
-    <Folder Include="Domain\IRepository\" />
-    <Folder Include="Infrastructure\Repositorys\" />
+    <Folder Include="Application\" />
   </ItemGroup>
 
 </Project>

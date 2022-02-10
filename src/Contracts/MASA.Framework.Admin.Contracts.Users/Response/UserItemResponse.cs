@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Users.Response;
 
-public class UserItemsResponse
+public class UserItemResponse
 {
     public Guid Id { get; set; }
 

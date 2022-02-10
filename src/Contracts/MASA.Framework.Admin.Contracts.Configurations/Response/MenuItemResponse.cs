@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Configurations.Response;
 
-public class MenuItemsResponse
+public class MenuItemResponse
 {
     public Guid Id { get; set; }
 
@@ -13,4 +13,6 @@ public class MenuItemsResponse
     public string Url { get; set; }
 
     public Guid ParentId { get; set; }
+
+    public DateTimeOffset CreationTime { get; set; }
 }

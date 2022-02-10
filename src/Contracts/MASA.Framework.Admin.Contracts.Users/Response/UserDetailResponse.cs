@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Users.Response;
 
-public class UserDetailResponse:UserItemsResponse
+public class UserDetailResponse:UserItemResponse
 {
     public DateTimeOffset CreationTime { get; set; }
 

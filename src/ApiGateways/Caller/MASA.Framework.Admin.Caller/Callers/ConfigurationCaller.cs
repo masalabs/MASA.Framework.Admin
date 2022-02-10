@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Contracts.Bases.Response;
+using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Framework.Admin.Contracts.Configuration.Response;
 using MASA.Utils.Caller.HttpClient;
 using Microsoft.Extensions.Configuration;

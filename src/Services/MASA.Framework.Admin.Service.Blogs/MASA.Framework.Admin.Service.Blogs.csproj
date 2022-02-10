@@ -49,7 +49,7 @@
   <ItemGroup>
     <Folder Include="Domain\Events\" />
     <Folder Include="Model\BlogCommentInfo\Model\" />
-    <Folder Include="Model\BlogLable\Model\" />
+    <Folder Include="Model\BlogLabel\Model\" />
     <Folder Include="Model\BlogType\Model\" />
   </ItemGroup>
 

@@ -76,8 +76,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public string Remark { get; set; }
 
         /// <summary>
-        /// 
+        /// 发布时间
         /// </summary>
-        public BlogType BlogType { get; set; } = new();
+        [Required]
+        public DateTime ReleaseTime { get; set; } = DateTime.Now;
     }
 }

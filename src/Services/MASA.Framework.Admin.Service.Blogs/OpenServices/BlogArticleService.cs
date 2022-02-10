@@ -9,27 +9,20 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 {
     public class BlogArticleService : ServiceBase
     {
-        public BlogArticleService(IServiceCollection services) : base(services)
+        public BlogArticleService(IServiceCollection services) : base(services, "api/blogs")
         {
-
+            MapPost(GetListAsync, "/api/blogs/articles");
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options, [FromServices] IEventBus eventBus)
         {
-
             var blogQuery = new BlogArticleQuery
             {
                 Options = options
             };
             await eventBus.PublishAsync(blogQuery);
-            if (blogQuery.Result is null)
-            {
-                return Results.NotFound();
-            }
-            else
-            {
-                return Results.Ok(BlogInfoModel.FromOrder(blogQuery.Result));
-            }
+
+            return Results.Ok(blogQuery.Result);
         }
     }
 }

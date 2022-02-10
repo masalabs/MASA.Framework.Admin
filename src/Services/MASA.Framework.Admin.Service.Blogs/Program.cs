@@ -17,6 +17,8 @@ using MASA.Utils.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
+using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis")).AddMasaMemoryCache();
+builder.Services.AddScoped<IBlogArticleRepository, BlogArticleRepository>();
 
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {

@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogLable.ViewModel
+﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogLabel.ViewModel
 {
-    public class BlogLableListViewModel
+    public class BlogLabelListViewModel
     {
         /// <summary>
         /// 主键
@@ -10,6 +10,6 @@
         /// <summary>
         /// 标签名称
         /// </summary>
-        public string LableName { get; set; }
+        public string LabelName { get; set; }
     }
 }

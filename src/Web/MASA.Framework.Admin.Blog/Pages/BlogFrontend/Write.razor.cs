@@ -8,7 +8,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
 public partial class Write: BlogFrontComponentBase
 {
     private bool _prevShow;
-    private BlogInfoAddModel _options = new() { State = Service.Blogs.Infrastructure.Enum.StateTypes.Reviewed };
+    private CreateBlogInfoModel _options = new() { State = Service.Blogs.Infrastructure.Enum.StateTypes.Reviewed };
     private List<(Guid, string)> _typeList = new();
 
     /// <summary>

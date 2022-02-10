@@ -1,5 +1,6 @@
 ﻿@page "/blogs"
 @layout BlogFrontLayout
+@inherits BlogFrontComponentBase
 
 <ul>
     <li>
@@ -18,3 +19,19 @@
         </a>
     </li>
 </ul>
+
+<MButton OnClick="() => _show = true">ddd</MButton>
+<Write Show="_show"></Write>
+<MButton OnClick="dddd"></MButton>
+
+@code{
+    private bool _show = false;
+
+    [Inject]
+    public NavigationManager? Navigation { get; set; }
+
+    private void dddd()
+    {
+        Navigation.NavigateTo("/bloginfo");
+    }
+}

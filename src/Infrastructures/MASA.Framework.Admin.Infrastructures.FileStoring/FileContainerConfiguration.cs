@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Infrastructure.FileStoring
+namespace MASA.Framework.Admin.Infrastructures.FileStoring
 {
     public class FileContainerConfiguration
     {
@@ -16,6 +16,7 @@ namespace MASA.Framework.Admin.Infrastructure.FileStoring
         private readonly Dictionary<string, object> _properties;
 
         private readonly FileContainerConfiguration _fallbackConfiguration;
+
         public FileContainerConfiguration(FileContainerConfiguration fallbackConfiguration = null)
         {
             _fallbackConfiguration = fallbackConfiguration;
@@ -37,6 +38,16 @@ namespace MASA.Framework.Admin.Infrastructure.FileStoring
             {
                 return _fallbackConfiguration?.GetConfigurationOrNull(name, defaultValue) ?? defaultValue;
             }
+        }
+
+        public T GetConfiguration<T>(string name)
+        {
+            var value = _fallbackConfiguration.GetConfigurationOrNull(name);
+            if (value == null)
+            {
+                throw new ArgumentException($"Could not find the configuration value for '{name}'!");
+            }
+            return (T)value;
         }
 
         public FileContainerConfiguration SetConfiguration(string name, object value)

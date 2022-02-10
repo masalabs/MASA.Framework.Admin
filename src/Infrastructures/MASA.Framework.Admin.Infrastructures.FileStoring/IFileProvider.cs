@@ -1,13 +1,13 @@
-﻿namespace MASA.Framework.Admin.Infrastructure.FileStoring
+﻿namespace MASA.Framework.Admin.Infrastructures.FileStoring
 {
     public interface IFileProvider
     {
-        //Task SaveAsync(BlobProviderSaveArgs args);
+        Task SaveAsync(FileProviderSaveParameters parameters);
 
-        //Task<bool> DeleteAsync(BlobProviderDeleteArgs args);
+        Task<bool> DeleteAsync(FileProviderDeleteParameters parameters);
 
-        //Task<bool> ExistsAsync(BlobProviderExistsArgs args);
+        Task<bool> ExistsAsync(FileProviderExistsParameters parameters);
 
-        //Task<Stream> GetOrNullAsync(BlobProviderGetArgs args);
+        Task<Stream> GetOrNullAsync(FileProviderGetParameters parameters);
     }
 }

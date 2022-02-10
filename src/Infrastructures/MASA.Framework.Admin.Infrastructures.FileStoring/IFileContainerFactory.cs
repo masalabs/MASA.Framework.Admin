@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Infrastructure.FileStoring
+namespace MASA.Framework.Admin.Infrastructures.FileStoring
 {
     public interface IFileContainerFactory
     {
@@ -15,9 +15,6 @@ namespace MASA.Framework.Admin.Infrastructure.FileStoring
         /// <returns>
         /// The container object.
         /// </returns>
-        IFileContainer Create(
-            string name,
-            FileContainerConfiguration configuration
-        );
+        IFileContainer Create<TContainer>();
     }
 }

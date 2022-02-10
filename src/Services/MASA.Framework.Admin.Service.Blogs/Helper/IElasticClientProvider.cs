@@ -1,6 +1,4 @@
-﻿using Nest;
-
-namespace MASA.Framework.Admin.Service.Blogs.Helper
+﻿namespace MASA.Framework.Admin.Service.Blogs.Helper
 {
     public interface IElasticClientProvider
     {

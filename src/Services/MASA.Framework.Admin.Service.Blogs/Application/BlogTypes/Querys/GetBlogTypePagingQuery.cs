@@ -1,9 +1,6 @@
-﻿using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
-using MASA.Framework.Data.EntityFrameworkCore;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys
 {
-    public record class GetBlogTypePagingQuery : Query<PageResult<BlogTypePagingViewModel>>
+    public record class GetBlogTypePagingQuery : Contrib.ReadWriteSpliting.CQRS.Queries.Query<PageResult<BlogTypePagingViewModel>>
     {
         public GetBlogTypePagingQuery()
         {

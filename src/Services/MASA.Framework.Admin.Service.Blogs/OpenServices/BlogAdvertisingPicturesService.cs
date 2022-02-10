@@ -1,7 +1,5 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Querys;
 
 namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 {

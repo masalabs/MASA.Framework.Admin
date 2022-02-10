@@ -1,9 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Data.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
     public class BlogAdvertisingPicturesRepository : IBlogAdvertisingPicturesRepository
     {

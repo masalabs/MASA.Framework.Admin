@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
 {
     public class RemoveBlogAdvertisingPicturesCommandValidator : AbstractValidator<RemoveBlogAdvertisingPicturesCommand>
     {

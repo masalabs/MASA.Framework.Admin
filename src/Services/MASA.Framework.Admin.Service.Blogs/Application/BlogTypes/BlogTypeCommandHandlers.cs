@@ -1,10 +1,4 @@
-﻿using MASA.Contrib.Dispatcher.Events;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands;
-using MASA.Framework.Admin.Service.Blogs.Application.Commands;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
 {
     public class BlogTypeCommandHandlers
     {

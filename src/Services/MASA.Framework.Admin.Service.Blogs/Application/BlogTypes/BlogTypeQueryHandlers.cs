@@ -1,9 +1,4 @@
-﻿using MASA.Contrib.Dispatcher.Events;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
 {
     public class BlogTypeQueryHandlers
     {

@@ -1,7 +1,6 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys;
+using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.Blogs.OpenServices
@@ -19,6 +18,9 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             MapPut(UpdateAsync);
             MapDelete(RemoveAsync);
             MapGet(GetAsync);
+            MapPost(BlogArticleHomeAsync);
+            MapPost(BlogArticleByUserAsync);
+            MapPost(AddVisits);
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options)
@@ -56,6 +58,33 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         public async Task RemoveAsync([FromBody] Guid[] ids)
         {
             await _eventBus.PublishAsync(new RemoveBlogInfoCommand(ids));
+        }
+
+        public async Task<IResult> BlogArticleHomeAsync(GetBlogArticleHomeOptions options)
+        {
+            var query = new BlogArticleHomeQuery
+            {
+                Options = options
+            };
+            await _eventBus.PublishAsync(query);
+
+            return Results.Ok(query.Result);
+        }
+
+        public async Task<IResult> BlogArticleByUserAsync(GetBlogArticleUserOptions options)
+        {
+            var query = new BlogArticleUserQuery
+            {
+                Options = options
+            };
+            await _eventBus.PublishAsync(query);
+
+            return Results.Ok(query.Result);
+        }
+
+        public async Task AddVisits(AddBlogVisitModel request)
+        {
+            await _eventBus.PublishAsync(new AddBlogVisitCommand(request));
         }
     }
 }

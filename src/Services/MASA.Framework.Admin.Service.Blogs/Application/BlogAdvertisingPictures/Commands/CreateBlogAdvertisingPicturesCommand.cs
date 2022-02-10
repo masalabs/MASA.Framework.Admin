@@ -1,10 +1,5 @@
-﻿using FluentValidation;
-using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
-using MASA.Framework.Admin.Contracts.Blogs;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
 {
-
     public class CreateBlogAdvertisingPicturesCommandValidator : AbstractValidator<CreateBlogAdvertisingPicturesCommand>
     {
         public CreateBlogAdvertisingPicturesCommandValidator()

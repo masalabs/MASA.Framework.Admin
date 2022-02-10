@@ -1,13 +1,4 @@
-﻿using MASA.Contrib.Dispatcher.Events;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Admin.Service.Blogs.Helper;
-using Microsoft.Extensions.Options;
-using Nest;
-using Newtonsoft.Json;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
     public class BlogArticleCommandHandler
     {
@@ -44,21 +35,20 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 Visits = 0,
                 CommentCount = 0,
                 ApprovedCount = 0,
-                ReleaseTime = DateTime.UtcNow
+                ReleaseTime = DateTime.UtcNow,
+                CreatorUserId = command.Request.UserId,
+                LastModifierUserId = command.Request.UserId
             };
-            await _articleRepository.CreateAsync(blogInfo);
+
+            var blog = await _articleRepository.CreateAsync(blogInfo);
             await InsertEsAsync(blogInfo);
-
-            if (command.Request.Labels is not null && command.Request.Labels.Count > 0)
-                await _blogLabelRepository.CreateBatchAsync(command.Request.Labels);
-
-            //关联关系
+            await AddLabelRelations(command.Request.Labels, blog.Id);
         }
 
         [EventHandler]
         public async Task UpdateAsync(UpdateBlogInfoCommand command)
         {
-            await _articleRepository.UpdateAsync(new()
+            var blogInfo = new BlogInfo()
             {
                 Id = command.Request.Id,
                 Title = command.Request.Title,
@@ -66,17 +56,64 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 Content = command.Request.Content,
                 IsShow = command.Request.IsShow,
                 State = command.Request.State
-            });
+            };
+            await _articleRepository.UpdateAsync(blogInfo);
+            await InsertEsAsync(blogInfo);
+
+            await AddLabelRelations(command.Request.AddLabels, blogInfo.Id);
+
+            if (command.Request.DeleteRelationIds is not null && 
+                command.Request.DeleteRelationIds.Count > 0)
+                await _blogLabelRepository.DeleteBlogLabelRelationBatchAsync(command.Request.DeleteRelationIds);
         }
 
         [EventHandler]
         public async Task RemoveAsync(RemoveBlogInfoCommand command)
         {
             await _articleRepository.RemoveAsync(command.Ids);
+            foreach (var blogId in command.Ids)
+            {
+                await RemoveEsAsync(blogId);
+            }
         }
 
         /// <summary>
-        /// 写入
+        /// 追加阅读数
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [EventHandler]
+        public async Task AddVisits(AddBlogVisitCommand command)
+        {
+            await _articleRepository.AddVisits(command.Request);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="blogId"></param>
+        /// <returns></returns>
+        private async Task AddLabelRelations(List<string> labels, Guid blogId)
+        {
+            if (labels is not null && labels.Count > 0)
+            {
+                var labelIds = await _blogLabelRepository.CreateBatchAsync(labels);
+
+                if (labelIds is not null && labelIds.Count > 0)
+                {
+                    await _blogLabelRepository.CreateBlogLabelRelationBatchAsync(
+                        labelIds.Select(x => new BlogLabelRelationship
+                        {
+                            BlogInfoId = blogId,
+                            BlogLabelId = x
+                        }));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 写入修改
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -91,6 +128,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"ES写入异常：Index：{_defaultIndex}，Data：{JsonConvert.SerializeObject(blogInfo)}");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> RemoveEsAsync(Guid blogId)
+        {
+            try
+            {
+                var res = await _elasticClient.DeleteAsync<BlogInfo>(blogId);
+                if (res.IsValid && res.Result == Result.Deleted)
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ES删除异常：Index：{_defaultIndex}，blogId：{blogId}");
             }
 
             return false;

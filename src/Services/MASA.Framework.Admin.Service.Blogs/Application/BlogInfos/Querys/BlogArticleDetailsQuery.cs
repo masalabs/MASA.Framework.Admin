@@ -1,8 +1,6 @@
-﻿using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
-    public record class BlogArticleDetailsQuery : Query<BlogInfoListViewModel>
+    public record class BlogArticleDetailsQuery : Contrib.ReadWriteSpliting.CQRS.Queries.Query<BlogInfoListViewModel>
     {
         public Guid Id { get; set; }
 

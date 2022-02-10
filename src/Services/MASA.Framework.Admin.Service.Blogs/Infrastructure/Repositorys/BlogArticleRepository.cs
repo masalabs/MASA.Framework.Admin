@@ -1,10 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Framework.Data.EntityFrameworkCore;
-using MASA.Framework.Data.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
     public class BlogArticleRepository : IBlogArticleRepository
     {
@@ -100,10 +94,65 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             foreach (var blogInfo in blogInfos)
             {
                 blogInfo.IsDeleted = true;
+                blogInfo.DeletionTime = DateTime.UtcNow;
             }
 
             _blogDbContext.UpdateRange(blogInfos);
             await _blogDbContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 获取用户个人列表
+        /// </summary>
+        /// <param name="opions"></param>
+        /// <returns></returns>
+        public async Task<PageResult<BlogInfoListViewModel>> GetBlogArticleByUser(GetBlogArticleUserOptions options)
+        {
+            var query = from blogInfo in _blogDbContext.BlogInfoes
+                        join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
+                        from blogType in leftBlogType.DefaultIfEmpty()
+                        where blogInfo.CreatorUserId == options.Author
+                        select new BlogInfoListViewModel()
+                        {
+                            id = blogInfo.Id,
+                            typeId = blogInfo.TypeId,
+                            title = blogInfo.Title,
+                            state = blogInfo.State,
+                            typeName = blogType.TypeName,
+                            content = blogInfo.Content,
+                            visits = blogInfo.Visits,
+                            commentCount = blogInfo.CommentCount,
+                            approvedCount = blogInfo.ApprovedCount,
+                            remark = blogInfo.Remark,
+                            CreationTime = blogInfo.CreationTime
+                        };
+
+            var pageResult = await query.OrderByDescending(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
+
+            return new PageResult<BlogInfoListViewModel>()
+            {
+                Data = pageResult.Data,
+                Page = pageResult.Page,
+                Size = pageResult.Size,
+                TotalCount = pageResult.TotalCount
+            };
+        }
+
+        /// <summary>
+        /// 追加阅读数
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task AddVisits(AddBlogVisitModel model)
+        {
+            var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(model.BlogId);
+
+            if (blogInfo != null)
+            {
+                blogInfo.Visits++;
+                _blogDbContext.Update(blogInfo);
+                await _blogDbContext.SaveChangesAsync();
+            }
         }
     }
 }

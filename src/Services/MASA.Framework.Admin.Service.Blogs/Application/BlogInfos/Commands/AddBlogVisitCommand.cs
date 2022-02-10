@@ -1,9 +1,8 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Application.Commands
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
 {
-
-    public class CreateBlogTypeCommandValidator : AbstractValidator<CreateBlogTypeCommand>
+    public class AddBlogVisitValidator : AbstractValidator<AddBlogVisitCommand>
     {
-        public CreateBlogTypeCommandValidator()
+        public AddBlogVisitValidator()
         {
             RuleFor(cmd => cmd.Id).NotEqual(default(Guid)).WithMessage("wrong id");
             RuleFor(cmd => cmd.CreationTime).GreaterThanOrEqualTo(DateTime.UtcNow.AddMinutes(-5)).WithMessage("abnormal payment time");
@@ -11,21 +10,24 @@
 
 
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
-            RuleFor(cmd => cmd.Request.TypeName).NotEqual(default(string)).WithMessage("TypeName is not null");
+            RuleFor(cmd => cmd.Request.UserId).NotEqual(default(Guid)).WithMessage("wrong UserId");
         }
     }
 
-    public record class CreateBlogTypeCommand : Command
+    public record class AddBlogVisitCommand : Command
     {
-        public CreateBlogTypeCommand()
+        public AddBlogVisitCommand()
         {
+
         }
 
-        public CreateBlogTypeCommand(CreateBlogTypeModel request)
+        public AddBlogVisitCommand(AddBlogVisitModel request)
         {
             this.Request = request;
         }
 
-        public CreateBlogTypeModel Request { get; set; }
+        public AddBlogVisitModel Request { get; set; }
     }
+
+  
 }

@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Data.EntityFrameworkCore;
-
-namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
 {
     public interface IBlogArticleRepository
     {
@@ -38,5 +35,20 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         /// <param name="ids"></param>
         /// <returns></returns>
         Task RemoveAsync(params Guid[] ids);
+
+        /// <summary>
+        /// 获取用户个人列表
+        /// </summary>
+        /// <param name="opions"></param>
+        /// <returns></returns>
+        Task<PageResult<BlogInfoListViewModel>> GetBlogArticleByUser(
+            GetBlogArticleUserOptions options);
+
+        /// <summary>
+        /// 追加阅读量
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task AddVisits(AddBlogVisitModel model);
     }
 }

@@ -1,9 +1,6 @@
-﻿using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
-using MASA.Framework.Data.EntityFrameworkCore;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Querys
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Querys
 {
-    public record class GetBlogAdvertisingPicturesQuery : Query<PageResult<BlogAdvertisingPicturesListViewModel>>
+    public record class GetBlogAdvertisingPicturesQuery : Contrib.ReadWriteSpliting.CQRS.Queries.Query<PageResult<BlogAdvertisingPicturesListViewModel>>
     {
         public GetBlogAdvertisingPicturesQuery()
         {

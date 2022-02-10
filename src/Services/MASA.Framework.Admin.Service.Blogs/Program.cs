@@ -1,18 +1,14 @@
+using MASA.Contrib.Data.Contracts.EF;
 using MASA.Contrib.Data.UoW.EF;
-using MASA.Contrib.Dispatcher.Events;
 using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
 using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
-using Microsoft.EntityFrameworkCore;
 using MASA.Contrib.Service.MinimalAPIs;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
 using MASA.Utils.Caching.DistributedMemory.DependencyInjection;
 using MASA.Utils.Caching.Redis.DependencyInjection;
 using MASA.Utils.Caching.Redis.Models;
 using MASA.Utils.Configuration.Json;
-using MASA.Contrib.Data.Contracts.EF;
-using MASA.Framework.Admin.Service.Blogs.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 

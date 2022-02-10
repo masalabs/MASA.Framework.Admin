@@ -1,9 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Querys;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Contrib.Dispatcher.Events;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Querys;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
 {
     public class BlogAdvertisingPicturesQueryHandlers
     {

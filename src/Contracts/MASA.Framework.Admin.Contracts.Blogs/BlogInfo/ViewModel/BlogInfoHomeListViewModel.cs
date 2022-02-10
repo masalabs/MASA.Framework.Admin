@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
-    public class UpdateBlogInfoModel
+    public class BlogInfoHomeListViewModel
     {
         /// <summary>
         /// 主键
@@ -23,23 +23,8 @@
         public string Content { get; set; }
 
         /// <summary>
-        /// 是否仅自己可见
+        /// CreationTime
         /// </summary>
-        public bool IsShow { get; set; }
-
-        /// <summary>
-        /// 文章状态
-        /// </summary>
-        public StateTypes State { get; set; }
-
-        /// <summary>
-        /// 删除标签列表
-        /// </summary>
-        public List<Guid> DeleteRelationIds { get; set; }
-
-        /// <summary>
-        /// 创建标签列表
-        /// </summary>
-        public List<string> AddLabels { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

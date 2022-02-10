@@ -1,8 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands;
-using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
-using MASA.Contrib.Dispatcher.Events;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
 {
     public class BlogAdvertisingPicturesCommandHandlers
     {

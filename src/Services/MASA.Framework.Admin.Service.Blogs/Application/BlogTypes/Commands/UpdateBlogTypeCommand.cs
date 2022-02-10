@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
-
-namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
+﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
 {
     public class UpdateBlogTypeCommandValidator : AbstractValidator<UpdateBlogTypeCommand>
     {

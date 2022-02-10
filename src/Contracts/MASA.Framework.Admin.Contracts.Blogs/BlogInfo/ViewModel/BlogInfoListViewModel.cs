@@ -61,5 +61,10 @@
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// 关联id
+        /// </summary>
+        public List<BlogLabelRelationsViewModel> Relations { get; set; }
     }
 }

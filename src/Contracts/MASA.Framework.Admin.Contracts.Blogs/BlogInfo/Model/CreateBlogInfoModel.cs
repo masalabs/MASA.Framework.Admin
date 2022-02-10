@@ -31,4 +31,9 @@ public class CreateBlogInfoModel
     /// 标签列表
     /// </summary>
     public List<string> Labels { get; set; }
+
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public Guid UserId { get; set; }
 }

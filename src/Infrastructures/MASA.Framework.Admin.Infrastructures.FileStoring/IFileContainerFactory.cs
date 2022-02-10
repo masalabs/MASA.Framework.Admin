@@ -15,9 +15,6 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
         /// <returns>
         /// The container object.
         /// </returns>
-        IFileContainer Create(
-            string name,
-            FileContainerConfiguration configuration
-        );
+        IFileContainer Create<TContainer>();
     }
 }

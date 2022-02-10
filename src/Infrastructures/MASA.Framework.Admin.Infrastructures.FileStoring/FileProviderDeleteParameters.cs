@@ -11,12 +11,12 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
         public FileProviderDeleteParameters(
             string containerName,
             FileContainerConfiguration configuration,
-            string blobName,
+            string fileName,
             CancellationToken cancellationToken = default)
             : base(
                   containerName, 
-                  configuration, 
-                  blobName, 
+                  configuration,
+                  fileName, 
                   cancellationToken)
         {
         }

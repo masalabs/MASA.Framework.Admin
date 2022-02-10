@@ -6,13 +6,11 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
     {
         public async Task<bool> DeleteAsync(FileProviderDeleteParameters parameters)
         {
-            var fileName = parameters.FileName;
             var client = GetMinioClient(parameters);
-            var containerName = parameters.ContainerName;
 
-            if (await FileExistsAsync(client, containerName, fileName))
+            if (await FileExistsAsync(client, parameters.ContainerName, parameters.FileName))
             {
-                await client.RemoveObjectAsync(containerName, fileName);
+                await client.RemoveObjectAsync(parameters.ContainerName, parameters.FileName);
                 return true;
             }
 
@@ -21,25 +19,22 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
 
         public async Task<bool> ExistsAsync(FileProviderExistsParameters parameters)
         {
-            var fileName = parameters.FileName;
             var client = GetMinioClient(parameters);
-            var containerName = parameters.ContainerName;
 
-            return await FileExistsAsync(client, containerName, fileName);
+            return await FileExistsAsync(client, parameters.ContainerName, parameters.FileName);
         }
 
         public async Task<Stream> GetOrNullAsync(FileProviderGetParameters parameters)
         {
-            var fileName = parameters.FileName;
             var client = GetMinioClient(parameters);
-            var containerName = parameters.ContainerName;
-            if (!await FileExistsAsync(client, containerName, fileName))
+
+            if (!await FileExistsAsync(client, parameters.ContainerName, parameters.FileName))
             {
                 return null;
             }
 
             var memoryStream = new MemoryStream();
-            await client.GetObjectAsync(containerName, fileName, (stream) =>
+            await client.GetObjectAsync(parameters.ContainerName, parameters.FileName, (stream) =>
             {
                 if (stream != null)
                 {
@@ -57,22 +52,20 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
 
         public async Task SaveAsync(FileProviderSaveParameters parameters)
         {
-            var fileName = parameters.FileName;
             var configuration = new MinioFileProviderConfiguration(parameters.Configuration);
             var client = GetMinioClient(parameters);
-            var containerName = parameters.ContainerName;
 
-            if (await FileExistsAsync(client, containerName, fileName))
+            if (await FileExistsAsync(client, parameters.ContainerName, parameters.FileName))
             {
-                throw new Exception($"Saving BLOB '{parameters.FileName}' does already exists in the container '{containerName}'!");
+                throw new Exception($"Saving File '{parameters.FileName}' does already exists in the container '{parameters.ContainerName}'!");
             }
 
             if (configuration.CreateBucketIfNotExists)
             {
-                await CreateBucketIfNotExists(client, containerName);
+                await CreateBucketIfNotExists(client, parameters.ContainerName);
             }
 
-            await client.PutObjectAsync(containerName, fileName, parameters.BlobStream, parameters.BlobStream.Length);
+            await client.PutObjectAsync(parameters.ContainerName, parameters.FileName, parameters.FileStream, parameters.FileStream.Length);
         }
 
         protected virtual MinioClient GetMinioClient(FileProviderParameters parameters)
@@ -96,12 +89,12 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
             }
         }
 
-        protected virtual async Task<bool> FileExistsAsync(MinioClient client, string containerName, string blobName)
+        protected virtual async Task<bool> FileExistsAsync(MinioClient client, string containerName, string flieName)
         {
-            // Make sure Blob Container exists.
+            // Make sure File Container exists.
             if (await client.BucketExistsAsync(containerName))
             {
-                await client.StatObjectAsync(containerName, blobName);
+                await client.StatObjectAsync(containerName, flieName);
 
                 return true;
             }

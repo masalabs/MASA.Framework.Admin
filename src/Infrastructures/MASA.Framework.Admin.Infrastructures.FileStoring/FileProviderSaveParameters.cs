@@ -8,21 +8,21 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
 {
     public class FileProviderSaveParameters : FileProviderParameters
     {
-        public Stream BlobStream { get; }
+        public Stream FileStream { get; }
 
         public FileProviderSaveParameters(
             string containerName,
             FileContainerConfiguration configuration,
-            string blobName,
-            Stream blobStream,
+            string fileName,
+            Stream fileStream,
             CancellationToken cancellationToken = default)
             : base(
                   containerName,
                   configuration,
-                  blobName,
+                  fileName,
                   cancellationToken)
         {
-            BlobStream = blobStream ?? throw new ArgumentNullException(nameof(blobStream));
+            FileStream = fileStream ?? throw new ArgumentNullException(nameof(fileStream));
         }
     }
 }

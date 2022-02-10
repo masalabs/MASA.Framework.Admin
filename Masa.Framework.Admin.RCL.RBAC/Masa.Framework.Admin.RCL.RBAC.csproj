@@ -21,4 +21,8 @@
     <Folder Include="Pages\Authentication\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Users\MASA.Framework.Admin.Contracts.Users.csproj" />
+  </ItemGroup>
+
 </Project>

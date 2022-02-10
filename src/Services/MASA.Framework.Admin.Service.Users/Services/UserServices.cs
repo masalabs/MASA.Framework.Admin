@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Users.Services;
+namespace MASA.Framework.Admin.Service.Users.Services;
 
 public class UserServices : ServiceBase
 {

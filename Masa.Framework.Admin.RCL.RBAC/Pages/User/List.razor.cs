@@ -1,38 +1,40 @@
-﻿using Masa.Framework.Admin.RCL.RBAC.Data.User;
-using Masa.Framework.Admin.RCL.RBAC.Data.User.Dto;
-using Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel;
-
-namespace MASA.Framework.Admin.Web.Pages.App.User;
+namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class List
 {
-    public bool _visible;
-    public UserPage _userPage = new(UserService.GetList());
+    private bool _visible;
+    private UserPage _userPage = new();
+    private UserItemResponse _userItem = new();
     private List<int> _pageSizes = new() { 10, 25, 50, 100 };
-    private readonly List<DataTableHeader<UserDto>> _headers = new()
+    private readonly List<DataTableHeader<UserItemResponse>> _headers = new()
     {
-        new() { Text = "USER", Value = nameof(UserDto.UserName), CellClass = "" },
-        new() { Text = "EMAIL", Value = nameof(UserDto.Email) },
-        new() { Text = "ROLE", Value = nameof(UserDto.Role) },
-        new() { Text = "PLAN", Value = nameof(UserDto.Plan) },
-        new() { Text = "STATUS", Value = nameof(UserDto.Status) },
-        new() { Text = "ACTIONS", Value = "Action", Sortable = false }
+        new() { Text = "Account", Value = nameof(UserItemResponse.Account), CellClass = "" },
+        new() { Text = "Name", Value = nameof(UserItemResponse.Name) },
+        new() { Text = "Email", Value = nameof(UserItemResponse.Email) },
+        new() { Text = "State", Value = nameof(UserItemResponse.State) },
+        new() { Text = "Gender", Value = nameof(UserItemResponse.Gender) },
+        new() { Text = "LastLoginTime", Value = nameof(UserItemResponse.LastLoginTime) },
+        new() { Text = "Action", Value = "Action", Sortable = false }
     };
-    private readonly Dictionary<string, string> _roleIconMap = UserService.GetRoleIconMap();
-
-    private void NavigateToDetails(string id)
+    private List<StateItem> _selectStateList => new List<StateItem>
     {
-        Nav.NavigateTo($"/app/user/view/{id}");
+        new StateItem((int)State.Enable,State.Enable.ToString()),
+        new StateItem((int)State.Disabled,State.Disabled.ToString()),
+    };
+
+    private string GetInitialShow(string name)
+    {
+        return string.Join("", name.Split(' ').Select(n => n[0].ToString().ToUpper()));
     }
 
-    private void NavigateToEdit(string id)
+    private void NavToDetails(string id)
     {
-        Nav.NavigateTo($"/app/user/edit/{id}");
+        Nav.NavigateTo($"/user/view/{id}");
     }
 
-    private void AddUserData(UserDto userData)
+    private void DeleteUser(string id)
     {
-        _userPage.UserDatas.Insert(0, userData);
+
     }
 }
 

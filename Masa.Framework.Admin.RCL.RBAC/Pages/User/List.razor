@@ -1,57 +1,12 @@
 ﻿@page "/user/list"
-@using Masa.Framework.Admin.RCL.RBAC.Data.User
 @inherits ComponentBase
 @inject NavigationManager Nav
-
-<MCard>
-    <MCardText Class="pa-6">
-        <h6>Filters</h6>
-        <MRow Class="mt-3">
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Role"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetRoleList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Role">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Plan"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetPlanList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Plan">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Status"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetStatusList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Status">
-                </MSelect>
-            </MCol>
-        </MRow>
-    </MCardText>
-</MCard>
 
 <MCard Class="mt-6">
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">Show:</span>
+                <span class="text-btn neutral-lighten-1--text">展示:</span>
                 <MSelect @bind-Value="_userPage.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
@@ -63,10 +18,21 @@
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">entries</span>
+                <span class="text-btn">条数</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField @bind-Value="_userPage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MSelect @bind-Value="_userPage.State"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Dense
+                         Outlined
+                         Items="@_selectStateList"
+                         ItemText="u => u.Text"
+                         ItemValue="u => u.Value"
+                         Label="状态">
+                </MSelect>
+                <MTextField @bind-Value="_userPage.Account" Color="primary" Class="rounded-2 ml-6" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
@@ -77,52 +43,52 @@
             </MCol>
         </MRow>
     </MCardText>
-
-    <MDataTable Headers="_headers" ShowSelect Items="_userPage.GetPageDatas()" TItem="UserDto" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    @*Items="_userPage.GetPageDatas()"*@
+    <MDataTable Headers="_headers" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
             @switch (context.Header.Value)
             {
-                case nameof(UserDto.UserName):
-                    <div class="hover-pointer d-flex my-2" @onclick="()=>NavigateToDetails(context.Item.Id)">
-                        @if (string.IsNullOrEmpty(context.Item.HeadImg))
+                case nameof(UserItemResponse.Name):
+                    <div class="hover-pointer d-flex my-2">
+                        @if (string.IsNullOrEmpty(context.Item.Cover))
                         {
-                            string color = context.Item.Color;
-
-                            <MAvatar Size=48 Color="@($"{color}-lighten-5")" Class="mt-1">
-                                <span class="@($"{color}--text")">@context.Item.SampleName</span>
+                            <MAvatar Size=48 Class="mt-1">
+                                <span>@GetInitialShow(context.Item.Name)</span>
                             </MAvatar>
                         }
                         else
                         {
                             <MAvatar Size=48 Class="mt-1">
-                                <MImage Contain Src="@context.Item.HeadImg"></MImage>
+                                <MImage Contain Src="@context.Item.Cover"></MImage>
                             </MAvatar>
                         }
-                        <div class="ml-4">
-                            <div class="text-subtitle">@context.Item.FullName</div>
-                            <div class="text-caption mt-1">@@@context.Item.UserName</div>
-                        </div>
                     </div>
                     break;
-                case (nameof(UserDto.Email)):
+                case (nameof(UserItemResponse.Email)):
                     <span>@context.Item.Email</span>
                     break;
-                case nameof(UserDto.Role):
-                    var arr = _roleIconMap[context.Item.Role!].Split(",");
-                    <MIcon Left Small Class="@($"{arr[1]}--text")">@arr[0]</MIcon>
-                    @context.Item.Role
+                case nameof(UserItemResponse.Gender):
+                    @context.Item.Gender
                     break;
-                case (nameof(UserDto.Plan)):
-                    @context.Item.Plan
+                case (nameof(UserItemResponse.LastLoginTime)):
+                    @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
                     break;
-                case nameof(UserDto.Status):
-                    string statusColor = context.Item.Color;
-                    <MChip Color="@($"{statusColor}-lighten-5")" TextColor="@(statusColor)" Ripple="false">
-                        <span>@context.Item.Status</span>
-                    </MChip>
+                case nameof(UserItemResponse.State):
+                    @if (context.Item.State == (int)State.Enable)
+                    {
+                        <MChip Color="green" TextColor="white" Ripple="false">
+                            <span>@State.Enable.ToString()</span>
+                        </MChip>
+                    }
+                    else
+                    {
+                        <MChip Color="gray" Ripple="false">
+                            <span>@State.Disabled.ToString()</span>
+                        </MChip>
+                    }
                     break;
                 case "Action":
                     <MMenu Right Bottom>
@@ -133,15 +99,11 @@
                         </ActivatorContent>
                         <ChildContent>
                             <MList>
-                                <MListItem OnClick="()=>NavigateToDetails(context.Item.Id)">
+                                <MListItem OnClick="()=>NavToDetails(context.Item.Id.ToString())">
                                     <MIcon Small>fas fa-user-tie</MIcon>
                                     <MListItemTitle Class="ml-2"> Details </MListItemTitle>
                                 </MListItem>
-                                <MListItem OnClick="()=>NavigateToEdit(context.Item.Id)">
-                                    <MIcon Small>far fa-edit</MIcon>
-                                    <MListItemTitle Class="ml-2"> Edit </MListItemTitle>
-                                </MListItem>
-                                <MListItem OnClick="()=>_userPage.UserDatas.RemoveAt(_userPage.UserDatas.FindIndex(u=>u.Id==context.Item.Id))">
+                                <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
                                     <MIcon Small>far fa-trash-alt</MIcon>
                                     <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
                                 </MListItem>
@@ -167,4 +129,28 @@
     </MCardText>
 </MCard>
 
-<Add @bind-Visible=_visible Submit="AddUserData"></Add>
+
+<MNavigationDrawer Temporary Fixed Right Value=_visible Width="465" Class="pa-6">
+    <div class="block-between mb-12">
+        <span class="text-h6">Add New User</span>
+        <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
+    </div>
+    <MForm Model=_userItem EnableDataAnnotationsValidation>
+        <MTextField @bind-Value="_userItem.Account" Class="mb-6" Label="Account" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_userItem.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_userItem.Email" Class="mb-6" Label="Email" HideDetails="@("auto")" Dense Outlined />
+        <MSelect @bind-Value="_userItem.State"
+                 Color="primary" HideDetails="@("auto")"
+                 Clearable Dense Outlined
+                 Items="@_selectStateList"
+                 ItemText="u => u.Text"
+                 ItemValue="u => u.Value"
+                 Label="State">
+        </MSelect>
+
+        <div style="bottom:48px;right:24px;position:absolute">
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill"> Cancel </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill"> Add </MButton>
+        </div>
+    </MForm>
+</MNavigationDrawer>

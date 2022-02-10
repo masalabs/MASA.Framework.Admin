@@ -1,0 +1,98 @@
+﻿@page "/user/view"
+@page "/user/view/{Id}"
+@inherits ComponentBase
+
+<MCard Height="298" class="pt-2 pb-2">
+    <MCardText>
+        <MRow>
+            <MCol Cols="@("auto")">
+                <div style="width:300px;" class="text-center">
+                    @if (string.IsNullOrEmpty(_userDetail.Cover))
+                    {
+                        <MAvatar Size="120">
+                            <span class="@($"text-h3")">U</span>
+                        </MAvatar>
+                    }
+                    else
+                    {
+                        <MAvatar Size="120">
+                            <MImage Contain Src="@_userDetail.Cover" />
+                        </MAvatar>
+                    }
+                    <h5 class="mt-1">@_userDetail.Account</h5>
+                    <span class="mt-1 text-caption">@_userDetail.Email</span>
+                </div>
+            </MCol>
+            <MDivider Vertical />
+            <MCol class="ml-3 d-flex flex-column">
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>Name</span>
+                    <span class="text-caption">@_userDetail.Name</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-check</MIcon>State</span>
+                    <span class="text-caption">@_userDetail.State</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>LastLoginTime</span>
+                    <span class="text-caption">@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                </div>
+                <div class="flex-grow-1 d-flex align-end">
+                    <MButton MinWidth="100" class="primary rounded-pill">Edit</MButton>
+                    <MButton Outlined MinWidth="100" Color="red" class="ml-6 rounded-pill">Delete</MButton>
+                </div>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+<MCard>
+    <MTabs BackgroundColor="transparent" Color="basil" Grow>
+        <MTab>用户信息</MTab>
+        <MTab>权限信息</MTab>
+        <MTab>访问记录</MTab>
+    </MTabs>
+    <MTabsItems>
+        <MTabItem>
+            <MCard Color="basil" Flat>
+                <MCardTitle>
+                    基本信息
+                </MCardTitle>
+                <MCardText></MCardText>
+            </MCard>
+            <MCard Flat>
+                <MCardTitle>
+                    所属分组
+                </MCardTitle>
+                <MCardText></MCardText>
+            </MCard>
+            <MCard Color="basil" Flat>
+                <MCardTitle>
+                    原始 JSON 数据
+                </MCardTitle>
+                <MCardText></MCardText>
+            </MCard>
+        </MTabItem>
+        <MTabItem>
+            <MCard Color="basil" Flat>
+                <MCardTitle>
+                    用户角色
+                </MCardTitle>
+                <MCardText>2</MCardText>
+            </MCard>
+        </MTabItem>
+        <MTabItem>
+            <MCard Color="basil" Flat>
+                <MCardTitle>
+                    访问记录
+                </MCardTitle>
+                <MCardText>3</MCardText>
+            </MCard>
+            <MCard Color="basil" Flat>
+                <MCardTitle>
+                    位置
+                </MCardTitle>
+                <MCardText>3</MCardText>
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+</MCard>

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Users.Response;
+namespace MASA.Framework.Admin.Contracts.Users.Response;
 
 public class UserItemResponse
 {
@@ -8,7 +8,7 @@ public class UserItemResponse
 
     public string Account { get; set; }
 
-    public bool Gender { get; set; }
+    public bool? Gender { get; set; }
 
     public string Cover { get; set; }
 

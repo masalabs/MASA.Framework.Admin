@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Services\UserServices.cs~RF1667c08.TMP" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="MASA.BuildingBlocks.ReadWriteSpliting.CQRS" Version="0.0.1706110254" />
       <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1736024337" />
       <PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1736024337" />

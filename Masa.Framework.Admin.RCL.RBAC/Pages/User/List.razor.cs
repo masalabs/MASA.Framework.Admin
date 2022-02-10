@@ -1,8 +1,14 @@
+using MASA.Blazor;
+using MASA.Framework.Admin.Caller.Callers;
+using Microsoft.AspNetCore.Components.Forms;
+
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class List
 {
     private bool _visible;
+    private bool _valid = true, _snackbar = false;
+    private MForm _form = new();
     private UserPage _userPage = new();
     private UserItemResponse _userItem = new();
     private List<int> _pageSizes = new() { 10, 25, 50, 100 };
@@ -22,6 +28,9 @@ public partial class List
         new StateItem((int)State.Disabled,State.Disabled.ToString()),
     };
 
+    [Inject]
+    public UserCaller UserCaller { get; set; }
+
     private string GetInitialShow(string name)
     {
         return string.Join("", name.Split(' ').Select(n => n[0].ToString().ToUpper()));
@@ -35,6 +44,23 @@ public partial class List
     private void DeleteUser(string id)
     {
 
+    }
+
+    private async void CreateUser(EditContext context)
+    {
+        var success = context.Validate();
+        if (!success)
+        {
+            return;
+        }
+
+        var res = await UserCaller.CreateAsync("", "");
+        if (!res.Success)
+        {
+            _snackbar = true;
+        }
+
+        _visible = false;
     }
 }
 

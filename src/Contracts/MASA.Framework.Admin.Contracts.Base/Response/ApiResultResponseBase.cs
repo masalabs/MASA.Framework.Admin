@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Base.Response;
+namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class ApiResultResponseBase
 {
@@ -15,3 +15,4 @@ public class ApiResultResponseBase
 
     public string Message { get; set; }
 }
+

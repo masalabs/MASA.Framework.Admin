@@ -1,5 +1,5 @@
 ﻿using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
-using MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities;
+using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Utils.Data.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

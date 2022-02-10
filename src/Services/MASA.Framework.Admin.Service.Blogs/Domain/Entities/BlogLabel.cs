@@ -25,6 +25,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(100)]
-        public string LableName { get; set; }
+        public string LableName { get; set; } = string.Empty;
     }
 }

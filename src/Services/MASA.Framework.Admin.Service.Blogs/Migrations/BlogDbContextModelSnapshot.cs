@@ -88,10 +88,19 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<short>("Location")
+                        .HasColumnType("smallint");
+
                     b.Property<string>("Pic")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Sort")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Type")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -217,9 +226,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                     b.Property<int>("ApprovedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("BlogTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("CommentCount")
                         .HasColumnType("int");
 
@@ -256,6 +262,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("ReleaseTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Remark")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -277,8 +286,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogTypeId");
 
                     b.ToTable("BlogInfoes");
                 });
@@ -365,17 +372,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlogTypes");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Blogs.Domain.Entities.BlogInfo", b =>
-                {
-                    b.HasOne("MASA.Framework.Admin.Service.Blogs.Domain.Entities.BlogType", "BlogType")
-                        .WithMany()
-                        .HasForeignKey("BlogTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BlogType");
                 });
 #pragma warning restore 612, 618
         }

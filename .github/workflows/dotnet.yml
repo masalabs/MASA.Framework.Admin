@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +23,7 @@ jobs:
         include-prerelease: true
 
     - name: build
-      run: dotnet build src/**/*.csproj
+      run: dotnet build src
 
     
 

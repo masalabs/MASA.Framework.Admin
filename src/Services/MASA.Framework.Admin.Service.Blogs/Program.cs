@@ -20,10 +20,10 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Environment.IsDevelopment())
-{
-    DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
-}
+//if (builder.Environment.IsDevelopment())
+//{
+//    DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
+//}
 
 // Add services to the container.
 

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering
+@using MASA.Blazor.Presets
 @inherits LayoutComponentBase
 @inject GlobalConfig GlobalConfig
 @implements IDisposable
@@ -13,16 +14,8 @@
     <MMain Class="fill-lighten-1" Style="padding-top:60px">
         @Body
     </MMain>
+
+    <Message @bind-Value="_message.Visible" Timeout="_message.Timeout" Type="_message.Type">
+        @_message.Content
+    </Message>
 </MApp>
-
-@code {
-    protected override void OnInitialized()
-    {
-        GlobalConfig.OnPageModeChanged += base.StateHasChanged;
-    }
-
-    public void Dispose()
-    {
-        GlobalConfig.OnPageModeChanged -= base.StateHasChanged;
-    }
-}

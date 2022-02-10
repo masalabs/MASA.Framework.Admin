@@ -10,6 +10,6 @@
         /// <summary>
         /// 标签名称
         /// </summary>
-        public string LableName { get; set; }
+        public string LabelName { get; set; }
     }
 }

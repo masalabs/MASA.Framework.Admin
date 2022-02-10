@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+
+  redis:
+    image: redis:alpine
+
+  masa.admin.database:
+     image: mcr.microsoft.com/mssql/server:2019-latest
+     ports:
+       - "1433:1433"
+     environment:
+      - SA_PASSWORD=P@ssw0rd
+      - ACCEPT_EULA=Y
+
+  masa.admin.services.order:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "8081:80"
+      - "9091:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.services.order.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa-admin-services-order",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.services.order
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.services.order"
+
+  masa.admin.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  dapr-placement:
+    command: ["./placement", "-port", "50000", "-log-level", "debug"]
+    ports:
+      - "50000:50000"

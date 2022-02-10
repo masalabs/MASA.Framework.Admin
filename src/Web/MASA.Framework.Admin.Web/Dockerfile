@@ -3,14 +3,13 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["MASA.Blazor.Pro/MASA.Framework.Admin.Web.csproj", "MASA.Blazor.Pro/"]
-RUN dotnet restore "MASA.Blazor.Pro/MASA.Framework.Admin.Web.csproj"
+COPY ["src/Web/MASA.Framework.Admin.Web/MASA.Framework.Admin.Web.csproj", "src/Web/MASA.Framework.Admin.Web/"]
+RUN dotnet restore "src/Web/MASA.Framework.Admin.Web/MASA.Framework.Admin.Web.csproj"
 COPY . .
-WORKDIR "/src/MASA.Blazor.Pro"
+WORKDIR "/src/src/Web/MASA.Framework.Admin.Web"
 RUN dotnet build "MASA.Framework.Admin.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish

@@ -20,5 +20,9 @@
   <ItemGroup>
     <Folder Include="Domian" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Configurations\MASA.Framework.Admin.Contracts.Configurations.csproj" />
+  </ItemGroup>
   
 </Project>

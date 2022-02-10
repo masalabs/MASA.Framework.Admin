@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
@@ -16,12 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
   </ItemGroup>
 
-    <ItemGroup>
-	    <Folder Include="Pages\System\" />
-	    <Folder Include="Pages\Authentication\" />
-    </ItemGroup>
   <ItemGroup>
-	<ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Users\MASA.Framework.Admin.Contracts.Users.csproj" />
 	<ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
     <ProjectReference Include="..\src\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
     <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />

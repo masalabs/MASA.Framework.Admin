@@ -22,6 +22,10 @@ public class MenuPage
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
+    public bool Success { get; set; } = true;
+
+    public string Message { get; set; } = "";
+
     public long CurrentCount { get; set; }//=> GetFilterDatas().Count();
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
@@ -44,9 +48,15 @@ public class MenuPage
 
     public async Task QueryPageDatasAsync()
     {
-        var pageData = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
-        CurrentCount = pageData.Count;
-        MenuDatas = pageData.Items.ToList();
+        var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
+        Success = result.Success;
+        Message = result.Message;
+        if(Success)
+        {
+            var pageData = result.Data!;
+            CurrentCount = pageData.Count;
+            MenuDatas = pageData.Items.ToList();
+        }
     }
 
     public async Task AddOrUpdateAsync()

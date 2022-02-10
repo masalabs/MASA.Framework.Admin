@@ -15,14 +15,14 @@ namespace MASA.Framework.Admin.Caller.Callers
             BaseAddress = configuration["ApiGateways.ConfigurationCaller"];
         }
 
-        public async Task<PaginatedItemsViewModel<MenuItemResponse>> GetItemsAsync(int pageIndex, int pageSize)
+        public async Task<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
         {
             var paramters = new Dictionary<string, string>
             {
                 ["pageIndex"] = pageIndex.ToString(),
                 ["pageSize"] = pageSize.ToString(),
             };
-            return await CallerProvider.GetAsync<PaginatedItemsViewModel<MenuItemResponse>>($"/api/configurations/menu/items", paramters);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>>($"/api/configurations/menu/items", paramters);
         }
     }
 }

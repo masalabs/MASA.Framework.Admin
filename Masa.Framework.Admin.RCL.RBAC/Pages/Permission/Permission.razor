@@ -1,51 +1,11 @@
 ﻿@page "/app/user/list"
 @inject NavigationManager Nav
 
-@*<MCard>
-    <MCardText Class="pa-6">
-    <h6>Filters</h6>
-    <MRow Class="mt-3">
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Role"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetRoleList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Role">
-    </MSelect>
-    </MCol>
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Plan"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetPlanList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Plan">
-    </MSelect>
-    </MCol>
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Status"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetStatusList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Status">
-    </MSelect>
-    </MCol>
-    </MRow>
-    </MCardText>
-    </MCard>*@
-
-<MCard Class="mt-6">
+<div class="text-h2">权限管理</div>
+<MAlert Color="light-bluelighten-3" Dark>
+    Authing 的权限系统基于 RBAC（Role-based access control，基于角色的访问控制）并可以通过环境属性进行更细粒度的权限控制。既可以管理你的业务系统实体资源，也能管理你的应用中的菜单、按钮等资源权限，具体可以参考文档。
+</MAlert>
+@*<MCard Class="mt-6">
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
@@ -128,26 +88,6 @@
     </MCardText>
 </MCard>
 
-<Add @bind-Visible=_visible></Add>
-
-<MDialog @bind-Value="!_menuPage.Success"
-         Transition="dialog-bottom-transition"
-         MaxWidth="600">
-    <ChildContent>
-        <MCard>
-            <MToolbar Color="red"
-                      Dark>
-                Error
-            </MToolbar>
-            <MCardText>
-                <div class="text-h2 pa-12">@_menuPage.Message</div>
-            </MCardText>
-            <MCardActions Class="justify-end">
-                <MButton Text
-                         OnClick="() => _menuPage.Success = true">
-                    Close
-                </MButton>
-            </MCardActions>
-        </MCard>
-    </ChildContent>
-</MDialog>
+<Authorize @bind-Visible=_visible></Authorize>
+<Role @bind-Visible=_visible></Role>
+<Resource @bind-Visible=_visible></Resource>*@

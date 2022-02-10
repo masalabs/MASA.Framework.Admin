@@ -4,6 +4,9 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>5f03bcd8-17c5-4ef9-be5b-2466b7438967</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -17,6 +20,7 @@
 		<PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1685760477" />
 		<PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1685760477" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 </Project>

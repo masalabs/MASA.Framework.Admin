@@ -74,5 +74,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         [Required]
         [StringLength(500)]
         public string Remark { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public BlogType BlogType { get; set; } = new();
     }
 }

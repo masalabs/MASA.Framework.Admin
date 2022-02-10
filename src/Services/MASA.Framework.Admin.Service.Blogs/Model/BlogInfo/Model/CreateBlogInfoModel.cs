@@ -28,4 +28,9 @@ public class CreateBlogInfoModel
     /// 文章状态
     /// </summary>
     public StateTypes State { get; set; }
+
+    /// <summary>
+    /// 标签列表
+    /// </summary>
+    public List<string> Labels { get; set; }
 }

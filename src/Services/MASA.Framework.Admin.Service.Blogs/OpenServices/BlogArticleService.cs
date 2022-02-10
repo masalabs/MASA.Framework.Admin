@@ -14,7 +14,8 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 
         public BlogArticleService(IServiceCollection services) : base(services, "api/blogs")
         {
-            MapPost(GetListAsync, "/api/blogs/articles");
+            MapPost(GetListAsync);
+            MapPost(CreateAsync);
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options)

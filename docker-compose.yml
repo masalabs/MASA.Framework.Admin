@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  masa.admin.services.order:
+    image: ${DOCKER_REGISTRY-}masa-services-order
+    build:
+      context: .
+      dockerfile: src/Services/MASA.Framework.Admin.Service/Dockerfile
+
+  masa.admin.web:
+    image: ${DOCKER_REGISTRY-}masa-admin
+    build:
+      context: .
+      dockerfile: src/Web/MASA.Framework.Admin.Web/Dockerfile
+
+  dapr-placement:
+    image: "daprio/dapr:1.5.1"

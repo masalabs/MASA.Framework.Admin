@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Order", "src\Contracts\MASA.Framework.Admin.Contracts.Order\MASA.Framework.Admin.Contracts.Order.csproj", "{D38D7297-FC98-4126-B320-1322B6F8CCFB}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{45004002-64DA-47F6-95F6-C6A0583E2FF5}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Order", "src\Services\MASA.Framework.Admin.Service\MASA.Framework.Admin.Service.Order.csproj", "{20369E25-8AFB-41B4-9434-F1F309B8B0DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructures", "Infrastructures", "{5E169C6B-995D-4E55-8BCD-D0DD6EFA9254}"
@@ -141,6 +143,14 @@ Global
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.ActiveCfg = Release|Any CPU
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.Build.0 = Release|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Debug|x86.Build.0 = Debug|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Release|x86.ActiveCfg = Release|Any CPU
+		{45004002-64DA-47F6-95F6-C6A0583E2FF5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

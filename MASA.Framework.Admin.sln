@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructures.FileStoring", "src\Infrastructures\MASA.Framework.Admin.Infrastructures.FileStoring\MASA.Framework.Admin.Infrastructures.FileStoring.csproj", "{107449FD-C29F-4BDA-8667-86AD456A5A6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Infrastructures.FileStoring.Minio", "src\Infrastructures\MASA.Framework.Admin.Infrastructures.FileStoring.Minio\MASA.Framework.Admin.Infrastructures.FileStoring.Minio.csproj", "{6FB54BC8-0B94-4755-98D9-A053B72B798B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,14 @@ Global
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.ActiveCfg = Release|Any CPU
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.Build.0 = Release|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Debug|x86.Build.0 = Debug|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Release|x86.ActiveCfg = Release|Any CPU
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +173,7 @@ Global
 		{088EAD21-FAFA-4AE2-B1EB-50B21D6FA8B4} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{44242C91-8A78-4600-B886-14BA36D9F0AB} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 		{107449FD-C29F-4BDA-8667-86AD456A5A6E} = {5E169C6B-995D-4E55-8BCD-D0DD6EFA9254}
+		{6FB54BC8-0B94-4755-98D9-A053B72B798B} = {5E169C6B-995D-4E55-8BCD-D0DD6EFA9254}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BA2BA-19E5-41FB-A92A-16A03DA229E4}

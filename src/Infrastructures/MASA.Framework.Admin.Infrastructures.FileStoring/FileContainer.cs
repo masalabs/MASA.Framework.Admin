@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Infrastructure.FileStoring
+namespace MASA.Framework.Admin.Infrastructures.FileStoring
 {
     public class FileContainer<TContainer> : IFileContainer<TContainer>
     where TContainer : class

@@ -1,0 +1,23 @@
+namespace MASA.Framework.Admin.Service.User.Services;
+
+public class CustomServiceBase : ServiceBase
+{
+
+    public CustomServiceBase(IServiceCollection services) : base(services)
+    {
+    }
+
+    protected ApiResultResponse<T> Success<T>(T data, string message = "success")
+    {
+        return new ApiResultResponse<T>(data)
+        {
+            Message = message
+        };
+    }
+
+    protected ApiResultResponse Success(string message = "success")
+    {
+        return new ApiResultResponse(Code.SUCCESS, message);
+    }
+}
+

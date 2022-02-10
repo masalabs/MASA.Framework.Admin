@@ -45,13 +45,13 @@
         </MRow>
     </MCardText>
 </MCard>
-<MCard>
-    <MTabs BackgroundColor="transparent" Color="basil" Grow>
+<MCard class="mt-6">
+    <MTabs @bind-Value="_tab" BackgroundColor="transparent" Color="basil" Grow>
         <MTab>用户信息</MTab>
         <MTab>权限信息</MTab>
         <MTab>访问记录</MTab>
     </MTabs>
-    <MTabsItems>
+    <MTabsItems Value="@_tab">
         <MTabItem>
             <MCard Color="basil" Flat>
                 <MCardTitle>

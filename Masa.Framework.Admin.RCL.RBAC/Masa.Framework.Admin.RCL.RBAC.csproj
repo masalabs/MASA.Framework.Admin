@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
     <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Users\MASA.Framework.Admin.Contracts.Users.csproj" />
     <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
   </ItemGroup>

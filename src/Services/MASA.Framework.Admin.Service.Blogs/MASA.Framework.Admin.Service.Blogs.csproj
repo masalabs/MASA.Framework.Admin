@@ -44,8 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\BlogTypes\Querys\" />
     <Folder Include="Domain\Events\" />
-    <Folder Include="Application\" />
+    <Folder Include="Dto\" />
   </ItemGroup>
 
 </Project>

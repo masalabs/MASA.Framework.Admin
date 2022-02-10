@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MASA.BuildingBlocks.Data.Contracts;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
-    public class EntityBase
+    public class EntityBase : ISoftDelete
     {
         /// <summary>
         /// IsDeleted
@@ -26,6 +28,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
         /// <summary>
         /// CreationTime
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreationTime { get; set; }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
+using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
 {
@@ -12,22 +13,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
             RuleFor(cmd => cmd.CreationTime).LessThanOrEqualTo(DateTime.UtcNow).WithMessage("2 abnormal payment time");
 
 
+            RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
             RuleFor(cmd => cmd.Id).NotEqual(default(Guid)).WithMessage("Id is not null");
-            RuleFor(cmd => cmd.TypeName).NotEqual(default(string)).WithMessage("TypeName is not null");
+            RuleFor(cmd => cmd.Request.TypeName).NotEqual(default(string)).WithMessage("TypeName is not null");
         }
     }
 
     public record class UpdateBlogTypeCommand : Command
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public Guid Id { get; set; }
 
-        /// <summary>
-        /// 类型名称
-        /// </summary>
-        public string TypeName { get; set; }
+        public UpdateBlogTypeCommand()
+        {
+
+        }
+
+        public UpdateBlogTypeCommand(UpdateBlogTypeRequestModel request)
+        {
+            this.Request = request;
+        }
+
+        public UpdateBlogTypeRequestModel Request { get; set; }
+
     }
 
 

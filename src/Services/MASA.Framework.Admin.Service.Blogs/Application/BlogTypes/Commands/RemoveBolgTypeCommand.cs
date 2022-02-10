@@ -19,6 +19,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes.Commands
 
     public record class RemoveBolgTypeCommand : Command
     {
+
+        public RemoveBolgTypeCommand()
+        {
+        }
+
+        public RemoveBolgTypeCommand(Guid[] ids)
+        {
+            this.Ids = ids;
+        }
+
         public Guid[] Ids { get; set; }
     }
 }

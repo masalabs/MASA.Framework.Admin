@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
-    public class BlogAdvertisingPicturesRepository
+    public class BlogAdvertisingPicturesRepository: IBlogAdvertisingPicturesRepository
     {
 
     }

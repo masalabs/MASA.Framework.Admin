@@ -63,21 +63,18 @@ namespace MASA.Framework.Admin.Service.Blogs.Model.BlogInfo.Model
         /// <summary>
         /// 
         /// </summary>
-        public BlogType blogType { get; set; } = default!;
+        public Domain.Entities.BlogType blogType { get; set; } = default!;
 
-        public static BlogInfoModel FromOrder(Blogs.Domain.Entities.BlogInfo blogInfo)
+        public static BlogInfoModel FromOrder(Blogs.Domain.Entities.BlogInfo blogInfo) => new BlogInfoModel
         {
-            return new BlogInfoModel
-            {
-                title = blogInfo.Title,
-                state = blogInfo.State,
-                typeName = blogInfo.BlogType.TypeName,
-                content = blogInfo.Content,
-                visits = blogInfo.Visits,
-                commentCount = blogInfo.CommentCount,
-                approvedCount = blogInfo.ApprovedCount,
-                remark = blogInfo.Remark,
-            };
-        }
+            title = blogInfo.Title,
+            state = blogInfo.State,
+            typeName = blogInfo.BlogType.TypeName,
+            content = blogInfo.Content,
+            visits = blogInfo.Visits,
+            commentCount = blogInfo.CommentCount,
+            approvedCount = blogInfo.ApprovedCount,
+            remark = blogInfo.Remark,
+        };
     }
 }

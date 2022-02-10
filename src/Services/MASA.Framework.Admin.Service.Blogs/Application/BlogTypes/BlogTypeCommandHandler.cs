@@ -20,7 +20,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
         {
             await _blogTypeRepository.CreateAsync(new()
             {
-                TypeName = command.TypeName
+                TypeName = command.Request.TypeName
             });
         }
 
@@ -30,10 +30,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
             await _blogTypeRepository.UpdateAsync(new()
             {
                 Id = command.Id,
-                TypeName = command.TypeName
+                TypeName = command.Request.TypeName
             });
         }
-
 
         [EventHandler]
         public async Task RemoveAsync(RemoveBolgTypeCommand command)

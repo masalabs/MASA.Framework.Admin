@@ -9,7 +9,9 @@ using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
 using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
 using Microsoft.EntityFrameworkCore;
 using MASA.Contrib.Service.MinimalAPIs;
+using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure;
+using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
 using MASA.Utils.Caching.DistributedMemory.DependencyInjection;
 using MASA.Utils.Caching.Redis.DependencyInjection;
 using MASA.Utils.Caching.Redis.Models;
@@ -41,6 +43,13 @@ builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
             dbOptions.UseSqlServer(builder.Configuration["ConnectionString"]))
         .UseEventLog<BlogDbContext>();
 });
+
+builder.Services.AddScoped<IBlogAdvertisingPicturesRepository, BlogAdvertisingPicturesRepository>();
+builder.Services.AddScoped<IBlogArticleRepository, BlogArticleRepository>();
+builder.Services.AddScoped<IBlogCommentInfoRepository, BlogCommentInfoRepository>();
+builder.Services.AddScoped<IBlogEnclosureInfoRepository, BlogEnclosureInfoRepository>();
+builder.Services.AddScoped<IBlogLabelRepository, BlogLabelRepository>();
+builder.Services.AddScoped<IBlogTypeRepository, BlogTypeRepository>();
 
 //* minimal api ע��
 var app = builder.Services.AddServices(builder);

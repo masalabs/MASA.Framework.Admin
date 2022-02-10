@@ -13,6 +13,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure
         public DbSet<BlogInfo> BlogInfoes { get; set; }
         public DbSet<BlogLabel> BlogLabels { get; set; }
         public DbSet<BlogType> BlogTypes { get; set; } 
+        public DbSet<BlogApprovedRecord> BlogApprovedRecords { get; set; }
+        public DbSet<BlogLabelRelationship> BlogLabelRelationships { get; set; }
 
         public BlogDbContext(MasaDbContextOptions<BlogDbContext> options) : base(options)
         {

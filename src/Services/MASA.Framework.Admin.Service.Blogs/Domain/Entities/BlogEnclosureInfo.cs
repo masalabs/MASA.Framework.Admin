@@ -32,6 +32,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(1000)]
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
     }
 }

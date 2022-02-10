@@ -1,0 +1,59 @@
+.container > .m-data-table {
+    padding: 24px;
+    margin-top: 24px;
+    border-radius: 20px;
+}
+
+.container .m-presets-page-header {
+    background-color: white;
+    padding: 16px 24px;
+    border-radius: 20px;
+}
+
+.container .m-presets-page-header .m-presets-page-header--h-title > span {
+    font-size: 20px;
+}
+
+.m-card.m-picker {
+    border-radius: 0 !important;
+}
+
+.m-dialog--drawer .m-card {
+    border-radius: 0 !important;
+}
+
+.m-dialog:not(.m-dialog--drawer) {
+    border-radius: 20px;
+}
+
+.m-card > .m-presets-page-header {
+    padding-bottom: 0;
+}
+
+.m-list-group__items .m-list-item, .m-list-group__items .m-list-group__items {
+    overflow: initial;
+}
+
+.m-list-group--no-action.m-list-group--sub-group > .m-list-group__items > div > .m-list-item {
+    padding-left: 88px !important;
+}
+
+.br-4 {
+    border-radius: 16px;
+}
+
+.br-5 {
+    border-radius: 20px;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.linkage-breadcrumbs .m-breadcrumbs li:last-child {
+    font-weight: bold;
+}

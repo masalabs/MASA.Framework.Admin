@@ -33,7 +33,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(500)]
-        public string Pic { get; set; }
+        public string Pic { get; set; } = string.Empty;
 
         /// <summary>
         /// 类型：1 首页 2文章列表

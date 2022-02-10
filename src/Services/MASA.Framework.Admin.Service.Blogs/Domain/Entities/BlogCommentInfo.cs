@@ -39,21 +39,21 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [StringLength(500)]
-        public string CommentContent { get; set; }
+        public string CommentContent { get; set; } = string.Empty;
 
         /// <summary>
         /// Ip地址
         /// </summary>
         [Required]
         [StringLength(500)]
-        public string IpAddress { get; set; }
+        public string IpAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// QQ
         /// </summary>
         [Required]
         [StringLength(50)]
-        public string QQ { get; set; }
+        public string QQ { get; set; } = string.Empty;
 
         /// <summary>
         /// 是否展示

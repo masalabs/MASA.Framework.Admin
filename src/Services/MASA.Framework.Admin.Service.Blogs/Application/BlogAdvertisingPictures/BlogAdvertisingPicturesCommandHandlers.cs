@@ -22,7 +22,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
                 Pic = command.Request.Pic,
                 Sort = command.Request.Sort,
                 Type = command.Request.Type,
-                Location = command.Request.Location
             });
         }
 
@@ -36,7 +35,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
                 Pic = command.Request.Pic,
                 Sort = command.Request.Sort,
                 Type = command.Request.Type,
-                Location = command.Request.Location
             });
         }
 

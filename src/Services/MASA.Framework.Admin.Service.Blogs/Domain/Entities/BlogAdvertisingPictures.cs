@@ -43,18 +43,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public short Type { get; set; }
 
         /// <summary>
-        /// 位置：1 列表头部
-        /// </summary>
-        [Required]
-        [DefaultValue(1)]
-        public short Location { get; set; }
-
-        /// <summary>
         /// 排序
         /// </summary>
         [Required]
         [DefaultValue(1)]
 
         public int Sort { get; set; }
+
+        /// <summary>
+        /// 状态：1启用 2 停用
+        /// </summary>
+        public short Status { get; set; }
     }
 }

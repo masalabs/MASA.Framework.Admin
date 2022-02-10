@@ -32,5 +32,10 @@
         /// 排序
         /// </summary>
         public int Sort { get; set; }
+
+        /// <summary>
+        /// 状态：1启用 2 停用
+        /// </summary>
+        public short Status { get; set; }
     }
 }

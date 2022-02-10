@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Domian" />
       <Folder Include="Services" />
     </ItemGroup>
 

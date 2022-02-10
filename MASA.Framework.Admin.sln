@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Authentications", "src\Contracts\MASA.Framework.Admin.Contracts.Authentications\MASA.Framework.Admin.Contracts.Authentications.csproj", "{55C67939-4B00-46B8-B086-74445382182E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Bases", "src\Contracts\MASA.Framework.Admin.Contracts.Bases\MASA.Framework.Admin.Contracts.Bases.csproj", "{D2257BD2-9D35-4705-A72D-50B09B567952}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,14 @@ Global
 		{55C67939-4B00-46B8-B086-74445382182E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55C67939-4B00-46B8-B086-74445382182E}.Release|x86.ActiveCfg = Release|Any CPU
 		{55C67939-4B00-46B8-B086-74445382182E}.Release|x86.Build.0 = Release|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Debug|x86.Build.0 = Debug|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2257BD2-9D35-4705-A72D-50B09B567952}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,6 +180,7 @@ Global
 		{D6857F30-B9A2-4AD3-A4D4-4829A09A1C3B} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{54134D55-93BC-4A23-A200-78B5F1D1A8F0} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{55C67939-4B00-46B8-B086-74445382182E} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
+		{D2257BD2-9D35-4705-A72D-50B09B567952} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BA2BA-19E5-41FB-A92A-16A03DA229E4}

@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\MASA.Framework.Admin.Contracts.Bases\MASA.Framework.Admin.Contracts.Bases.csproj" />
-    </ItemGroup>
-
 </Project>

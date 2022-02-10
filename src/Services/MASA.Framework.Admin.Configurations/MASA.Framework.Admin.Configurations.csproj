@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.DDD.Domain" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.DDD.Domain.Repository.EF" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1736024337" />
+    <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1736024337" />
     <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1736024337" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services" />
+    <Folder Include="Domian" />
   </ItemGroup>
   
 </Project>

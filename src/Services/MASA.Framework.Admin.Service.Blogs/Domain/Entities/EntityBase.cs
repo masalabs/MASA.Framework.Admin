@@ -1,6 +1,7 @@
 ﻿using MASA.BuildingBlocks.Data.Contracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -28,14 +29,15 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// DeletionTime
         /// </summary>
         [Required]
-        public DateTime DeletionTime { get; set; }
+        public DateTime DeletionTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// CreationTime
         /// </summary>
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreationTime { get; set; }
+        [DefaultValue("getdate()")]
+        public DateTime CreationTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// CreatorUserId
@@ -48,7 +50,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// LastModificationTime
         /// </summary>
         [Required]
-        public DateTime LastModificationTime { get; set; }
+        [DefaultValue("getdate()")]
+        public DateTime LastModificationTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// LastModifierUserId

@@ -16,7 +16,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
 
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
             RuleFor(cmd => cmd.Request.Id).NotEqual(default(Guid)).WithMessage("Title is not null");
-            RuleFor(cmd => cmd.Request.Status).NotEqual(default(short)).WithMessage("Sort is not default");
         }
     }
 

@@ -51,8 +51,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public int Sort { get; set; }
 
         /// <summary>
-        /// 状态：1启用 2 停用
+        /// 状态：true启用 false停用
         /// </summary>
-        public short Status { get; set; }
+        public bool Status { get; set; }
     }
 }

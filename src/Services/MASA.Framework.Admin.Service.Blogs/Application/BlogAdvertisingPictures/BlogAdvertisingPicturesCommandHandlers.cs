@@ -43,5 +43,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures
         {
             await _advertisingPicturesRepository.RemoveAsync(command.Ids);
         }
+
+        [EventHandler]
+        public async Task UpdateAsync(UpdateStatusBlogAdvertisingPicturesCommand command)
+        {
+            await _advertisingPicturesRepository.UpdateByStatusAsync(command.Request.Id,command.Request.Status);
+        }
     }
 }

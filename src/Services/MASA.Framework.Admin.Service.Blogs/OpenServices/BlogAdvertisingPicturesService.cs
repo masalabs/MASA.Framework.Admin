@@ -8,6 +8,7 @@ using MASA.Framework.Admin.Service.Blogs.Application.Commands;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Model;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Options;
 using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 {
@@ -23,6 +24,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             App.MapPost("/api/adPictures/update", UpdateAsync);
             App.MapPost("/api/adPictures/remove", RemoveAsync);
             App.MapPost("/api/adPictures/paging", GetListAsync);
+            App.MapPost("/api/adPictures/updateByStatus", UpdateByStatusAsync);
         }
 
         public async Task CreateAsync(CreateBlogAdvertisingPicturesModel request)
@@ -47,6 +49,11 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             await _eventBus.PublishAsync(query);
 
             return Results.Ok(query.Result);
+        }
+
+        public async Task UpdateByStatusAsync(UpdateStatusBlogAdvertisingPicturesModel request)
+        {
+            await _eventBus.PublishAsync(new UpdateStatusBlogAdvertisingPicturesCommand(request));
         }
     }
 }

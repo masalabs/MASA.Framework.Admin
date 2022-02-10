@@ -33,5 +33,13 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         /// <param name="options"></param>
         /// <returns></returns>
         Task<PageResult<BlogAdvertisingPicturesListViewModel>> GetListAsync(GetBlogAdvertisingPicturesOption options);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Task UpdateByStatusAsync(Guid id,bool status);
     }
 }

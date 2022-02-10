@@ -11,6 +11,6 @@
         /// <summary>
         /// 状态：1启用 2 停用
         /// </summary>
-        public short Status { get; set; }
+        public bool Status { get; set; }
     }
 }

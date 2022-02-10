@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Model
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class ElasticConfig
     {

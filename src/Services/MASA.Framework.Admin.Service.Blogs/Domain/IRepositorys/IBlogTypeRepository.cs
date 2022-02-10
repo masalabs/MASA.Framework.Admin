@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Blogs.BlogType.Options;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-using MASA.Framework.Data.EntityFrameworkCore;
+﻿using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
 {

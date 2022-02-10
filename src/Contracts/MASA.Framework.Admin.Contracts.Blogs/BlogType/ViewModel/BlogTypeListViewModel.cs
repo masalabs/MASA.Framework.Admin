@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MASA.Framework.Admin.Service.Blogs.Model.BlogType.ViewModel
+namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class BlogTypeListViewModel
     {

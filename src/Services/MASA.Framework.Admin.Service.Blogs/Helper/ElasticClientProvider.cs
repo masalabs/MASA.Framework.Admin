@@ -1,5 +1,4 @@
 ﻿using Elasticsearch.Net;
-using MASA.Framework.Admin.Service.Blogs.Model;
 using Microsoft.Extensions.Options;
 using Nest;
 

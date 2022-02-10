@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Blogs.BlogCommentInfo.ViewModel
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class BlogCommentInfoListViewModel
     {

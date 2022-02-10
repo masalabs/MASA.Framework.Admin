@@ -1,0 +1,37 @@
+@page "/blog-admin/advertising-picture"
+@namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
+@inherits ProCompontentBase
+
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <Filters Context="filter">
+        <MRow Dense>
+            <MCol Cols="12">
+                <DefaultTextField Label="分类名称"
+                                  @bind-Value="_options"
+                                  OnKeyDown="filter.onEnter"
+                                  OnClearClick="filter.onSearch">
+                </DefaultTextField>
+            </MCol>
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  OnOptionsUpdate="HandleOnOptionsUpdate"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="BlogAdvertisingPicturesListViewModel">
+    <ItemColContent>
+        @if (context.Header.Value == nameof(BlogAdvertisingPicturesListViewModel.Pic))
+        {
+            <MImage MaxHeight="64" Src="@context.Item.Pic"></MImage>
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
+    </ItemColContent>
+</DefaultDataTable>

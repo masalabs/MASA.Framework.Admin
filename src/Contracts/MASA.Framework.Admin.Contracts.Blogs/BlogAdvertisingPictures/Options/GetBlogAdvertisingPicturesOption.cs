@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Options
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class GetBlogAdvertisingPicturesOption : PagingOptions
     {

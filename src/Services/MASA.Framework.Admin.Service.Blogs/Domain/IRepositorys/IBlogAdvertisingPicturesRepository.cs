@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Options;
-using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.ViewModel;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Data.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys

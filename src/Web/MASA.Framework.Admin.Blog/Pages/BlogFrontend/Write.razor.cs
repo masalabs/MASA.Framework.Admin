@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Blogs;
-using MASA.Framework.Admin.Contracts.Blogs.Model.BlogInfo.Model;
-
-namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
+﻿namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
 
 /// <summary>
 /// 新建、编辑博文

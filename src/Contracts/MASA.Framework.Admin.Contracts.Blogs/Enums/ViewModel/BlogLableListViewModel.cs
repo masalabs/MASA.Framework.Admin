@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.BlogLabel.ViewModel
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class BlogLabelListViewModel
     {

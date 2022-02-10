@@ -1,6 +1,4 @@
-﻿
-
-namespace MASA.Framework.Admin.Contracts.Blogs.Model.BlogInfo.Model;
+﻿namespace MASA.Framework.Admin.Contracts.Blogs;
 
 public class CreateBlogInfoModel
 {

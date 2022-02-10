@@ -1,9 +1,6 @@
-﻿using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.Options;
-using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel;
+﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
-
-public partial class Article : LayoutComponentBase
+public partial class Article : ProCompontentBase
 {
     private GetBlogArticleOptions _options = new();
     private int _totalCount = 0;

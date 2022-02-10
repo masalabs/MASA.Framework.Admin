@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Model
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class UpdateStatusBlogAdvertisingPicturesModel
     {

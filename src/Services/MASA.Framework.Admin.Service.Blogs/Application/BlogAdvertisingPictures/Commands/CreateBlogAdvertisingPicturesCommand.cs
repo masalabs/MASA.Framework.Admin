@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
-using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Model;
-using MASA.Framework.Admin.Service.Blogs.Application.Commands;
+using MASA.Framework.Admin.Contracts.Blogs;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
 {

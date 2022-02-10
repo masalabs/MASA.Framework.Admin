@@ -3,7 +3,6 @@ using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands;
 using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 using MASA.Framework.Admin.Service.Blogs.Helper;
-using MASA.Framework.Admin.Service.Blogs.Model;
 using Microsoft.Extensions.Options;
 using Nest;
 using Newtonsoft.Json;

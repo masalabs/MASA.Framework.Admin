@@ -19,7 +19,7 @@
     "Children": [
       {
         "Id": 201,
-        "Title": "Articles",
+        "Title": "Article",
         "Icon": "mdi-circle",
         "Href": "blog-admin/article"
       },
@@ -28,6 +28,12 @@
         "Title": "Category",
         "Icon": "mdi-circle",
         "Href": "blog-admin/category"
+      },
+      {
+        "Id": 203,
+        "Title": "Report",
+        "Icon": "mdi-circle",
+        "Href": "blog-admin/report"
       }
     ]
   }

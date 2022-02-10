@@ -1,6 +1,4 @@
-﻿
-
-namespace MASA.Framework.Admin.Contracts.Blogs.BlogInfo.Options
+﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
     public class GetBlogArticleOptions : PagingOptions
     {

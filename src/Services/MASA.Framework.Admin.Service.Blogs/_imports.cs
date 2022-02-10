@@ -1,0 +1,1 @@
+global using MASA.Framework.Admin.Contracts.Blogs;

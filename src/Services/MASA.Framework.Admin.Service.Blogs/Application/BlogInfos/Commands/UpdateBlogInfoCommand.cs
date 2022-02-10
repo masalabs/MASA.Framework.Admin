@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
-using MASA.Framework.Admin.Contracts.Blogs.Model.BlogInfo.Model;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Commands
 {

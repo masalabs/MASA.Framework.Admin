@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.Options;
-using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel;
-using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
 using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 using MASA.Framework.Data.EntityFrameworkCore;
 using MASA.Framework.Data.Mapping;

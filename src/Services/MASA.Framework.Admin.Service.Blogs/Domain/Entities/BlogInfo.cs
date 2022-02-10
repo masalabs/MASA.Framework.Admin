@@ -57,7 +57,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public int CommentCount { get; set; }
 
         /// <summary>
-        /// 是否展示
+        /// 是否仅自己可见
         /// </summary>
         [Required]
         public bool IsShow { get; set; } = true;

@@ -32,9 +32,9 @@
                     @bind-Value="_options.Content"/>
         </MCol>
         <MCol Cols="12">
-            <MSwitch @bind-Value="_options.IsDraft"
+            <MSwitch @bind-Value="_options.IsShow"
                      Class="mt-0"
-                     Label="@($"{(_options.IsDraft ? "仅自己可见" : "全部可见")}")">
+                     Label="@($"{(_options.IsShow ? "仅自己可见" : "全部可见")}")">
             </MSwitch>
         </MCol>
     </MRow>

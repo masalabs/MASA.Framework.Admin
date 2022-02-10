@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Dictionary", "src\Services\MASA.Framework.Admin.Service.Dictionary\MASA.Framework.Admin.Service.Dictionary.csproj", "{44242C91-8A78-4600-B886-14BA36D9F0AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Infrastructures.FileStoring", "src\Infrastructures\MASA.Framework.Admin.Infrastructures.FileStoring\MASA.Framework.Admin.Infrastructures.FileStoring.csproj", "{107449FD-C29F-4BDA-8667-86AD456A5A6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructures.FileStoring", "src\Infrastructures\MASA.Framework.Admin.Infrastructures.FileStoring\MASA.Framework.Admin.Infrastructures.FileStoring.csproj", "{107449FD-C29F-4BDA-8667-86AD456A5A6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +133,14 @@ Global
 		{44242C91-8A78-4600-B886-14BA36D9F0AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44242C91-8A78-4600-B886-14BA36D9F0AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{44242C91-8A78-4600-B886-14BA36D9F0AB}.Release|x86.Build.0 = Release|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Debug|x86.Build.0 = Debug|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{107449FD-C29F-4BDA-8667-86AD456A5A6E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Domian" />
+    <Folder Include="Extensions" />
   </ItemGroup>
 
   <ItemGroup>

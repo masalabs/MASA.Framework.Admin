@@ -2,8 +2,6 @@
 
 public class PermissionService : ServiceBase
 {
-    private const string PRE = "permission";
-
     public PermissionService(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.PermissionList, GetItemsAsync);

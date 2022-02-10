@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Framework.Admin.Contracts.User;
-
-namespace MASA.Framework.Admin.Service.User.Services;
+﻿namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
 {

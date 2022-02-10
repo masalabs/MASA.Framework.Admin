@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.Authentication.Middleware;
-
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Services.AddFluentValidation(options =>
     {
@@ -17,8 +15,11 @@ var app = builder.Services.AddFluentValidation(options =>
         });
     }).AddServices(builder);
 
-app.UseSwagger().UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA EShop Service HTTP API v1");
-});
+app.UseGlobalExceptionMiddleware()
+    .UseSwagger()
+    .UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
+    });
+
 app.Run();

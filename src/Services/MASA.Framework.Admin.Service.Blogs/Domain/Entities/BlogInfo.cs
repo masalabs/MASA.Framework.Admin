@@ -1,4 +1,5 @@
 ﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+using MASA.Framework.Admin.Service.Blogs.Infrastructure.Enum;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         [Required]
         [StringLength(200)]
         public string Title { get; set; }
+
+        /// <summary>
+        /// 文章状态
+        /// </summary>
+        public StateTypes State { get; set; }
 
         /// <summary>
         /// 类型编号

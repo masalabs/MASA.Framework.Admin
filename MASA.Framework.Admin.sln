@@ -33,19 +33,19 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.RCL.RBAC", "Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj", "{2FE42316-393E-4742-86CE-33A134120675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Base", "src\Contracts\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj", "{6B778B52-729B-4B34-851B-8C2A71A4B3CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Base", "src\Contracts\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj", "{6B778B52-729B-4B34-851B-8C2A71A4B3CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Authentication", "src\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj", "{1E10FA90-8193-491E-B66C-9D9DD033B5AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Authentication", "src\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj", "{1E10FA90-8193-491E-B66C-9D9DD033B5AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Configuration", "src\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj", "{4D65D440-4672-41C1-A991-C4373907ED80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Configuration", "src\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj", "{4D65D440-4672-41C1-A991-C4373907ED80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.User", "src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj", "{8F514AE4-5634-460E-8C51-2DBBF00C38A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Authentication", "src\Services\MASA.Framework.Admin.Service.Authentication\MASA.Framework.Admin.Service.Authentication.csproj", "{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Service.User", "src\Services\MASA.Framework.Admin.Service.User\MASA.Framework.Admin.Service.User.csproj", "{42132660-B722-41F2-8BCA-ACDFB098CC26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Configuration", "src\Services\MASA.Framework.Admin.Configuration\MASA.Framework.Admin.Configuration.csproj", "{9E1DB9AD-F27F-439F-A90B-50E691E28ADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Service.Authentication", "src\Services\MASA.Framework.Admin.Service.Authentication\MASA.Framework.Admin.Service.Authentication.csproj", "{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.User", "src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj", "{20964A66-A5D2-4B34-9752-F8448DAAA8C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Configuration", "src\Services\MASA.Framework.Admin.Configuration\MASA.Framework.Admin.Configuration.csproj", "{9E1DB9AD-F27F-439F-A90B-50E691E28ADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.User", "src\Services\MASA.Framework.Admin.Service.User\MASA.Framework.Admin.Service.User.csproj", "{90976C98-6ECC-493B-BBCA-D001D5B034B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,22 +127,6 @@ Global
 		{4D65D440-4672-41C1-A991-C4373907ED80}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D65D440-4672-41C1-A991-C4373907ED80}.Release|x86.ActiveCfg = Release|Any CPU
 		{4D65D440-4672-41C1-A991-C4373907ED80}.Release|x86.Build.0 = Release|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Debug|x86.Build.0 = Debug|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Release|x86.ActiveCfg = Release|Any CPU
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1}.Release|x86.Build.0 = Release|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Debug|x86.Build.0 = Debug|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Release|x86.ActiveCfg = Release|Any CPU
-		{42132660-B722-41F2-8BCA-ACDFB098CC26}.Release|x86.Build.0 = Release|Any CPU
 		{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -159,6 +143,22 @@ Global
 		{9E1DB9AD-F27F-439F-A90B-50E691E28ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E1DB9AD-F27F-439F-A90B-50E691E28ADB}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E1DB9AD-F27F-439F-A90B-50E691E28ADB}.Release|x86.Build.0 = Release|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Debug|x86.Build.0 = Debug|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Release|x86.ActiveCfg = Release|Any CPU
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0}.Release|x86.Build.0 = Release|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,10 +177,10 @@ Global
 		{6B778B52-729B-4B34-851B-8C2A71A4B3CE} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{1E10FA90-8193-491E-B66C-9D9DD033B5AC} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{4D65D440-4672-41C1-A991-C4373907ED80} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
-		{8F514AE4-5634-460E-8C51-2DBBF00C38A1} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
-		{42132660-B722-41F2-8BCA-ACDFB098CC26} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 		{5A448B34-EFE0-4D8B-861D-3BE3848E0E90} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 		{9E1DB9AD-F27F-439F-A90B-50E691E28ADB} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
+		{20964A66-A5D2-4B34-9752-F8448DAAA8C0} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
+		{90976C98-6ECC-493B-BBCA-D001D5B034B6} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BA2BA-19E5-41FB-A92A-16A03DA229E4}

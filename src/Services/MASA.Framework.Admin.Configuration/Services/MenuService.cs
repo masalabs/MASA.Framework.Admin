@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Configuration.Response;
-
-namespace MASA.Framework.Admin.Configuration.Services;
+﻿namespace MASA.Framework.Admin.Configuration.Services;
 
 public class MenuService : ServiceBase
 {

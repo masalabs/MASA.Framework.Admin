@@ -1,6 +1,3 @@
-using MASA.Framework.Admin.Configuration.Middleware;
-using MASA.Framework.Admin.Configuration.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Services.AddFluentValidation(options =>
     {

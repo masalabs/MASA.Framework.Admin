@@ -12,7 +12,6 @@ global using MASA.Framework.Admin.Service.Infrastructure.Entities;
 global using MASA.Framework.Admin.Service.Infrastructure.Middleware;
 global using MASA.Framework.Admin.Service.Infrastructure.Repositories;
 global using MASA.Utils.Data.EntityFrameworkCore;
-global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.OpenApi.Models;

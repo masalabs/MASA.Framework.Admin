@@ -1,53 +1,71 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Entities
 {
     /// <summary>
     /// 文章信息表
     /// </summary>
+    [Description("文章信息")]
     public class BlogInfo : EntityBase
     {
         /// <summary>
         /// 主键
         /// </summary>
+        [Key]
+        [StringLength(36)]
         public Guid Id { get; set; }
 
         /// <summary>
         /// 标题
         /// </summary>
+        [Required]
+        [StringLength(200)]
         public string Title { get; set; }
 
         /// <summary>
         /// 类型编号
         /// </summary>
+        [Required]
+        [StringLength(36)]
         public Guid TypeId { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
+        [Required]
+        [StringLength(1000)]
         public string Content { get; set; }
 
         /// <summary>
         /// 访问数量
         /// </summary>
+        [Required]
         public int Visits { get; set; }
 
         /// <summary>
         /// 评论数量
         /// </summary>
+        [Required]
         public int CommentCount { get; set; }
 
         /// <summary>
         /// 是否展示
         /// </summary>
-        public bool IsShow { get; set; }
+        [Required]
+        public bool IsShow { get; set; } = true;
 
         /// <summary>
         /// 点赞数量
         /// </summary>
+        [Required]
         public int ApprovedCount { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [Required]
+        [StringLength(500)]
         public string Remark { get; set; }
     }
 }

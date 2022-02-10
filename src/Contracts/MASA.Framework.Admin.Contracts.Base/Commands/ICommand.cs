@@ -2,5 +2,4 @@
 
 public interface ICommand : MASA.BuildingBlocks.ReadWriteSpliting.CQRS.Commands.ICommand, ITransaction
 {
-
 }

@@ -1,6 +1,11 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Base.Commands;
 
-// public class Command : ICommand
-// {
-//
-// }
+public record Command : ICommand
+{
+    public Guid Id { get; }
+
+    public DateTime CreationTime { get; }
+
+    [JsonIgnore]
+    public IUnitOfWork? UnitOfWork { get; set; }
+}

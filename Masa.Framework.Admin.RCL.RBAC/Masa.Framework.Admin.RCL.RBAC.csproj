@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Users\MASA.Framework.Admin.Contracts.Users.csproj" />
+    <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
   </ItemGroup>
 
 </Project>

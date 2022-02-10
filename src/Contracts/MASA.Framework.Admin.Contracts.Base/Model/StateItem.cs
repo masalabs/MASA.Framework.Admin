@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Contracts.Bases.Model;
+namespace MASA.Framework.Admin.Contracts.Base.Model;
 
 public class StateItem
 {

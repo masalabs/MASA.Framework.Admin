@@ -1,5 +1,7 @@
-using MASA.Framework.Admin.Contracts.Users.Response;
+using MASA.Framework.Admin.Contracts.User;
+using MASA.Framework.Admin.Contracts.User.Response;
 using MASA.Utils.Caller.HttpClient;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace MASA.Framework.Admin.Caller.Callers;
 
@@ -16,18 +18,18 @@ public class UserCaller : HttpClientCallerBase
     {
         var queryArguments = new Dictionary<string, string?>()
         {
-            { "brandId", brandId.ToString() },
-            { "typeId", typeId.ToString() },
             { "pageIndex", pageIndex.ToString() },
-            { "pageSize", pageSize.ToString() }
+            { "pageSize", pageSize.ToString() },
+            { "account", pageIndex.ToString() },
+            { "state", state.ToString() }
         };
-        var url = QueryHelpers.AddQueryString(_getCatalogItemsUrl, queryArguments);
-        return await CallerProvider.GetAsync<List<UserItemResponse>>($"/users/items");
+        var url = QueryHelpers.AddQueryString(Routing.UserList, queryArguments);
+        return await CallerProvider.GetAsync<List<UserItemResponse>>(url);
     }
 
     public async Task<UserDetailResponse> Details(string id)
     {
-        return await CallerProvider.GetAsync<UserDetailResponse>($"/users/{id}");
+        return await CallerProvider.GetAsync<UserDetailResponse>(String.Format(Routing.UserDetail, id));
     }
 }
 

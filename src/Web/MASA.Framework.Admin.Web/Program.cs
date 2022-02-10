@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +14,7 @@ builder.Services.AddMasaBlazor(builder =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
+builder.Services.AddCaller(Assembly.LoadWithPartialName("MASA.Framework.Admin.Caller"));
 
 var app = builder.Build();
 

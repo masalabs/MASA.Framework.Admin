@@ -48,7 +48,6 @@
 
   <ItemGroup>
     <Folder Include="Domain\Events\" />
-    <Folder Include="Model\BlogAdvertisingPictures\Model\" />
     <Folder Include="Model\BlogCommentInfo\Model\" />
     <Folder Include="Model\BlogLable\Model\" />
     <Folder Include="Model\BlogType\Model\" />

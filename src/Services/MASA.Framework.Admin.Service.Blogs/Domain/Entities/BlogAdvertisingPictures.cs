@@ -25,6 +25,13 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// 图片地址
         /// </summary>
         [Required]
+        [StringLength(50)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        [Required]
         [StringLength(500)]
         public string Pic { get; set; } = string.Empty;
 

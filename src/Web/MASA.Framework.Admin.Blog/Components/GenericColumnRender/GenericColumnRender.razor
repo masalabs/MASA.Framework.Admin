@@ -1,0 +1,36 @@
+﻿@namespace MASA.Framework.Admin.Blog.Components
+
+@if (Value is Enum @enum)
+{
+    var desc = @enum.GetDescription().Description;
+
+    if (ChippedEnum && !string.IsNullOrEmpty(desc))
+    {
+        <MChip Class="@ColorHelper.GenChipColorClass((int)(object)@enum)" Small="SmallChip">@desc</MChip>
+    }
+    else
+    {
+        @desc
+    }
+}
+else if (Value is DateTime dateTime)
+{
+    if (dateTime.IsDefault())
+    {
+        @("")
+    }
+    else
+    {
+        <BlockText Major="@DateOnly.FromDateTime(dateTime).ToString()"
+                   Minor="@TimeOnly.FromDateTime(dateTime).ToString()">
+        </BlockText>
+    }
+}
+else if (Value is bool b)
+{
+    @BoolRender?.Invoke(b)
+}
+else
+{
+    @Value
+}

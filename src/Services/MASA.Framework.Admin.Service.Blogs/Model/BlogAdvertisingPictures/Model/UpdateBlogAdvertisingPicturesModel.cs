@@ -1,7 +1,8 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.ViewModel
+﻿namespace MASA.Framework.Admin.Service.Blogs.Model.BlogAdvertisingPictures.Model
 {
-    public class BlogAdvertisingPicturesListViewModel: ViewModelBase
+    public class UpdateBlogAdvertisingPicturesModel
     {
+
         /// <summary>
         /// Id
         /// </summary>

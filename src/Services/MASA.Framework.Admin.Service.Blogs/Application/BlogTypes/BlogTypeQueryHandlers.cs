@@ -6,11 +6,11 @@ using MASA.Framework.Admin.Service.Blogs.Model.BlogType.Options;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
 {
-    public class BlogTypeQueryHandler
+    public class BlogTypeQueryHandlers
     {
         private readonly IBlogTypeRepository _blogTypeRepository;
 
-        public BlogTypeQueryHandler(IBlogTypeRepository blogTypeRepository)
+        public BlogTypeQueryHandlers(IBlogTypeRepository blogTypeRepository)
         {
             this._blogTypeRepository = blogTypeRepository;
         }

@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MASA.Framework.Admin.Services": {
+    "MASA.Framework.Admin.Services.Order": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

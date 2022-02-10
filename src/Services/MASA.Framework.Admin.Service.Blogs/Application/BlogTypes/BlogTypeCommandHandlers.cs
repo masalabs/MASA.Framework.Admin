@@ -6,11 +6,11 @@ using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogTypes
 {
-    public class BlogTypeCommandHandler
+    public class BlogTypeCommandHandlers
     {
         private readonly IBlogTypeRepository _blogTypeRepository;
 
-        public BlogTypeCommandHandler(IBlogTypeRepository blogTypeRepository)
+        public BlogTypeCommandHandlers(IBlogTypeRepository blogTypeRepository)
         {
             this._blogTypeRepository = blogTypeRepository;
         }

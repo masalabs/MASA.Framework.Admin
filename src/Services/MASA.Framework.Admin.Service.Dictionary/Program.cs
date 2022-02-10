@@ -37,7 +37,8 @@ builder.Services
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {
     options.UseEventBus()
-           .UseUoW<DicDbContext>(dbOptions => dbOptions.UseSqlServer("DataSource=:memory:"))
+           .UseUoW<DicDbContext>(dbOptions => 
+           dbOptions.UseSqlServer("Server=10.10.90.67,30160,30060;DataBase=PND;uid=sa;pwd=p@ssw0rd"))
            .UseEventLog<DicDbContext>();
 });
 

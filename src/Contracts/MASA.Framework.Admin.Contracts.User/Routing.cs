@@ -9,5 +9,5 @@ public class Routing
     /// <summary>
     /// User additions, deletions and modifications use the same url
     /// </summary>
-    public static string OperateUser = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_SERVICE, "");
+    public static string OperateUser = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_SERVICE);
 }

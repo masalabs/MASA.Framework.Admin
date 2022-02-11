@@ -1,9 +1,3 @@
-using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Framework.Admin.Contracts.User;
-using MASA.Framework.Admin.Contracts.User.Response;
-using MASA.Utils.Caller.HttpClient;
-using Microsoft.AspNetCore.WebUtilities;
-
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class UserCaller : HttpClientCallerBase
@@ -24,23 +18,23 @@ public class UserCaller : HttpClientCallerBase
             { "account", pageIndex.ToString() },
             { "state", state.ToString() }
         };
-        var url = QueryHelpers.AddQueryString(Routing.UserList, queryArguments);
+        var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserList, queryArguments);
         return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(String.Format(Routing.UserDetail, id));
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(Contracts.User.Routing.UserDetail, id));
     }
 
-    public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
+    public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.OperateUser, "");
+        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(Contracts.User.Routing.OperateUser, userCreateRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
-        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Routing.OperateUser, new { id });
+        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Contracts.User.Routing.OperateUser, new { id });
     }
 }
 

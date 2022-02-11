@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Caller.Callers;
-
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class View
@@ -14,9 +12,15 @@ public partial class View
         new (){ Text= "浏览器", Sortable= false, Value= nameof(LoginRecord.Browser),Align="center"},
         new (){ Text= "地理位置", Sortable= false, Value= nameof(LoginRecord.Address),Align="center"}
     };
+    private List<DataTableHeader<UserGroup>> _userGroupHeaders = new List<DataTableHeader<UserGroup>>
+    {
+        new (){ Text= "组名", Sortable= false, Value= nameof(UserGroup.Name)},
+        new (){ Text= "简介", Sortable= false, Value= nameof(UserGroup.Description)},
+        new (){ Text= "操作", Sortable= false, Value= nameof(UserGroup.Id)}
+    };
 
     [Inject]
-    public UserCaller UserCaller { get; set; }
+    public UserCaller UserCaller { get; set; } = null!;
 
     [Parameter]
     public string? Id { get; set; }

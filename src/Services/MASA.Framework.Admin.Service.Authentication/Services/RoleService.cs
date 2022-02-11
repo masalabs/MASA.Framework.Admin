@@ -9,28 +9,31 @@ public class RoleService : CustomServiceBase
         App.MapPut(Routing.OperateRole, EditAsync);
     }
 
-    public ApiResultResponse<PaginatedItemResponse<RoleItemResponse>> GetItemsAsync(
+    public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
         [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE,
         [FromQuery] string name = "",
         [FromQuery] int state = -1)
     {
-        var response = new PaginatedItemResponse<RoleItemResponse>(pageIndex, pageSize, 0, new List<RoleItemResponse>());
-        return Success(response);
+        var query = new RolesQuery(pageIndex, pageSize, name, state);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
     }
 
-    public ApiResultResponseBase CreateAsync(
+    public async Task<ApiResultResponseBase> CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] AddRuleCommand command)
+        [FromBody] AddRoleRequest request)
     {
+        await eventBus.PublishAsync(new AddRoleCommand(request));
         return Success();
     }
 
-    public ApiResultResponseBase EditAsync(
+    public async Task<ApiResultResponseBase> EditAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] EditRuleCommand command)
+        [FromBody] EditRoleRequest request)
     {
+        await eventBus.PublishAsync(new EditRoleCommand(request));
         return Success();
     }
 }

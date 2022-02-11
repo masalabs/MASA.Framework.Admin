@@ -1,29 +1,23 @@
-using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Framework.Admin.Contracts.Configuration;
-using MASA.Framework.Admin.Contracts.Configuration.Response;
-using MASA.Utils.Caller.HttpClient;
-using Microsoft.Extensions.Configuration;
+namespace MASA.Framework.Admin.Caller.Callers;
 
-namespace MASA.Framework.Admin.Caller.Callers
+public class ConfigurationCaller : HttpClientCallerBase
 {
-    public class ConfigurationCaller : HttpClientCallerBase
+    protected override string BaseAddress { get; set; }
+
+    public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        protected override string BaseAddress { get; set; }
+        Name = nameof(ConfigurationCaller);
+        BaseAddress = configuration["ApiGateways.ConfigurationCaller"];
+    }
 
-        public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
+    {
+        var paramters = new Dictionary<string, string>
         {
-            Name = nameof(ConfigurationCaller);
-            BaseAddress = configuration["ApiGateways.ConfigurationCaller"];
-        }
-
-        public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
-        {
-            var paramters = new Dictionary<string, string>
-            {
-                ["pageIndex"] = pageIndex.ToString(),
-                ["pageSize"] = pageSize.ToString(),
-            };
-            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(Routing.MenuList, paramters);
-        }
+            ["pageIndex"] = pageIndex.ToString(),
+            ["pageSize"] = pageSize.ToString(),
+        };
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(
+            Contracts.Configuration.Routing.MenuList, paramters);
     }
 }

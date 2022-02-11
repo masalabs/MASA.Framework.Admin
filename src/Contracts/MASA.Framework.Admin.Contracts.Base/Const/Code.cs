@@ -6,6 +6,10 @@ public class Code
 
     public const string Parameter_ERROR = "parameter error";
 
+    public const string REPEAT_ERROR = "information repetition";
+
+    public const string NOT_FIND_ERROR = "information not find";
+
     public const string SYSTEM_ERROR = "system error";
 
     public const int Friendly_HTTP_STATUSCODE = 299;

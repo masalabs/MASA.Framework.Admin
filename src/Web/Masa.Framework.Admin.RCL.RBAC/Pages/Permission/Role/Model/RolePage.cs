@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Contracts.Authentication.Commands.Rules;
+using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
@@ -66,21 +66,23 @@ public class RolePage
     {
         Lodding = true;
         var result = default(ApiResultResponseBase);
-        var input = new EditRuleCommand
-        {
-            RuleId = CurrentData.Id,
-            Name = CurrentData.Name,
-            Number = CurrentData.Number,
-            Describe = CurrentData.Describe,
-            State = CurrentData.State,
-        };
         if (CurrentData.Id != Guid.Empty)
         {
-            result = await AuthenticationCaller.AddRoleAsync(input);
+            result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
+            {
+                Name = CurrentData.Name,
+                Number = CurrentData.Number,
+                Describe = CurrentData.Describe,
+            });
         }
         else
         {
-            result = await AuthenticationCaller.EditRoleAsync(input);
+            result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
+            {
+                RuleId = CurrentData.Id,
+                Name = CurrentData.Name,
+                Describe = CurrentData.Describe,
+            });
         }
         Error = result.Success;
         Message = result.Message;

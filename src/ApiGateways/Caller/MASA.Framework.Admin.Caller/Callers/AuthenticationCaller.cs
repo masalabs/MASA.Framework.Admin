@@ -1,11 +1,3 @@
-using MASA.Framework.Admin.Contracts.Authentication;
-using MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
-using MASA.Framework.Admin.Contracts.Authentication.Commands.Rules;
-using MASA.Framework.Admin.Contracts.Authentication.Response;
-using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Utils.Caller.HttpClient;
-using Microsoft.Extensions.Configuration;
-
 namespace MASA.Framework.Admin.Caller.Callers
 {
     public class AuthenticationCaller : HttpClientCallerBase
@@ -20,7 +12,8 @@ namespace MASA.Framework.Admin.Caller.Callers
 
         #region Object
 
-        public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize, int type = -1, string? name = null)
+        public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize,
+            int type = -1, string? name = null)
         {
             var paramters = new Dictionary<string, string>
             {
@@ -30,29 +23,31 @@ namespace MASA.Framework.Admin.Caller.Callers
                 ["name"] = name ?? "",
             };
 
-            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(Routing.ObjectList, paramters);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(Routing.ObjectList,
+                paramters);
         }
 
-        public async Task<ApiResultResponseBase> AddObjectAsync(AddCommand command)
+        public async Task<ApiResultResponseBase> AddObjectAsync(AddObjectRequest request)
         {
-            return await CallerProvider.PostAsync<AddCommand, ApiResultResponseBase>(Routing.OperateObject, command);
+            return await CallerProvider.PostAsync<AddObjectRequest, ApiResultResponseBase>(Routing.OperateObject, request);
         }
 
-        public async Task<ApiResultResponseBase> EditObjectAsync(EditCommand command)
+        public async Task<ApiResultResponseBase> EditObjectAsync(EditObjectRequest request)
         {
-            return await CallerProvider.PostAsync<EditCommand, ApiResultResponseBase>(Routing.OperateObject, command);
+            return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(Routing.OperateObject, request);
         }
 
-        public async Task<ApiResultResponseBase> ChangeObjectStateAsync(ChangeStateCommand command)
-        {
-            return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(Routing.OperateObject, command);
-        }
+        // public async Task<ApiResultResponseBase> ChangeObjectStateAsync(ChangeStateCommand command)
+        // {
+        //     return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(Routing.OperateObject, command);
+        // }
 
         #endregion
 
         #region Role
 
-        public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>> GetRoleItemsAsync(int pageIndex, int pageSize, int state = -1, string? name = null)
+        public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>> GetRoleItemsAsync(int pageIndex, int pageSize,
+            int state = -1, string? name = null)
         {
             var paramters = new Dictionary<string, string>
             {
@@ -65,16 +60,17 @@ namespace MASA.Framework.Admin.Caller.Callers
             return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>>(Routing.RoleList, paramters);
         }
 
-        public async Task<ApiResultResponseBase> AddRoleAsync(AddRuleCommand command)
+        public async Task<ApiResultResponseBase> AddRoleAsync(AddRoleRequest request)
         {
-            return await CallerProvider.PostAsync<AddRuleCommand, ApiResultResponseBase>(Routing.OperateRole, command);
+            return await CallerProvider.PostAsync<AddRoleRequest, ApiResultResponseBase>(Routing.OperateRole, request);
         }
 
-        public async Task<ApiResultResponseBase> EditRoleAsync(EditRuleCommand command)
+        public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
         {
-            return await CallerProvider.PostAsync<EditRuleCommand, ApiResultResponseBase>(Routing.OperateRole, command);
+            return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(Routing.OperateRole, request);
         }
 
         #endregion
+
     }
 }

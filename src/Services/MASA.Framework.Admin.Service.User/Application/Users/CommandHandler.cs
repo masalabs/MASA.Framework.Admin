@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Service.User.Domain.Repository;
+
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 
 public class CommandHandler

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Domian.Repository;
+namespace MASA.Framework.Admin.Service.User.Domain.Repository;
 
 public interface IUserRepository : IRepository<Users>
 {

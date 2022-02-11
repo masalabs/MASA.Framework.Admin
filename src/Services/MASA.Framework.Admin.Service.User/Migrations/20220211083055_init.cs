@@ -13,7 +13,8 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 name: "user");
 
             migrationBuilder.CreateTable(
-                name: "EventLogs",
+                name: "integration_event_log",
+                schema: "user",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -27,7 +28,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventLogs", x => x.Id);
+                    table.PrimaryKey("PK_integration_event_log", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +63,8 @@ namespace MASA.Framework.Admin.Service.User.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EventLogs");
+                name: "integration_event_log",
+                schema: "user");
 
             migrationBuilder.DropTable(
                 name: "users",

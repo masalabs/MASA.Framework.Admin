@@ -17,7 +17,7 @@ var app = builder.Services.AddFluentValidation(options =>
     .AddDomainEventBus(options =>
     {
         options.UseEventBus()
-            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog_user"))
+            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog"))
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<UserDbContext>()
             .UseRepository<UserDbContext>();

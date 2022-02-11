@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220211075500_init")]
+    [Migration("20220211083055_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventLogs");
+                    b.ToTable("integration_event_log", "user");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.Users", b =>

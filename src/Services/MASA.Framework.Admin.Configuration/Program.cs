@@ -13,8 +13,20 @@ var app = builder.Services.AddFluentValidation(options =>
             Version = "v1",
             Description = "The Configurations Service HTTP API"
         });
-    }).AddServices(builder);
+    })
+    .AddDomainEventBus(options =>
+    {
+        options.UseEventBus()
+            .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog"))
+            .UseDaprEventBus<IntegrationEventLogService>()
+            .UseEventLog<ConfigurationDbContext>()
+            .UseRepository<ConfigurationDbContext>();
+    })
+    .AddServices(builder);
 
+app.MigrateDbContext<ConfigurationDbContext>((context, services) =>
+{
+});
 app.UseGlobalExceptionMiddleware()
    .UseSwagger()
    .UseSwaggerUI(c =>

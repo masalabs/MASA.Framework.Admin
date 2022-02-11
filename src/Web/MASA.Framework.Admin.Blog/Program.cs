@@ -1,5 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
+//if (builder.Environment.IsDevelopment())
+//{
+//    DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
+//}
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

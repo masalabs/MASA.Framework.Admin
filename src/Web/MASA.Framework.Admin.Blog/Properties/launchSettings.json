@@ -4,9 +4,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DAPR_GRPC_PORT": "18602",
+        "DAPR_HTTP_PORT": "18603"
       },
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:18600",
       "dotnetRunMessages": true
     },
     "Docker": {

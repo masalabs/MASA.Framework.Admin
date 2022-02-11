@@ -21,6 +21,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <ProjectReference Include="..\..\Domains\MASA.Framework.Admin.Domains.BackgroundJobs\MASA.Framework.Admin.Domains.BackgroundJobs.csproj" />
 	  <ProjectReference Include="..\..\Infrastructures\MASA.Framework.Admin.Infrastructures.BackgroundJobs\MASA.Framework.Admin.Infrastructures.BackgroundJobs.csproj" />
 	</ItemGroup>
 </Project>

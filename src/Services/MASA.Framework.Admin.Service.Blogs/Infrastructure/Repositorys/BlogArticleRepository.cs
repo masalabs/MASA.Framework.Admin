@@ -18,35 +18,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// <returns></returns>
         public async Task<PagingResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
-            // var query = from blogInfo in _blogDbContext.BlogInfoes
-            //             join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
-            //             from blogType in leftBlogType.DefaultIfEmpty()
-            //             select new BlogInfoListViewModel()
-            //             {
-            //                 id = blogInfo.Id,
-            //                 typeId = blogInfo.TypeId,
-            //                 title = blogInfo.Title,
-            //                 state = blogInfo.State,
-            //                 typeName = blogType.TypeName,
-            //                 content = blogInfo.Content,
-            //                 visits = blogInfo.Visits,
-            //                 commentCount = blogInfo.CommentCount,
-            //                 approvedCount = blogInfo.ApprovedCount,
-            //                 remark = blogInfo.Remark,
-            //                 CreationTime = blogInfo.CreationTime,
-            //             };
-            //
-            // var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
+            var query = from blogInfo in _blogDbContext.BlogInfoes
+                        join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
+                        from blogType in leftBlogType.DefaultIfEmpty()
+                        select new BlogInfoListViewModel()
+                        {
+                            id = blogInfo.Id,
+                            typeId = blogInfo.TypeId,
+                            title = blogInfo.Title,
+                            state = blogInfo.State,
+                            typeName = blogType.TypeName,
+                            content = blogInfo.Content,
+                            visits = blogInfo.Visits,
+                            commentCount = blogInfo.CommentCount,
+                            approvedCount = blogInfo.ApprovedCount,
+                            remark = blogInfo.Remark,
+                            CreationTime = blogInfo.CreationTime,
+                        };
 
-            return new PagingResult<BlogInfoListViewModel>();
+            var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
 
-            // return new PagingResult<BlogInfoListViewModel>()
-            // {
-            //     Data = pageResult.Data,
-            //     Page = pageResult.Page,
-            //     Size = pageResult.Size,
-            //     TotalCount = pageResult.TotalCount
-            // };
+            return pageResult;
         }
 
         /// <summary>

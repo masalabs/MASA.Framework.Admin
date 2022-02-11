@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
+﻿using System.Linq.Expressions;
+
+namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
     public class BlogAdvertisingPicturesRepository : IBlogAdvertisingPicturesRepository
     {
@@ -16,21 +18,14 @@
             var model = await _blogDbContext.BlogAdvertisingPictures.AddAsync(entity);
 
             await _blogDbContext.SaveChangesAsync();
-            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return model.Entity;
         }
 
         public async Task UpdateAsync(BlogAdvertisingPictures entity)
         {
-            var blogTypes = await _blogDbContext.BlogAdvertisingPictures.FindAsync(entity.Id);
-
-            if (blogTypes != null)
-            {
-                _blogDbContext.Update(entity);
-                await _blogDbContext.SaveChangesAsync();
-                _blogDbContext.Database.CurrentTransaction?.Commit();
-            }
+            _blogDbContext.Update(entity);
+            await _blogDbContext.SaveChangesAsync();
         }
 
         public async Task RemoveAsync(params Guid[] ids)
@@ -38,20 +33,23 @@
             var blogTypes = await _blogDbContext.BlogAdvertisingPictures.Where(type => ids.Contains(type.Id))
                 .ToListAsync();
 
-            foreach (var blogType in blogTypes)
-            {
-                blogType.IsDeleted = true;
-            }
+            //foreach (var blogType in blogTypes)
+            //{
+            //    blogType.IsDeleted = true;
+            //}
 
-            _blogDbContext.UpdateRange(blogTypes);
+            _blogDbContext.RemoveRange(blogTypes);
             await _blogDbContext.SaveChangesAsync();
-            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         public async Task<PagingResult<BlogAdvertisingPicturesListViewModel>> GetListAsync(
             GetBlogAdvertisingPicturesOption options)
         {
-            var paging = await _blogDbContext.BlogAdvertisingPictures.OrderByDescending(type => type.CreationTime)
+            Expression<Func<BlogAdvertisingPictures, bool>> where = pictures => true;
+            where = where.And(options.Type.HasValue, pictures => pictures.Type == options.Type);
+
+            var paging = await _blogDbContext.BlogAdvertisingPictures.Where(where)
+                .OrderByDescending(type => type.CreationTime)
                 .Select(pictures => new BlogAdvertisingPicturesListViewModel
                 {
                     Id = pictures.Id,
@@ -59,10 +57,10 @@
                     Pic = pictures.Pic,
                     Sort = pictures.Sort,
                     Type = pictures.Type,
+                    Status = pictures.Status,
                     CreationTime = pictures.CreationTime,
                     LastModificationTime = pictures.LastModificationTime
                 }).PagingAsync(options.PageIndex, options.PageSize);
-
 
             return paging;
         }
@@ -75,7 +73,6 @@
             {
                 _blogDbContext.Update(blogAdvertisingPictures);
                 await _blogDbContext.SaveChangesAsync();
-                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 
@@ -97,6 +94,8 @@
                     Pic = pictures.Pic,
                     Sort = pictures.Sort,
                     Type = pictures.Type,
+                    Status = pictures.Status,
+
                     CreationTime = pictures.CreationTime,
                     LastModificationTime = pictures.LastModificationTime
                 }).ToListAsync();

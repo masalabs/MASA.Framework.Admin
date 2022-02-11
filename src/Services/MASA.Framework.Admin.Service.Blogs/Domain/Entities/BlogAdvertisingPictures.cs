@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
@@ -35,7 +36,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         [DefaultValue(1)]
-        public short Type { get; set; }
+        public BlogAdvertisingPicturesTypes Type { get; set; }
 
         /// <summary>
         /// 排序

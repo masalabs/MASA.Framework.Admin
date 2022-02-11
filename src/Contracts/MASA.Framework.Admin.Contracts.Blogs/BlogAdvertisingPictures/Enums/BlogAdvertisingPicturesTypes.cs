@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums
 {
-    public enum BlogAdvertisingPicturesTypes
+    public enum BlogAdvertisingPicturesTypes : int
     {
         [Description("首页")]
         Home = 1,

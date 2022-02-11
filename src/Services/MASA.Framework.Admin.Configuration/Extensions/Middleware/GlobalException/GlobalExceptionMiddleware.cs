@@ -1,8 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Base.Const;
-using MASA.Framework.Admin.Contracts.Base.Extensions.Exceptions;
-using Microsoft.Extensions.Options;
-
-namespace MASA.Framework.Admin.Configuration.Extensions.Middleware.GlobalException;
+﻿namespace MASA.Framework.Admin.Configuration.Extensions.Middleware.GlobalException;
 
 public class GlobalExceptionMiddleware
 {
@@ -30,8 +26,11 @@ public class GlobalExceptionMiddleware
         }
         catch (UserFriendlyException ex)
         {
-
-            await SetResponseAsync(context, Code.Friendly_HTTP_STATUSCODE, ex.Code, ex.Message);
+            await SetResponseAsync(context, Code.FRIENDLY_HTTP_STATUSCODE, ex.Code, ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            await SetResponseAsync(context, Code.FRIENDLY_HTTP_STATUSCODE, Code.PARAMETER_ERROR, ex.Errors.Select(err => err.ToString()).FirstOrDefault()!);
         }
         catch (Exception ex)
         {

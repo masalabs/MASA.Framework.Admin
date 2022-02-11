@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
-
-namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class CommandHandler
 {
@@ -17,8 +15,8 @@ public class CommandHandler
         if (await _repository.ExistAsync(command.Request.Name))
             throw new UserFriendlyException("The current role already exists", Code.REPEAT_ERROR);
 
-        var role = new Role(command.Request.Name, command.Request.Number);
-
+        var role = new Role(command.UserId, command.Request.Name, command.Request.Number);
+        role.SetInheritedRole(command.Request.ChildrenIds);
         await _repository.AddAsync(role);
         await _repository.UnitOfWork.SaveChangesAsync();
     }

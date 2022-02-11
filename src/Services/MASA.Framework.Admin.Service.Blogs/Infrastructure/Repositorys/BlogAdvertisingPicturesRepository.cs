@@ -16,6 +16,7 @@
             var model = await _blogDbContext.BlogAdvertisingPictures.AddAsync(entity);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return model.Entity;
         }
@@ -28,6 +29,7 @@
             {
                 _blogDbContext.Update(entity);
                 await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 
@@ -43,6 +45,7 @@
 
             _blogDbContext.UpdateRange(blogTypes);
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         public async Task<PagingResult<BlogAdvertisingPicturesListViewModel>> GetListAsync(
@@ -72,6 +75,7 @@
             {
                 _blogDbContext.Update(blogAdvertisingPictures);
                 await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 

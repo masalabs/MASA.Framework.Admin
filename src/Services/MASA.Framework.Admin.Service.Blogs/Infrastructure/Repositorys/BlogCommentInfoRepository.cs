@@ -14,6 +14,7 @@
             var result = await _blogDbContext.BlogCommentInfoes.AddAsync(entity);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return result.Entity;
         }
@@ -29,6 +30,7 @@
 
             _blogDbContext.BlogCommentInfoes.Update(comment);
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return comment.BlogInfoId;
         }

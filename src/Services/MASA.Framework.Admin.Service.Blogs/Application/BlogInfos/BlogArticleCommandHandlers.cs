@@ -32,6 +32,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             var blogInfo = new BlogInfo
             {
+                Id = Guid.NewGuid(),
                 Title = command.Request.Title,
                 State = command.Request.State,
                 TypeId = command.Request.TypeId,
@@ -46,7 +47,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             };
 
             var blog = await _articleRepository.CreateAsync(blogInfo);
-            await InsertEsAsync(blogInfo);
+            await InsertEsAsync(blog);
             await AddLabelRelations(command.Request.Labels, blog.Id);
         }
 

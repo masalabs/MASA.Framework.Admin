@@ -28,12 +28,16 @@
             var result = dbExists is null ? new() : dbExists.Select(x => x.Id).ToList();
             if (needAddLabel.Any())
             {
-                var res = needAddLabel.Select(x => new Domain.Entities.BlogLabel { LabelName = x });
+                var res = needAddLabel.Select(x => new BlogLabel { Id = Guid.NewGuid(), LabelName = x });
                 await _blogDbContext.BlogLabels.AddRangeAsync(res);
-                result.Union(res.Select(x => x.Id));
+                if (result.Any())
+                    result.Union(res.Select(x => x.Id));
+                else
+                    result = res.Select(x => x.Id).ToList();
             }
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return result;
         }
@@ -52,6 +56,7 @@
             await _blogDbContext.BlogLabelRelationships.AddRangeAsync(relationships);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         /// <summary>
@@ -76,6 +81,7 @@
 
             _blogDbContext.BlogLabelRelationships.UpdateRange(list);
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         public async Task<List<BlogLabelRelationsViewModel>> GetRelationsByBlog(Guid blogId)

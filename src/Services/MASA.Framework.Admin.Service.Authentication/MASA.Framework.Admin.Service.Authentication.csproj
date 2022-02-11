@@ -32,4 +32,8 @@
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\Roles" />
+    </ItemGroup>
+
 </Project>

@@ -61,6 +61,11 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     #region from
 
+    public string DataModalTitle { get; set; }
+
+    private readonly DataModal<UpdateBlogAdvertisingPicturesModel> _dataModal = new();
+
+
     public void Create()
     {
         _dataModal.Show(new());
@@ -75,14 +80,11 @@ public partial class AdvertisingPicture : ProCompontentBase
         _dataModal.Show(showModel);
     }
 
-    public string DataModalTitle { get; set; }
-
-    private readonly DataModal<UpdateBlogAdvertisingPicturesModel> _dataModal = new();
-
     public async Task ConfirmDataModal()
     {
 
     }
+
     #endregion
 
     protected override async Task OnInitializedAsync()

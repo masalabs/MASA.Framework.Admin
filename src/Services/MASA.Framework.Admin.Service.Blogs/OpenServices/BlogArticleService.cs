@@ -20,7 +20,8 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             MapGet(GetAsync);
             MapPost(BlogArticleHomeAsync);
             MapPost(BlogArticleByUserAsync);
-            MapPost(AddVisits);
+            MapPost(AddVisitsAsync);
+            MapPost(AddBlogApprovedRecordAsync);
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options)
@@ -82,9 +83,19 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             return Results.Ok(query.Result);
         }
 
-        public async Task AddVisits(AddBlogVisitModel request)
+        public async Task AddVisitsAsync(AddBlogVisitModel request)
         {
             await _eventBus.PublishAsync(new AddBlogVisitCommand(request));
+        }
+
+        /// <summary>
+        /// 点赞、取消点赞记录
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public async Task AddBlogApprovedRecordAsync(BlogApprovedRecordModel request)
+        {
+            await _eventBus.PublishAsync(new AddBlogApprovedRecordCommand(request));
         }
     }
 }

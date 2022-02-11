@@ -36,5 +36,13 @@
         /// <param name="status"></param>
         /// <returns></returns>
         Task UpdateByStatusAsync(Guid id,bool status);
+
+        /// <summary>
+        /// 前端广告位取得
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        Task<List<BlogAdvertisingPicturesListViewModel>> GetBlogFrontListAsync(
+            GetBlogAdvertisingPicturesFrontOption options);
     }
 }

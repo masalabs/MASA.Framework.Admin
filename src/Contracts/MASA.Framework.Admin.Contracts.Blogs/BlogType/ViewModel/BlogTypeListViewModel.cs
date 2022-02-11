@@ -15,5 +15,10 @@ namespace MASA.Framework.Admin.Contracts.Blogs
         /// </summary>
         [StringLength(50)]
         public string TypeName { get; set; }
+        
+        /// <summary>
+        /// CreationTime
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

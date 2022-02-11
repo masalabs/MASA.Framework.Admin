@@ -16,6 +16,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             App.MapPost("/api/adPictures/remove", RemoveAsync);
             App.MapPost("/api/adPictures/paging", GetListAsync);
             App.MapPost("/api/adPictures/updateByStatus", UpdateByStatusAsync);
+            App.MapPost("/api/adPictures/getBlogListAsync", GetBlogFrontListAsync);
         }
 
         public async Task CreateAsync(CreateBlogAdvertisingPicturesModel request)
@@ -45,6 +46,15 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         public async Task UpdateByStatusAsync(UpdateStatusBlogAdvertisingPicturesModel request)
         {
             await _eventBus.PublishAsync(new UpdateStatusBlogAdvertisingPicturesCommand(request));
+        }
+
+        public async Task<IResult> GetBlogFrontListAsync(GetBlogAdvertisingPicturesFrontOption option)
+        {
+            var query = new GetBlogAdvertisingPicturesFrontQuery(option);
+
+            await _eventBus.PublishAsync(query);
+
+            return Results.Ok(query.Result);
         }
     }
 }

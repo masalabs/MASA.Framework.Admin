@@ -1,3 +1,39 @@
 ﻿@page "/blog-admin/category"
 @inherits ProCompontentBase
 
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <Filters Context="filter">
+        <MRow Dense>
+            <MCol Cols="12">
+                <DefaultTextField Label="分类名称"
+                                  @bind-Value="_options.TypeName"
+                                  OnKeyDown="filter.onEnter"
+                                  OnClearClick="filter.onSearch">
+                </DefaultTextField>
+            </MCol>
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  OnOptionsUpdate="HandleOnOptionsUpdate"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="BlogTypeListViewModel">
+    <ItemColContent>
+        @if (context.Header.Value == "actions")
+        {
+            <PAction Color="primary" Icon="mdi-pencil" Label="编辑" Small Text></PAction>
+            <PAction Color="error" Icon="mdi-delete" Label="删除" Small Text></PAction>
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
+
+
+    </ItemColContent>
+</DefaultDataTable>

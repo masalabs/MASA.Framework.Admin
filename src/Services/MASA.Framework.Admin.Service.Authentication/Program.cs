@@ -24,6 +24,9 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddServices(builder);
 
+app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
+{
+});
 app.UseGlobalExceptionMiddleware()
     .UseSwagger()
     .UseSwaggerUI(c =>

@@ -21,7 +21,6 @@ public class ObjectEntityTypeConfiguration
         builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
         builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
-        var navigation = builder.Metadata.FindNavigation(nameof(Domain.Aggregate.ObjectAggregate.Object.Permissions));
-        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.HasMany(express => express.Permissions).WithOne(p => p.Object);
     }
 }

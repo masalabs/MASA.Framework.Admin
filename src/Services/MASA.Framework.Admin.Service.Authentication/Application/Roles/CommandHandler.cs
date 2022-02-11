@@ -17,7 +17,9 @@ public class CommandHandler
         if (await _repository.ExistAsync(command.Request.Name))
             throw new UserFriendlyException("The current role already exists", Code.REPEAT_ERROR);
 
-        await _repository.AddAsync(new Role(command.Request.Name, command.Request.Number));
+        var role = new Role(command.Request.Name, command.Request.Number);
+
+        await _repository.AddAsync(role);
         await _repository.UnitOfWork.SaveChangesAsync();
     }
 

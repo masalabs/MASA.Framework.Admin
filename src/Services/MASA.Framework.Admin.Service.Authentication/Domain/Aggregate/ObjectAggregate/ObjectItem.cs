@@ -13,6 +13,8 @@ public class ObjectItem : Entity<Guid>
 
     public PermissionType PermissionType { get; private set; }
 
+    public Object Object{ get; private set; }
+
     public ObjectItem(string name, string action, string objectIdentifies, PermissionType permissionType)
     {
         Name = name;

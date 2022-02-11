@@ -1,9 +1,8 @@
 ﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.EntityConfigurations;
 
-public class PermissionEntityTypeConfiguration
+public class ObjectItemEntityTypeConfiguration
     : IEntityTypeConfiguration<ObjectItem>
 {
-
     public void Configure(EntityTypeBuilder<ObjectItem> builder)
     {
         builder.ToTable("permissions", AuthenticationDbContext.DEFAULT_SCHEMA);

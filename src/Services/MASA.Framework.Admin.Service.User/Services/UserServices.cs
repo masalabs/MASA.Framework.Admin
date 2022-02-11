@@ -32,15 +32,16 @@ public class UserServices : CustomServiceBase
 
     public ApiResultResponseBase CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid guid)
+        [FromBody] Guid id)
     {
         return Success();
     }
 
     public ApiResultResponseBase DeleteAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid guid)
+        [FromBody] Guid id)
     {
+        eventBus.PublishAsync(new DeleteCommand { UserId = id });
         return Success();
     }
 }

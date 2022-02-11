@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
-    <ProjectReference Include="..\src\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
-    <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />
+    <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
   </ItemGroup>
 
 </Project>

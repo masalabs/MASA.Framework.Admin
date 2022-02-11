@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj" />
     <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
+    <ProjectReference Include="..\Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj" />
   </ItemGroup>
 
   <ItemGroup>

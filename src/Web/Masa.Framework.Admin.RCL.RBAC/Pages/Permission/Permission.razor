@@ -1,0 +1,44 @@
+﻿@*@page "/Permission"
+@inject NavigationManager Nav
+
+<div class="text-h2">权限管理</div>
+
+<MAlert Color="light-bluelighten-3" Class="my-4">
+    Authing 的权限系统基于 RBAC（Role-based access control，基于角色的访问控制）并可以通过环境属性进行更细粒度的权限控制。既可以管理你的业务系统实体资源，也能管理你的应用中的菜单、按钮等资源权限，具体可以参考文档。
+</MAlert>
+
+<MCard>
+    <MCardText Class="px-6 pb-6">
+        <MTabs @bind-Value="tab" HideSlider Height=10 Color="sample-green">
+            <MTab Value="@("Resource")">
+                <MIcon Size=16 Color="@(tab=="Resource"?"sample-green":"fill")">mdi-circle</MIcon>
+                <span class="ml-2 text-btn @(tab=="Resource"?"neutral--text":"")">Account</span>
+            </MTab>
+            <MTab Class="ml-2" Value="@("Role")">
+                <MIcon Size=16 Color="@(tab=="Role"?"sample-green":"fill")">mdi-circle</MIcon>
+                <span class="ml-2 text-btn @(tab=="Role"?"neutral--text":"")">Information</span>
+            </MTab>
+            <MTab Class="ml-2" Value="@("Authorize")">
+                <MIcon Size=16 Color="@(tab=="Authorize"?"sample-green":"fill")">mdi-circle</MIcon>
+                <span class="ml-2 text-btn @(tab=="Authorize"?"neutral--text":"")">Social</span>
+            </MTab>
+        </MTabs>
+        <MTabsItems @bind-Value="tab" Class="mt-4">
+            <MTabItem Value="@("Resource")">
+               <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Object.Object />
+            </MTabItem>
+
+            <MTabItem Value="@("Role")">
+               <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Role.Role />
+            </MTabItem>
+
+            <MTabItem Value="@("Authorize")">
+                <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Authorize.Authorize />
+            </MTabItem>
+        </MTabsItems>
+    </MCardText>
+</MCard>
+
+@code {
+    private StringNumber? tab;
+}*@

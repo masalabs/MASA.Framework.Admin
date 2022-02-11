@@ -12,7 +12,7 @@ public class UserCaller : HttpClientCallerBase
 
     public UserCaller(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        Name = "UserCaller";
+        Name = nameof(UserCaller);
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
@@ -36,6 +36,11 @@ public class UserCaller : HttpClientCallerBase
     public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
     {
         return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.OperateUser, "");
+    }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(string id)
+    {
+        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Routing.OperateUser, new { id });
     }
 }
 

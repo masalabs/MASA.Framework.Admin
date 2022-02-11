@@ -11,7 +11,6 @@
 
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
             RuleFor(cmd => cmd.Request.Title).NotEqual(default(string)).WithMessage("Title is not null");
-            RuleFor(cmd => cmd.Request.Location).NotEqual(default(short)).WithMessage("Location is not default");
             RuleFor(cmd => cmd.Request.Sort).NotEqual(default(short)).WithMessage("Sort is not default");
             RuleFor(cmd => cmd.Request.Type).NotEqual(default(short)).WithMessage("Type is not default");
         }

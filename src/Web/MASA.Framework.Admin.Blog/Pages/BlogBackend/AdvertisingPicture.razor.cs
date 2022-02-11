@@ -4,6 +4,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
 {
+    [Inject] public BlogCaller BlogCaller { get; set; }
+
     #region table
 
     private GetBlogAdvertisingPicturesOption _options = new();
@@ -40,20 +42,12 @@ public partial class AdvertisingPicture : ProCompontentBase
 
         _loading = true;
 
-        _tableData = new()
-        {
-            new()
-            {
-                Title = "测试2",
-                Pic =
-                    "https://img-cdn.lonsid.co/images/Promotion/Banner/832cd9c9-94a4-44d4-9b73-d90dbd3155d5.jpg?bannerTitle=春节快递停发公告",
-                Type = 1,
-                Sort = 1,
-                Status = true
-            }
-        };
+      var pagingList= await BlogCaller.AdvertisingPicturesService.PagingAsync(_options);
 
-        _loading = false;
+      _tableData = pagingList.Data;
+      _totalCount = pagingList.TotalCount;
+
+      _loading = false;
     }
 
 
@@ -113,7 +107,6 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     #endregion
 
-    [Inject] public BlogCaller blogCaller { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

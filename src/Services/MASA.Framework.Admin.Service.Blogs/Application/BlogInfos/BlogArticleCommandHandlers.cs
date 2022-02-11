@@ -7,19 +7,22 @@
         private ILogger<BlogArticleCommandHandler> _logger;
         private readonly IBlogArticleRepository _articleRepository;
         private readonly IBlogLabelRepository _blogLabelRepository;
+        private readonly IBlogApprovedRecordRepository _approvedRecordRepository;
 
         public BlogArticleCommandHandler(
             IOptions<BlogAppSettiings> settings,
             IBlogArticleRepository articleRepository,
             IBlogLabelRepository blogLabelRepository,
             ILogger<BlogArticleCommandHandler> logger,
-            IElasticClientProvider elasticClientProvider)
+            IElasticClientProvider elasticClientProvider,
+            IBlogApprovedRecordRepository approvedRecordRepository)
         {
             _logger = logger;
             _articleRepository = articleRepository;
             _blogLabelRepository = blogLabelRepository;
             _defaultIndex = $"{settings.Value.ElasticConfig.IndexPrefix}_{nameof(BlogInfo)}".ToLower();
             _elasticClient = elasticClientProvider.GetClient(_defaultIndex);
+            _approvedRecordRepository = approvedRecordRepository;
         }
 
         [EventHandler]
@@ -89,7 +92,18 @@
         }
 
         /// <summary>
-        /// 
+        /// 点赞、取消点赞记录
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [EventHandler]
+        public async Task AddBlogApprovedRecord(AddBlogApprovedRecordCommand command)
+        {
+            await _approvedRecordRepository.AddBlogApprovedRecord(command.Request);
+        }
+
+        /// <summary>
+        /// 添加博文标签
         /// </summary>
         /// <param name="labels"></param>
         /// <param name="blogId"></param>

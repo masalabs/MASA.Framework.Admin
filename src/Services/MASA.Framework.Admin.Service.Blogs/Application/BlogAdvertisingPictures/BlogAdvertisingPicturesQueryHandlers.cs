@@ -16,5 +16,13 @@
 
             query.Result = list;
         }
+
+        [EventHandler]
+        public async Task GetBlogFrontListAsync(GetBlogAdvertisingPicturesFrontQuery query)
+        {
+            var list = await this._advertisingPicturesRepository.GetBlogFrontListAsync(query.Request);
+
+            query.Result = list;
+        }
     }
 }

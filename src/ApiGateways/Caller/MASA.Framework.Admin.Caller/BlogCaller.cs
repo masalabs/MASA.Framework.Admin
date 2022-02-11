@@ -43,5 +43,5 @@ public class BlogCaller : HttpClientCallerBase
         });
     }
 
-    protected override string BaseAddress { get; set; } = "http://masa.admin.service.blogs";
+    protected override string BaseAddress { get; set; } = "http://masa.admin.services.blogs";
 }

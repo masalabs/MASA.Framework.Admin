@@ -1,17 +1,17 @@
 ﻿namespace MASA.Framework.Admin.Services.BackgroundJobs.Application
 {
-    public class JobrQueryHandler
+    public class JobQueryHandler
     {
         readonly IJobRepository _orderRepository;
-        public JobrQueryHandler(IJobRepository orderRepository)
+        public JobQueryHandler(IJobRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
 
         [EventHandler]
-        public void OrderListHandleAsync(JobQuery query)
+        public async Task OrderListHandleAsync(JobQuery query)
         {
-            query.Result = _orderRepository.List().ToList();
+            query.Result = await _orderRepository.List();
         }
     }
 }

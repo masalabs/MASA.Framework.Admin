@@ -32,8 +32,9 @@ public class UserServices : CustomServiceBase
 
     public ApiResultResponseBase CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid id)
+        [FromBody] UserCreateRequest userCreateRequest)
     {
+        eventBus.PublishAsync(new CreateCommand(userCreateRequest));
         return Success();
     }
 
@@ -41,7 +42,7 @@ public class UserServices : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromBody] Guid id)
     {
-        eventBus.PublishAsync(new DeleteCommand { UserId = id });
+        eventBus.PublishAsync(new DeleteCommand(id));
         return Success();
     }
 }

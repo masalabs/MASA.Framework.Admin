@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Commands;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Commands;
 
 public record AddRoleCommand(AddRoleRequest Request) : Command
 {

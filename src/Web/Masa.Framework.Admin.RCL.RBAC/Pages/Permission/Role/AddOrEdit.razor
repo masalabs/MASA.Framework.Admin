@@ -1,38 +1,30 @@
 ﻿<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">@(ObjectPage.CurrentObjectData.Id == Guid.Empty ? "":"")</span>
+        <span class="text-h6">@(RolePage.IsAdd ? "Add Role":"Edit Role")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
 
-    <MAlert Color="light-bluelighten-3" Class="my-4">
-        Authing 中的资源是你的业务系统中实际资源的标识符，一个资源可以是你的业务系统中的某一个实体，如 Order，我们也可以对 order 设定一个具体的操作，如：order:read；资源也可以是 UI 界面上的某一个菜单，一个按钮。资源的具体定义可以参考文档，当你把所有业务资源都在 Authing 中创建以后，就能控制对它们的访问、修改等权限。
-    </MAlert>
-
-    <MForm Model=ObjectPage.CurrentObjectData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="ObjectPage.CurrentObjectData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="ObjectPage.CurrentObjectData.Code" Class="mb-6" Label="Code" HideDetails="@("auto")" Outlined />      
-        <MRadioGroup @bind-Value="ObjectPage.CurrentObjectData.ObjectType" Row>
-            <MRadio Label="@ObjectType.Mneu.ToString()" Value="@ObjectType.Mneu" />
-            <MRadio Label="@ObjectType.Operate.ToString()" Value="@ObjectType.Operate" />
-        </MRadioGroup>
-
+    <MForm Model=RolePage.CurrentData EnableDataAnnotationsValidation>
+        <MTextField @bind-Value="RolePage.CurrentData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="Number" HideDetails="@("auto")" Outlined />      
+        <MTextarea @bind-Value="RolePage.CurrentData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddData(context)"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddOrUpdateAsync(context)"> Confirm </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
 
 @code {
-   public ObjectPage? _objectPage;
+   public RolePage? _rolePage;
 
     [Parameter]
-    public ObjectPage ObjectPage
+    public RolePage RolePage
     {
-        get => _objectPage ?? throw new Exception("Please set parameter ObjectPage");
+        get => _rolePage ?? throw new Exception("Please set parameter RolePage");
         set
         {
-            _objectPage = value;
+            _rolePage = value;
         }
     }
 
@@ -54,11 +46,11 @@
         }
     }
 
-    private async Task AddData(EditContext context)
+    private async Task AddOrUpdateAsync(EditContext context)
     {
         if (context.Validate())
         {            
-            await ObjectPage.AddOrUpdateAsync();
+            await RolePage.AddOrUpdateAsync();
             await UpdateVisible(false);
         }
     }

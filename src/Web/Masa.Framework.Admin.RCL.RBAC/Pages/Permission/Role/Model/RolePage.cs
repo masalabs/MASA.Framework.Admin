@@ -39,6 +39,8 @@ public class RolePage
         new() { Text = "ACTIONS", Value = "Action", Sortable = false }
     };
 
+    public bool IsAdd => CurrentData.Id != Guid.Empty;
+
     public RolePage(AuthenticationCaller authenticationCaller)
     {
         AuthenticationCaller = authenticationCaller;

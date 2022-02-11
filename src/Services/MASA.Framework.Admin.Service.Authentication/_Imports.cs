@@ -19,7 +19,6 @@ global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Middlewa
 global using MASA.Framework.Admin.Contracts.Base.Commands;
 global using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 global using MASA.BuildingBlocks.DDD.Domain.Repositories;
-global using MASA.Framework.Admin.Service.Authentication.Domain.Aggregate;
 global using MASA.Framework.Admin.Service.Authentication.Domain.Repositories;
 global using MASA.Contrib.Dispatcher.Events;
 global using MASA.Framework.Admin.Service.Authentication.Application.Roles.Commands;
@@ -36,3 +35,6 @@ global using MASA.Contrib.DDD.Domain;
 global using MASA.Contrib.DDD.Domain.Repository.EF;
 global using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
 global using MASA.Framework.Admin.Service.Authentication.Infrastructure;
+global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Extensions;
+global using MASA.Framework.Admin.Service.Authentication.Infrastructure.EntityConfigurations;
+global using MASA.Framework.Admin.Contracts.Authentication.Request.Permissions;

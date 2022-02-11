@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate;
-using MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
-
-namespace MASA.Framework.Admin.Service.Authentication.Infrastructure;
+﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure;
 
 public class AuthenticationDbContext : IntegrationEventLogContext
 {
@@ -15,11 +12,14 @@ public class AuthenticationDbContext : IntegrationEventLogContext
 
     public AuthenticationDbContext(MasaDbContextOptions<AuthenticationDbContext> options) : base(options)
     {
-
     }
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
-
+        modelBuilder.ApplyConfiguration(new ObjectEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ObjectItemEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleItemEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new RolePermissionEntityTypeConfiguration());
     }
 }

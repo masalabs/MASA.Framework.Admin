@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Authentication.Request.Permissions;
-
-namespace MASA.Framework.Admin.Service.Authentication.Services;
+﻿namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class PermissionService : CustomServiceBase
 {

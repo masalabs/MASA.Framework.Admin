@@ -14,6 +14,10 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     public IReadOnlyCollection<RolePermission> Permissions => permissions;
 
+    private readonly List<RoleItem> roleItems;
+
+    public IReadOnlyCollection<RoleItem> RoleItems => roleItems;
+
     private Role() { }
 
     public Role(string name, int number = -1)
@@ -21,6 +25,12 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         Name = name;
         Number = number;
         State = State.Enable;
+    }
+
+    public void SetInheritedRole(List<Guid> ids)
+    {
+        this.roleItems.Clear();
+        this.roleItems.AddRange(ids.Select(id => new RoleItem(id)));
     }
 
     public void Update(string name, string describe)

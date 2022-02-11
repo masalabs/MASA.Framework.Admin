@@ -3,7 +3,6 @@
 public class RoleEntityTypeConfiguration
     : IEntityTypeConfiguration<Role>
 {
-
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.ToTable("roles", AuthenticationDbContext.DEFAULT_SCHEMA);
@@ -21,7 +20,7 @@ public class RoleEntityTypeConfiguration
         builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
         builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
-        var navigation = builder.Metadata.FindNavigation(nameof(Role.Permissions));
-        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.HasMany(express => express.Permissions).WithOne(p => p.Role);
+        builder.HasMany(express => express.RoleItems).WithOne(p => p.Role);
     }
 }

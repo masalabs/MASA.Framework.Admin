@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MASA.Framework.Admin.Caller;
 
-public class BlogCaller
+public class BlogCaller : HttpClientCallerBase
 {
     //private ArticleService _articleService;
 
@@ -19,15 +19,29 @@ public class BlogCaller
     //public ArticleService ArticleService => _articleService ?? new ArticleService(CallerProvider);
 
 
-    private const string APP_ID = "masa-framework-admin-service-blogs";
+    //private const string APP_ID = "masa-framework-admin-service-blogs";
 
-    public IMasaHttpClient HttpClient { get; init; }
+    //public IMasaHttpClient HttpClient { get; init; }
 
-    public BlogCaller(IWebHostEnvironment env, ILogger<MasaHttpDaprClient> logger)
+    //public BlogCaller(IWebHostEnvironment env, ILogger<MasaHttpDaprClient> logger)
+    //{
+    //    HttpClient = new MasaHttpDaprClient(APP_ID, logger);
+    //    ArticleService = new ArticleService(HttpClient);
+    //}
+
+    //public ArticleService ArticleService { get; init; }
+    public BlogCaller(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        HttpClient = new MasaHttpDaprClient(APP_ID, logger);
-        ArticleService = new ArticleService(HttpClient);
+        Name = nameof(BlogCaller);
     }
 
-    public ArticleService ArticleService { get; init; }
+    public async Task GetBrandsAsync()
+    {
+        var response = await CallerProvider.PostAsync("/api/blogtype/create", new CreateBlogTypeModel()
+        {
+            TypeName = "測試 call"
+        });
+    }
+
+    protected override string BaseAddress { get; set; } = "http://masa.admin.service.blogs";
 }

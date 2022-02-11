@@ -8,6 +8,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private int _page = 1;
         private int _pageCount = 1;
         private bool _showWrite = false;
+        private CreateBlogInfoModel _options = new() { State = StateTypes.Reviewed };
+        private List<(Guid, string)> _typeList = new();
         public PagingResult<BlogInfoHomeListViewModel> Blogs { get; set; } = new PagingResult<BlogInfoHomeListViewModel>();
 
 
@@ -34,10 +36,33 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             }
         
         }
+
         protected override async void OnInitialized()
         {
+            //分类
+            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption() { PageIndex = 1, PageSize = int.MaxValue });
+            if (typesResult.Data is not null)
+            {
+                _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
+            }
         }
+
         private void ToWrite()
+        {
+            _showWrite = true;
+        }
+
+        public async Task SubmitBlog()
+        {
+            await BlogCaller.ArticleService.CreateAsync(_options);
+            _showWrite = false;
+        }
+
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <returns></returns>
+        private async Task Cancel()
         {
             _showWrite = true;
         }

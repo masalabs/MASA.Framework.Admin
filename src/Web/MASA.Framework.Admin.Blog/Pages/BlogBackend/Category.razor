@@ -2,6 +2,9 @@
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <LeftActions>
+      <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+    </LeftActions>
     <Filters Context="filter">
         <MRow Dense>
             <MCol Cols="12">
@@ -26,8 +29,8 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            <PAction Color="primary" Icon="mdi-pencil" Label="编辑" Small Text></PAction>
-            <PAction Color="error" Icon="mdi-delete" Label="删除" Small Text></PAction>
+            <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item.Id)" Icon="mdi-pencil"> </PAction>
+                <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
         }
         else
         {
@@ -37,3 +40,18 @@
 
     </ItemColContent>
 </DefaultDataTable>
+
+
+<FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField Label="名称"
+                        Dense HideDetails="@("auto")" Outlined
+                        @bind-Value="_dataModal.Data.TypeName">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+    </MRow>
+</FormModal>

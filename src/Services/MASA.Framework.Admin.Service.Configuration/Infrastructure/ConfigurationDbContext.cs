@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Infrastructure;
+namespace MASA.Framework.Admin.Configuration.Infrastructure;
 
 public class ConfigurationDbContext : IntegrationEventLogContext
 {

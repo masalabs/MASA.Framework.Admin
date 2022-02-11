@@ -1,7 +1,3 @@
-using MASA.Framework.Admin.Service.Configuration.Extensions.Middleware;
-using MASA.Framework.Admin.Service.Configuration.Extensions.Middleware.GlobalException;
-using MASA.Framework.Admin.Service.Configuration.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Services.AddFluentValidation(options =>
     {

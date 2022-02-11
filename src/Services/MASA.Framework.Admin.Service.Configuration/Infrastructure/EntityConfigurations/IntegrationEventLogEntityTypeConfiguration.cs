@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Infrastructure.EntityConfigurations;
+namespace MASA.Framework.Admin.Configuration.Infrastructure.EntityConfigurations;
 
 public class IntegrationEventLogEntityTypeConfiguration
     : IEntityTypeConfiguration<IntegrationEventLog>

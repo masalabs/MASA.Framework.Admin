@@ -33,7 +33,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
+    //DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
 }
 else
 {

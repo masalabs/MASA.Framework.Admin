@@ -103,9 +103,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 blogInfo.Remark = model.Remark;
                 blogInfo.State = model.State;
                 blogInfo.Title = model.Title;
-                blogInfo.Visits = model.Visits;
-                blogInfo.ApprovedCount = model.ApprovedCount;
-                blogInfo.CommentCount = model.CommentCount;
                 blogInfo.IsShow = model.IsShow;
                 blogInfo.TypeId = model.TypeId;
                 

@@ -18,8 +18,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
-      - "8081:80"
-      - "9091:443"
+      - "8181:80"
+      - "9191:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
@@ -36,13 +36,46 @@ services:
       - "./dapr/components/:/components"
     network_mode: "service:masa.admin.services.order"
 
+  masa.admin.services.blogs:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "8189:80"
+      - "9199:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.services.blogs.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa-admin-services-blogs",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.services.blogs
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.services.blogs"
+
   masa.admin.web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "8180:80"
+      - "8143:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.blog:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "8199:80"
+      - "8149:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 

@@ -7,11 +7,23 @@ services:
       context: .
       dockerfile: src/Services/MASA.Framework.Admin.Service/Dockerfile
 
+  masa.admin.services.blogs:
+    image: ${DOCKER_REGISTRY-}masa-admin-services-blogs
+    build:
+      context: .
+      dockerfile: src/Services/MASA.Framework.Admin.Service.Blogs/Dockerfile
+
   masa.admin.web:
     image: ${DOCKER_REGISTRY-}masa-admin
     build:
       context: .
       dockerfile: src/Web/MASA.Framework.Admin.Web/Dockerfile
+
+  masa.admin.blog:
+    image: ${DOCKER_REGISTRY-}masa-admin-blog
+    build:
+      context: .
+      dockerfile: src/Web/MASA.Framework.Admin.Blog/Dockerfile
 
   dapr-placement:
     image: "daprio/dapr:1.5.1"

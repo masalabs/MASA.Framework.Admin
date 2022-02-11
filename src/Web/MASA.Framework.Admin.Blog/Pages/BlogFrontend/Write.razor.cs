@@ -58,7 +58,7 @@ public partial class Write: BlogFrontComponentBase
         }
     }
 
-    public async void SubmitBlog()
+    public async Task SubmitBlog()
     {
        await BlogCaller.ArticleService.CreateAsync(_options);
        Show = false;

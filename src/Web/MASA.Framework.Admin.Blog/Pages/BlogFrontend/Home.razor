@@ -60,7 +60,8 @@
            Title="文章"
            Width="1000"
            OnCancel="Cancel"
-           OnOk="SubmitBlog">
+           OnOk="SubmitBlog"
+           Model="_options">
     <MRow>
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
@@ -81,9 +82,9 @@
                          TItem="(Guid, string)"/>
         </MCol>
         <MCol Cols="12">
-            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
+@*            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
                     Field="() => _options.Content"
-                    @bind-Value="_options.Content"/>
+                    @bind-Value="_options.Content"/>*@
         </MCol>
         <MCol Cols="12">
             <MSwitch @bind-Value="_options.IsShow"

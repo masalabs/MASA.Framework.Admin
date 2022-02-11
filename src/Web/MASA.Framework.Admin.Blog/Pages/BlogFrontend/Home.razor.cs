@@ -16,6 +16,12 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         protected override async Task OnInitializedAsync()
         {
             await FetchBlogs();
+            //分类
+            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption() { PageIndex = 1, PageSize = int.MaxValue });
+            if (typesResult.Data is not null)
+            {
+                _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
+            }
         }
 
 
@@ -39,12 +45,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         protected override async void OnInitialized()
         {
-            //分类
-            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption() { PageIndex = 1, PageSize = int.MaxValue });
-            if (typesResult.Data is not null)
-            {
-                _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
-            }
+           
         }
 
         private void ToWrite()

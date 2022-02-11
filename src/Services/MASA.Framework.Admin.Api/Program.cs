@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AdminDbContext>(options =>
 {
-    options.UseSqlServer("Server=.;Initial Catalog=LogDB;User ID=SA;Password=P@ssw0rd;");
+    options.UseSqlServer("Server=.;Initial Catalog=LogDB;User ID=SA;Password=Pass@w0rd;");
 });
 builder.Services.AddScoped<IOperationLogRepository, OperationLogRepository>();
 builder.Services.AddRabbitMQEventBus(options =>

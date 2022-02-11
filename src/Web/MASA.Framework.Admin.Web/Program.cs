@@ -1,4 +1,6 @@
 
+using MASA.Framework.Admin.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,12 @@ builder.Services.AddMasaBlazor(builder =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
+
+builder.Services.AddTransient<IOperationLogService, DefaultOperationLogService>();
+builder.Services.AddHttpClient<DefaultOperationLogService>(nameof(DefaultOperationLogService), httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:5032");
+});
 
 var app = builder.Build();
 

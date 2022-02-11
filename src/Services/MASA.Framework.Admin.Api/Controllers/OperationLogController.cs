@@ -41,7 +41,13 @@ namespace MASA.Framework.Admin.Api.Controllers
             var limit = viewModel.Size;
             operationLogs = operationLogs.Skip(offset).Take(limit);
 
-            return Ok(operationLogs);
+            var data = operationLogs.Select(log => new OperationLogDto
+            {
+                Id = log.Id,
+                CreateTime = log.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                Description = log.Description
+            });
+            return Ok(data);
         }
 
         [HttpPost]

@@ -34,6 +34,12 @@
         "Title": "Report",
         "Icon": "mdi-circle",
         "Href": "blog-admin/report"
+      },
+      {
+        "Id": 204,
+        "Title": "advertising",
+        "Icon": "mdi-circle",
+        "Href": "blog-admin/advertising-picture"
       }
     ]
   }

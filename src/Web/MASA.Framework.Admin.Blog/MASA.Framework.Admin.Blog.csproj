@@ -69,4 +69,8 @@
     <ProjectReference Include="..\..\Services\MASA.Framework.Admin.Service.Blogs\MASA.Framework.Admin.Service.Blogs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\BlogBackend\AdvertisingPicture\" />
+  </ItemGroup>
+
 </Project>

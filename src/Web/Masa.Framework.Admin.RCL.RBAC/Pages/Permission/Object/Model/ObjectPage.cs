@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
+using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
@@ -66,7 +66,7 @@ public class ObjectPage
         var result = default(ApiResultResponseBase);
         if (CurrentObjectData.Id != Guid.Empty)
         {
-            var input = new AddCommand
+            var input = new AddObjectRequest
             {
                 Name = CurrentObjectData.Name,
                 Code = CurrentObjectData.Code,
@@ -76,7 +76,7 @@ public class ObjectPage
         }
         else
         {
-            var input = new EditCommand
+            var input = new EditObjectRequest
             {
                 Name = CurrentObjectData.Name,
                 ObjectId = CurrentObjectData.Id,
@@ -93,4 +93,3 @@ public class ObjectPage
         await Task.CompletedTask;
     }
 }
-

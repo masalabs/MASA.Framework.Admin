@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
+
 namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class ObjectService : CustomServiceBase
@@ -7,7 +9,6 @@ public class ObjectService : CustomServiceBase
         App.MapGet(Routing.ObjectList, GetItemsAsync);
         App.MapPost(Routing.OperateObject, AddAsync);
         App.MapPut(Routing.OperateObject, EditAsync);
-        App.MapPut(Routing.ObjectChangeState, EditAsync);
     }
 
     /// <summary>
@@ -32,21 +33,15 @@ public class ObjectService : CustomServiceBase
 
     public ApiResultResponseBase AddAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] AddCommand command)
+        [FromBody] AddObjectRequest objectRequest)
     {
+
         return Success();
     }
 
     public ApiResultResponseBase EditAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] EditCommand command)
-    {
-        return Success();
-    }
-
-    public ApiResultResponseBase ChangeStateAsync(
-        [FromServices] IEventBus eventBus,
-        [FromBody] ChangeStateCommand command)
+        [FromBody] EditObjectRequest command)
     {
         return Success();
     }

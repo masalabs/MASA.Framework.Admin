@@ -25,8 +25,6 @@ public class Routing
 
     public static string OperateObject = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.OBJECT_SERVICE);
 
-    public static string ObjectChangeState = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "state");
-
     #endregion
 
     #region Role

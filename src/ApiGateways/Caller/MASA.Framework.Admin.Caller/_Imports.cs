@@ -1,6 +1,6 @@
 global using MASA.Framework.Admin.Contracts.Authentication;
-global using MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
-global using MASA.Framework.Admin.Contracts.Authentication.Commands.Rules;
+global using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
+global using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 global using MASA.Framework.Admin.Contracts.Authentication.Response;
 global using MASA.Framework.Admin.Contracts.Base.Response;
 global using MASA.Framework.Admin.Contracts.Configuration;

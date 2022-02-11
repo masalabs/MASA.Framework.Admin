@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Service.User.Application.Users.Commands;
+
 namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : CustomServiceBase
@@ -32,15 +34,16 @@ public class UserServices : CustomServiceBase
 
     public ApiResultResponseBase CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid guid)
+        [FromBody] Guid id)
     {
         return Success();
     }
 
     public ApiResultResponseBase DeleteAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid guid)
+        [FromBody] Guid id)
     {
+        eventBus.PublishAsync(new DeleteCommand { Id = id });
         return Success();
     }
 }

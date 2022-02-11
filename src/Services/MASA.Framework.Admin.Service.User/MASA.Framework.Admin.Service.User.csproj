@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Infrastructure" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj" />
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
     </ItemGroup>

@@ -45,7 +45,7 @@
         {
             var blogArticle = await _blogArticleRepository.GetBlogArticleByUser(query.Options);
 
-            query.Result = blogArticle; 
+            query.Result = blogArticle;
         }
 
         [EventHandler]
@@ -75,7 +75,15 @@
                 .Query(q => q.Bool(b => b.Must(matchQuery)))
                 .Sort(s => s.Descending(y => y.CreationTime)));
 
-            var data = new Mapping<BlogInfoHomeListViewModel, BlogInfo>().ReverseMap(searchResponse.Documents).ToList();
+            // TODO: mapping
+            var data = searchResponse.Documents.Select(d => new BlogInfoHomeListViewModel()
+            {
+                Content = d.Content,
+                Title = d.Title,
+                TypeId = d.TypeId,
+                CreationTime = d.CreationTime
+            }).ToList();
+
 
             query.Result = new()
             {

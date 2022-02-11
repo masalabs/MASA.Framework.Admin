@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ISoftDelete = MASA.Framework.Data.EntityFrameworkCore.ISoftDelete;
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {

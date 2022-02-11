@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        Task<PageResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options);
+        Task<PagingResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options);
 
         /// <summary>
         /// 
@@ -41,8 +41,7 @@
         /// </summary>
         /// <param name="opions"></param>
         /// <returns></returns>
-        Task<PageResult<BlogInfoListViewModel>> GetBlogArticleByUser(
-            GetBlogArticleUserOptions options);
+        Task<PagingResult<BlogInfoListViewModel>> GetBlogArticleByUser(GetBlogArticleUserOptions options);
 
         /// <summary>
         /// 追加阅读量

@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        Task<PageResult<BlogAdvertisingPicturesListViewModel>> GetListAsync(GetBlogAdvertisingPicturesOption options);
+        Task<PagingResult<BlogAdvertisingPicturesListViewModel>> GetListAsync(GetBlogAdvertisingPicturesOption options);
 
         /// <summary>
         /// 更新

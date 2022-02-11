@@ -1,0 +1,11 @@
+﻿<MOverlay Value="Lodding">
+    <MProgressCircular indeterminate Size="64"></MProgressCircular>
+</MOverlay>
+
+@code {
+    [Parameter]
+    public bool Lodding { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> LoddingChanged { get; set; }
+}

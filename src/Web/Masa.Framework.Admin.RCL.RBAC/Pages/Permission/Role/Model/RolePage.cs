@@ -1,16 +1,16 @@
-using MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
+using MASA.Framework.Admin.Contracts.Authentication.Commands.Rules;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class ObjectPage
+public class RolePage
 {
-    public List<ObjectItemResponse> ObjectDatas { get; set; }
+    public List<RoleItemResponse> Datas { get; set; }
 
-    public ObjectItemResponse CurrentObjectData { get; set; } = new();
+    public RoleItemResponse CurrentData { get; set; } = new();
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
-    public int ObjectType { get; set; } = -1;
+    public int State { get; set; } = -1;
 
     public string? Search { get; set; }
 
@@ -30,7 +30,7 @@ public class ObjectPage
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
-    public List<DataTableHeader<ObjectItemResponse>> Headers = new()
+    public List<DataTableHeader<RoleItemResponse>> Headers = new()
     {
         new() { Text = "NAME", Value = nameof(ObjectItemResponse.Name) },
         new() { Text = "CODE", Value = nameof(ObjectItemResponse.Code), Sortable = false },
@@ -39,23 +39,23 @@ public class ObjectPage
         new() { Text = "ACTIONS", Value = "Action", Sortable = false }
     };
 
-    public ObjectPage(AuthenticationCaller authenticationCaller)
+    public RolePage(AuthenticationCaller authenticationCaller)
     {
         AuthenticationCaller = authenticationCaller;
-        ObjectDatas = new();
+        Datas = new();
     }
 
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize, ObjectType, Search);
+        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, State, Search);
         Error = !result.Success;
         Message = result.Message;
         if (result.Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
-            ObjectDatas = pageData.Items.ToList();
+            Datas = pageData.Items.ToList();
         }
         Lodding = false;
     }
@@ -64,24 +64,21 @@ public class ObjectPage
     {
         Lodding = true;
         var result = default(ApiResultResponseBase);
-        if (CurrentObjectData.Id != Guid.Empty)
+        var input = new EditRuleCommand
         {
-            var input = new AddCommand
-            {
-                Name = CurrentObjectData.Name,
-                Code = CurrentObjectData.Code,
-                ObjectType = CurrentObjectData.ObjectType,
-            };
-            result = await AuthenticationCaller.AddObjectAsync(input);
+            RuleId = CurrentData.Id,
+            Name = CurrentData.Name,
+            Number = CurrentData.Number,
+            Describe = CurrentData.Describe,
+            State = CurrentData.State,
+        };
+        if (CurrentData.Id != Guid.Empty)
+        {
+            result = await AuthenticationCaller.AddRoleAsync(input);
         }
         else
         {
-            var input = new EditCommand
-            {
-                Name = CurrentObjectData.Name,
-                ObjectId = CurrentObjectData.Id,
-            };
-            result = await AuthenticationCaller.EditObjectAsync(input);
+            result = await AuthenticationCaller.EditRoleAsync(input);
         }
         Error = result.Success;
         Message = result.Message;

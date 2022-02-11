@@ -1,4 +1,80 @@
-﻿@*<MDataTable HideDefaultFooter Headers="_resourcePage.Headers" TItem="MenuItemResponse" Items="_resourcePage.MenuDatas" Class="table-header-fill table-border-solid">
+﻿@*<MCard>
+    <MCardText Class="pa-6">
+        <h6>Filters</h6>
+        <MRow Class="mt-3">
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Role"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetRoleList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Role">
+                </MSelect>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Plan"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetPlanList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Plan">
+                </MSelect>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Status"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetStatusList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Status">
+                </MSelect>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>*@
+
+<MCard Class="mt-6">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <span class="text-btn neutral-lighten-1--text">Show:</span>
+                <MSelect @bind-Value="_objectPage.PageSize"
+                         Color="primary"
+                         Style="max-width:120px;"
+                         Dense
+                         Class="mx-6"
+                         HideDetails="@("auto")"
+                         Outlined
+                         Items="@_objectPage.PageSizes"
+                         ItemText="u => u.ToString()"
+                         ItemValue="u => u">
+                </MSelect>
+                <span class="text-btn">entries</span>
+            </MCol>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <MTextField @bind-Value="_objectPage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm(new())">
+                    Add Menu
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+
+<MDataTable HideDefaultFooter Headers="_objectPage.Headers" TItem="ObjectItemResponse" Items="_objectPage.ObjectDatas" Class="table-header-fill table-border-solid">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>
@@ -6,20 +82,23 @@
     <ItemColContent>
         @switch (context.Header.Value)
         {
-            case nameof(PermissionDto.Module):
-                <span class="text-body neutral-lighten-2--text">@context.Value</span>
+            case nameof(ObjectItemResponse.Name):
+                <div class="hover-pointer d-flex my-2" @onclick="()=> OpenObjectForm(context.Item)">
+                    <span>@context.Item.Name</span>
+                </div>
                 break;
-            case nameof(PermissionDto.Read):
-                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Read"></MCheckbox>
+            case nameof(ObjectItemResponse.Code):
+                 <span>@context.Item.Code</span>
                 break;
-            case nameof(PermissionDto.Write):
-                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Write"></MCheckbox>
+            case nameof(ObjectItemResponse.State):
+                 <span>@context.Item.State.ToString()</span>
                 break;
-            case nameof(PermissionDto.Create):
-                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Create"></MCheckbox>
+            case nameof(ObjectItemResponse.ObjectType):
+                 <span>@context.Item.ObjectType.ToString()</span>
                 break;
-            case nameof(PermissionDto.Delete):
-                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Delete"></MCheckbox>
+            case "ACTIONS":
+                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">Edit</MButton>
+                <MButton Color="red" OnClick="async()=> await DeleteAsync(context.Item)">Delete</MButton>
                 break;
             default:
                 @context.Value
@@ -28,17 +107,32 @@
     </ItemColContent>
 </MDataTable>
 
+<AddOrEdit @bind-Visible=_openObjectForm />
+<Masa.Framework.Admin.RCL.RBAC.Shared.Loding Lodding="_objectPage.Lodding" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.Dialog Show="_objectPage.Error" Message="_objectPage.Message" />
+
 @code{
-    public ObjectPage _resourcePage = default!;
+    public bool _openObjectForm;
+    public ObjectPage _objectPage = default!;
 
     [Inject]
-    public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
+    public AuthenticationCaller AuthenticationCaller { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        _resourcePage = new(ConfigurationCaller);
-        await _resourcePage.QueryPageDatasAsync();
+        _objectPage = new(AuthenticationCaller);
+        await _objectPage.QueryPageDatasAsync();
     }
 
+    public void OpenObjectForm(ObjectItemResponse objectItem)
+    {
+        _openObjectForm = true;
+        _objectPage.CurrentObjectData = objectItem;
+    }
 
-}*@
+    public async Task DeleteAsync(ObjectItemResponse objectItem)
+    {      
+        _objectPage.CurrentObjectData = objectItem;
+        await _objectPage.DeleteAsync();
+    }
+}

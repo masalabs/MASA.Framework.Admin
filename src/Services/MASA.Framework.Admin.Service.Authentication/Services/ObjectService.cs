@@ -1,4 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
+using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
 namespace MASA.Framework.Admin.Service.Authentication.Services;
 

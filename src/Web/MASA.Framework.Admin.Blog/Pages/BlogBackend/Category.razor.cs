@@ -41,8 +41,8 @@ public partial class Category : ProCompontentBase
 
         _loading = true;
 
-        var result = await BlogCaller.TypeService.GetList(_options);
-        _totalCount = result.TotalCount;
+        //var result = await BlogCaller.TypeService.GetList(_options);
+        //_totalCount = result.TotalCount;
 
         _loading = false;
     }

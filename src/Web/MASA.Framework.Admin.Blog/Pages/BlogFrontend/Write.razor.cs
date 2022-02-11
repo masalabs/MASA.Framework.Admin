@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
+﻿using MASA.Framework.Admin.Caller;
+
+namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend;
 
 /// <summary>
 /// 新建、编辑博文
@@ -21,6 +23,8 @@ public partial class Write: BlogFrontComponentBase
     [Parameter]
     public bool Show { get; set; }
 
+    [Inject]
+    protected BlogCaller BlogCaller { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -34,7 +38,11 @@ public partial class Write: BlogFrontComponentBase
     protected async override Task OnInitializedAsync()
     {
         //分类
-
+        var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption() { PageIndex =1, PageSize=int.MaxValue});
+        if(typesResult.Data is not null)
+        {
+            _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
+        }
         await base.OnInitializedAsync();
     }
 

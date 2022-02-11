@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Services;
+namespace MASA.Framework.Admin.Configuration.Services;
 
 public class CustomServiceBase : ServiceBase
 {
@@ -9,5 +9,10 @@ public class CustomServiceBase : ServiceBase
     protected ApiResultResponse<T> Success<T>(T data)
     {
         return new ApiResultResponse<T>(data);
+    }
+
+    protected ApiResultResponseBase Success(string message = "success")
+    {
+        return new ApiResultResponseBase(Code.SUCCESS, message);
     }
 }

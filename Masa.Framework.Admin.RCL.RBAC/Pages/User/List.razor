@@ -135,7 +135,7 @@
         <span class="text-h6">Add New User</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=_userItem EnableDataAnnotationsValidation>
+    <MForm Model=_userItem EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
         <MTextField @bind-Value="_userItem.Account" Class="mb-6" Label="Account" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_userItem.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_userItem.Email" Class="mb-6" Label="Email" HideDetails="@("auto")" Dense Outlined />
@@ -149,8 +149,13 @@
         </MSelect>
 
         <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> Cancel </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateUser(context)"> Add </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
+
+<MSnackbar Absolute Dark Centered Timeout="3000" @bind-Value="_snackbar"
+        Color="deep-purple accent-4" Elevation="24">
+        添加失败
+</MSnackbar>

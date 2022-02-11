@@ -1,16 +1,22 @@
+using MASA.Framework.Admin.Caller.Callers;
+
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class View
 {
+    private StringNumber _tab;
     private readonly UserDetailResponse _userDetail = new();
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
-        new (){ Text= "µÇÂ¼Ê±¼ä", Sortable= false, Value= nameof(LoginRecord.LoginTime)},
-        new (){ Text= "IP µØÖ·", Sortable= false, Value= nameof(LoginRecord.IP),Align="center"},
-        new (){ Text= "ÊÇ·ñ³É¹¦", Sortable= false, Value= nameof(LoginRecord.Success),Align="center"},
-        new (){ Text= "ä¯ÀÀÆ÷", Sortable= false, Value= nameof(LoginRecord.Browser),Align="center"},
-        new (){ Text= "µØÀíÎ»ÖÃ", Sortable= false, Value= nameof(LoginRecord.Address),Align="center"}
+        new (){ Text= "ç™»å½•æ—¶é—´", Sortable= false, Value= nameof(LoginRecord.LoginTime)},
+        new (){ Text= "IP åœ°å€", Sortable= false, Value= nameof(LoginRecord.IP),Align="center"},
+        new (){ Text= "æ˜¯å¦æˆåŠŸ", Sortable= false, Value= nameof(LoginRecord.Success),Align="center"},
+        new (){ Text= "æµè§ˆå™¨", Sortable= false, Value= nameof(LoginRecord.Browser),Align="center"},
+        new (){ Text= "åœ°ç†ä½ç½®", Sortable= false, Value= nameof(LoginRecord.Address),Align="center"}
     };
+
+    [Inject]
+    public UserCaller UserCaller { get; set; }
 
     [Parameter]
     public string? Id { get; set; }

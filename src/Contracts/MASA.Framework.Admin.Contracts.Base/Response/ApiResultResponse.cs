@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Base.Response;
+namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class ApiResultResponse<TEntity> : ApiResultResponseBase
 {

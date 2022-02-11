@@ -1,14 +1,16 @@
 namespace MASA.Framework.Admin.Service.User.Services;
 
-public class UserServices : ServiceBase
+public class UserServices : CustomServiceBase
 {
     public UserServices(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.UserList, () => GetItemsAsync);
         App.MapGet(Routing.UserDetail, () => GetAsync);
+        App.MapPost(Routing.UserCreate, () => CreateAsync);
+        App.MapDelete(Routing.UserDelete, () => DeleteAsync);
     }
 
-    private PaginatedItemsViewModel<UserItemResponse> GetItemsAsync(
+    private ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] UserType type,
         [FromQuery] int pageIndex = 1,
@@ -16,13 +18,29 @@ public class UserServices : ServiceBase
         [FromQuery] string account = "",
         [FromQuery] int state = -1)
     {
-        return new PaginatedItemsViewModel<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
+        var response = new PaginatedItemsViewModel<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
+        return Success(response);
     }
 
-    private UserDetailResponse GetAsync(
+    private ApiResultResponse<UserDetailResponse> GetAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid guid)
     {
-        return new UserDetailResponse();
+        var response = new UserDetailResponse();
+        return Success(response);
+    }
+
+    private ApiResultResponseBase CreateAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] Guid guid)
+    {
+        return Success();
+    }
+
+    private ApiResultResponseBase DeleteAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] Guid guid)
+    {
+        return Success();
     }
 }

@@ -1,3 +1,4 @@
+using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Framework.Admin.Contracts.User;
 using MASA.Framework.Admin.Contracts.User.Response;
 using MASA.Utils.Caller.HttpClient;
@@ -14,7 +15,7 @@ public class UserCaller : HttpClientCallerBase
         Name = "UserCaller";
     }
 
-    public async Task<List<UserItemResponse>> List(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
+    public async Task<ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
     {
         var queryArguments = new Dictionary<string, string?>()
         {
@@ -24,12 +25,17 @@ public class UserCaller : HttpClientCallerBase
             { "state", state.ToString() }
         };
         var url = QueryHelpers.AddQueryString(Routing.UserList, queryArguments);
-        return await CallerProvider.GetAsync<List<UserItemResponse>>(url);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>>>(url);
     }
 
-    public async Task<UserDetailResponse> Details(string id)
+    public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<UserDetailResponse>(String.Format(Routing.UserDetail, id));
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(String.Format(Routing.UserDetail, id));
+    }
+
+    public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
+    {
+        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.UserCreate, "");
     }
 }
 

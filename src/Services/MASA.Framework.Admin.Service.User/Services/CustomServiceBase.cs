@@ -1,7 +1,8 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Services;
+namespace MASA.Framework.Admin.Service.User.Services;
 
 public class CustomServiceBase : ServiceBase
 {
+
     public CustomServiceBase(IServiceCollection services) : base(services)
     {
     }
@@ -19,3 +20,4 @@ public class CustomServiceBase : ServiceBase
         return new ApiResultResponseBase(Code.SUCCESS, message);
     }
 }
+

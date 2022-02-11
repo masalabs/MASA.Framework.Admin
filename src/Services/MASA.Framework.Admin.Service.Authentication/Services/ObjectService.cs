@@ -5,8 +5,8 @@ public class ObjectService : CustomServiceBase
     public ObjectService(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.ObjectList, GetItemsAsync);
-        App.MapGet(Routing.ObjectList, GetItemsAsync);
-        App.MapGet(Routing.ObjectList, GetItemsAsync);
+        App.MapGet(Routing.ObjectEdit, EditAsync);
+        App.MapGet(Routing.ObjectEdit, EditAsync);
     }
 
     private ApiResultResponse<PaginatedItemsViewModel<ObjectItemResponse>> GetItemsAsync(
@@ -18,5 +18,19 @@ public class ObjectService : CustomServiceBase
     {
         var response = new PaginatedItemsViewModel<ObjectItemResponse>(pageIndex, pageSize, 0, new List<ObjectItemResponse>());
         return Success(response);
+    }
+
+    public ApiResultResponseBase AddAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] AddCommand command)
+    {
+        return Success("添加资源成功");
+    }
+
+    public ApiResultResponseBase EditAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] EditCommand command)
+    {
+        return Success("编辑资源成功");
     }
 }

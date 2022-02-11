@@ -9,7 +9,7 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
         {
-            Title = "MASA.Framework.Admin - Users HTTP API",
+            Title = "MASA.Framework.Admin User - Users HTTP API",
             Version = "v1",
             Description = "The Users Service HTTP API"
         });
@@ -27,7 +27,6 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
 });
-
 app.UseGlobalExceptionMiddleware()
     .UseSwagger()
     .UseSwaggerUI(c =>

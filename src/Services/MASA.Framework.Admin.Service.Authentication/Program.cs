@@ -31,7 +31,7 @@ app.UseGlobalExceptionMiddleware()
     .UseSwagger()
     .UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin User Service HTTP API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
     });
 
 app.Run();

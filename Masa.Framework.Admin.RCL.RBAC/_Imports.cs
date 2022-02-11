@@ -4,3 +4,6 @@ global using MASA.Framework.Admin.Contracts.Base.Enum;
 global using MASA.Framework.Admin.Contracts.Base.Model;
 global using MASA.Framework.Admin.Contracts.User.Response;
 global using Microsoft.AspNetCore.Components;
+global using MASA.Blazor;
+global using MASA.Framework.Admin.Contracts.Configuration.Response;
+global using MASA.Framework.Admin.Caller.Callers;

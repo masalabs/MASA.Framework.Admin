@@ -55,7 +55,7 @@ public class ArticleService
     /// <returns></returns>
     public async Task UpdateAsync(UpdateBlogInfoModel request)
     {
-        await _callerProviderProvider.PostAsync("/api/articles/Update", request);
+        await _callerProviderProvider.PutAsync("/api/articles/Update", request);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class ArticleService
     /// <returns></returns>
     public async Task RemoveAsync(Guid[] ids)
     {
-        await _callerProviderProvider.PostAsync("/api/articles/Remove", ids);
+        await _callerProviderProvider.DeleteAsync("/api/articles/Remove", ids);
     }
 
     /// <summary>
@@ -86,5 +86,15 @@ public class ArticleService
     public async Task AddBlogApprovedRecordAsync(BlogApprovedRecordModel request)
     {
         await _callerProviderProvider.PostAsync("/api/articles/AddBlogApprovedRecord", request);
+    }
+
+    /// <summary>
+    /// 博客详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<BlogInfoListViewModel> GetAsync(Guid id)
+    {
+        return await _callerProviderProvider.GetAsync<BlogInfoListViewModel>($"/api/articles/Get?id={id}");
     }
 }

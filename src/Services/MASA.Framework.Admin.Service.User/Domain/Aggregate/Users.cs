@@ -2,8 +2,6 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregate;
 
 public class Users : AuditAggregateRoot<Guid, Guid>
 {
-    public UserType Type { get; set; }
-
     public string Account { get; set; } = default!;
 
     public string? Name { get; set; }

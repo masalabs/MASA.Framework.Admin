@@ -1,7 +1,9 @@
 namespace MASA.Framework.Admin.Service.User.Application.Users.Queres;
 
-public record ListQuery : Query<List<UserItemResponse>>
+public record ListQuery(int PageIndex, int PageSize, string Account) : Query<List<UserItemResponse>>
 {
-    public override List<UserItemResponse> Result { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public long Total { get; set; }
+
+    public override List<UserItemResponse> Result { get; set; } = new List<UserItemResponse>();
 }
 

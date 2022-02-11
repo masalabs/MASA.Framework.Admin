@@ -19,5 +19,6 @@ public class CustomServiceBase : ServiceBase
     {
         return new ApiResultResponseBase(Code.SUCCESS, message);
     }
+
 }
 

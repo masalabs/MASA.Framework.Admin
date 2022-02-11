@@ -29,5 +29,31 @@ public class QueryHandler
             State = (int)user.State
         };
     }
+
+    [EventHandler]
+    public async Task HandlerAsync(ListQuery listQuery)
+    {
+        var users = await _userRepository.GetPaginatedListAsync((u) => u.Account.Contains(listQuery.Account), new PaginatedOptions
+        {
+            Page = listQuery.PageIndex,
+            PageSize = listQuery.PageSize,
+        });
+
+        foreach (var user in users.Result)
+        {
+            listQuery.Result.Add(new UserItemResponse
+            {
+                Account = user.Account,
+                Name = user.Name,
+                Email = user.Email,
+                State = (int)user.State,
+                Cover = user.Cover,
+                Gender = user.Gender,
+                LastLoginTime = user.LastLoginTime
+            });
+        }
+
+        listQuery.Total = users.Total;
+    }
 }
 

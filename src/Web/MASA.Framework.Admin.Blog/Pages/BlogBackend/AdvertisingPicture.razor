@@ -39,7 +39,7 @@
         }
         else if (context.Header.Value == "Actions")
         {
-            <MButton>编辑</MButton>
+            <MButton OnClick="()=>Modify(context.Item)">编辑</MButton>
             <MButton>删除</MButton>
         }
         else
@@ -49,7 +49,7 @@
     </ItemColContent>
 </DefaultDataTable>
 
-@*<FormModal Visible="_dataModal.Visible"
+<FormModal Visible="_dataModal.Visible"
            Model="_dataModal.Data"
            Title="@DataModalTitle"
            Width="500"
@@ -57,22 +57,19 @@
            OnOk="ConfirmDataModal">
     <MRow>
         <MCol Cols="12">
-            <MSelect Label="配置项"
-                     @bind-Value="_dataModal.Data.Item"
-                     Items="@(Enum<WebConfigItem>.GetItems())"
-                     ItemText="x => x.GetDescription().Description"
-                     ItemValue="x => x"
-                     TItemValue="WebConfigItem"
-                     TValue="WebConfigItem"
-                     Dense
-                     Outlined
-                     HideDetails="@("auto")"
-                     TItem="WebConfigItem">
-            </MSelect>
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="标题" @bind-Value="_dataModal.Data.Title" Clearable/>
         </MCol>
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="配置值" @bind-Value="_dataModal.Data.Value" Clearable/>
+                        Label="图片地址" @bind-Value="_dataModal.Data.Pic" Clearable/>
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="int" Dense Outlined HideDetails="@("auto")"
+                        Label="排序值" @bind-Value="_dataModal.Data.Sort" Clearable/>
+        </MCol>
+        <MCol Cols="12">
+            <MSwitch Label="排序值" @bind-Value="_dataModal.Data.Status"></MSwitch>
         </MCol>
     </MRow>
-</FormModal>*@
+</FormModal>

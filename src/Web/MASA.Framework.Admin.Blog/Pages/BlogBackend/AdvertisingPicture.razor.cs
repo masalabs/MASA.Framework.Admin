@@ -1,3 +1,5 @@
+using MASA.Framework.Data.Mapping;
+
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
@@ -19,8 +21,8 @@ public partial class AdvertisingPicture : ProCompontentBase
         { Text = "背景图片", Value = nameof(BlogAdvertisingPicturesListViewModel.Pic), Sortable = false },
         new()
         { Text = "排序", Value = nameof(BlogAdvertisingPicturesListViewModel.Sort), Sortable = false },
-        new ()
-            { Text = "状态", Value = nameof(BlogAdvertisingPicturesListViewModel.Status), Sortable = false },
+        new()
+        { Text = "状态", Value = nameof(BlogAdvertisingPicturesListViewModel.Status), Sortable = false },
         new()
         { Text = "操作", Value = "Actions", Sortable = false }
 
@@ -59,9 +61,28 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     #region from
 
+    public void Create()
+    {
 
-    //private readonly DataModal<string> _dataModal = new();
+    }
 
+    public void Modify(BlogAdvertisingPicturesListViewModel model)
+    {
+
+        var showModel = new Mapping<UpdateBlogAdvertisingPicturesModel, BlogAdvertisingPicturesListViewModel>()
+            .ReverseMap(model);
+
+        _dataModal.Show(showModel);
+    }
+
+    public string DataModalTitle { get; set; }
+
+    private readonly DataModal<UpdateBlogAdvertisingPicturesModel> _dataModal = new();
+
+    public async Task ConfirmDataModal()
+    {
+
+    }
     #endregion
 
     protected override async Task OnInitializedAsync()

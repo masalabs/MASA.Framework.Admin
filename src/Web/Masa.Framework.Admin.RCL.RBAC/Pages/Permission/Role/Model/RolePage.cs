@@ -8,6 +8,10 @@ public class RolePage
 
     public RoleItemResponse CurrentData { get; set; } = new();
 
+    public List<AuthorizeItemResponse> AuthorizeDatas { get; set; }
+
+    public AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
+
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
     public int State { get; set; } = -1;
@@ -45,6 +49,7 @@ public class RolePage
     {
         AuthenticationCaller = authenticationCaller;
         Datas = new();
+        AuthorizeDatas=new();
     }
 
     public async Task QueryPageDatasAsync()
@@ -92,6 +97,16 @@ public class RolePage
     public async Task DeleteAsync()
     {
         await Task.CompletedTask;
+    }
+
+    public async Task QueryAuthorizeItemsAsync()
+    {
+        Lodding = true;
+        var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
+        Error = !result.Success;
+        Message = result.Message;
+        Lodding = false;
+        AuthorizeDatas = result.Data ?? new();
     }
 }
 

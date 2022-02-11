@@ -71,4 +71,19 @@ public class AuthenticationCaller : HttpClientCallerBase
     }
 
     #endregion
+
+    #region Authorize
+
+    public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetAuthorizeItemsAsync(Guid roleId)
+    {
+        var paramters = new Dictionary<string, string>
+        {
+            ["roleId"] = roleId.ToString(),           
+        };
+
+        return await CallerProvider.GetAsync<ApiResultResponse<List<AuthorizeItemResponse>>>(Routing.AuthorizeList,
+            paramters);
+    }
+
+    #endregion
 }

@@ -26,8 +26,11 @@ public class GlobalExceptionMiddleware
         }
         catch (UserFriendlyException ex)
         {
-
-            await SetResponseAsync(context, Code.Friendly_HTTP_STATUSCODE, ex.Code, ex.Message);
+            await SetResponseAsync(context, Code.FRIENDLY_HTTP_STATUSCODE, ex.Code, ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            await SetResponseAsync(context, Code.FRIENDLY_HTTP_STATUSCODE, Code.PARAMETER_ERROR, ex.Errors.Select(err => err.ToString()).FirstOrDefault()!);
         }
         catch (Exception ex)
         {

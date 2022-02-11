@@ -10,4 +10,4 @@ global using MASA.Framework.Admin.Contracts.Base.Response;
 global using MASA.Framework.Admin.Configuration.Extensions.Middleware;
 global using MASA.Framework.Admin.Configuration.Extensions.Middleware.GlobalException;
 global using MASA.Framework.Admin.Contracts.Base.Const;
-
+global using MASA.Framework.Admin.Contracts.Base.Extensions.Exceptions;

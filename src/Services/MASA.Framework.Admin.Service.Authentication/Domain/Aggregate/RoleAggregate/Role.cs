@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
+namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
 
 public class Role : AuditAggregateRoot<Guid, Guid>
 {
@@ -18,10 +18,16 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     public IReadOnlyCollection<RoleItem> RoleItems => roleItems;
 
-    private Role() { }
-
-    public Role(string name, int number = -1)
+    private Role()
     {
+        permissions = new();
+        roleItems = new();
+    }
+
+    public Role(Guid userId, string name, int number = -1) : this()
+    {
+        Creator = userId;
+        Modifier = userId;
         Name = name;
         Number = number;
         State = State.Enable;

@@ -1,59 +1,138 @@
-﻿<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
-    <div class="block-between mb-12">
-        <span class="text-h6">Add New User</span>
-        <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
-    </div>
-    <MForm Model=MenuPage.CurrentMenuData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Icon" Class="mb-6" Label="Icon" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Sort" Class="mb-6" Label="Sort" HideDetails="@("auto")" Outlined />
-        <MSwitch @bind-Value="MenuPage.CurrentMenuData.Disabled" Class="mb-6" Label="Status"></MSwitch>
-        <MTextarea @bind-Value="MenuPage.CurrentMenuData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
+﻿@*<MCard>
+    <MCardText Class="pa-6">
+        <h6>Filters</h6>
+        <MRow Class="mt-3">
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Role"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetRoleList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Role">
+                </MSelect>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Plan"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetPlanList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Plan">
+                </MSelect>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MSelect @bind-Value="_userPage.Status"
+                         Color="primary"
+                         HideDetails="@("auto")"
+                         Clearable
+                         Outlined
+                         Items="@UserService.GetStatusList()"
+                         ItemText="u => u"
+                         ItemValue="u => u"
+                         Label="Status">
+                </MSelect>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>*@
 
-        <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddData(context)"> Add </MButton>
-        </div>
-    </MForm>
-</MNavigationDrawer>
+<MCard Class="mt-6">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <span class="text-btn neutral-lighten-1--text">Show:</span>
+                <MSelect @bind-Value="_rolePage.PageSize"
+                         Color="primary"
+                         Style="max-width:120px;"
+                         Dense
+                         Class="mx-6"
+                         HideDetails="@("auto")"
+                         Outlined
+                         Items="@_rolePage.PageSizes"
+                         ItemText="u => u.ToString()"
+                         ItemValue="u => u">
+                </MSelect>
+                <span class="text-btn">entries</span>
+            </MCol>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <MTextField @bind-Value="_rolePage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm(new())">
+                    Add Role
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
 
-@code {
-    public MenuPage? _menuPage;
+<MDataTable HideDefaultFooter Headers="_rolePage.Headers" TItem="RoleItemResponse" Items="_rolePage.Datas" Class="table-header-fill table-border-solid">
+    <HeaderColContent Context="header">
+        <span class="text-body neutral-lighten-1--text">@header.Text</span>
+    </HeaderColContent>
 
-    [Parameter]
-    public MenuPage MenuPage
-    {
-        get => _menuPage ?? throw new Exception("Please set parameter MenuPage");
-        set
+    <ItemColContent>
+        @switch (context.Header.Value)
         {
-            _menuPage = value;
+            case nameof(RoleItemResponse.Name):
+                <div class="hover-pointer d-flex my-2" @onclick="()=> OpenObjectForm(context.Item)">
+                    <span>@context.Item.Name</span>
+                </div>
+                break;
+            case nameof(RoleItemResponse.Number):
+                 <span>@context.Item.Number</span>
+                break;
+            case nameof(RoleItemResponse.State):
+                 <span>@context.Item.State.ToString()</span>
+                break;
+            case nameof(RoleItemResponse.Describe):
+                 <span>@context.Item.Describe</span>
+                break;
+            case "ACTIONS":
+                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">Edit</MButton>
+                <MButton Color="red" OnClick="async()=> await DeleteAsync(context.Item)">Delete</MButton>
+                break;
+            default:
+                @context.Value
+                break;
         }
+    </ItemColContent>
+</MDataTable>
+
+<AddOrEdit @bind-Visible=_openObjectForm />
+<Masa.Framework.Admin.RCL.RBAC.Shared.Loding Lodding="_rolePage.Lodding" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.Dialog Show="_rolePage.Error" Message="_rolePage.Message" />
+
+@code{
+    public bool _openObjectForm;
+    public RolePage _rolePage = default!;
+
+    [Inject]
+    public AuthenticationCaller AuthenticationCaller { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _rolePage = new(AuthenticationCaller);
+        await _rolePage.QueryPageDatasAsync();
     }
 
-    [Parameter]
-    public bool Visible { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> VisibleChanged { get; set; }
-
-    private async Task UpdateVisible(bool visible)
+    public void OpenObjectForm(RoleItemResponse item)
     {
-        if (VisibleChanged.HasDelegate)
-        {
-            await VisibleChanged.InvokeAsync(visible);
-        }
-        else
-        {
-            Visible = visible;
-        }
+        _openObjectForm = true;
+        _rolePage.CurrentData = item;
     }
 
-    private async Task AddData(EditContext context)
-    {
-        if (context.Validate())
-        {            
-            await MenuPage.AddOrUpdateAsync();
-            await UpdateVisible(false);
-        }
+    public async Task DeleteAsync(RoleItemResponse item)
+    {      
+        _rolePage.CurrentData = item;
+        await _rolePage.DeleteAsync();
     }
 }

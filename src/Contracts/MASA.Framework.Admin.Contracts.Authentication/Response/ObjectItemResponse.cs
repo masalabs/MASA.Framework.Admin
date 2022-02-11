@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Response;
+namespace MASA.Framework.Admin.Contracts.Authentication.Response;
 
 public class ObjectItemResponse
 {

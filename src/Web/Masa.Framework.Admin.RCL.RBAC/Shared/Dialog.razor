@@ -1,0 +1,40 @@
+﻿<MDialog Value="Show" Transition="dialog-bottom-transition" MaxWidth=600>
+    <ChildContent>
+        <MCard>
+            <MToolbar Color="red">
+                Error
+            </MToolbar>
+            <MCardText>
+                <div class="text-h2 pa-12">@Message</div>
+            </MCardText>
+            <MCardActions Class="justify-end">
+                <MButton Text OnClick="async() => await UpdateShow(false)">
+                    Close
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>
+
+@code {
+    [Parameter]
+    public bool Show { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    private async Task UpdateShow(bool show)
+    {
+        if (ShowChanged.HasDelegate)
+        {
+            await ShowChanged.InvokeAsync(show);
+        }
+        else
+        {
+            Show = show;
+        }
+    }
+}

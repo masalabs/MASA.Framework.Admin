@@ -25,8 +25,9 @@ public class UserServices : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid id)
     {
-        var response = new UserDetailResponse();
-        return Success(response);
+        var detailQuery = new DetailQuery(id);
+        eventBus.PublishAsync(detailQuery);
+        return Success(detailQuery.Result);
     }
 
     public ApiResultResponseBase CreateAsync(

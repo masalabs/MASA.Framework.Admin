@@ -23,6 +23,7 @@ global using MASA.Framework.Admin.Contracts.User.Enum;
 global using MASA.Framework.Admin.Contracts.User.Request;
 global using MASA.Framework.Admin.Contracts.User.Response;
 global using MASA.Framework.Admin.Service.User.Application.Users.Commands;
+global using MASA.Framework.Admin.Service.User.Application.Users.Queres;
 global using MASA.Framework.Admin.Service.User.Domain.Aggregate;
 global using MASA.Framework.Admin.Service.User.Domain.Repository;
 global using MASA.Framework.Admin.Service.User.Infrastructure;

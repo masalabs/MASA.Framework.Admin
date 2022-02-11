@@ -17,7 +17,9 @@ public class UserServices : CustomServiceBase
         [FromQuery] string account = "",
         [FromQuery] int state = -1)
     {
-        var response = new PaginatedItemResponse<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
+        var listQuery = new ListQuery(pageIndex, pageSize, account);
+        eventBus.PublishAsync(listQuery);
+        var response = new PaginatedItemResponse<UserItemResponse>(pageIndex, pageSize, listQuery.Total, listQuery.Result);
         return Success(response);
     }
 
@@ -25,8 +27,9 @@ public class UserServices : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid id)
     {
-        var response = new UserDetailResponse();
-        return Success(response);
+        var detailQuery = new DetailQuery(id);
+        eventBus.PublishAsync(detailQuery);
+        return Success(detailQuery.Result);
     }
 
     public ApiResultResponseBase CreateAsync(

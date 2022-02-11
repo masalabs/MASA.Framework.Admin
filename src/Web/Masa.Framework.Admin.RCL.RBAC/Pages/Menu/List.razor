@@ -1,4 +1,4 @@
-﻿@page "/Menu"
+﻿@page "/menu/list"
 @inject NavigationManager Nav
 
 @*<MCard>
@@ -50,7 +50,7 @@
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
                 <span class="text-btn neutral-lighten-1--text">Show:</span>
-                <MSelect @bind-Value="_menuPage.PageSize"
+                <MSelect OnSelectedItemUpdate="OnPageSizeChanged"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
@@ -58,13 +58,16 @@
                          HideDetails="@("auto")"
                          Outlined
                          Items="@_menuPage.PageSizes"
+                         TItem="int"
+                         TValue="int"
+                         TItemValue="int"
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
                 <span class="text-btn">entries</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField @bind-Value="_menuPage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MTextField OnChange="OnSearchChanged" Color="primary" TValue="string" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
@@ -128,7 +131,7 @@
     </MCardText>
 </MCard>
 
-<AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
+<AddOrEdit MenuPage=_menuPage @bind-Visible=_openMenuForm></AddOrEdit>
 
 <MDialog @bind-Value="_menuPage.Success" Transition="dialog-bottom-transition" MaxWidth=600>
     <ChildContent>
@@ -148,6 +151,8 @@
     </ChildContent>
 </MDialog>
 
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding />
+
 @code{
     public bool _openMenuForm;
     public MenuPage _menuPage = default!;
@@ -161,11 +166,16 @@
         await _menuPage.QueryPageDatasAsync();
     }
 
-    public List<MenuItemResponse> QueryPageDatas()
+    public async Task OnPageSizeChanged(int pageSize)
     {
-        _menuPage.QueryPageDatasAsync().ContinueWith(_ => InvokeAsync(StateHasChanged));
+        _menuPage.PageSize = pageSize;
+        await _menuPage.QueryPageDatasAsync();
+    }
 
-        return _menuPage.MenuDatas;
+    public async Task OnSearchChanged(string search)
+    {
+        _menuPage.Search = search;
+        await _menuPage.QueryPageDatasAsync();
     }
 
     public void OpenAddMenuForm()

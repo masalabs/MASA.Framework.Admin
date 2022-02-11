@@ -43,8 +43,7 @@
             </MCol>
         </MRow>
     </MCardText>
-    @*Items="_userPage.GetPageDatas()"*@
-    <MDataTable Headers="_headers" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="_headers" Items="_userPage.UserPageData" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
@@ -117,7 +116,6 @@
             }
         </ItemColContent>
     </MDataTable>
-
     <MCardText>
         <div class="d-flex">
             <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_userPage.PageIndex-1)*_userPage.PageSize+1) to @(_userPage.PageIndex*_userPage.PageSize) of @_userPage.CurrentCount entries</div>
@@ -128,7 +126,6 @@
         </div>
     </MCardText>
 </MCard>
-
 
 <MNavigationDrawer Temporary Fixed Right Value=_visible Width="465" Class="pa-6">
     <div class="block-between mb-12">

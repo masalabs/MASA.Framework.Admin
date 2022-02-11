@@ -27,7 +27,12 @@ public class CommandHandler
             Account = createCommand.UserCreateRequest.Account,
             Name = createCommand.UserCreateRequest.Name,
             Email = createCommand.UserCreateRequest.Email,
-            Password = createCommand.UserCreateRequest.Pwd
+            Password = createCommand.UserCreateRequest.Pwd,
+            Gender = true,
+            Cover = "",
+            CreationTime = DateTime.Now,
+            Salt = "",
+            State = State.Enable
         });
         await _userRepository.UnitOfWork.SaveChangesAsync();
     }

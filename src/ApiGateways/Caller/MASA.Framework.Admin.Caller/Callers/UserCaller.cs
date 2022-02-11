@@ -26,17 +26,17 @@ public class UserCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(Contracts.User.Routing.UserDetail, id));
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(Routing.UserDetail, id));
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(Contracts.User.Routing.OperateUser, userCreateRequest);
+        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(Routing.OperateUser, userCreateRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
-        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Contracts.User.Routing.OperateUser, new { id });
+        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Routing.OperateUser, new { id });
     }
 }
 

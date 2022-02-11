@@ -15,15 +15,15 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
         }
 
         [EventHandler]
-        public async Task<Domain.Entities.Dic> GetAsync(DicQuery query)
+        public async Task GetAsync(DicQuery query)
         {
-            return await _dicRepository.GetAsync(query.id);
+            query.Result = await _dicRepository.GetAsync(query.id);
         }
 
         [EventHandler]
-        public async Task<PagingResult<Domain.Entities.Dic>> GetAsync(DicPageQuery query)
+        public async Task GetAsync(DicPageQuery query)
         {
-            return await _dicRepository.GetPageAsync(query.Options);
+            query.Result = await _dicRepository.GetPageAsync(query.Options);
         }
     }
 }

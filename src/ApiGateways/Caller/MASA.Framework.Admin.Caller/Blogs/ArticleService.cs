@@ -37,4 +37,54 @@ public class ArticleService
         return await _callerProviderProvider.PostAsync<GetBlogArticleUserOptions,
             PagingResult<BlogInfoListViewModel>>("/​api/articles/BlogArticleByUser", options);
     }
+
+    /// <summary>
+    /// 发布博客
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public async Task CreateAsync(CreateBlogInfoModel request)
+    {
+        await _callerProviderProvider.PostAsync("/api/articles/Create", request);
+    }
+
+    /// <summary>
+    /// 修改博客
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public async Task UpdateAsync(UpdateBlogInfoModel request)
+    {
+        await _callerProviderProvider.PostAsync("/api/articles/Update", request);
+    }
+
+    /// <summary>
+    /// 批量删除博客
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    public async Task RemoveAsync(Guid[] ids)
+    {
+        await _callerProviderProvider.PostAsync("/api/articles/Remove", ids);
+    }
+
+    /// <summary>
+    /// 添加浏览记录
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public async Task AddVisitsAsync(AddBlogVisitModel request)
+    {
+        await _callerProviderProvider.PostAsync("/api/articles/AddVisits", request);
+    }
+
+    /// <summary>
+    /// 点赞、取消点赞记录
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    public async Task AddBlogApprovedRecordAsync(BlogApprovedRecordModel request)
+    {
+        await _callerProviderProvider.PostAsync("/api/articles/AddBlogApprovedRecord", request);
+    }
 }

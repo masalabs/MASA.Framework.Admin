@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Base.Response;
 
-public class PaginatedItemsViewModel<TEntity> where TEntity : class
+public class PaginatedItemResponse<TEntity> where TEntity : class
 {
     public int PageIndex { get; private set; }
 
@@ -10,7 +10,7 @@ public class PaginatedItemsViewModel<TEntity> where TEntity : class
 
     public IEnumerable<TEntity> Items { get; private set; }
 
-    public PaginatedItemsViewModel(int pageIndex, int pageSize, long count, IEnumerable<TEntity> items)
+    public PaginatedItemResponse(int pageIndex, int pageSize, long count, IEnumerable<TEntity> items)
     {
         PageIndex = pageIndex;
         PageSize = pageSize;

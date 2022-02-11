@@ -8,5 +8,13 @@ public class RoleItemResponse
 
     public string Describe { get; set; } = default!;
 
+    /// <summary>
+    /// Current role limit
+    /// Unlimited: -1
+    /// </summary>
+    public int Number { get; set; }
 
+    public State State { get; set; }
+
+    public DateTimeOffset CreationTime { get; set; }
 }

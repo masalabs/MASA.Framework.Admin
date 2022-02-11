@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
 	<ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
     <ProjectReference Include="..\src\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
     <ProjectReference Include="..\src\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />

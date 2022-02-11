@@ -1,3 +1,4 @@
+using MASA.Framework.Admin.Contracts.Authentication.Const;
 using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Framework.Admin.Contracts.Configuration.Response;
 using MASA.Utils.Caller.HttpClient;
@@ -22,7 +23,7 @@ namespace MASA.Framework.Admin.Caller.Callers
                 ["pageIndex"] = pageIndex.ToString(),
                 ["pageSize"] = pageSize.ToString(),
             };
-            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>>($"/api/configurations/menu/items", paramters);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>>(UrlRule.OBJECT_SERVICE, paramters);
         }
     }
 }

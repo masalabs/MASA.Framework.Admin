@@ -1,0 +1,44 @@
+﻿<MDataTable HideDefaultFooter Headers="_resourcePage.Headers" TItem="MenuItemResponse" Items="_resourcePage.MenuDatas" Class="table-header-fill table-border-solid">
+    <HeaderColContent Context="header">
+        <span class="text-body neutral-lighten-1--text">@header.Text</span>
+    </HeaderColContent>
+
+    <ItemColContent>
+        @switch (context.Header.Value)
+        {
+            case nameof(PermissionDto.Module):
+                <span class="text-body neutral-lighten-2--text">@context.Value</span>
+                break;
+            case nameof(PermissionDto.Read):
+                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Read"></MCheckbox>
+                break;
+            case nameof(PermissionDto.Write):
+                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Write"></MCheckbox>
+                break;
+            case nameof(PermissionDto.Create):
+                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Create"></MCheckbox>
+                break;
+            case nameof(PermissionDto.Delete):
+                <MCheckbox Class="mt-0" Color="primary" @bind-Value="context.Item.Delete"></MCheckbox>
+                break;
+            default:
+                @context.Value
+                break;
+        }
+    </ItemColContent>
+</MDataTable>
+
+@code{
+    public ObjectPage _resourcePage = default!;
+
+    [Inject]
+    public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _resourcePage = new(ConfigurationCaller);
+        await _resourcePage.QueryPageDatasAsync();
+    }
+
+
+}

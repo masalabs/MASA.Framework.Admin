@@ -1,4 +1,4 @@
-﻿@page "/app/user/list"
+﻿@page "/Menu"
 @inject NavigationManager Nav
 
 @*<MCard>
@@ -69,7 +69,7 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="OpenAddMenuPage">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="OpenAddMenuForm">
                     Add Menu
                 </MButton>
             </MCol>
@@ -85,7 +85,7 @@
                 @switch (context.Header.Value)
                 {
                     case nameof(MenuItemResponse.Name):
-                        <div class="hover-pointer d-flex my-2" @onclick="()=> _visible = true">
+                        <div class="hover-pointer d-flex my-2" @onclick="()=> _openMenuForm = true">
                             <span>@context.Item.Name</span>
                         </div>
                         break;
@@ -102,7 +102,7 @@
                         @(context.Item.Disabled?"Disabled":"Enable")
                         break;
                     case "Action":
-                        <MButton @onclick="OpenEditMenuPage">
+                        <MButton @onclick="OpenAddMenuForm">
                             Edit
                         </MButton>
                         <MButton Color="error" OnClick="DeleteMenuAsync">
@@ -128,7 +128,7 @@
     </MCardText>
 </MCard>
 
-<Add @bind-Visible=_visible></Add>
+<AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
 
 <MDialog @bind-Value="!_menuPage.Success"
          Transition="dialog-bottom-transition"
@@ -151,3 +151,37 @@
         </MCard>
     </ChildContent>
 </MDialog>
+
+@code{
+    public bool _openMenuForm;
+    public MenuPage _menuPage = default!;
+
+    [Inject]
+    public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _menuPage = new(ConfigurationCaller);
+        await _menuPage.QueryPageDatasAsync();
+    }
+
+    public List<MenuItemResponse> QueryPageDatas()
+    {
+        _menuPage.QueryPageDatasAsync().ContinueWith(_ => InvokeAsync(StateHasChanged));
+
+        return _menuPage.MenuDatas;
+    }
+
+    public void OpenAddMenuForm()
+    {
+        _menuPage.CurrentMenuData = new();
+        OpenMenuForm();
+    }
+
+    public void OpenMenuForm() => _openMenuForm = true;
+
+    private async Task DeleteMenuAsync()
+    {
+        await _menuPage.DeleteAsync();
+    }
+}

@@ -1,5 +1,5 @@
-using MASA.Framework.Admin.Contracts.Authentication.Const;
 using MASA.Framework.Admin.Contracts.Base.Response;
+using MASA.Framework.Admin.Contracts.Configuration;
 using MASA.Framework.Admin.Contracts.Configuration.Response;
 using MASA.Utils.Caller.HttpClient;
 using Microsoft.Extensions.Configuration;
@@ -16,14 +16,14 @@ namespace MASA.Framework.Admin.Caller.Callers
             BaseAddress = configuration["ApiGateways.ConfigurationCaller"];
         }
 
-        public async Task<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
+        public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
         {
             var paramters = new Dictionary<string, string>
             {
                 ["pageIndex"] = pageIndex.ToString(),
                 ["pageSize"] = pageSize.ToString(),
             };
-            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>>(UrlRule.OBJECT_SERVICE, paramters);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(Routing.MenuList, paramters);
         }
     }
 }

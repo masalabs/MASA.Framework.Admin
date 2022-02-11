@@ -6,7 +6,7 @@ public class ObjectPage
 {
     public List<ObjectItemResponse> ObjectDatas { get; set; }
 
-    private ConfigurationCaller ConfigurationCaller { get; set; }
+    private AuthenticationCaller AuthenticationCaller { get; set; }
 
     public string? Role { get; set; }
 
@@ -40,22 +40,22 @@ public class ObjectPage
         new() { Text = "ACTIONS", Value = "Action", Sortable = false }
     };
 
-    public ObjectPage(ConfigurationCaller configurationCaller)
+    public ObjectPage(AuthenticationCaller authenticationCaller)
     {
-        ConfigurationCaller = configurationCaller;
-        MenuDatas = new();
+        AuthenticationCaller = authenticationCaller;
+        ObjectDatas = new();
     }
 
     public async Task QueryPageDatasAsync()
     {
-        var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
+        var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize);
         Success = result.Success;
         Message = result.Message;
         if(Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
-            MenuDatas = pageData.Items.ToList();
+            ObjectDatas = pageData.Items.ToList();
         }
     }
 

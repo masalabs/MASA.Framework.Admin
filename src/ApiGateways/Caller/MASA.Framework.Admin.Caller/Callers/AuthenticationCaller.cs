@@ -1,8 +1,8 @@
+using MASA.Framework.Admin.Contracts.Authentication;
+using MASA.Framework.Admin.Contracts.Authentication.Const;
 using MASA.Framework.Admin.Contracts.Authentication.Enum;
 using MASA.Framework.Admin.Contracts.Authentication.Response;
 using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Framework.Admin.Contracts.Configuration.Const;
-using MASA.Framework.Admin.Contracts.Configuration.Response;
 using MASA.Utils.Caller.HttpClient;
 using Microsoft.Extensions.Configuration;
 
@@ -18,16 +18,17 @@ namespace MASA.Framework.Admin.Caller.Callers
             BaseAddress = configuration["ApiGateways.AuthenticationCaller"];
         }
 
-        public async Task<ApiResultResponse<PaginatedItemsViewModel<ObjectItemResponse>>> GetItemsAsync(int pageIndex, int pageSize, ObjectType? type = null, string name = "")
+        public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize, int type = -1, string name = "")
         {
             var paramters = new Dictionary<string, string>
             {
                 ["pageIndex"] = pageIndex.ToString(),
                 ["pageSize"] = pageSize.ToString(),
+                ["type"] = type.ToString(),
                 ["name"] = name,
             };
 
-            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>>>(UrlRule.MENU_SERVICE, paramters);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(Routing.ObjectList, paramters);
         }
     }
 }

@@ -130,21 +130,17 @@
 
 <AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
 
-<MDialog @bind-Value="!_menuPage.Success"
-         Transition="dialog-bottom-transition"
-         MaxWidth="600">
+<MDialog @bind-Value="_menuPage.Success" Transition="dialog-bottom-transition" MaxWidth=600>
     <ChildContent>
         <MCard>
-            <MToolbar Color="red"
-                      Dark>
+            <MToolbar Color="red">
                 Error
             </MToolbar>
             <MCardText>
                 <div class="text-h2 pa-12">@_menuPage.Message</div>
             </MCardText>
             <MCardActions Class="justify-end">
-                <MButton Text
-                         OnClick="() => _menuPage.Success = true">
+                <MButton Text OnClick="() => _menuPage.Success = true">
                     Close
                 </MButton>
             </MCardActions>

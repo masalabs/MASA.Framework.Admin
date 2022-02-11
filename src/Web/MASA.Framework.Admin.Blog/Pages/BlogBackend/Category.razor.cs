@@ -7,40 +7,14 @@ public partial class Category : ProCompontentBase
     private GetBlogTypePagingOption _options = new();
     private int _totalCount = 0;
     private bool _loading = false;
-    private List<BlogTypeListViewModel> _tableData = new()
-    {
-        new BlogTypeListViewModel()
-        {
-            Id = new Guid(),
-            TypeName = "Net Core",
-            CreationTime = DateTime.Now
-        },
-        new BlogTypeListViewModel()
-        {
-            Id = new Guid(),
-            TypeName = "Go",
-            CreationTime = DateTime.Now
-        },
-        new BlogTypeListViewModel()
-        {
-            Id = new Guid(),
-            TypeName = "Python",
-            CreationTime = DateTime.Now
-        },
-        new BlogTypeListViewModel()
-        {
-            Id = new Guid(),
-            TypeName = "C++",
-            CreationTime = DateTime.Now
-        }
-    };
+    private List<BlogTypeListViewModel> _tableData = new();
 
     private readonly List<DataTableHeader<BlogTypeListViewModel>> _headers = new()
     {
         new()
         { Text = "名称", Value = nameof(BlogTypeListViewModel.TypeName), Sortable = false },
         new()
-        { Text = "创建时间", Value = nameof(BlogTypeListViewModel.CreationTime),Sortable = false },
+        { Text = "创建时间", Value = nameof(BlogTypeListViewModel.CreationTime), Sortable = false },
         new()
         { Text = "操作", Value = "actions", Width = 300, Sortable = false }
     };
@@ -52,6 +26,14 @@ public partial class Category : ProCompontentBase
 
     [Inject] protected BlogCaller BlogCaller { get; set; }
 
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await FetchList();
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     private async Task FetchList(int pageIndex = 1, int pageSize = 10)
     {
         _options.PageIndex = pageIndex;
@@ -59,7 +41,7 @@ public partial class Category : ProCompontentBase
 
         _loading = true;
 
-        var result = await BlogCaller.TypeService.GetList(_options);
+        var result = await BlogCaller.BlogTypeService.PagingAsync(_options);
         _totalCount = result.TotalCount;
 
         _loading = false;
@@ -77,7 +59,7 @@ public partial class Category : ProCompontentBase
     public async Task UpdateAsync(Guid id)
     {
         _dialogTitle = "更新";
-        _dataModal.Visible = true;  
+        _dataModal.Visible = true;
         //var result = await GetProductTypeAsync(id);
         //_dataModal.Show(new Mapping<GetProductTypeViewModel, ProductTypeListViewModel>().Map(result));
     }

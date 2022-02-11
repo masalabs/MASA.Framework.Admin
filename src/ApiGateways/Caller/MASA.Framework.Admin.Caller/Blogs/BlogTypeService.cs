@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,6 @@ namespace MASA.Framework.Admin.Caller.Blogs
         public BlogTypeService(ICallerProvider callerProvider)
         {
             _callerProviderProvider = callerProvider;
-        }
-
-        public Task<PagingResult<BlogInfoListViewModel>> GetList(GetBlogArticleOptions options)
-        {
-            return _callerProviderProvider.PostAsync<GetBlogArticleOptions, PagingResult<BlogInfoListViewModel>>(
-                "/api/articles/GetList", options);
         }
 
         public async Task CreateAsync(CreateBlogTypeModel request)

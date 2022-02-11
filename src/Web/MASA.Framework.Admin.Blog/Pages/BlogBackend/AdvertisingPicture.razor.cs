@@ -63,7 +63,7 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     public void Create()
     {
-
+        _dataModal.Show(new());
     }
 
     public void Modify(BlogAdvertisingPicturesListViewModel model)

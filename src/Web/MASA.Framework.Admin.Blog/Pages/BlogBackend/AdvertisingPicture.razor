@@ -5,6 +5,9 @@
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <LeftActions>
+        <MButton Color="primary" OnClick="Create"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+    </LeftActions>
     <Filters Context="filter">
         <MRow Dense>
             <MCol Cols="12" Sm="6">

@@ -8,7 +8,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private int _page = 1;
         private int _pageCount = 1;
         private bool _showWrite = false;
-        public PagingResult<BlogInfoListViewModel> Blogs { get; set; } = new PagingResult<BlogInfoListViewModel>();
+        public PagingResult<BlogInfoHomeListViewModel> Blogs { get; set; } = new PagingResult<BlogInfoHomeListViewModel>();
 
 
         protected override async Task OnInitializedAsync()
@@ -23,7 +23,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         private async Task FetchBlogs()
         {
-            Blogs = await BlogCaller.ArticleService.GetList(new GetBlogArticleOptions()
+            Blogs = await BlogCaller.ArticleService.BlogArticleHomeAsync(new GetBlogArticleHomeOptions()
             {
                 PageIndex= _page,
                 PageSize= 10

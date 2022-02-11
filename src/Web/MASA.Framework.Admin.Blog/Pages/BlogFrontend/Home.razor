@@ -23,18 +23,18 @@
         @foreach (var blog in Blogs.Data)
         {
             <MCard>
-                <MCardTitle>@blog.title</MCardTitle>
-                <MCardText> @blog.content.Substring(0, 50) </MCardText>
+                <MCardTitle>@blog.Title</MCardTitle>
+                <MCardText> @blog.Content.Substring(0, 50) </MCardText>
                 <MCardActions>
                     <p>
-                        <MAvatar Color="primary" Size="56">
+                       @* <MAvatar Color="primary" Size="56">
                             <span class="white--text">@blog.typeName</span>
-                        </MAvatar>
-                        @*<span>@blog..ToString("yyyy-MM-dd HH:mm")</span>
-                            <span>【@blog.】</span>*@
-                        <MIcon>mdi-thumb-up</MIcon> <span>@blog.approvedCount</span>
-                        <MIcon>mdi-comment-processing</MIcon> <span>@blog.commentCount</span>
-                        <MIcon>mdi-eye</MIcon> <span>@blog.visits</span>
+                        </MAvatar>*@
+                        <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
+                            <span>【@blog.】</span>
+                        <MIcon>mdi-thumb-up</MIcon> <span>@blog.ApprovedCount</span>
+                        <MIcon>mdi-comment-processing</MIcon> <span>@blog.CommentCount</span>
+                        <MIcon>mdi-eye</MIcon> <span>@blog.Visits</span>
                     </p>
                 </MCardActions>
             </MCard>

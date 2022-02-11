@@ -24,7 +24,7 @@ public class ArticleService
     public async Task<PagingResult<BlogInfoHomeListViewModel>> BlogArticleHomeAsync(GetBlogArticleHomeOptions options)
     {
         return await _callerProviderProvider.PostAsync<GetBlogArticleHomeOptions,
-            PagingResult<BlogInfoHomeListViewModel>>("/​api/articles/BlogArticleHome", options);
+            PagingResult<BlogInfoHomeListViewModel>>("/api/articles/BlogArticleHome", options);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class ArticleService
     public async Task<PagingResult<BlogInfoListViewModel>> BlogArticleByUserAsync(GetBlogArticleUserOptions options)
     {
         return await _callerProviderProvider.PostAsync<GetBlogArticleUserOptions,
-            PagingResult<BlogInfoListViewModel>>("/​api/articles/BlogArticleByUser", options);
+            PagingResult<BlogInfoListViewModel>>("/api/articles/BlogArticleByUser", options);
     }
 
     /// <summary>

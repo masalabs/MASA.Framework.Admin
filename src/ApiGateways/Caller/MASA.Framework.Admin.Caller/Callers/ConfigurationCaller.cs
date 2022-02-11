@@ -4,12 +4,12 @@ namespace MASA.Framework.Admin.Caller.Callers;
 
 public class ConfigurationCaller : HttpClientCallerBase
 {
-    protected override string BaseAddress { get; set; }
+    protected override string BaseAddress { get; set; } = "http://localhost:5141/";
 
     public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(ConfigurationCaller);
-        BaseAddress = configuration["ApiGateways.ConfigurationCaller"];
+        //BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)

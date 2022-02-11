@@ -1,4 +1,4 @@
-﻿@page "/Menu"
+﻿@page "/menu/list"
 @inject NavigationManager Nav
 
 @*<MCard>
@@ -131,7 +131,7 @@
     </MCardText>
 </MCard>
 
-<AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
+<AddOrEdit MenuPage=_menuPage @bind-Visible=_openMenuForm></AddOrEdit>
 
 <MDialog @bind-Value="_menuPage.Success" Transition="dialog-bottom-transition" MaxWidth=600>
     <ChildContent>
@@ -151,7 +151,7 @@
     </ChildContent>
 </MDialog>
 
-<Masa.Framework.Admin.RCL.RBAC.Shared.Lodding Lodding />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding />
 
 @code{
     public bool _openMenuForm;

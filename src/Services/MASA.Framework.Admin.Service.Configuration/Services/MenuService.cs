@@ -1,6 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Configuration;
 
-namespace MASA.Framework.Admin.Configuration.Services;
+namespace MASA.Framework.Admin.Service.Configuration.Services;
 
 public class MenuService : CustomServiceBase
 {

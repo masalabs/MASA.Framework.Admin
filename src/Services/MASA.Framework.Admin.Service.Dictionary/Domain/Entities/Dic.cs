@@ -1,7 +1,10 @@
-﻿namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MASA.Framework.Admin.Service.Dictionary.Domain.Entities
 {
     public class Dic
     {
+        [Key]
         public Guid Id { get; set; }
 
         public DateTimeOffset CreateTime { get; set; } = DateTimeOffset.Now;

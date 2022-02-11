@@ -1,3 +1,4 @@
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -37,14 +38,19 @@ builder.Services
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {
     options.UseEventBus()
-           .UseUoW<DicDbContext>(dbOptions => 
+           .UseUoW<DictionaryDbContext>(dbOptions => 
            dbOptions.UseSqlServer("Server=10.10.90.67,30160,30060;DataBase=PND;uid=sa;pwd=p@ssw0rd"))
-           .UseEventLog<DicDbContext>();
+           .UseEventLog<DictionaryDbContext>();
 });
+
+builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis")).AddMasaMemoryCache();
 
 builder.Services.AddEventBus();
 builder.Services.AddScoped<IDicRepository, DicRepository>();
-var app = builder.Build();
+builder.Services.AddScoped<IDicValueRepository, DicValueRepository>();
+
+var app = builder.Services.AddServices(builder);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -52,7 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MigrateDbContext<DicDbContext>((context, services) =>
+app.MigrateDbContext<DictionaryDbContext>((context, services) =>
 {
     context.SaveChanges();
 });

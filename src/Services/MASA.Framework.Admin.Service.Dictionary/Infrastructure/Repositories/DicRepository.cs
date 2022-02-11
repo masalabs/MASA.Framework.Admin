@@ -1,23 +1,25 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MASA.Framework.Admin.Contracts.Dictionary;
+using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
+using System.Linq.Expressions;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 {
     public class DicRepository : IDicRepository
     {
-        private readonly DicDbContext _dicDbContext;
+        private readonly DictionaryDbContext _dbContext;
 
-        public DicRepository(DicDbContext dicDbContext)
+        public DicRepository(DictionaryDbContext dbContext)
         {
-            _dicDbContext = dicDbContext;
+            _dbContext = dbContext;
         }
 
         public async Task<Dic> AddAsync(Dic dic)
         {
-            _dicDbContext.Add(dic);
+            _dbContext.Add(dic);
 
             try
             {
-                await _dicDbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 return dic;
             }
             catch (DbUpdateException ex) when ((ex.InnerException as SqlException)?.Number == 2627)
@@ -28,13 +30,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
         public async Task DeleteAllAsync(List<Guid> guids)
         {
-            var list = await _dicDbContext.Dics.Where(q => guids.Contains(q.Id)).ToListAsync();
+            var list = await _dbContext.Dics.Where(q => guids.Contains(q.Id)).ToListAsync();
 
-            if (list.Count > 0)
+            if (list?.Count > 0)
             {
-                _dicDbContext.RemoveRange(list);
+                _dbContext.RemoveRange(list);
 
-                await _dicDbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
@@ -44,22 +46,33 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
             if (detail != null)
             {
-                _dicDbContext.Remove(detail);
+                _dbContext.Remove(detail);
 
-                await _dicDbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
-        }
-
-        public async Task<Dic> GetAsync(Guid id)
-        {
-            return await _dicDbContext.Dics.SingleAsync(o => o.Id == id);
         }
 
         public async Task<Dic> UpdateAsync(Dic dic)
         {
-            _dicDbContext.Update(dic);
-            await _dicDbContext.SaveChangesAsync();
+            _dbContext.Update(dic);
+            await _dbContext.SaveChangesAsync();
             return dic;
         }
+
+        public async Task<Dic> GetAsync(Guid id)
+        {
+            return await _dbContext.Dics.SingleAsync(o => o.Id == id);
+        }
+
+        public async Task<PagingResult<Dic>> GetPageAsync(DicPagingOptions options)
+        {
+            var query = _dbContext.Dics.OrderBy(r => r.CreateTime);
+
+            var totalCount = await query.CountAsync();
+            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+
+            return new PagingResult<Dic>(options.PageIndex, options.PageSize, totalCount, data);
+        }
+
     }
 }

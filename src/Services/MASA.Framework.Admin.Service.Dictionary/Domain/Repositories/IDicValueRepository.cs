@@ -2,9 +2,9 @@
 {
     public interface IDicValueRepository
     {
-        Task<DicValue> AddAsync(DicValue  dicValue);
+        Task<DicValue> AddAsync(DicValue dicValue);
 
-        Task UpdateAsync(DicValue dicValue);
+        Task<DicValue> UpdateAsync(DicValue dicValue);
 
         Task DeleteAsync(Guid id);
 

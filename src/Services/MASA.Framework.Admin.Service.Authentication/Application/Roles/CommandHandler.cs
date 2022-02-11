@@ -24,6 +24,7 @@ public class CommandHandler
     [EventHandler]
     public async Task EditRoleAsync(EditRoleCommand command)
     {
+        throw new UserFriendlyException("asd");
         var role = await _repository.FindAsync(command.Request.RuleId);
         if (role == null)
             throw new UserFriendlyException("The current role does not exist", Code.NOT_FIND_ERROR);

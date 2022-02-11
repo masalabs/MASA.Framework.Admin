@@ -33,10 +33,12 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         State = State.Enable;
     }
 
-    public void SetInheritedRole(List<Guid> ids)
+    public void SetInheritedRole(List<Guid>? ids)
     {
         this.roleItems.Clear();
-        this.roleItems.AddRange(ids.Select(id => new RoleItem(id)));
+
+        if (ids != null)
+            this.roleItems.AddRange(ids.Select(id => new RoleItem(id)));
     }
 
     public void Update(string name, string describe)

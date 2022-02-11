@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class QueryHandler
 {
@@ -9,8 +9,10 @@ public class QueryHandler
         _repository = repository;
     }
 
-    public async Task RolesQueryAsync(RolesQuery query)
+    [EventHandler]
+    public Task RolesQueryAsync(RolesQuery query)
     {
-
+        var list = _repository.GetList();
+        return Task.CompletedTask;
     }
 }

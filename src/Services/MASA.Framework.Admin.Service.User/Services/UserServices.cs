@@ -34,9 +34,13 @@ public class UserServices : CustomServiceBase
 
     public ApiResultResponseBase CreateAsync(
         [FromServices] IEventBus eventBus,
+        [FromQuery] Guid createUserId,
         [FromBody] UserCreateRequest userCreateRequest)
     {
-        eventBus.PublishAsync(new CreateCommand(userCreateRequest));
+        eventBus.PublishAsync(new CreateCommand(userCreateRequest)
+        {
+            UserId = createUserId
+        });
         return Success();
     }
 

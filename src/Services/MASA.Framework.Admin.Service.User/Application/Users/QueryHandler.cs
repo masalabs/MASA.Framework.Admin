@@ -10,7 +10,7 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task HandlerAsync(DetailQuery detailQuery)
+    public async Task GetDetailAsync(DetailQuery detailQuery)
     {
         var user = await _userRepository.FindAsync(detailQuery.UserId);
         if (user == null)
@@ -31,8 +31,11 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task HandlerAsync(ListQuery listQuery)
+    public async Task GetListAsync(ListQuery listQuery)
     {
+        var list = await _userRepository.GetListAsync();
+
+        return;
         var users = await _userRepository.GetPaginatedListAsync((u) => u.Account.Contains(listQuery.Account), new PaginatedOptions
         {
             Page = listQuery.PageIndex,
@@ -56,4 +59,3 @@ public class QueryHandler
         listQuery.Total = users.Total;
     }
 }
-

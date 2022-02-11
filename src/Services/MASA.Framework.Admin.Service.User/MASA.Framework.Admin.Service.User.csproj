@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
@@ -18,7 +18,6 @@
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-      <PackageReference Include="MASA.BuildingBlocks.ReadWriteSpliting.CQRS" Version="0.0.1706110254" />
       <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1736024337" />
       <PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1736024337" />
       <PackageReference Include="MASA.Contrib.DDD.Domain" Version="0.0.1736024337" />

@@ -4,7 +4,7 @@ public class UserDbContext : IntegrationEventLogContext
 {
     public const string DEFAULT_SCHEMA = "user";
 
-    public DbSet<Users> Users { get; set; } = null!;
+    public DbSet<Users> Users { get; set; }
 
     public UserDbContext(MasaDbContextOptions<UserDbContext> options) : base(options)
     {
@@ -17,4 +17,3 @@ public class UserDbContext : IntegrationEventLogContext
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
     }
 }
-

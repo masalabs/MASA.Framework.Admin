@@ -10,31 +10,29 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task HandlerAsync(DeleteCommand deleteCommand)
+    public async Task DeleteAsync(DeleteCommand deleteCommand)
     {
         var user = await _userRepository.FindAsync(deleteCommand.UserId);
         if (user == null)
             throw new UserFriendlyException("userid not found");
+
         await _userRepository.RemoveAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 
     [EventHandler]
-    public async Task HandlerAsync(CreateCommand createCommand)
+    public async Task CreateAsync(CreateCommand createCommand)
     {
-        await _userRepository.AddAsync(new Domain.Aggregate.Users
+        var user = new Domain.Aggregate.Users(
+            createCommand.UserId,
+            createCommand.UserCreateRequest.Account,
+            createCommand.UserCreateRequest.Pwd)
         {
-            Account = createCommand.UserCreateRequest.Account,
             Name = createCommand.UserCreateRequest.Name,
             Email = createCommand.UserCreateRequest.Email,
-            Password = createCommand.UserCreateRequest.Pwd,
             Gender = true,
-            Cover = "",
-            CreationTime = DateTime.Now,
-            Salt = "",
-            State = State.Enable
-        });
+        };
+        await _userRepository.AddAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 }
-

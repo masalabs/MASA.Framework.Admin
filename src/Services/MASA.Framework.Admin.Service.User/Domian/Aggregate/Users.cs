@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.User.Domian.Aggregate;
+namespace MASA.Framework.Admin.Service.User.Domian.Aggregate;
 
-public class Users : AggregateRoot<Guid>
+public class Users : AuditAggregateRoot<Guid, Guid>
 {
     public UserType Type { get; set; }
 
@@ -19,8 +19,6 @@ public class Users : AggregateRoot<Guid>
     public string? Email { get; set; }
 
     public State State { get; set; }
-
-    public DateTimeOffset CreationTime { get; set; }
 
     public DateTimeOffset LastLoginTime { get; set; }
 

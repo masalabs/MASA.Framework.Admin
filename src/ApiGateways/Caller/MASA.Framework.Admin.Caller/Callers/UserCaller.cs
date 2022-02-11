@@ -37,5 +37,10 @@ public class UserCaller : HttpClientCallerBase
     {
         return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.OperateUser, "");
     }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(string id)
+    {
+        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Routing.OperateUser, new { id });
+    }
 }
 

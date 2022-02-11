@@ -34,3 +34,6 @@ global using MASA.Framework.Admin.Configuration.Domain.Aggregate;
 global using MASA.BuildingBlocks.DDD.Domain.Repositories;
 global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
 global using MASA.Framework.Admin.Contracts.Base.Enum;
+global using MASA.Contrib.Configuration;
+global using MASA.Framework.Admin.Configuration.Services;
+global using Microsoft.Extensions.Options;

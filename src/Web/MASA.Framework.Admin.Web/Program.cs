@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Caller.Callers;
+using CallerOptions = MASA.Framework.Admin.Caller.Configurations.CallerOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +16,9 @@ builder.Services.AddMasaBlazor(builder =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
-builder.Services.AddCaller(typeof(UserCaller).Assembly);
-
+Assembly[] assemblies = { typeof(UserCaller).Assembly };
+builder.Services.AddCaller(assemblies);
+builder.AddMasaConfiguration(null, assemblies: assemblies);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

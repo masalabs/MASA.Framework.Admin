@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MASA.BuildingBlocks.Data.UoW" Version="0.0.1706110254" />
+    <PackageReference Include="MASA.Contrib.Configuration" Version="0.0.1736024337" />
     <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1736024337" />
   </ItemGroup>
 </Project>

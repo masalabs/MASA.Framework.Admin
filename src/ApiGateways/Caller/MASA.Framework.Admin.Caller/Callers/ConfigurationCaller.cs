@@ -1,15 +1,13 @@
-using Routing = MASA.Framework.Admin.Contracts.Configuration.Routing;
-
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class ConfigurationCaller : HttpClientCallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public ConfigurationCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
     {
         Name = nameof(ConfigurationCaller);
-        BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
+        BaseAddress = options.Value.ConfigurationCaller;
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
@@ -19,7 +17,7 @@ public class ConfigurationCaller : HttpClientCallerBase
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
         };
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(Routing.MenuList, paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(ConfigurationRouting.MenuList,
+            paramters);
     }
 }
-

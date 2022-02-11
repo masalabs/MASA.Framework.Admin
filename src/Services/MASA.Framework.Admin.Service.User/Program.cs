@@ -1,4 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
+builder.AddMasaConfiguration(
+    null,
+    assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<UserServices>();
@@ -17,7 +20,13 @@ var app = builder.Services.AddFluentValidation(options =>
     .AddDomainEventBus(options =>
     {
         options.UseEventBus()
-            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog_users"))
+            .UseUoW<UserDbContext>(dbOptions =>
+            {
+                var serviceProvider = builder.Services.BuildServiceProvider()!;
+                var option = serviceProvider
+                    .GetRequiredService<IOptions<MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions>>();
+                dbOptions.UseSqlServer(option.Value.DbConn);
+            })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<UserDbContext>()
             .UseRepository<UserDbContext>();

@@ -1,15 +1,13 @@
-using Routing = MASA.Framework.Admin.Contracts.Authentication.Routing;
-
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class AuthenticationCaller : HttpClientCallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public AuthenticationCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
     {
         Name = nameof(AuthenticationCaller);
-        BaseAddress = configuration["ApiGateways.AuthenticationCaller"];
+        BaseAddress = options.Value.AuthenticationCaller;
     }
 
     #region Object
@@ -25,23 +23,23 @@ public class AuthenticationCaller : HttpClientCallerBase
             ["name"] = name ?? "",
         };
 
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(Routing.ObjectList,
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(AuthenticationRouting.ObjectList,
             paramters);
     }
 
     public async Task<ApiResultResponseBase> AddObjectAsync(AddObjectRequest request)
     {
-        return await CallerProvider.PostAsync<AddObjectRequest, ApiResultResponseBase>(Routing.OperateObject, request);
+        return await CallerProvider.PostAsync<AddObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
     }
 
     public async Task<ApiResultResponseBase> EditObjectAsync(EditObjectRequest request)
     {
-        return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(Routing.OperateObject, request);
+        return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
     }
 
     // public async Task<ApiResultResponseBase> ChangeObjectStateAsync(ChangeStateCommand command)
     // {
-    //     return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(Routing.OperateObject, command);
+    //     return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(AuthenticationRouting.OperateObject, command);
     // }
 
     #endregion
@@ -59,17 +57,17 @@ public class AuthenticationCaller : HttpClientCallerBase
             ["name"] = name ?? "",
         };
 
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>>(Routing.RoleList, paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>>(AuthenticationRouting.RoleList, paramters);
     }
 
     public async Task<ApiResultResponseBase> AddRoleAsync(AddRoleRequest request)
     {
-        return await CallerProvider.PostAsync<AddRoleRequest, ApiResultResponseBase>(Routing.OperateRole, request);
+        return await CallerProvider.PostAsync<AddRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
 
     public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
     {
-        return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(Routing.OperateRole, request);
+        return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
 
     #endregion
@@ -80,10 +78,10 @@ public class AuthenticationCaller : HttpClientCallerBase
     {
         var paramters = new Dictionary<string, string>
         {
-            ["roleId"] = roleId.ToString(),           
+            ["roleId"] = roleId.ToString(),
         };
 
-        return await CallerProvider.GetAsync<ApiResultResponse<List<AuthorizeItemResponse>>>(Routing.AuthorizeList,
+        return await CallerProvider.GetAsync<ApiResultResponse<List<AuthorizeItemResponse>>>(AuthenticationRouting.AuthorizeList,
             paramters);
     }
 

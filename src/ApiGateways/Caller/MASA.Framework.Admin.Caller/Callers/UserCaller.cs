@@ -1,17 +1,17 @@
-using Routing = MASA.Framework.Admin.Contracts.User.Routing;
-
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class UserCaller : HttpClientCallerBase
 {
-    protected override string BaseAddress { get; set; } = "http://localhost:5136";
+    protected override string BaseAddress { get; set; }
 
-    public UserCaller(IServiceProvider serviceProvider) : base(serviceProvider)
+    public UserCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
     {
         Name = nameof(UserCaller);
+        BaseAddress = options.Value.UserCaller;
     }
 
-    public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
+    public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
+        string account = "", int state = -1)
     {
         var queryArguments = new Dictionary<string, string?>()
         {
@@ -26,17 +26,16 @@ public class UserCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(Routing.UserDetail, id));
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(UserRouting.UserDetail, id));
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(Routing.OperateUser, userCreateRequest);
+        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
-        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(Routing.OperateUser, new { id });
+        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(UserRouting.OperateUser, new { id });
     }
 }
-

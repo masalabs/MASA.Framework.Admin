@@ -1,6 +1,8 @@
 global using BlazorComponent;
 global using BlazorComponent.I18n;
 global using MASA.Blazor;
+global using MASA.Contrib.Configuration;
+global using MASA.Framework.Admin.Caller.Callers;
 global using MASA.Framework.Admin.Web.Data.App.ECommerce;
 global using MASA.Framework.Admin.Web.Data.App.ECommerce.Dto;
 global using MASA.Framework.Admin.Web.Data.App.Invoice;

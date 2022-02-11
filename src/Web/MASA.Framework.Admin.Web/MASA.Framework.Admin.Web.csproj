@@ -17,7 +17,9 @@
     <PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.0.1711196569" />
     <PackageReference Include="MASA.Utils.Caching.Redis" Version="0.0.1711196569" />
     <PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.0.1711196569" />
+    <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.0.1711196569" />
     <PackageReference Include="MASA.Utils.Extensions.DependencyInjection" Version="0.0.1711196569" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
   </ItemGroup>

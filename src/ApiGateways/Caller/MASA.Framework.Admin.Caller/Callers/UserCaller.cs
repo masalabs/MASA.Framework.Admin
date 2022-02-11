@@ -17,9 +17,9 @@ namespace MASA.Framework.Admin.Caller.Callers
             Name = nameof(UserCaller);
         }
 
-        public async Task<string> Login(LoginModel loginModel)
+        public async Task<LoginViewModel> Login(LoginModel loginModel)
         {
-            return await CallerProvider.SendAsync<LoginModel, string>(HttpMethod.Post, $"api/User/Login", loginModel);
+            return await CallerProvider.SendAsync<LoginModel, LoginViewModel>(HttpMethod.Post, $"api/User/Login", loginModel);
         }
 
         public async Task<UserModel> GetUserAsync(int id)

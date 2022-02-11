@@ -1,8 +1,10 @@
 ﻿using MASA.Framework.Admin.Contracts.Order.Model;
 using MASA.Framework.Admin.Service.Login.Infrastructure.Repositories;
+using MASA.Framework.Admin.Service.Order.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MASA.Framework.Admin.Service.Login.Controllers
 {
@@ -13,10 +15,11 @@ namespace MASA.Framework.Admin.Service.Login.Controllers
     {
         [AllowAnonymous]
         [HttpPost]
-        public async Task<string> Login([FromServices] IUserRepository userRepository, LoginModel model)
+        public async Task<LoginViewModel> Login([FromServices] IUserRepository userRepository, LoginModel model)
         {
-            var token = await userRepository.LoginAsync(model);
-            return token;
+            var result = await userRepository.LoginAsync(model);
+
+            return result;
         }
 
         [HttpGet]
@@ -28,9 +31,18 @@ namespace MASA.Framework.Admin.Service.Login.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        public string Get([FromServices] IAuthRepository authRepository)
         {
-            return "123";
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userId = User.Claims.First(x => x.Type == "UserId").Value;//从Token中拿出用户ID
+                var token = authRepository.GenerateJwtToken(int.Parse(userId));
+                return token;
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

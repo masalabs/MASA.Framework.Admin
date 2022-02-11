@@ -2,34 +2,43 @@
 using MASA.Utils.Caching.DistributedMemory;
 using MASA.Utils.Caching.DistributedMemory.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MASA.Framework.Admin.Service.Login.Services
 {
     public class LoginService
     {
         private readonly string cacheKeyOnlineUserId = "online_user_id_";
-        private readonly MemoryCacheClient _memoryCacheClient;
+        private readonly IMemoryCache _memoryCache;
 
-        public LoginService(IMemoryCacheClientFactory MemoryCacheClientFactory)
+        public LoginService(IMemoryCache memoryCache)
         {
-            _memoryCacheClient = MemoryCacheClientFactory.CreateClient("masa.hks");
+            _memoryCache = memoryCache;
         }
 
-        public async Task<OnlineUserModel> GetOnlineUserByUserIdAsync(int userId)
+        public OnlineUserModel? GetOnlineUserByUserId(int userId)
         {
-            OnlineUserModel onlineUserDTO = await _memoryCacheClient.GetAsync<OnlineUserModel>($"{cacheKeyOnlineUserId}{userId}") ?? new OnlineUserModel();
+            OnlineUserModel? onlineUserDTO = _memoryCache.Get<OnlineUserModel>($"{cacheKeyOnlineUserId}{userId}");
 
             return onlineUserDTO;
         }
 
-        public async Task RemoveOnlineUserByUserIdAsync(int userId)
+        public void RemoveOnlineUserByUserId(int userId)
         {
-            await _memoryCacheClient.RemoveAsync<OnlineUserModel>($"{cacheKeyOnlineUserId}{userId}");
+            _memoryCache.Remove($"{cacheKeyOnlineUserId}{userId}");
         }
 
-        public async Task AddOrUpdateOnlineUserAsync(OnlineUserModel onlineUserDTO)
+        public void AddOrUpdateOnlineUser(OnlineUserModel onlineUserDTO)
         {
-            await _memoryCacheClient.SetAsync<OnlineUserModel>($"{cacheKeyOnlineUserId}{onlineUserDTO.UserId}", onlineUserDTO);
+            try
+            {
+                _memoryCache.Set<OnlineUserModel>($"{cacheKeyOnlineUserId}{onlineUserDTO.UserId}", onlineUserDTO);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
     }
 }

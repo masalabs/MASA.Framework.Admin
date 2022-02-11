@@ -2,7 +2,11 @@ using MASA.Contrib.Data.Contracts.EF;
 using MASA.Framework.Admin.Contracts.Order.Model;
 using MASA.Framework.Admin.Service.Login.Hub;
 using MASA.Framework.Admin.Service.Login.Infrastructure.Utils;
+using MASA.Framework.Admin.Service.Login.Services;
 using MASA.Framework.Admin.Service.Order.Infrastructure.Filters;
+using MASA.Utils.Caching.DistributedMemory.DependencyInjection;
+using MASA.Utils.Caching.Redis.DependencyInjection;
+using MASA.Utils.Caching.Redis.Models;
 using MASA.Utils.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -29,6 +33,7 @@ foreach (var item in assembly)
     builder.Services.AddScoped(item.GetInterfaces().First(), item);
 }
 
+builder.Services.AddMemoryCache();
 
 var connectionString = AppSettings.Get("ConnectionString");
 builder.Services.AddTransient(typeof(IMiddleware<>), typeof(LogMiddleware<>));
@@ -112,8 +117,6 @@ builder.Services.AddAuthentication(x =>
     };
 });
 builder.Services.AddSignalR();
-
-
 
 builder.Services.AddEventBus();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();

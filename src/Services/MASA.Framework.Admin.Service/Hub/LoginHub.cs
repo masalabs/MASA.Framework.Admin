@@ -1,20 +1,26 @@
 ﻿using MASA.Framework.Admin.Contracts.Order.Model;
 using MASA.Framework.Admin.Service.Login.Infrastructure.Repositories;
 using MASA.Framework.Admin.Service.Login.Services;
+using MASA.Utils.Caching.DistributedMemory.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MASA.Framework.Admin.Service.Login.Hub
 {
     [Authorize]
     public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
     {
-        [Inject]
-        private LoginService LoginService { get; set; } = default!;
+        private readonly LoginService _loginService;
 
-        [Inject]
-        public IUserRepository UserRepository { get; set; } = default!;
+        public IUserRepository UserRepository;
+
+        public LoginHub(IUserRepository userRepository, IMemoryCache memoryCache)
+        {
+            _loginService = new LoginService( memoryCache);
+            UserRepository = userRepository;
+        }
 
         public override async Task OnConnectedAsync()
         {
@@ -26,7 +32,7 @@ namespace MASA.Framework.Admin.Service.Login.Hub
             }
             else
             {
-                OnlineUserModel onlineUser = await LoginService.GetOnlineUserByUserIdAsync(userId);
+                OnlineUserModel? onlineUser = _loginService.GetOnlineUserByUserId(userId);
 
                 if (onlineUser != null && !string.IsNullOrWhiteSpace(onlineUser.ConnectionId))
                 {
@@ -48,13 +54,13 @@ namespace MASA.Framework.Admin.Service.Login.Hub
                 onlineUser.LoginTime = DateTime.Now;
                 onlineUser.ConnectionId = Context.ConnectionId;
 
-                await LoginService.AddOrUpdateOnlineUserAsync(onlineUser);
+                _loginService.AddOrUpdateOnlineUser(onlineUser);
 
                 //login success. 获取redis的在线用户数量，推送到前台
             }
         }
 
-        public override async Task OnDisconnectedAsync(Exception? exception)
+        public override Task OnDisconnectedAsync(Exception? exception)
         {
             var connectionId = Context.ConnectionId;
             var userIdClaim = Context.User?.Claims.FirstOrDefault(claim => claim.Type == "sub");
@@ -66,12 +72,14 @@ namespace MASA.Framework.Admin.Service.Login.Hub
             else
             {
                 Console.WriteLine($"断开记录用户在线的 SignalR 连接：UserId={userId}的用户于 {DateTime.Now.ToString("yyyy-MM-dd HH: mm:ss")} 退出登录,connectionId={connectionId}");
-                OnlineUserModel onlineUser = await LoginService.GetOnlineUserByUserIdAsync(userId);
+                OnlineUserModel? onlineUser = _loginService.GetOnlineUserByUserId(userId);
                 if (onlineUser != null && onlineUser.ConnectionId == connectionId)
                 {
-                    await LoginService.RemoveOnlineUserByUserIdAsync(userId);
+                    _loginService.RemoveOnlineUserByUserId(userId);
                 }
             }
+
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }

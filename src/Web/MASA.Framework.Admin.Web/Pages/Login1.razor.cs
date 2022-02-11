@@ -47,13 +47,15 @@ namespace MASA.Framework.Admin.Web.Pages
 
         private async Task<string> GetToken()
         {
-            var result= await UserCaller.Login(new Contracts.Order.Model.LoginModel
-            {
-                Account = "admin",
-                Password = "admin"
-            });
+            //var result= await UserCaller.Login(new Contracts.Order.Model.LoginModel
+            //{
+            //    Account = "admin",
+            //    Password = "admin"
+            //});
 
-            return result;
+            //return result;
+
+            return "";
         }
 
         private void Message(string user, string message)

@@ -33,30 +33,38 @@ namespace MASA.Framework.Admin.Service.Login.Infrastructure.Repositories
             };
         }
 
-        public async Task<string> LoginAsync(LoginModel loginModel)
+        public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
         {
+            LoginViewModel loginViewModel = new LoginViewModel();
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Account == loginModel.Account);
             if (user == null)
             {
-                throw new Exception("该账号不存在！");
+                loginViewModel.Code = 1;
+                loginViewModel.Result = "该账号不存在！";
             }
-            if (user.State == 0)
+            else if (user.State == 0)
             {
-                throw new Exception("该账号已禁用！");
-            }
-
-            string token = "";
-            var pwd = SHA1Utils.Encrypt($"{loginModel.Password}{user.Salt}");
-            if (pwd == user.Password)
-            {
-                token = _authRepository.GenerateJwtToken(user.Id);
+                loginViewModel.Code = 1;
+                loginViewModel.Result = "该账号已禁用！";
             }
             else
             {
-                throw new Exception("密码错误！");
+                string token = "";
+                var pwd = SHA1Utils.Encrypt($"{loginModel.Password}{user.Salt}");
+                if (pwd == user.Password)
+                {
+                    token = _authRepository.GenerateJwtToken(user.Id);
+                    loginViewModel.Code = 0;
+                    loginViewModel.Result = token;
+                }
+                else
+                {
+                    loginViewModel.Code = 1;
+                    loginViewModel.Result = "密码错误！";
+                }
             }
 
-            return token;
+            return loginViewModel;
         }
     }
 }

@@ -24,5 +24,11 @@ public partial class Login
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnLogin { get; set; }
+
+    [Parameter]
+    public string Account { get; set; } = "";
+
+    [Parameter]
+    public string Password { get; set; } = "";
 }
 

@@ -8,16 +8,18 @@
         <h5 class="mt-2 mb-12">Welcome to MASA.Blazor.Pro! 👋</h5>
 
         <MTextField TValue="string"
-                    Label="Email"
-                    Placeholder="john@example.com"
+                    @bind-Value = "Account"
+                    Label="Account"
+                    Placeholder="admin"
                     Outlined
                     HideDetails="@("auto")">
         </MTextField>
         <MTextField TValue="string"
+                    @bind-Value = "Password"
                     Class="mt-10"
                     Label="Password"
                     Type="@(_show ? "text" : "password")"
-                    Placeholder="john@example.com"
+                    Placeholder="admin"
                     AppendIcon="@(_show ? "mdi-eye" : "mdi-eye-off")"
                     OnAppendClick="()=>_show = !_show"
                     Outlined

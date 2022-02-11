@@ -26,5 +26,9 @@
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
+        public DateTime ReleaseTime { get; set; }
+        public int ApprovedCount { get; set; }
+        public int CommentCount { get; set; }
+        public int Visits { get; set; }
     }
 }

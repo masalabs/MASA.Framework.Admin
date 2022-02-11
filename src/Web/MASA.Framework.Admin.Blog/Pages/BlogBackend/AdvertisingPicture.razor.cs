@@ -4,6 +4,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
 {
+    [Inject] public BlogCaller BlogCaller { get; set; }
+
     #region table
 
     private GetBlogAdvertisingPicturesOption _options = new();
@@ -40,18 +42,10 @@ public partial class AdvertisingPicture : ProCompontentBase
 
         _loading = true;
 
-        _tableData = new()
-        {
-            new()
-            {
-                Title = "测试2",
-                Pic =
-                    "https://img-cdn.lonsid.co/images/Promotion/Banner/832cd9c9-94a4-44d4-9b73-d90dbd3155d5.jpg?bannerTitle=春节快递停发公告",
-                Type = 1,
-                Sort = 1,
-                Status = true
-            }
-        };
+        var pagingList = await BlogCaller.AdvertisingPicturesService.PagingAsync(_options);
+
+        _tableData = pagingList.Data;
+        _totalCount = pagingList.TotalCount;
 
         _loading = false;
     }
@@ -64,7 +58,6 @@ public partial class AdvertisingPicture : ProCompontentBase
     public string DataModalTitle { get; set; }
 
     private readonly DataModal<UpdateBlogAdvertisingPicturesModel> _dataModal = new();
-
 
     public void Create()
     {
@@ -87,41 +80,55 @@ public partial class AdvertisingPicture : ProCompontentBase
         _dataModal.Show(showModel);
     }
 
-    public async Task ConfirmDataModal()
+    public async Task CreateOrUpdateAsync()
     {
         if (_dataModal.HasValue)
         {
-
-        }
-        else
-        {
-            _tableData.Add(new()
+            await BlogCaller.AdvertisingPicturesService.UpdateAsync(new()
             {
-                Title = _dataModal.Data.Title,
                 Id = _dataModal.Data.Id,
+                Title = _dataModal.Data.Title,
                 Pic = _dataModal.Data.Pic,
+                Type = _dataModal.Data.Type,
                 Sort = _dataModal.Data.Sort,
                 Status = _dataModal.Data.Status
             });
         }
+        else
+        {
+            await BlogCaller.AdvertisingPicturesService.CreateAsync(new()
+            {
+                Title = _dataModal.Data.Title,
+                Pic = _dataModal.Data.Pic,
+                Type = _dataModal.Data.Type,
+                Sort = _dataModal.Data.Sort,
+                Status = _dataModal.Data.Status
+            });
 
-        _totalCount = _tableData.Count;
+        }
+
+        await FetchList();
 
         _dataModal.Hide();
-        StateHasChanged();
+    }
+
+    public async Task RemoveAsync(BlogAdvertisingPicturesListViewModel model)
+    {
+        await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
+
+        await FetchList();
     }
 
     #endregion
 
-    [Inject] public BlogCaller blogCaller { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            await FetchList();
 
-        await FetchList();
-
-        _totalCount = _tableData.Count;
-
-        await base.OnInitializedAsync();
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

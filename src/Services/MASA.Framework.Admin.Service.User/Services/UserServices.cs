@@ -4,15 +4,14 @@ public class UserServices : CustomServiceBase
 {
     public UserServices(IServiceCollection services) : base(services)
     {
-        App.MapGet(Routing.UserList, () => GetItemsAsync);
-        App.MapGet(Routing.UserDetail, () => GetAsync);
-        App.MapPost(Routing.OperateUser, () => CreateAsync);
-        App.MapDelete(Routing.OperateUser, () => DeleteAsync);
+        App.MapGet(Routing.UserList, GetItemsAsync);
+        App.MapGet(Routing.UserDetail, GetAsync);
+        App.MapPost(Routing.OperateUser, CreateAsync);
+        App.MapDelete(Routing.OperateUser, DeleteAsync);
     }
 
     public ApiResultResponse<PaginatedItemResponse<UserItemResponse>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] UserType type,
         [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
         [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE,
         [FromQuery] string account = "",
@@ -40,7 +39,7 @@ public class UserServices : CustomServiceBase
 
     public ApiResultResponseBase DeleteAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] Guid id)
+        [FromQuery] Guid id)
     {
         eventBus.PublishAsync(new DeleteCommand(id));
         return Success();

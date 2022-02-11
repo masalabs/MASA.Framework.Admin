@@ -31,7 +31,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         public string Pic { get; set; } = string.Empty;
 
         /// <summary>
-        /// 类型：1 首页 2文章列表
+        /// 类型：1 首页 2首页右下 3详情 4详情右下
         /// </summary>
         [Required]
         [DefaultValue(1)]

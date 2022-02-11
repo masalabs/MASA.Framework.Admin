@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.Authentication.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20220211070011_init")]
+    [Migration("20220211075924_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventLogs");
+                    b.ToTable("integration_event_log", "authentication");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.Object", b =>

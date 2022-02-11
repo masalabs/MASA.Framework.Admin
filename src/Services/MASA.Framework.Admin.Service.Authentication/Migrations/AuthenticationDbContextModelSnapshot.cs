@@ -53,7 +53,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventLogs");
+                    b.ToTable("integration_event_log", "authentication");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.Object", b =>

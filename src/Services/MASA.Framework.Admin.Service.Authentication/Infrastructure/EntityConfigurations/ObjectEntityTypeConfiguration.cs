@@ -3,7 +3,6 @@
 public class ObjectEntityTypeConfiguration
     : IEntityTypeConfiguration<Domain.Aggregate.ObjectAggregate.Object>
 {
-
     public void Configure(EntityTypeBuilder<Domain.Aggregate.ObjectAggregate.Object> builder)
     {
         builder.ToTable("resources", AuthenticationDbContext.DEFAULT_SCHEMA);

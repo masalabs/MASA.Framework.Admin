@@ -12,7 +12,7 @@ public class UserCaller : HttpClientCallerBase
 
     public UserCaller(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        Name = "UserCaller";
+        Name = nameof(UserCaller);
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)

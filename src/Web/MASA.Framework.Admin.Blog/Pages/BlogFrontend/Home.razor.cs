@@ -46,7 +46,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         protected override async void OnInitialized()
         {
-            await BlogCaller.GetBrandsAsync();
         }
 
     }

@@ -118,8 +118,6 @@ public partial class AdvertisingPicture : ProCompontentBase
     protected override async Task OnInitializedAsync()
     {
 
-        await blogCaller.GetBrandsAsync();
-
         await FetchList();
 
         _totalCount = _tableData.Count;

@@ -6,7 +6,7 @@
 
         Task<Guid> RemoveAsync(Guid id);
 
-        Task<PageResult<BlogCommentInfoListViewModel>> GetBlogComments(
+        Task<PagingResult<BlogCommentInfoListViewModel>> GetBlogComments(
             GetBlogCommentInfoOptions options);
     }
 }

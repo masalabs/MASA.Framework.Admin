@@ -25,9 +25,8 @@ builder.Services.AddMasaBlazor(builder =>
 });
 builder.Services.AddGlobalForServer();
 
-//builder.Services.AddCaller(typeof(BlogCaller).Assembly);
+builder.Services.AddCaller(typeof(BlogCaller).Assembly);
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddBusinesses(dllSearchPattern: "MASA.Framework.Admin.Caller.dll", "Caller");
 
 var app = builder.Build();
 

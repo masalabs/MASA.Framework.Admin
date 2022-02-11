@@ -33,7 +33,7 @@
             return comment.BlogInfoId;
         }
 
-        public async Task<PageResult<BlogCommentInfoListViewModel>> GetBlogComments(
+        public async Task<PagingResult<BlogCommentInfoListViewModel>> GetBlogComments(
             GetBlogCommentInfoOptions options)
         {
             return await _blogDbContext.BlogCommentInfoes

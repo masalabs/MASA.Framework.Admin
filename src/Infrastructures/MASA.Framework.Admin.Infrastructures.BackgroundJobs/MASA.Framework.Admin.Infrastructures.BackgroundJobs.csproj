@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.BackgroundJobs\MASA.Framework.Admin.Contracts.BackgroundJobs.csproj" />
+  </ItemGroup>
+
 </Project>

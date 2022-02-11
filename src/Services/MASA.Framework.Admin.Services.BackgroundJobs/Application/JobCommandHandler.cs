@@ -1,39 +1,39 @@
 ﻿using MASA.Contrib.Dispatcher.Events.Enums;
 
-namespace MASA.Framework.Admin.Service.Application.Orders
+namespace MASA.Framework.Admin.Services.BackgroundJobs.Application
 {
-    public class OrderCommandHandler
+    public class JobCommandHandler
     {
-        public OrderCommandHandler()
+        public JobCommandHandler()
         {
 
         }
 
         [EventHandler(Order = 1)]
-        public async Task CreateHandleAsync(OrderCreateCommand command)
+        public async Task CreateHandleAsync(JobCreateCommand command)
         {
             //you work
             await Task.CompletedTask;
         }
     }
 
-    public class OrderStockHandler : CommandHandler<OrderCreateCommand>
+    public class OrderStockHandler : CommandHandler<JobCreateCommand>
     {
-        public override Task CancelAsync(OrderCreateCommand comman)
+        public override Task CancelAsync(JobCreateCommand comman)
         {
             //cancel todo callback 
             return Task.CompletedTask;
         }
 
         [EventHandler(FailureLevels = FailureLevels.ThrowAndCancel)]
-        public override Task HandleAsync(OrderCreateCommand comman)
+        public override Task HandleAsync(JobCreateCommand comman)
         {
             //todo decrease stock
             return Task.CompletedTask;
         }
 
         [EventHandler(0, FailureLevels.Ignore, IsCancel = true)]
-        public Task AddCancelLogs(OrderCreateCommand query)
+        public Task AddCancelLogs(JobCreateCommand query)
         {
             //todo increase stock
             return Task.CompletedTask;

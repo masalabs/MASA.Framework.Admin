@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
+﻿using System.Text.Json;
+
+namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
     public class BlogArticleCommandHandler
     {
@@ -141,7 +143,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"ES写入异常：Index：{_defaultIndex}，Data：{JsonConvert.SerializeObject(blogInfo)}");
+                _logger.LogError(ex, $"ES写入异常：Index：{_defaultIndex}，Data：{JsonSerializer.Serialize(blogInfo)}");
             }
 
             return false;

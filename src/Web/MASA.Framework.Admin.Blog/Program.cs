@@ -1,6 +1,8 @@
 using MASA.Framework.Admin.Caller;
+using MASA.Framework.Development.Dapr;
 using MASA.Utils.Caller.Core;
 using MASA.Utils.Caller.HttpClient;
+using MASA.Utils.Configuration.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +26,14 @@ builder.Services.AddMasaBlazor(builder =>
 builder.Services.AddGlobalForServer();
 
 builder.Services.AddCaller(typeof(BlogCaller).Assembly);
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    DaprStarter.Start(AppSettings.GetModel<DaprConfig>("DaprStarter"));
 }
 else
 {

@@ -5,10 +5,10 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DAPR_GRPC_PORT": "18602",
-        "DAPR_HTTP_PORT": "18603"
+        "DAPR_GRPC_PORT": "18512",
+        "DAPR_HTTP_PORT": "18513"
       },
-      "applicationUrl": "http://localhost:18600",
+      "applicationUrl": "http://localhost:18510",
       "dotnetRunMessages": true
     },
     "Docker": {

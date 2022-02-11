@@ -1,5 +1,3 @@
-using MASA.Framework.Data.Mapping;
-
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
@@ -73,8 +71,16 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     public void Modify(BlogAdvertisingPicturesListViewModel model)
     {
-        var showModel = new Mapping<UpdateBlogAdvertisingPicturesModel, BlogAdvertisingPicturesListViewModel>()
-            .ReverseMap(model);
+        // TODO: mapping
+        var showModel = new UpdateBlogAdvertisingPicturesModel()
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Pic = model.Pic,
+            Type = model.Type,
+            Sort = model.Sort,
+            Status = model.Status
+        };
 
         _dataModal.Show(showModel);
     }

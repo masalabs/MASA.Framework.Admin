@@ -25,7 +25,7 @@
 
         public CreateBlogAdvertisingPicturesCommand(CreateBlogAdvertisingPicturesModel request)
         {
-
+            Request = request;
         }
 
         public CreateBlogAdvertisingPicturesModel Request { get; set; }

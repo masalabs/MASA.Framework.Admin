@@ -1,12 +1,7 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
-    public class BlogCommentInfoListViewModel
+    public class AddCommentModel
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// 文章编号
         /// </summary>
@@ -30,16 +25,11 @@
         /// <summary>
         /// Ip地址
         /// </summary>
-        public string IpAddress { get; set; }
+        public string IpAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// QQ
         /// </summary>
-        public string QQ { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime CreationTime { get; set; }
+        public string QQ { get; set; } = string.Empty;
     }
 }

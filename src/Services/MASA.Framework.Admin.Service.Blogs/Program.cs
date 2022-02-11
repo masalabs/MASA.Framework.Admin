@@ -5,6 +5,7 @@ using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
 using MASA.Contrib.Service.MinimalAPIs;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure;
 using MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys;
+using MASA.Framework.Development.Dapr;
 using MASA.Utils.Caching.DistributedMemory.DependencyInjection;
 using MASA.Utils.Caching.Redis.DependencyInjection;
 using MASA.Utils.Caching.Redis.Models;
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IBlogLabelRepository, BlogLabelRepository>();
 builder.Services.AddScoped<IBlogTypeRepository, BlogTypeRepository>();
 builder.Services.AddScoped<IBlogApprovedRecordRepository, BlogApprovedRecordRepository>();
 builder.Services.AddScoped<IElasticClientProvider, ElasticClientProvider>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.Configure<BlogAppSettiings>(builder.Configuration);
 
 //* minimal api ע��
@@ -56,6 +58,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    var daprConfig = AppSettings.GetModel<DaprConfig>("DaprStarter");
+    DaprStarter.Start(daprConfig);
 }
 
 app.UseHttpsRedirection();

@@ -23,7 +23,7 @@
         {
             await _blogTypeRepository.UpdateAsync(new()
             {
-                Id = command.Id,
+                Id = command.Request.Id,
                 TypeName = command.Request.TypeName
             });
         }

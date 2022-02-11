@@ -42,12 +42,12 @@ public partial class AdvertisingPicture : ProCompontentBase
 
         _loading = true;
 
-      var pagingList= await BlogCaller.AdvertisingPicturesService.PagingAsync(_options);
+        var pagingList = await BlogCaller.AdvertisingPicturesService.PagingAsync(_options);
 
-      _tableData = pagingList.Data;
-      _totalCount = pagingList.TotalCount;
+        _tableData = pagingList.Data;
+        _totalCount = pagingList.TotalCount;
 
-      _loading = false;
+        _loading = false;
     }
 
 
@@ -58,7 +58,6 @@ public partial class AdvertisingPicture : ProCompontentBase
     public string DataModalTitle { get; set; }
 
     private readonly DataModal<UpdateBlogAdvertisingPicturesModel> _dataModal = new();
-
 
     public void Create()
     {
@@ -81,40 +80,55 @@ public partial class AdvertisingPicture : ProCompontentBase
         _dataModal.Show(showModel);
     }
 
-    public async Task ConfirmDataModal()
+    public async Task CreateOrUpdateAsync()
     {
         if (_dataModal.HasValue)
         {
-
-        }
-        else
-        {
-            _tableData.Add(new()
+            await BlogCaller.AdvertisingPicturesService.UpdateAsync(new()
             {
-                Title = _dataModal.Data.Title,
                 Id = _dataModal.Data.Id,
+                Title = _dataModal.Data.Title,
                 Pic = _dataModal.Data.Pic,
+                Type = _dataModal.Data.Type,
                 Sort = _dataModal.Data.Sort,
                 Status = _dataModal.Data.Status
             });
         }
+        else
+        {
+            await BlogCaller.AdvertisingPicturesService.CreateAsync(new()
+            {
+                Title = _dataModal.Data.Title,
+                Pic = _dataModal.Data.Pic,
+                Type = _dataModal.Data.Type,
+                Sort = _dataModal.Data.Sort,
+                Status = _dataModal.Data.Status
+            });
 
-        _totalCount = _tableData.Count;
+        }
+
+        await FetchList();
 
         _dataModal.Hide();
-        StateHasChanged();
+    }
+
+    public async Task RemoveAsync(BlogAdvertisingPicturesListViewModel model)
+    {
+        await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
+
+        await FetchList();
     }
 
     #endregion
 
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            await FetchList();
 
-        await FetchList();
-
-        _totalCount = _tableData.Count;
-
-        await base.OnInitializedAsync();
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
+﻿using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
+
+namespace MASA.Framework.Admin.Service.Blogs.Application.BlogAdvertisingPictures.Commands
 {
     public class UpdateBlogAdvertisingPicturesCommandValidator : AbstractValidator<UpdateBlogAdvertisingPicturesCommand>
     {
@@ -12,7 +14,7 @@
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
             RuleFor(cmd => cmd.Request.Title).NotEqual(default(string)).WithMessage("Title is not null");
             RuleFor(cmd => cmd.Request.Sort).NotEqual(default(short)).WithMessage("Sort is not default");
-            RuleFor(cmd => cmd.Request.Type).NotEqual(default(short)).WithMessage("Type is not default");
+            RuleFor(cmd => cmd.Request.Type).NotEqual(default(BlogAdvertisingPicturesTypes)).WithMessage("Type is not default");
         }
     }
 
@@ -25,7 +27,7 @@
 
         public UpdateBlogAdvertisingPicturesCommand(UpdateBlogAdvertisingPicturesModel request)
         {
-
+            this.Request = request;
         }
 
         public UpdateBlogAdvertisingPicturesModel Request { get; set; }

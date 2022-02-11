@@ -46,6 +46,7 @@ builder.Services.AddScoped<IBlogEnclosureInfoRepository, BlogEnclosureInfoReposi
 builder.Services.AddScoped<IBlogLabelRepository, BlogLabelRepository>();
 builder.Services.AddScoped<IBlogTypeRepository, BlogTypeRepository>();
 builder.Services.AddScoped<IBlogApprovedRecordRepository, BlogApprovedRecordRepository>();
+builder.Services.AddScoped<IBlogReportRepository, BlogReportRepository>();
 builder.Services.AddScoped<IElasticClientProvider, ElasticClientProvider>();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.Configure<BlogAppSettiings>(builder.Configuration);

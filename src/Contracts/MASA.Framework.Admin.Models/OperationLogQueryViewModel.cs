@@ -9,11 +9,11 @@ namespace MASA.Framework.Admin.Models
 {
     public class OperationLogQueryViewModel
     {
-        [Range(1, int.MaxValue)]
-        public int Page { get; set; } = 1;
+        [Range(0, int.MaxValue)]
+        public int Offset { get; set; } = 0;
 
         [Range(1, int.MaxValue)]
-        public int Size { get; set; } = 10;
+        public int Limit { get; set; } = 10;
 
         public string Description { get; set; }
     }

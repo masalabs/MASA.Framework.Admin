@@ -13,5 +13,7 @@ namespace MASA.Framework.Admin.Models
         public string Description { get; set; }
 
         public string CreateTime { get; set; }
+
+        public string Username { get; set; }
     }
 }

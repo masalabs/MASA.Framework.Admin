@@ -1,0 +1,31 @@
+﻿@page "/dashboard"
+
+<MRow>
+    <MCol Cols="12">
+        <MCard Height=200>
+            <MCardText>
+                当前在线用户数：100
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
+<MRow>
+    <MCol Cols="12">
+        <MCard>
+            <MCardText>
+                @if (_operationLogs != null)
+                {
+                    <ul style="height:300px;overflow-y:scroll">
+                        <Virtualize Context="log" ItemsProvider="LoadOperationLogs" ItemSize="25">
+                            <MListItem>
+                                <li>@log.Username @log.Description [@log.CreateTime]</li>
+                            </MListItem>
+                        </Virtualize>
+                    </ul>
+                }
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
+
+

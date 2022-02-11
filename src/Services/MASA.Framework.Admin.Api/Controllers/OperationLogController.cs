@@ -3,6 +3,7 @@ using MASA.Framework.Admin.Models;
 using MASA.Framework.Admin.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MASA.Framework.Admin.Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace MASA.Framework.Admin.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] OperationLogQueryViewModel viewModel)
+        public async Task<IActionResult> Get([FromQuery] OperationLogQueryViewModel viewModel)
         {
             var operationLogs = _repository
                 .GetAll();
@@ -30,6 +31,8 @@ namespace MASA.Framework.Admin.Api.Controllers
             var userId = 1;
             operationLogs = operationLogs.Where(log => log.UserId == userId);
 
+            var count = await operationLogs.CountAsync();
+
             if (viewModel.Description != null)
             {
                 operationLogs = operationLogs.Where(log => log.Description.Contains(viewModel.Description));
@@ -37,17 +40,18 @@ namespace MASA.Framework.Admin.Api.Controllers
 
             operationLogs = operationLogs.OrderByDescending(log => log.CreateTime);
 
-            var offset = (viewModel.Page - 1) * viewModel.Size;
-            var limit = viewModel.Size;
-            operationLogs = operationLogs.Skip(offset).Take(limit);
+            operationLogs = operationLogs.Skip(viewModel.Offset).Take(viewModel.Limit);
 
             var data = operationLogs.Select(log => new OperationLogDto
             {
                 Id = log.Id,
                 CreateTime = log.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                Description = log.Description
+                Description = log.Description,
+                Username = log.User.Username
             });
-            return Ok(data);
+
+            var result = new PageResult<OperationLogDto>(count, data);
+            return Ok(result);
         }
 
         [HttpPost]

@@ -19,7 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 
 builder.Services.AddTransient<IOperationLogService, DefaultOperationLogService>();
-builder.Services.AddHttpClient<DefaultOperationLogService>(nameof(DefaultOperationLogService), httpClient =>
+builder.Services.AddHttpClient<DefaultOperationLogService>("MASA.Framework.Admin.Api", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:5032");
 });

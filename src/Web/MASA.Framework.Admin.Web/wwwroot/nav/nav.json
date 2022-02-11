@@ -5,6 +5,12 @@
     "Icon": "mdi-trending-up",
     "Children": [
       {
+        "Id": 10000,
+        "Title": "Index",
+        "Icon": "mdi-circle",
+        "Href": "dashboard"
+      },
+      {
         "Id": 2,
         "Title": "eCommerce",
         "Icon": "mdi-circle",

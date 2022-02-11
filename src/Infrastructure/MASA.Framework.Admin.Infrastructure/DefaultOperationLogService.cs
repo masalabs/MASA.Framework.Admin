@@ -15,7 +15,7 @@ namespace MASA.Framework.Admin.Infrastructure
 
         public DefaultOperationLogService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient(nameof(DefaultOperationLogService));
+            _httpClient = httpClientFactory.CreateClient("MASA.Framework.Admin.Api");
         }
 
         public async Task LogAsync(string message)

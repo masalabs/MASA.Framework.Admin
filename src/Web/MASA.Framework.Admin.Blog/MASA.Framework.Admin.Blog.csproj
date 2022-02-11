@@ -8,6 +8,7 @@
 
   <ItemGroup>
 	<PackageReference Include="MASA.Blazor" Version="0.2.10217" />
+	<PackageReference Include="MASA.Utils.Caller.Core" Version="0.0.1705937119" />
 	<PackageReference Include="MASA.Utils.Enums" Version="0.0.1711196569" />
 	<PackageReference Include="TinyMCE.Blazor" Version="0.0.9" />
   </ItemGroup>
@@ -66,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
     <ProjectReference Include="..\..\Services\MASA.Framework.Admin.Service.Blogs\MASA.Framework.Admin.Service.Blogs.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Order.Model;
-using MASA.Utils.Caller.HttpClient;
 
-namespace MASA.Framework.Admin.Caller.Callers
+namespace MASA.Framework.Admin.Caller
 {
     public class OrderCaller : HttpClientCallerBase
     {

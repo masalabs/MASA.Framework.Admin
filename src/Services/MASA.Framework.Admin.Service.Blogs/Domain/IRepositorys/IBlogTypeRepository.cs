@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        Task<PageResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options);
+        Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options);
 
     }
 }

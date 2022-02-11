@@ -8,6 +8,7 @@ namespace MASA.Framework.Admin.Caller;
 public class BlogCaller : HttpClientCallerBase
 {
     private ArticleService _articleService;
+    private BlogTypeService _blogTypeService;
 
     protected override string BaseAddress { get; set; } = "http://masa.admin.services.blogs";
 
@@ -17,5 +18,8 @@ public class BlogCaller : HttpClientCallerBase
     }
 
     public ArticleService ArticleService => _articleService ?? new ArticleService(CallerProvider);
+    public BlogTypeService BlogTypeService => _blogTypeService ?? new BlogTypeService(CallerProvider);
+
+    
 
 }

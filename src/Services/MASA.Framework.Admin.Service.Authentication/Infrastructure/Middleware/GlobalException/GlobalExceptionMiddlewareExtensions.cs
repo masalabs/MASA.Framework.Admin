@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Extensions.Middleware.GlobalException;
+﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Middleware.GlobalException;
 
 public static class GlobalExceptionMiddlewareExtensions
 {

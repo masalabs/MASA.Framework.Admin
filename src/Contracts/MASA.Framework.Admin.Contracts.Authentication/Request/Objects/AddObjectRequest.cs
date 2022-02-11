@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
+﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
-public record AddCommand : Command
+public record AddObjectRequest
 {
     public string Code { get; set; } = default!;
 

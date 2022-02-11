@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Commands.Permissions;
+﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Permissions;
 
-public class EditPermissionCommand
+public class EditPermissionRequest
 {
     public Guid Id { get; set; }
 

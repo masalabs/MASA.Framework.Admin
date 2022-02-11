@@ -15,5 +15,5 @@ global using MASA.Framework.Admin.Service.User.Extensions.Middleware;
 global using MASA.Framework.Admin.Service.User.Services;
 global using Microsoft.OpenApi.Models;
 global using MASA.Framework.Admin.Service.User.Extensions.Middleware.GlobalException;
-
+global using MASA.Framework.Admin.Contracts.Base.Enum;
 

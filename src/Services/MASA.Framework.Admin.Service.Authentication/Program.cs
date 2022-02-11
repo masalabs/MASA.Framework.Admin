@@ -13,7 +13,16 @@ var app = builder.Services.AddFluentValidation(options =>
             Version = "v1",
             Description = "The Authentications Service HTTP API"
         });
-    }).AddServices(builder);
+    })
+    .AddDomainEventBus(options =>
+    {
+        options.UseEventBus()
+            .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog"))
+            .UseDaprEventBus<IntegrationEventLogService>()
+            .UseEventLog<AuthenticationDbContext>()
+            .UseRepository<AuthenticationDbContext>();
+    })
+    .AddServices(builder);
 
 app.UseGlobalExceptionMiddleware()
     .UseSwagger()

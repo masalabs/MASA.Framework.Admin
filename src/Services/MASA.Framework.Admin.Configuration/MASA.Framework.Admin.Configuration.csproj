@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domian" />
+    <Folder Include="Domain" />
     <Folder Include="Extensions" />
   </ItemGroup>
 

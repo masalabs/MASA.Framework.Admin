@@ -4,12 +4,16 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>8389e7e5-61c3-4b9e-9887-415eea542710</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-      <PackageReference Include="MASA.BuildingBlocks.ReadWriteSpliting.CQRS" Version="0.0.1706110254" />
       <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1736024337" />
       <PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1736024337" />
       <PackageReference Include="MASA.Contrib.DDD.Domain" Version="0.0.1736024337" />
@@ -21,11 +25,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Domian" />
+      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
+      <Folder Include="Infrastructure\Extensions" />
     </ItemGroup>
 
 </Project>

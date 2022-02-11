@@ -7,6 +7,13 @@ services:
       context: .
       dockerfile: src/Services/MASA.Framework.Admin.Service/Dockerfile
 
+  masa.admin.services.authentication:
+    image: ${DOCKER_REGISTRY-}masa-services-authentication
+    build:
+      context: .
+      dockerfile: src/Services/MASA.Framework.Admin.Service.Authentication/Dockerfile
+
+
   masa.admin.web:
     image: ${DOCKER_REGISTRY-}masa-admin
     build:

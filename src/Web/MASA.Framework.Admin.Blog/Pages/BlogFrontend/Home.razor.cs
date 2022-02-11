@@ -9,6 +9,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private int _page = 1;
         private int _pageCount = 1;
         private bool _showWrite = false;
+        private string _label = string.Empty;
         private CreateBlogInfoModel _options = new() { State = StateTypes.Reviewed };
         private List<(Guid, string)> _typeList = new();
 
@@ -46,11 +47,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             }
         }
 
-        protected override async void OnInitialized()
-        {
-           
-        }
-
         private void ToWrite()
         {
             _showWrite = true;
@@ -68,7 +64,18 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         /// <returns></returns>
         private async Task Cancel()
         {
-            _showWrite = true;
+            _showWrite = false;
+        }
+
+        /// <summary>
+        /// 添加标签
+        /// </summary>
+        /// <param name="ex"></param>
+        private void AddLabel(MouseEventArgs ex)
+        {
+            _options.Labels ??= new();
+            _options.Labels.Add(_label);
+            _label = string.Empty;
         }
 
         /// <summary>

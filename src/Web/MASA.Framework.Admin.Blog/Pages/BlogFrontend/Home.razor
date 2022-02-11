@@ -25,17 +25,14 @@
         {
             <MCard>
                 <MCardTitle>@blog.Title</MCardTitle>
-                <MCardText> @blog.Content.Substring(0, 50) </MCardText>
+                <MCardText> @($"{(blog.Content.Length > 50 ? blog.Content.Substring(0, 50) : blog.Content)}") </MCardText>
                 <MCardActions>
                     <p>
                        @* <MAvatar Color="primary" Size="56">
                             <span class="white--text">@blog.typeName</span>
                         </MAvatar>*@
                         <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
-                            <span>【@blog.】</span>
-                        <MIcon>mdi-thumb-up</MIcon> <span>@blog.ApprovedCount</span>
-                        <MIcon>mdi-comment-processing</MIcon> <span>@blog.CommentCount</span>
-                        <MIcon>mdi-eye</MIcon> <span>@blog.Visits</span>
+                            <span>【@blog.CreatorUserId】</span>
                     </p>
                 </MCardActions>
             </MCard>
@@ -82,9 +79,35 @@
                          TItem="(Guid, string)"/>
         </MCol>
         <MCol Cols="12">
-@*            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
+            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
                     Field="() => _options.Content"
-                    @bind-Value="_options.Content"/>*@
+                    @bind-Value="_options.Content"/>
+        </MCol>
+        @if (_options.Labels is not null && _options.Labels.Count > 0)
+        {
+            <MCol Cols="12">
+                <MChipGroup ActiveClass="primary--text" Column>
+                    @foreach (var label in _options.Labels)
+                    {
+                        <MChip>@label</MChip>
+                    }
+                </MChipGroup>
+            </MCol>
+        }
+        <MCol Cols="8">
+            <MTextField TValue="string"
+                        Dense
+                        Outlined
+                        Label="标签信息"
+                        @bind-Value="_label"
+                        HideDetails="true"
+                        Clearable/>
+        </MCol>
+        <MCol Cols="4">
+            <MButton Rounded Color="success" OnClick="AddLabel">
+                <MIcon Left>mdi-pencil</MIcon>
+                添加标签
+            </MButton>
         </MCol>
         <MCol Cols="12">
             <MSwitch @bind-Value="_options.IsShow"

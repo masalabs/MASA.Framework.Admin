@@ -86,7 +86,8 @@
                 CommentCount = d.CommentCount,
                 Id = d.Id,
                 ReleaseTime = d.ReleaseTime,
-                Visits = d.Visits
+                Visits = d.Visits,
+                CreatorUserId = d.CreatorUserId
             }).ToList();
 
 

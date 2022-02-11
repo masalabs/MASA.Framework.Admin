@@ -26,4 +26,6 @@ public class AuthorizeItemResponse
     public PermissionSource PermissionSource { get; set; }
 
     public PermissionType PermissionType { get; set; }
+
+    public PermissionEffect PermissionEffect { get; set; }
 }

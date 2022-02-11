@@ -1,18 +1,17 @@
 version: '3.4'
 
 services:
-  masa.admin.services.order:
-    image: ${DOCKER_REGISTRY-}masa-services-order
+  masa.admin.services.user:
+    image: ${DOCKER_REGISTRY-}masa-services-user
     build:
       context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service/Dockerfile
+      dockerfile: src/Services/MASA.Framework.Admin.Service.User/Dockerfile
 
   masa.admin.services.authentication:
     image: ${DOCKER_REGISTRY-}masa-services-authentication
     build:
       context: .
       dockerfile: src/Services/MASA.Framework.Admin.Service.Authentication/Dockerfile
-
 
   masa.admin.web:
     image: ${DOCKER_REGISTRY-}masa-admin

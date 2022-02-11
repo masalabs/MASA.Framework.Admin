@@ -6,5 +6,7 @@ public record AddRoleRequest
 
     public string Describe { get; set; } = default!;
 
-    public int Number { get; set; }
+    public int Number { get; set; } = -1;
+
+    public List<Guid>? ChildrenIds { get; set; } = null;
 }

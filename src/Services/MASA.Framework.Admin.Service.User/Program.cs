@@ -13,7 +13,20 @@ var app = builder.Services.AddFluentValidation(options =>
             Version = "v1",
             Description = "The Users Service HTTP API"
         });
-    }).AddServices(builder);
+    })
+    .AddDomainEventBus(options =>
+    {
+        options.UseEventBus()
+            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog_user"))
+            .UseDaprEventBus<IntegrationEventLogService>()
+            .UseEventLog<UserDbContext>()
+            .UseRepository<UserDbContext>();
+    })
+    .AddServices(builder);
+
+app.MigrateDbContext<UserDbContext>((context, services) =>
+{
+});
 
 app.UseGlobalExceptionMiddleware()
     .UseSwagger()

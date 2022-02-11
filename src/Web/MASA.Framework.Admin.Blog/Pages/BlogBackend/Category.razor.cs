@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+﻿using MASA.Framework.Admin.Caller;
+
+namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class Category : ProCompontentBase
 {
@@ -48,6 +50,8 @@ public partial class Category : ProCompontentBase
     private UpdateBlogTypeModel _updateBlogTypeModel = new();
     private string _dialogTitle = string.Empty;
 
+    [Inject] protected BlogCaller BlogCaller { get; set; }
+
     private async Task FetchList(int pageIndex = 1, int pageSize = 10)
     {
         _options.PageIndex = pageIndex;
@@ -55,7 +59,8 @@ public partial class Category : ProCompontentBase
 
         _loading = true;
 
-        // TODO: http
+        var result = await BlogCaller.TypeService.GetList(_options);
+        _totalCount = result.TotalCount;
 
         _loading = false;
     }

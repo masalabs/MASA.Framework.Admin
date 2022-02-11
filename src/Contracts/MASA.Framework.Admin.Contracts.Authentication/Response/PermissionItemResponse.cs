@@ -12,7 +12,5 @@ public class PermissionItemResponse
 
     public string ObjectCode { get; set; } = default!;
 
-    public string ObjectIdentifies { get; set; } = default!;
-
     public PermissionType PermissionType { get; set; }
 }

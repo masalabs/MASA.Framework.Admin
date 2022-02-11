@@ -14,5 +14,6 @@ global using MASA.Framework.Admin.Contracts.Base.Extensions.Exceptions;
 global using MASA.Framework.Admin.Service.Authentication.Extensions.Middleware;
 global using MASA.Framework.Admin.Service.Authentication.Extensions.Middleware.GlobalException;
 global using MASA.Framework.Admin.Contracts.Authentication.Commands.Objects;
-
+global using MASA.Framework.Admin.Contracts.Authentication.Commands.Rules;
+global using MASA.Framework.Admin.Contracts.Authentication.Commands.Permissions;
 

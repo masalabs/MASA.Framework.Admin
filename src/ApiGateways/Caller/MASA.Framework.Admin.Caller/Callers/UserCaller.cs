@@ -15,7 +15,7 @@ public class UserCaller : HttpClientCallerBase
         Name = "UserCaller";
     }
 
-    public async Task<ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
+    public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20, string account = "", int state = -1)
     {
         var queryArguments = new Dictionary<string, string?>()
         {
@@ -25,7 +25,7 @@ public class UserCaller : HttpClientCallerBase
             { "state", state.ToString() }
         };
         var url = QueryHelpers.AddQueryString(Routing.UserList, queryArguments);
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>>>(url);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
@@ -35,7 +35,7 @@ public class UserCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
     {
-        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.UserCreate, "");
+        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.OperateUser, "");
     }
 }
 

@@ -6,38 +6,38 @@ public class UserServices : CustomServiceBase
     {
         App.MapGet(Routing.UserList, () => GetItemsAsync);
         App.MapGet(Routing.UserDetail, () => GetAsync);
-        App.MapPost(Routing.UserCreate, () => CreateAsync);
-        App.MapDelete(Routing.UserDelete, () => DeleteAsync);
+        App.MapPost(Routing.OperateUser, () => CreateAsync);
+        App.MapDelete(Routing.OperateUser, () => DeleteAsync);
     }
 
-    private ApiResultResponse<PaginatedItemsViewModel<UserItemResponse>> GetItemsAsync(
+    public ApiResultResponse<PaginatedItemResponse<UserItemResponse>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] UserType type,
-        [FromQuery] int pageIndex = 1,
-        [FromQuery] int pageSize = 20,
+        [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
+        [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE,
         [FromQuery] string account = "",
         [FromQuery] int state = -1)
     {
-        var response = new PaginatedItemsViewModel<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
+        var response = new PaginatedItemResponse<UserItemResponse>(pageIndex, pageSize, 0, new List<UserItemResponse>());
         return Success(response);
     }
 
-    private ApiResultResponse<UserDetailResponse> GetAsync(
+    public ApiResultResponse<UserDetailResponse> GetAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] Guid guid)
+        [FromQuery] Guid id)
     {
         var response = new UserDetailResponse();
         return Success(response);
     }
 
-    private ApiResultResponseBase CreateAsync(
+    public ApiResultResponseBase CreateAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] Guid guid)
     {
         return Success();
     }
 
-    private ApiResultResponseBase DeleteAsync(
+    public ApiResultResponseBase DeleteAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] Guid guid)
     {

@@ -1,18 +1,20 @@
-﻿namespace MASA.Framework.Admin.Configuration.Services;
+﻿using MASA.Framework.Admin.Contracts.Configuration;
+
+namespace MASA.Framework.Admin.Configuration.Services;
 
 public class MenuService : CustomServiceBase
 {
     public MenuService(IServiceCollection services) : base(services)
     {
-        App.MapGet(Contracts.Configuration.Const.UrlRule.MENU_SERVICE, GetItemsAsync);
+        App.MapGet(Routing.MenuList, GetItemsAsync);
     }
 
-    private ApiResultResponse<PaginatedItemsViewModel<MenuItemResponse>> GetItemsAsync(
+    public ApiResultResponse<PaginatedItemResponse<MenuItemResponse>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] int pageIndex = 1,
-        [FromQuery] int pageSize = 20)
+        [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
+        [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE)
     {
-        var response = new PaginatedItemsViewModel<MenuItemResponse>(pageIndex, pageSize, 0, new List<MenuItemResponse>());
+        var response = new PaginatedItemResponse<MenuItemResponse>(pageIndex, pageSize, 0, new List<MenuItemResponse>());
         return Success(response);
     }
 }

@@ -2,5 +2,5 @@
 
 public class Routing
 {
-    public static string MenuList = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.MENU_SERVICE, "items");
+    public static string MenuList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.MENU_SERVICE);
 }

@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.User.Application.Users.Commands;
-
 namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : CustomServiceBase
@@ -43,7 +41,7 @@ public class UserServices : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromBody] Guid id)
     {
-        eventBus.PublishAsync(new DeleteCommand { Id = id });
+        eventBus.PublishAsync(new DeleteCommand { UserId = id });
         return Success();
     }
 }

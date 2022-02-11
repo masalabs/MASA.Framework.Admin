@@ -1,0 +1,78 @@
+@page "/blog-admin/advertising-picture"
+@namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
+@using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums
+@using Microsoft.AspNetCore.Components
+@inherits ProCompontentBase
+
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <LeftActions>
+        <MButton Color="primary" OnClick="Create"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+    </LeftActions>
+    <Filters Context="filter">
+        <MRow Dense>
+            <MCol Cols="12" Sm="6">
+                <DefaultSelect Label="类型"
+                               Items="Enum<BlogAdvertisingPicturesTypes>.GetEnumObjectList<BlogAdvertisingPicturesTypes>()"
+                               ItemText="item => item.Name"
+                               ItemValue="item => item.Value"
+                               @bind-Value="_options.Type"
+                               TItem="EnumObject<BlogAdvertisingPicturesTypes>"
+                               TValue="BlogAdvertisingPicturesTypes?"
+                               TItemValue="BlogAdvertisingPicturesTypes"
+                               OnSelectedItemUpdate="filter.onSearch"
+                               OnClearClick="filter.onSearch">
+                </DefaultSelect>
+            </MCol>
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  OnOptionsUpdate="HandleOnOptionsUpdate"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="BlogAdvertisingPicturesListViewModel">
+    <ItemColContent>
+        @if (context.Header.Value == nameof(BlogAdvertisingPicturesListViewModel.Pic))
+        {
+            <MImage MaxHeight="64" Src="@context.Item.Pic"></MImage>
+        }
+        else if (context.Header.Value == "Actions")
+        {
+            <MButton OnClick="()=>Modify(context.Item)">编辑</MButton>
+            <MButton>删除</MButton>
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
+    </ItemColContent>
+</DefaultDataTable>
+
+<FormModal Visible="_dataModal.Visible"
+           Model="_dataModal.Data"
+           Title="@DataModalTitle"
+           Width="500"
+           OnCancel="_dataModal.Hide"
+           OnOk="ConfirmDataModal">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="标题" @bind-Value="_dataModal.Data.Title" Clearable/>
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="图片地址" @bind-Value="_dataModal.Data.Pic" Clearable/>
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="int" Dense Outlined HideDetails="@("auto")"
+                        Label="排序值" @bind-Value="_dataModal.Data.Sort" Clearable/>
+        </MCol>
+        <MCol Cols="12">
+            <MSwitch Label="排序值" @bind-Value="_dataModal.Data.Status"></MSwitch>
+        </MCol>
+    </MRow>
+</FormModal>

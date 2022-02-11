@@ -2,6 +2,9 @@
 
 namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
 {
+    /// <summary>
+    /// 点赞记录
+    /// </summary>
     public class BlogApprovedRecord : EntityBase
     {
         /// <summary>

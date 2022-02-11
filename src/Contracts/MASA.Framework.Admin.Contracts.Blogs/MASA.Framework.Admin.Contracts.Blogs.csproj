@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BlogCommentInfo\Model\" />
     <Folder Include="BlogCommentInfo\Enums\" />
     <Folder Include="Enums\Model\" />
   </ItemGroup>

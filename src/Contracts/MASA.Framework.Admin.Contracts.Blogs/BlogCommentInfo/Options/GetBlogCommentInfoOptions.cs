@@ -2,6 +2,6 @@
 {
     public class GetBlogCommentInfoOptions : PagingOptions
     {
-
+        public Guid BlogInfoId { get; set; }
     }
 }

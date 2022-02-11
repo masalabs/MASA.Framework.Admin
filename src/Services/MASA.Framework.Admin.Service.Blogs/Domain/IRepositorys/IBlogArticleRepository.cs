@@ -49,5 +49,13 @@
         /// <param name="model"></param>
         /// <returns></returns>
         Task AddVisits(AddBlogVisitModel model);
+
+        /// <summary>
+        /// 追加评论数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isAdd">false:减少</param>
+        /// <returns></returns>
+        Task AddCommentCount(Guid id, bool isAdd);
     }
 }

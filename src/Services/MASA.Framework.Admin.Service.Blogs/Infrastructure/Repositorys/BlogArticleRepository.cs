@@ -193,5 +193,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 await _blogDbContext.SaveChangesAsync();
             }
         }
+
+        /// <summary>
+        /// 追加评论数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isAdd">false:减少</param>
+        /// <returns></returns>
+        public async Task AddCommentCount(Guid id, bool isAdd)
+        {
+            var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(id);
+            if (blogInfo != null)
+            {
+                blogInfo.CommentCount = isAdd ?
+                    blogInfo.CommentCount + 1 : blogInfo.CommentCount - 1;
+                if (blogInfo.CommentCount >= 0)
+                {
+                    _blogDbContext.BlogInfoes.Update(blogInfo);
+
+                    await _blogDbContext.SaveChangesAsync();
+                }
+            }
+        }
     }
 }

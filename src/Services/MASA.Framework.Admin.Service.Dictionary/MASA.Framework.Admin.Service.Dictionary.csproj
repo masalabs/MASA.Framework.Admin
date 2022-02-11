@@ -39,7 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\MASA.Framework.Admin.Contracts.Dictionary\MASA.Framework.Admin.Contracts.Dictionary.csproj" />
+	  <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Dictionary\MASA.Framework.Admin.Contracts.Dictionary.csproj" />
 	</ItemGroup>
 
 </Project>

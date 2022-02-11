@@ -1,3 +1,5 @@
+using Routing = MASA.Framework.Admin.Contracts.Authentication.Routing;
+
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class AuthenticationCaller : HttpClientCallerBase

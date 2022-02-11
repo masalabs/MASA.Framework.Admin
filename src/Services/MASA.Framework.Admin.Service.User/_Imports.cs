@@ -33,3 +33,8 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.OpenApi.Models;
+global using System.Linq.Expressions;
+global using MASA.BuildingBlocks.Dispatcher.IntegrationEvents.Logs;
+global using MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations;
+global using MASA.Utils.Data.EntityFrameworkCore;
+

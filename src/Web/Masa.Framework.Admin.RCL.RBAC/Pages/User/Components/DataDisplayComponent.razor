@@ -1,0 +1,21 @@
+﻿<MListItemSubtitle class="text-subtitle2">
+    @Subtitle
+</MListItemSubtitle>
+<MListItemTitle class="text-subtitle mt-1">
+    @if (string.IsNullOrEmpty(Title))
+    {
+        <span>-</span>
+    }
+    else
+    {
+        <span>@Title</span>
+    }
+</MListItemTitle>
+
+@code {
+    [Parameter]
+    public string Subtitle { get; set; } = "";
+
+    [Parameter]
+    public string Title { get; set; } = "-";
+}

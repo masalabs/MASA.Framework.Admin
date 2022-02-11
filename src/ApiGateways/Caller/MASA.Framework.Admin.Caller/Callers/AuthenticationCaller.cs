@@ -1,6 +1,4 @@
 using MASA.Framework.Admin.Contracts.Authentication;
-using MASA.Framework.Admin.Contracts.Authentication.Const;
-using MASA.Framework.Admin.Contracts.Authentication.Enum;
 using MASA.Framework.Admin.Contracts.Authentication.Response;
 using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Utils.Caller.HttpClient;
@@ -14,7 +12,7 @@ namespace MASA.Framework.Admin.Caller.Callers
 
         public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
         {
-            Name = nameof(ConfigurationCaller);
+            Name = nameof(AuthenticationCaller);
             BaseAddress = configuration["ApiGateways.AuthenticationCaller"];
         }
 

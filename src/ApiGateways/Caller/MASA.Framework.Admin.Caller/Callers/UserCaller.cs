@@ -1,5 +1,6 @@
 using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Framework.Admin.Contracts.User;
+using MASA.Framework.Admin.Contracts.User.Request;
 using MASA.Framework.Admin.Contracts.User.Response;
 using MASA.Utils.Caller.HttpClient;
 using Microsoft.AspNetCore.WebUtilities;
@@ -30,12 +31,12 @@ public class UserCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(String.Format(Routing.UserDetail, id));
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(Routing.UserDetail, id));
     }
 
-    public async Task<ApiResultResponseBase> CreateAsync(string id, string name)
+    public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<string, ApiResultResponseBase>(Routing.OperateUser, "");
+        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(Routing.OperateUser, userCreateRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)

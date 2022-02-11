@@ -1,5 +1,3 @@
-using MASA.Blazor;
-using MASA.Framework.Admin.Caller.Callers;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
@@ -11,6 +9,7 @@ public partial class List
     private MForm _form = new();
     private UserPage _userPage = new();
     private UserItemResponse _userItem = new();
+    private CreateUserModel _createUserModel = new();
     private List<int> _pageSizes = new() { 10, 25, 50, 100 };
     private readonly List<DataTableHeader<UserItemResponse>> _headers = new()
     {
@@ -29,7 +28,7 @@ public partial class List
     };
 
     [Inject]
-    public UserCaller UserCaller { get; set; }
+    public UserCaller UserCaller { get; set; } = null!;
 
     private string GetInitialShow(string name)
     {
@@ -41,20 +40,27 @@ public partial class List
         Nav.NavigateTo($"/user/view/{id}");
     }
 
-    private void DeleteUser(string id)
+    private async Task DeleteUser(string id)
     {
-
+        var res = await UserCaller.DeleteAsync(id);
+        if (!res.Success)
+        {
+            //tip msg
+        }
+        else
+        {
+            //reload items
+        }
     }
 
-    private async void CreateUser(EditContext context)
+    private async Task CreateUser(EditContext context)
     {
         var success = context.Validate();
         if (!success)
         {
             return;
         }
-
-        var res = await UserCaller.CreateAsync("", "");
+        var res = await UserCaller.CreateAsync(_createUserModel);
         if (!res.Success)
         {
             _snackbar = true;

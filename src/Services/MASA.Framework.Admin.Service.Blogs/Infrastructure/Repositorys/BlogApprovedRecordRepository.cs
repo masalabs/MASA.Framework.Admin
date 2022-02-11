@@ -36,7 +36,7 @@
 
             blogInfo.ApprovedCount = model.IsApproved ?
             blogInfo.ApprovedCount + 1 : blogInfo.ApprovedCount - 1;
-            if (blogInfo.ApprovedCount > 0)
+            if (blogInfo.ApprovedCount >= 0)
                 _blogDbContext.BlogInfoes.Update(blogInfo);
 
             await _blogDbContext.SaveChangesAsync();

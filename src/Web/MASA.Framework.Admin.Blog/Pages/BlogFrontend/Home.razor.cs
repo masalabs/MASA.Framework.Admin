@@ -1,4 +1,5 @@
 ﻿using MASA.Framework.Admin.Blog.Data.Blog;
+using MASA.Framework.Admin.Caller;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
@@ -37,6 +38,15 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                         Visits = 50
                     }
                 };
+        }
+
+
+        [Inject]
+        protected BlogCaller BlogCaller { get; set; }
+
+        protected override async void OnInitialized()
+        {
+            var res = await BlogCaller.ArticleService.GetList(new() { PageIndex = 1, PageSize = 10});
         }
 
     }

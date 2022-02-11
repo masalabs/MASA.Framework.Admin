@@ -1,5 +1,3 @@
-using MASA.Framework.Data.Mapping;
-
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
@@ -68,21 +66,47 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     public void Create()
     {
-        _dataModal.Show(new());
+        _dataModal.Show();
     }
 
     public void Modify(BlogAdvertisingPicturesListViewModel model)
     {
-
-        var showModel = new Mapping<UpdateBlogAdvertisingPicturesModel, BlogAdvertisingPicturesListViewModel>()
-            .ReverseMap(model);
+        // TODO: mapping
+        var showModel = new UpdateBlogAdvertisingPicturesModel()
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Pic = model.Pic,
+            Type = model.Type,
+            Sort = model.Sort,
+            Status = model.Status
+        };
 
         _dataModal.Show(showModel);
     }
 
     public async Task ConfirmDataModal()
     {
+        if (_dataModal.HasValue)
+        {
 
+        }
+        else
+        {
+            _tableData.Add(new()
+            {
+                Title = _dataModal.Data.Title,
+                Id = _dataModal.Data.Id,
+                Pic = _dataModal.Data.Pic,
+                Sort = _dataModal.Data.Sort,
+                Status = _dataModal.Data.Status
+            });
+        }
+
+        _totalCount = _tableData.Count;
+
+        _dataModal.Hide();
+        StateHasChanged();
     }
 
     #endregion
@@ -90,6 +114,8 @@ public partial class AdvertisingPicture : ProCompontentBase
     protected override async Task OnInitializedAsync()
     {
         await FetchList();
+
+        _totalCount = _tableData.Count;
 
         await base.OnInitializedAsync();
     }

@@ -16,7 +16,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public async Task<PageResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
+        public async Task<PagingResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
@@ -38,13 +38,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
             var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
 
-            return new PageResult<BlogInfoListViewModel>()
-            {
-                Data = pageResult.Data,
-                Page = pageResult.Page,
-                Size = pageResult.Size,
-                TotalCount = pageResult.TotalCount
-            };
+            return pageResult;
         }
 
         /// <summary>
@@ -102,9 +96,19 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
             if (blogInfo != null)
             {
-                var updateBlogInfo = new Mapping<BlogInfo, BlogInfo>().Map(model, blogInfo);
-
-                _blogDbContext.Update(updateBlogInfo);
+                // TODO: mapping
+                
+                blogInfo.Content = model.Content;
+                blogInfo.Remark = model.Remark;
+                blogInfo.State = model.State;
+                blogInfo.Title = model.Title;
+                blogInfo.Visits = model.Visits;
+                blogInfo.ApprovedCount = model.ApprovedCount;
+                blogInfo.CommentCount = model.CommentCount;
+                blogInfo.IsShow = model.IsShow;
+                blogInfo.TypeId = model.TypeId;
+                
+                _blogDbContext.Update(blogInfo);
                 await _blogDbContext.SaveChangesAsync();
             }
         }
@@ -133,7 +137,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// </summary>
         /// <param name="opions"></param>
         /// <returns></returns>
-        public async Task<PageResult<BlogInfoListViewModel>> GetBlogArticleByUser(GetBlogArticleUserOptions options)
+        public async Task<PagingResult<BlogInfoListViewModel>> GetBlogArticleByUser(GetBlogArticleUserOptions options)
         {
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
@@ -156,7 +160,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
             var pageResult = await query.OrderByDescending(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
 
-            return new PageResult<BlogInfoListViewModel>()
+            return new PagingResult<BlogInfoListViewModel>()
             {
                 Data = pageResult.Data,
                 Page = pageResult.Page,
@@ -179,6 +183,28 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 blogInfo.Visits++;
                 _blogDbContext.Update(blogInfo);
                 await _blogDbContext.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// 追加评论数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isAdd">false:减少</param>
+        /// <returns></returns>
+        public async Task AddCommentCount(Guid id, bool isAdd)
+        {
+            var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(id);
+            if (blogInfo != null)
+            {
+                blogInfo.CommentCount = isAdd ?
+                    blogInfo.CommentCount + 1 : blogInfo.CommentCount - 1;
+                if (blogInfo.CommentCount >= 0)
+                {
+                    _blogDbContext.BlogInfoes.Update(blogInfo);
+
+                    await _blogDbContext.SaveChangesAsync();
+                }
             }
         }
     }

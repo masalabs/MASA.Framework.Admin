@@ -15,7 +15,7 @@
 
             if (blogType != null)
             {
-                throw new UserFriendlyException($"{entity.TypeName}已存在！");
+                throw new Exception($"{entity.TypeName}已存在！");
             }
 
             var model = await _blogDbContext.BlogTypes.AddAsync(entity);
@@ -58,8 +58,7 @@
 
                 if (blogInfoes.Any())
                 {
-                    throw new UserFriendlyException(
-                        $"{string.Join(",",blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new Exception($"{string.Join(",",blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
                 }
             }
 

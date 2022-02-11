@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
-    public class BlogArticleQueryHandlers
+    public class BlogCommentsQueryHandlers
     {
         private string _defaultIndex;
         private readonly ElasticClient _elasticClient;
@@ -8,7 +8,7 @@
         private readonly IBlogArticleRepository _blogArticleRepository;
         private readonly IBlogLabelRepository _blogLabelRepository;
 
-        public BlogArticleQueryHandlers(
+        public BlogCommentsQueryHandlers(
             IOptions<BlogAppSettiings> settings,
             IBlogLabelRepository blogLabelRepository,
             IBlogArticleRepository blogArticleRepository,
@@ -45,7 +45,7 @@
         {
             var blogArticle = await _blogArticleRepository.GetBlogArticleByUser(query.Options);
 
-            query.Result = blogArticle; 
+            query.Result = blogArticle;
         }
 
         [EventHandler]
@@ -75,7 +75,15 @@
                 .Query(q => q.Bool(b => b.Must(matchQuery)))
                 .Sort(s => s.Descending(y => y.CreationTime)));
 
-            var data = new Mapping<BlogInfoHomeListViewModel, BlogInfo>().ReverseMap(searchResponse.Documents).ToList();
+            // TODO: mapping
+            var data = searchResponse.Documents.Select(d => new BlogInfoHomeListViewModel()
+            {
+                Content = d.Content,
+                Title = d.Title,
+                TypeId = d.TypeId,
+                CreationTime = d.CreationTime
+            }).ToList();
+
 
             query.Result = new()
             {

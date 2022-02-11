@@ -11,6 +11,7 @@
 
   <ItemGroup>
 	  <PackageReference Include="MASA.Framework.Data.EntityFrameworkCore.Core" Version="0.1.9832" />
+	  <PackageReference Include="MASA.Framework.Development.Dapr" Version="0.1.9832" />
 	  <PackageReference Include="MASA.Framework.Extensions.DependencyInjection" Version="0.1.6569" />
 	  <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
 	  <PackageReference Include="MASA.BuildingBlocks.DDD.Domain" Version="0.0.1706110254" />
@@ -50,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\BlogComments\Querys\" />
     <Folder Include="Domain\Events\" />
   </ItemGroup>
 

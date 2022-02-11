@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
-    public class BlogArticleQueryHandlers
+    public class BlogCommentsQueryHandlers
     {
         private string _defaultIndex;
         private readonly ElasticClient _elasticClient;
@@ -8,7 +8,7 @@
         private readonly IBlogArticleRepository _blogArticleRepository;
         private readonly IBlogLabelRepository _blogLabelRepository;
 
-        public BlogArticleQueryHandlers(
+        public BlogCommentsQueryHandlers(
             IOptions<BlogAppSettiings> settings,
             IBlogLabelRepository blogLabelRepository,
             IBlogArticleRepository blogArticleRepository,

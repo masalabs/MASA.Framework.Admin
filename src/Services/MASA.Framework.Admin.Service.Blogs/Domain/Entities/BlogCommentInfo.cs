@@ -54,6 +54,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// 是否展示
         /// </summary>
         [Required]
-        public bool IsShow { get; set; }
+        public bool IsShow { get; set; } = true;
     }
 }

@@ -37,12 +37,12 @@ builder.Services
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 {
     options.UseEventBus()
-           .UseUoW<ShopDbContext>(dbOptions => dbOptions.UseSqlite("DataSource=:memory:"))
-           .UseEventLog<ShopDbContext>();
+           .UseUoW<JobDbContext>(dbOptions => dbOptions.UseSqlite("DataSource=:memory:"))
+           .UseEventLog<JobDbContext>();
 });
 
 builder.Services.AddEventBus();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

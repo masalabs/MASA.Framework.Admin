@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Services;
+namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class ObjectService : CustomServiceBase
 {

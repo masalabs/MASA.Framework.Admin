@@ -2,7 +2,7 @@
 @page "/user/view/{Id}"
 @inherits ComponentBase
 
-<MCard Height="298" class="pt-2 pb-2">
+<MCard Height="200" class="pt-2 pb-2">
     <MCardText>
         <MRow>
             <MCol Cols="@("auto")">
@@ -45,52 +45,113 @@
         </MRow>
     </MCardText>
 </MCard>
-<MCard class="mt-6">
-    <MTabs @bind-Value="_tab" BackgroundColor="transparent" Color="basil" Grow>
+<MCard class="mt-6" Color="transparent">
+    <MTabs @bind-Value="_tab" BackgroundColor="transparent" Grow SliderColor="primary">
         <MTab>用户信息</MTab>
         <MTab>权限信息</MTab>
         <MTab>访问记录</MTab>
     </MTabs>
     <MTabsItems Value="@_tab">
         <MTabItem>
-            <MCard Color="basil" Flat>
+            <MCard Flat>
                 <MCardTitle>
                     基本信息
                 </MCardTitle>
-                <MCardText></MCardText>
+                <MDivider />
+                <MCardText>
+                    <MRow>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="用户 ID" Title="@_userDetail.Id.ToString()" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="账号" Title="@_userDetail.Account" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="姓名" Title="@_userDetail.Name" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="邮箱" Title="@_userDetail.Email" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="状态" Title="@(((State)_userDetail.State).ToString())" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="最后登录时间" Title="@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="最后更新时间" Title="@_userDetail.LastUpdateTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="注册时间" Title="@_userDetail.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                    </MRow>
+                </MCardText>
             </MCard>
-            <MCard Flat>
+            <MCard class="mt-6">
                 <MCardTitle>
                     所属分组
+                    <MSpacer />
+                    <MButton Text>
+                        <MIcon Left>mdi-plus-circle-outline</MIcon>
+                        添加
+                    </MButton>
                 </MCardTitle>
-                <MCardText></MCardText>
+                <MCardText>
+                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroup" HideDefaultFooter Class="user ml-2 table-border-none">
+                        <HeaderColContent Context="header">
+                            <span class="text-subtitle">@header.Text</span>
+                        </HeaderColContent>
+                        <ItemColContent>
+                            @switch (context.Header.Value)
+                            {
+                                case nameof(UserItemResponse.Id):
+                                    <span>移除此分组</span>
+                                    break;
+                                default:
+                                    @context.Value
+                                    break;
+                            }
+                        </ItemColContent>
+                    </MDataTable>
+                </MCardText>
             </MCard>
-            <MCard Color="basil" Flat>
+            <MCard class="mt-6" Flat>
                 <MCardTitle>
                     原始 JSON 数据
                 </MCardTitle>
-                <MCardText></MCardText>
+                <MDivider />
+                <MCardText>
+                    <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail)"/>
+                </MCardText>
             </MCard>
         </MTabItem>
         <MTabItem>
-            <MCard Color="basil" Flat>
+            <MCard Flat>
                 <MCardTitle>
                     用户角色
+                    <MSpacer />
+                    <MButton Text>
+                        <MIcon Left>mdi-plus-circle-outline</MIcon>
+                        添加
+                    </MButton>
                 </MCardTitle>
+                <MDivider />
                 <MCardText>2</MCardText>
             </MCard>
         </MTabItem>
         <MTabItem>
-            <MCard Color="basil" Flat>
+            <MCard Flat>
                 <MCardTitle>
                     访问记录
                 </MCardTitle>
+                <MDivider />
                 <MCardText>3</MCardText>
             </MCard>
-            <MCard Color="basil" Flat>
+            <MCard class="mt-6" Flat>
                 <MCardTitle>
                     位置
                 </MCardTitle>
+                <MDivider />
                 <MCardText>3</MCardText>
             </MCard>
         </MTabItem>

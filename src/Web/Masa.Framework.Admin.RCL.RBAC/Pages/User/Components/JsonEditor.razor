@@ -1,0 +1,27 @@
+﻿﻿<MCard Outlined Flat style="padding:6px 6px 6px 0;">
+    <div style="width: 100%; min-height: 312px; height: 312px; overflow-y: auto; ">
+        <div style="display: flex;height:@((_lineCount+1)*24)px">
+            <div style="width:50px;text-align:center;color:rgb(46,117,182);">
+                @for (int i = 0; i < _lineCount; i++)
+                {
+                    var line = i + 1;
+                    var color = _errorLine == line ? "color:red;" : "";
+                    <div @key="line" style="height:24px;@color">
+                        <MTooltip Right Disabled="_errorLine!=line">
+                            <ActivatorContent>
+                                @line
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@_error</span>
+                            </ChildContent>
+                        </MTooltip>
+                    </div>
+                }
+            </div>
+            <textarea style="outline:none;resize:none;width:100%;" autofocus
+                      disabled="@Disabled"
+                      @oninput="OnInput" @ref="Ref" value="@Value" @onchange="HandleOnChange">
+            </textarea>
+        </div>
+    </div>
+</MCard>

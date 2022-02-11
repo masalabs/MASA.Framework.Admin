@@ -6,7 +6,7 @@ namespace MASA.Framework.Admin.Caller.Callers
 
         public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
         {
-            Name = nameof(ConfigurationCaller);
+            Name = nameof(AuthenticationCaller);
             BaseAddress = configuration["ApiGateways.AuthenticationCaller"];
         }
 

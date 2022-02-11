@@ -37,7 +37,7 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>_visible=true">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
                     Add User
                 </MButton>
             </MCol>
@@ -135,18 +135,12 @@
         <span class="text-h6">Add New User</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=_userItem EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
-        <MTextField @bind-Value="_userItem.Account" Class="mb-6" Label="Account" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_userItem.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_userItem.Email" Class="mb-6" Label="Email" HideDetails="@("auto")" Dense Outlined />
-        <MSelect @bind-Value="_userItem.State"
-                 Color="primary" HideDetails="@("auto")"
-                 Clearable Dense Outlined
-                 Items="@_selectStateList"
-                 ItemText="u => u.Text"
-                 ItemValue="u => u.Value"
-                 Label="State">
-        </MSelect>
+    <MForm Model=_createUserModel EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
+        <MTextField @bind-Value="_createUserModel.Account" Class="mb-6" Label="账号" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserModel.Pwd" Class="mb-6" Type="password" Label="密码" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserModel.ConfirmPwd" Class="mb-6" Type="password" Label="确认密码" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserModel.Name" Class="mb-6" Label="姓名" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserModel.Email" Class="mb-6" Label="邮箱" HideDetails="@("auto")" Dense Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> Cancel </MButton>
@@ -156,6 +150,6 @@
 </MNavigationDrawer>
 
 <MSnackbar Absolute Dark Centered Timeout="3000" @bind-Value="_snackbar"
-        Color="deep-purple accent-4" Elevation="24">
+    Color="deep-purple accent-4" Elevation="24">
         添加失败
 </MSnackbar>

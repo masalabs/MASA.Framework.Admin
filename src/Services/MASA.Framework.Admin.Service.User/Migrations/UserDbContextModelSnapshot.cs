@@ -96,12 +96,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTimeOffset>("LastLoginTime")
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset")
-                        .HasColumnName("last_update_time");
+                        .HasColumnName("last_login_time");
 
                     b.Property<DateTimeOffset>("LastUpdateTime")
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset")
                         .HasColumnName("last_update_time");
 

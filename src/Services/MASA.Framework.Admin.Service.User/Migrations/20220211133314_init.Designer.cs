@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220211115232_init")]
+    [Migration("20220211133314_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,12 +98,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTimeOffset>("LastLoginTime")
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset")
-                        .HasColumnName("last_update_time");
+                        .HasColumnName("last_login_time");
 
                     b.Property<DateTimeOffset>("LastUpdateTime")
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset")
                         .HasColumnName("last_update_time");
 

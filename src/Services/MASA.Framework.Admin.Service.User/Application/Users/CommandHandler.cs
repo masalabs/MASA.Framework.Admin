@@ -24,7 +24,7 @@ public class CommandHandler
     public async Task CreateAsync(CreateCommand createCommand)
     {
         var user = new Domain.Aggregate.Users(
-            createCommand.UserId,
+            createCommand.LoginUserId,
             createCommand.UserCreateRequest.Account,
             createCommand.UserCreateRequest.Pwd)
         {

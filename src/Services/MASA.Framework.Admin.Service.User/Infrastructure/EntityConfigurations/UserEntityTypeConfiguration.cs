@@ -17,7 +17,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Users>
         builder.Property(c => c.Cover).HasColumnName("cover").HasMaxLength(200);
         builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(100);
         builder.Property(c => c.State).HasColumnName("state").IsRequired();
-        builder.Property(c => c.LastLoginTime).HasColumnName("last_update_time");
+        builder.Property(c => c.LastLoginTime).HasColumnName("last_login_time");
         builder.Property(c => c.LastUpdateTime).HasColumnName("last_update_time");
 
         builder.Property(c => c.IsDeleted).HasColumnName("is_deleted").IsRequired();

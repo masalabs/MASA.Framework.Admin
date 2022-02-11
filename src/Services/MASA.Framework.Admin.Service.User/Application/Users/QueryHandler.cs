@@ -33,9 +33,6 @@ public class QueryHandler
     [EventHandler]
     public async Task GetListAsync(ListQuery listQuery)
     {
-        var list = await _userRepository.GetListAsync();
-
-        return;
         var users = await _userRepository.GetPaginatedListAsync((u) => u.Account.Contains(listQuery.Account), new PaginatedOptions
         {
             Page = listQuery.PageIndex,
@@ -46,6 +43,7 @@ public class QueryHandler
         {
             listQuery.Result.Add(new UserItemResponse
             {
+                Id = user.Id,
                 Account = user.Account,
                 Name = user.Name,
                 Email = user.Email,

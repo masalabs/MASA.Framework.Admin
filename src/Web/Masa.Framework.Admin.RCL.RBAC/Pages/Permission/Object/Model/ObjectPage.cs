@@ -1,14 +1,12 @@
-using MASA.Framework.Admin.Caller.Callers;
+using MASA.Framework.Admin.Contracts.Authentication.Response;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class MenuPage
+public class ObjectPage
 {
-    public List<MenuItemResponse> MenuDatas { get; set; }
+    public List<ObjectItemResponse> ObjectDatas { get; set; }
 
-    public MenuItemResponse CurrentMenuData { get; set; } = new();
-
-    private ConfigurationCaller ConfigurationCaller { get; set; }
+    private AuthenticationCaller AuthenticationCaller { get; set; }
 
     public string? Role { get; set; }
 
@@ -42,22 +40,22 @@ public class MenuPage
         new() { Text = "ACTIONS", Value = "Action", Sortable = false }
     };
 
-    public MenuPage(ConfigurationCaller configurationCaller)
+    public ObjectPage(AuthenticationCaller authenticationCaller)
     {
-        ConfigurationCaller = configurationCaller;
-        MenuDatas = new();
+        AuthenticationCaller = authenticationCaller;
+        ObjectDatas = new();
     }
 
     public async Task QueryPageDatasAsync()
     {
-        var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
+        var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize);
         Success = result.Success;
         Message = result.Message;
         if(Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
-            MenuDatas = pageData.Items.ToList();
+            ObjectDatas = pageData.Items.ToList();
         }
     }
 

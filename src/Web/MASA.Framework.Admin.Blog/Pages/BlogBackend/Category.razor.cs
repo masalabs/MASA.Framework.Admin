@@ -1,4 +1,5 @@
 ﻿using MASA.Framework.Admin.Caller;
+using MASA.Framework.Data.Mapping;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
@@ -7,29 +8,39 @@ public partial class Category : ProCompontentBase
     private GetBlogTypePagingOption _options = new();
     private int _totalCount = 0;
     private bool _loading = false;
-    private List<BlogTypeListViewModel> _tableData = new();
+    private List<BlogTypePagingViewModel> _tableData = new();
+    private string _message = string.Empty;
+    private bool _show = false;
+    private string _color;
+    private bool _dialog = false;
 
-    private readonly List<DataTableHeader<BlogTypeListViewModel>> _headers = new()
+    private readonly List<DataTableHeader<BlogTypePagingViewModel>> _headers = new()
     {
         new()
-        { Text = "名称", Value = nameof(BlogTypeListViewModel.TypeName), Sortable = false },
+        { Text = "名称", Value = nameof(BlogTypePagingViewModel.TypeName), Sortable = false },
         new()
-        { Text = "创建时间", Value = nameof(BlogTypeListViewModel.CreationTime), Sortable = false },
+        { Text = "创建时间", Value = nameof(BlogTypePagingViewModel.CreationTime), Sortable = false },
         new()
         { Text = "操作", Value = "actions", Width = 300, Sortable = false }
     };
 
-    private DataModal<BlogTypeListViewModel> _dataModal = new();
+    private DataModal<BlogTypePagingViewModel> _dataModal = new();
     private CreateBlogTypeModel _createBlogTypeModel = new();
     private UpdateBlogTypeModel _updateBlogTypeModel = new();
     private string _dialogTitle = string.Empty;
+    private BlogTypePagingViewModel _model = new BlogTypePagingViewModel();
 
     [Inject] protected BlogCaller BlogCaller { get; set; }
 
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        await FetchList();
+        if (firstRender)
+        {
+            await FetchList();
+
+            StateHasChanged();
+        }
 
         await base.OnAfterRenderAsync(firstRender);
     }
@@ -42,6 +53,8 @@ public partial class Category : ProCompontentBase
         _loading = true;
 
         var result = await BlogCaller.BlogTypeService.PagingAsync(_options);
+
+        _tableData = result.Data;
         _totalCount = result.TotalCount;
 
         _loading = false;
@@ -56,38 +69,32 @@ public partial class Category : ProCompontentBase
         _dialogTitle = "新增";
     }
 
-    public async Task UpdateAsync(Guid id)
+    public async Task UpdateAsync(BlogTypePagingViewModel model)
     {
         _dialogTitle = "更新";
         _dataModal.Visible = true;
-        //var result = await GetProductTypeAsync(id);
-        //_dataModal.Show(new Mapping<GetProductTypeViewModel, ProductTypeListViewModel>().Map(result));
+        _dataModal.Show(model);
+    }
+
+    private async Task DialogAsync(BlogTypePagingViewModel model)
+    {
+        _dialog = true;
+        _model = model;
     }
 
     /// <summary>
     /// 删除
     /// </summary>
     /// <returns></returns>
-    public async Task DelAsync(BlogTypeListViewModel model)
+    public async Task DelAsync()
     {
-        //Confirm(
-        //    title: "删除产品类型",
-        //    content: $"您确认要删除（{model.Name}）吗？",
-        //    onOk: async () =>
-        //    {
-        //        var result = await ProductCaller.ProductService.DelProductTypeAsync(model.Id);
+        Guid[] ids = { _model.Id };
+        await BlogCaller.BlogTypeService.RemoveAsync(ids);
 
-        //        if (result == Guid.Empty)
-        //        {
-        //            Message("操作失败", AlertTypes.Error);
-        //            return;
-        //        }
-
-        //        Message("操作成功", AlertTypes.Success);
-
-        //        await FetchList();
-        //        StateHasChanged();
-        //    }, AlertTypes.Warning);
+        _show = true;
+        _color = "green";
+        _message = "删除成功";
+        _dialog = false;
     }
 
     private async Task Save()
@@ -96,31 +103,30 @@ public partial class Category : ProCompontentBase
 
         if (!_dataModal.HasValue)
         {
-            //_addProductTypeModel =
-            //    new Mapping<ProductTypeListViewModel, AddProductTypeModel>().Map(_dataModal.Data);
-            //_addProductTypeModel.CreatorUserId = MasaUser.UserId;
-            //_addProductTypeModel.LastModifierUserId = MasaUser.UserId;
+            _createBlogTypeModel =
+                new Mapping<BlogTypePagingViewModel, CreateBlogTypeModel>().Map(_dataModal.Data);
 
-            //result = await ProductCaller.ProductService.AddProductTypeAsync(_addProductTypeModel);
+            await BlogCaller.BlogTypeService.CreateAsync(_createBlogTypeModel);
+
+            _show = true;
+            _color = "green";
+            _message = "新增成功";
         }
         else
         {
-            //_updateProductTypeModel =
-            //    new Mapping<ProductTypeListViewModel, UpdateProductTypeModel>().Map(_dataModal.Data);
-            //_updateProductTypeModel.LastModifierUserId = MasaUser.UserId;
+            _updateBlogTypeModel =
+                new Mapping<BlogTypePagingViewModel, UpdateBlogTypeModel>().Map(_dataModal.Data);
 
-            //result = await ProductCaller.ProductService.UpdateProductTypeAsync(_updateProductTypeModel);
-        }
+            await BlogCaller.BlogTypeService.UpdateAsync(_updateBlogTypeModel);
 
-        if (result != Guid.Empty)
-        {
-            //Message("操作成功", AlertTypes.Success);
+            _show = true;
+            _color = "green";
+            _message = "更新成功";
         }
 
         _dataModal.Hide();
 
         await FetchList();
-        StateHasChanged();
     }
 
     private async Task HandleOnOptionsUpdate(DataOptions options)

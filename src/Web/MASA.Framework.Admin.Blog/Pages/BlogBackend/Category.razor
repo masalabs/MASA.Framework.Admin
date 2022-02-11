@@ -3,7 +3,7 @@
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
     <LeftActions>
-      <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+        <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>新增</MButton>
     </LeftActions>
     <Filters Context="filter">
         <MRow Dense>
@@ -25,12 +25,12 @@
                   Page="_options.PageIndex"
                   ItemsPerPage="_options.PageSize"
                   ServerItemsLength="_totalCount"
-                  TItem="BlogTypeListViewModel">
+                  TItem="BlogTypePagingViewModel">
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item.Id)" Icon="mdi-pencil"> </PAction>
-                <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
+            <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
+            <PAction Color="error" Label="删除" Text OnClick="() => DialogAsync(context.Item)" Icon="mdi-delete"></PAction>
         }
         else
         {
@@ -41,12 +41,11 @@
     </ItemColContent>
 </DefaultDataTable>
 
-
 <FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
     <MRow>
         <MCol Cols="12">
             <MTextField Label="名称"
-                        Dense HideDetails="@("auto")" Outlined
+                        Dense Outlined
                         @bind-Value="_dataModal.Data.TypeName">
                 <PrependInnerContent>
                     <lable class="red--text">*</lable>
@@ -55,3 +54,42 @@
         </MCol>
     </MRow>
 </FormModal>
+
+<MSnackbar @bind-Value="_show" MultiLine Top Outlined>
+    <ChildContent>
+        @_message
+    </ChildContent>
+    <ActionContent>
+        <MButton Color="@_color"
+                 Text
+                 OnClick="()=>_show = false">
+            Close
+        </MButton>
+    </ActionContent>
+</MSnackbar>
+
+<MDialog @bind-Value="_dialog"
+         Persistent
+         Width="500">
+    <ChildContent>
+        <MCard>
+            <MCardTitle>
+                删除文章类型
+            </MCardTitle>
+            <MCardText>您确认要删除吗?</MCardText>
+            <MCardActions>
+                <MSpacer></MSpacer>
+                <MButton Color="green darken-1"
+                         Text
+                         OnClick="() => _dialog = false">
+                    取消
+                </MButton>
+                <MButton Color="green darken-1"
+                         Text
+                         OnClick="()=>DelAsync()">
+                    确定
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>

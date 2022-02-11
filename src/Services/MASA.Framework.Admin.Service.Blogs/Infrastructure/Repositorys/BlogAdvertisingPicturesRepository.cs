@@ -71,5 +71,28 @@
                 await _blogDbContext.SaveChangesAsync();
             }
         }
+
+        /// <summary>
+        /// 前端广告位取得
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public async Task<List<BlogAdvertisingPicturesListViewModel>> GetBlogFrontListAsync(
+            GetBlogAdvertisingPicturesFrontOption options)
+        { 
+            return await _blogDbContext.BlogAdvertisingPictures
+                .Where(x => (options.Types == null || options.Types.Contains(x.Type)) && x.Status && !x.IsDeleted)
+                .OrderBy(type => type.Sort)
+                .Select(pictures => new BlogAdvertisingPicturesListViewModel
+                {
+                    Id = pictures.Id,
+                    Title = pictures.Title,
+                    Pic = pictures.Pic,
+                    Sort = pictures.Sort,
+                    Type = pictures.Type,
+                    CreationTime = pictures.CreationTime,
+                    LastModificationTime = pictures.LastModificationTime
+                }).ToListAsync();
+        }
     }
 }

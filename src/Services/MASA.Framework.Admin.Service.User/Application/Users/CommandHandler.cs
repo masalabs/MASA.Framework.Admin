@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.User.Domain.Repository;
-
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 
 public class CommandHandler
@@ -13,7 +11,21 @@ public class CommandHandler
 
     public async Task HandlerAsync(DeleteCommand deleteCommand)
     {
+        var user = await _userRepository.FindAsync(deleteCommand.UserId);
+        if (user == null)
+            throw new UserFriendlyException("userid not found");
+        await _userRepository.RemoveAsync(user);
+    }
 
+    public async Task HandlerAsync(CreateCommand createCommand)
+    {
+        await _userRepository.AddAsync(new Domain.Aggregate.Users
+        {
+            Account = createCommand.UserCreateRequest.Account,
+            Name = createCommand.UserCreateRequest.Name,
+            Email = createCommand.UserCreateRequest.Email,
+            Password = createCommand.UserCreateRequest.Pwd
+        });
     }
 }
 

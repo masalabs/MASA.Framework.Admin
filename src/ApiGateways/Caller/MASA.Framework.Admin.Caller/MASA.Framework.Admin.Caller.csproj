@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.Blogs\MASA.Framework.Admin.Contracts.Blogs.csproj" />
 	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.Order\MASA.Framework.Admin.Contracts.Order.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 ﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos.Querys
 {
-    public record class BlogArticleHomeQuery : Contrib.ReadWriteSpliting.CQRS.Queries.Query<PageResult<BlogInfoHomeListViewModel>>
+    public record class BlogArticleHomeQuery : Contrib.ReadWriteSpliting.CQRS.Queries.Query<PagingResult<BlogInfoHomeListViewModel>>
     {
         public GetBlogArticleHomeOptions Options { get; set; }
 
-        public override PageResult<BlogInfoHomeListViewModel> Result { get; set; } = default!;
+        public override PagingResult<BlogInfoHomeListViewModel> Result { get; set; } = default!;
     }
 }

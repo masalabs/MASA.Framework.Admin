@@ -1,7 +1,12 @@
-﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+﻿using MASA.Framework.Admin.Caller;
+
+namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class Article : ProCompontentBase
 {
+    [Inject]
+    public BlogCaller BlogCaller { get; set; }
+    
     private GetBlogArticleOptions _options = new();
     private int _totalCount = 0;
     private bool _loading = true;
@@ -25,6 +30,16 @@ public partial class Article : ProCompontentBase
             { Text = "发布时间", Value = nameof(BlogInfoListViewModel.CreationTime), Sortable = false },
     };
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await FetchList();
+        }
+    }
+
     private async Task HandleOnOptionsUpdate(DataOptions options)
     {
         await FetchList(options.Page, options.ItemsPerPage);
@@ -38,7 +53,13 @@ public partial class Article : ProCompontentBase
         _loading = true;
 
         // TODO: http
+        
+        var result = await BlogCaller.ArticleService.GetList(_options);
+        _tableData = result.Data;
+        _totalCount = result.TotalCount;
 
         _loading = false;
     }
+    
+    
 }

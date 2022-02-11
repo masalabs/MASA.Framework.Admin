@@ -43,7 +43,7 @@
             await _blogDbContext.SaveChangesAsync();
         }
 
-        public async Task<PageResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
+        public async Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
         {
             var paging = await _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type => new BlogTypePagingViewModel
             {
@@ -55,7 +55,13 @@
             }).PagingAsync(options.PageIndex, options.PageSize);
 
 
-            return paging;
+            return new PagingResult<BlogTypePagingViewModel>()
+            {
+                Page = paging.Page,
+                Size = paging.Size,
+                TotalCount = paging.TotalCount,
+                Data = paging.Data
+            };
         }
     }
 }

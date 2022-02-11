@@ -1,3 +1,7 @@
+using MASA.Framework.Admin.Caller;
+using MASA.Utils.Caller.Core;
+using MASA.Utils.Caller.HttpClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,13 +10,15 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMasaBlazor(builder =>
 {
     builder.UseTheme(option =>
-    {
-        option.Primary = "#4318FF";
-        option.Accent = "#4318FF";
-    }
+        {
+            option.Primary = "#4318FF";
+            option.Accent = "#4318FF";
+        }
     );
 });
 builder.Services.AddGlobalForServer();
+
+builder.Services.AddCaller(typeof(BlogCaller).Assembly);
 
 var app = builder.Build();
 

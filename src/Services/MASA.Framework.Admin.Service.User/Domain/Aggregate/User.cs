@@ -1,6 +1,6 @@
 namespace MASA.Framework.Admin.Service.User.Domain.Aggregate;
 
-public class Users : AuditAggregateRoot<Guid, Guid>
+public class User : AuditAggregateRoot<Guid, Guid>
 {
     public string Account { get; private set; } = default!;
 
@@ -22,19 +22,19 @@ public class Users : AuditAggregateRoot<Guid, Guid>
 
     public DateTimeOffset LastUpdateTime { get; private set; }
 
-    private Users()
+    private User()
     {
         State = State.Enable;
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
     }
 
-    public Users(Guid? createUserId, string account, string password) : this()
+    public User(Guid? creator, string account, string password) : this()
     {
         Account = account;
         Salt = "123456";
         Password = password;
-        Creator = createUserId ?? Id;
+        Creator = creator ?? Id;
         Modifier = Creator;
     }
 }

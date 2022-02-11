@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
-public record AddRoleRequest
+public class AddRoleRequest
 {
     public string Name { get; set; } = default!;
 

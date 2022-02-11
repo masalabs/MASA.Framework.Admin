@@ -8,7 +8,6 @@ public class Routing
 
     #endregion
 
-
     #region Permission
 
     public static string PermissionList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.PERMISSION_SERVICE);

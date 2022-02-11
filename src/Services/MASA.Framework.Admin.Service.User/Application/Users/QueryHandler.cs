@@ -10,7 +10,7 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task GetDetailAsync(DetailQuery detailQuery)
+    public async Task GetDetailAsync(UserQuery.DetailQuery detailQuery)
     {
         var user = await _userRepository.FindAsync(detailQuery.UserId);
         if (user == null)
@@ -31,7 +31,7 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task GetListAsync(ListQuery listQuery)
+    public async Task GetListAsync(UserQuery.ListQuery listQuery)
     {
         var users = await _userRepository.GetPaginatedListAsync((u) => u.Account.Contains(listQuery.Account), new PaginatedOptions
         {
@@ -39,9 +39,11 @@ public class QueryHandler
             PageSize = listQuery.PageSize,
         });
 
-        foreach (var user in users.Result)
-        {
-            listQuery.Result.Add(new UserItemResponse
+        listQuery.Result = new PaginatedItemResponse<UserItemResponse>(
+            listQuery.PageIndex,
+            listQuery.PageSize,
+            users.Total,
+            users.Result.Select(user => new UserItemResponse()
             {
                 Id = user.Id,
                 Account = user.Account,
@@ -51,9 +53,6 @@ public class QueryHandler
                 Cover = user.Cover,
                 Gender = user.Gender,
                 LastLoginTime = user.LastLoginTime
-            });
-        }
-
-        listQuery.Total = users.Total;
+            }));
     }
 }

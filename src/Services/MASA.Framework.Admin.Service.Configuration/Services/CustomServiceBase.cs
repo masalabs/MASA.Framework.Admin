@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Configuration.Services;
+namespace MASA.Framework.Admin.Configuration.Services;
 
 public class CustomServiceBase : ServiceBase
 {

@@ -16,7 +16,7 @@ public class RoleService : CustomServiceBase
         [FromQuery] string name = "",
         [FromQuery] int state = -1)
     {
-        var query = new RolesQuery(pageIndex, pageSize, name, state);
+        var query = new RoleQuery.ListQuery(pageIndex, pageSize, name, state);
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }
@@ -25,7 +25,7 @@ public class RoleService : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromBody] AddRoleRequest request)
     {
-        await eventBus.PublishAsync(new AddRoleCommand(request));
+        await eventBus.PublishAsync(new RoleCommand.AddCommand(request));
         return Success();
     }
 
@@ -33,7 +33,7 @@ public class RoleService : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromBody] EditRoleRequest request)
     {
-        await eventBus.PublishAsync(new EditRoleCommand(request));
+        await eventBus.PublishAsync(new RoleCommand.EditCommand(request));
         return Success();
     }
 }

@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Configuration.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Services.AddFluentValidation(options =>
     {
@@ -17,7 +19,7 @@ var app = builder.Services.AddFluentValidation(options =>
     .AddDomainEventBus(options =>
     {
         options.UseEventBus()
-            .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog_configurations"))
+             .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer("server=masa.admin.database;uid=sa;pwd=P@ssw0rd;database=blog_configurations"))
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<ConfigurationDbContext>()
             .UseRepository<ConfigurationDbContext>();

@@ -10,9 +10,8 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public Task RolesQueryAsync(RolesQuery query)
+    public Task GetListAsync(RoleQuery.ListQuery query)
     {
-        var list = _repository.GetList();
         return Task.CompletedTask;
     }
 }

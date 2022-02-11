@@ -17,29 +17,28 @@ public class UserServices : CustomServiceBase
         [FromQuery] string account = "",
         [FromQuery] int state = -1)
     {
-        var listQuery = new ListQuery(pageIndex, pageSize, account);
+        var listQuery = new UserQuery.ListQuery(pageIndex, pageSize, account);
         await eventBus.PublishAsync(listQuery);
-        var response = new PaginatedItemResponse<UserItemResponse>(pageIndex, pageSize, listQuery.Total, listQuery.Result);
-        return Success(response);
+        return Success(listQuery.Result);
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid id)
     {
-        var detailQuery = new DetailQuery(id);
+        var detailQuery = new UserQuery.DetailQuery(id);
         await eventBus.PublishAsync(detailQuery);
         return Success(detailQuery.Result);
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] Guid createUserId,
+        [FromQuery] Guid creator,
         [FromBody] UserCreateRequest userCreateRequest)
     {
-        await eventBus.PublishAsync(new CreateCommand(userCreateRequest)
+        await eventBus.PublishAsync(new UserCommand.CreateCommand(userCreateRequest)
         {
-            LoginUserId = createUserId
+            Creator = creator
         });
         return Success();
     }
@@ -48,7 +47,7 @@ public class UserServices : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid id)
     {
-        await eventBus.PublishAsync(new DeleteCommand(id));
+        await eventBus.PublishAsync(new UserCommand.DeleteCommand(id));
         return Success();
     }
 }

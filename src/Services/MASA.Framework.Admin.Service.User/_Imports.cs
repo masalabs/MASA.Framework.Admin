@@ -21,9 +21,8 @@ global using MASA.Framework.Admin.Contracts.Base.Response;
 global using MASA.Framework.Admin.Contracts.User;
 global using MASA.Framework.Admin.Contracts.User.Request;
 global using MASA.Framework.Admin.Contracts.User.Response;
-global using MASA.Framework.Admin.Service.User.Application.Users.Commands;
-global using MASA.Framework.Admin.Service.User.Application.Users.Queres;
-global using MASA.Framework.Admin.Service.User.Domain.Aggregate;
+global using UserCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands;
+global using UserQuery = MASA.Framework.Admin.Service.User.Application.Users.Queres;
 global using MASA.Framework.Admin.Service.User.Domain.Repository;
 global using MASA.Framework.Admin.Service.User.Infrastructure;
 global using MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations;
@@ -37,4 +36,3 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.OpenApi.Models;
 global using System.Linq.Expressions;
-

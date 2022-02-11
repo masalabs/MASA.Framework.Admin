@@ -10,7 +10,7 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task DeleteAsync(DeleteCommand deleteCommand)
+    public async Task DeleteAsync(UserCommand.DeleteCommand deleteCommand)
     {
         var user = await _userRepository.FindAsync(deleteCommand.UserId);
         if (user == null)
@@ -21,10 +21,10 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task CreateAsync(CreateCommand createCommand)
+    public async Task CreateAsync(UserCommand.CreateCommand createCommand)
     {
-        var user = new Domain.Aggregate.Users(
-            createCommand.LoginUserId,
+        var user = new Domain.Aggregate.User(
+            createCommand.Creator,
             createCommand.UserCreateRequest.Account,
             createCommand.UserCreateRequest.Pwd)
         {

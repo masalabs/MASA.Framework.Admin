@@ -17,12 +17,20 @@ global using MASA.Framework.Admin.Configuration.Infrastructure.Middleware.Global
 global using MASA.Framework.Admin.Contracts.Base.Const;
 global using MASA.Framework.Admin.Contracts.Base.Extensions.Exceptions;
 global using MASA.Framework.Admin.Contracts.Base.Response;
-global using MASA.Framework.Admin.Service.Configuration.Services;
+global using MASA.Framework.Admin.Contracts.Configuration;
+global using MASA.Framework.Admin.Contracts.Configuration.Response;
 global using MASA.Utils.Data.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.OpenApi.Models;
 global using System.Linq.Expressions;
-
-
+global using MASA.BuildingBlocks.DDD.Domain.Entities.Auditing;
+global using MASA.Framework.Admin.Contracts.Base.Commands;
+global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
+global using MenuCommand = MASA.Framework.Admin.Configuration.Application.Menu.Commands;
+global using MenuQuery = MASA.Framework.Admin.Configuration.Application.Menu.Queries;
+global using MASA.Framework.Admin.Configuration.Domain.Aggregate;
+global using MASA.BuildingBlocks.DDD.Domain.Repositories;
+global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
+global using MASA.Framework.Admin.Contracts.Base.Enum;

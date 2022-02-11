@@ -24,10 +24,10 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         roleItems = new();
     }
 
-    public Role(Guid userId, string name, int number = -1) : this()
+    public Role(Guid creator, string name, int number = -1) : this()
     {
-        Creator = userId;
-        Modifier = userId;
+        Creator = creator;
+        Modifier = creator;
         Name = name;
         Number = number;
         State = State.Enable;
@@ -41,8 +41,10 @@ public class Role : AuditAggregateRoot<Guid, Guid>
             this.roleItems.AddRange(ids.Select(id => new RoleItem(id)));
     }
 
-    public void Update(string name, string describe)
+    public void Update(Guid creator, string name, string describe)
     {
+        Modifier = creator;
+        ModificationTime = DateTime.Now;
         Name = name;
         Describe = describe;
     }

@@ -8,7 +8,7 @@ public class MenuItemResponse
 
     public string Name { get; set; } = default!;
 
-    public string Describe { get; set; } = default!;
+    public string? Describe { get; set; }
 
     public string? Icon { get; set; }
 

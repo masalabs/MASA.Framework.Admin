@@ -2,5 +2,5 @@
 
 public record AdminCommand : Command
 {
-    public Guid LoginUserId { get; set; }
+    public Guid Creator { get; set; }
 }

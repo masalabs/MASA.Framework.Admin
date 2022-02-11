@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
-public record EditRoleRequest
+public class EditRoleRequest
 {
     public Guid RuleId { get; set; }
 

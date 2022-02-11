@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1711196569" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,10 +24,6 @@
     <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1736024337" />
     <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1736024337" />
     <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1736024337" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain" />
   </ItemGroup>
 
   <ItemGroup>

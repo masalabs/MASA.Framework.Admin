@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
-public record EditObjectRequest : Command
+public class EditObjectRequest
 {
     public Guid? ObjectId { get; set; }
 

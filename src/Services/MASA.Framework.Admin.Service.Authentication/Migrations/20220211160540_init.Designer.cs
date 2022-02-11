@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.Authentication.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20220211075924_init")]
+    [Migration("20220211160540_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

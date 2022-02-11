@@ -14,9 +14,9 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             App.MapPost("/api/adPictures/create", CreateAsync);
             App.MapPost("/api/adPictures/update", UpdateAsync);
             App.MapPost("/api/adPictures/remove", RemoveAsync);
-            App.MapPost("/api/adPictures/paging", GetListAsync);
+            App.MapPost("/api/adPictures/paging", PagingAsync);
             App.MapPost("/api/adPictures/updateByStatus", UpdateByStatusAsync);
-            App.MapPost("/api/adPictures/getBlogListAsync", GetBlogFrontListAsync);
+            App.MapPost("/api/adPictures/getList", GetListAsync);
         }
 
         public async Task CreateAsync(CreateBlogAdvertisingPicturesModel request)
@@ -34,7 +34,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             await _eventBus.PublishAsync(new RemoveBlogAdvertisingPicturesCommand(ids));
         }
 
-        public async Task<IResult> GetListAsync(GetBlogAdvertisingPicturesOption option)
+        public async Task<IResult> PagingAsync(GetBlogAdvertisingPicturesOption option)
         {
             var query = new GetBlogAdvertisingPicturesQuery(option);
 
@@ -48,7 +48,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             await _eventBus.PublishAsync(new UpdateStatusBlogAdvertisingPicturesCommand(request));
         }
 
-        public async Task<IResult> GetBlogFrontListAsync(GetBlogAdvertisingPicturesFrontOption option)
+        public async Task<IResult> GetListAsync(GetBlogAdvertisingPicturesFrontOption option)
         {
             var query = new GetBlogAdvertisingPicturesFrontQuery(option);
 

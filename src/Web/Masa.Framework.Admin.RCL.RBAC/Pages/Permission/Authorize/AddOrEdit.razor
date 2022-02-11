@@ -1,32 +1,27 @@
 ﻿<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">Add New User</span>
+        <span class="text-h6">@(RolePage.CurrentAuthorizeData.Id == Guid.Empty ?"Add Authorize":"Edit Authorize")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=MenuPage.CurrentMenuData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Icon" Class="mb-6" Label="Icon" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Sort" Class="mb-6" Label="Sort" HideDetails="@("auto")" Outlined />
-        <MSwitch @bind-Value="MenuPage.CurrentMenuData.Disabled" Class="mb-6" Label="Status"></MSwitch>
-        <MTextarea @bind-Value="MenuPage.CurrentMenuData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
-
-        <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddData(context)"> Add </MButton>
-        </div>
+    <MForm Model=RolePage.CurrentAuthorizeData EnableDataAnnotationsValidation>
+        <span class="text-btn">Gender</span>
+        <MRadioGroup @bind-Value="RolePage.CurrentAuthorizeData.PermissionType" HideDetails="@("auto")" Color="primary" Row Class="mt-1">
+            <MRadio Color="primary" Label="@PermissionType.Private.ToString()" Value="@PermissionType.Private"></MRadio>
+            <MRadio Color="primary" Label="@PermissionType.Public.ToString()" Value="@PermissionType.Public"></MRadio>
+        </MRadioGroup>
     </MForm>
 </MNavigationDrawer>
 
 @code {
-    public MenuPage? _menuPage;
+    public RolePage? _rolePage;
 
     [Parameter]
-    public MenuPage MenuPage
+    public RolePage RolePage
     {
-        get => _menuPage ?? throw new Exception("Please set parameter MenuPage");
+        get => _rolePage ?? throw new Exception("Please set parameter RolePage");
         set
         {
-            _menuPage = value;
+            _rolePage = value;
         }
     }
 
@@ -52,7 +47,7 @@
     {
         if (context.Validate())
         {            
-            await MenuPage.AddOrUpdateAsync();
+            //await RolePage.AddOrUpdateAsync();
             await UpdateVisible(false);
         }
     }

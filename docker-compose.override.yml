@@ -36,6 +36,29 @@ services:
       - "./dapr/components/:/components"
     network_mode: "service:masa.admin.services.user"
 
+  masa.admin.services.configuration:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "5141:80"
+      - "7141:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.services.configuration.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+              "-app-id", "masa-admin-services-configuration",
+              "-app-port", "80",
+              "-components-path", "/components"
+    ]
+    depends_on:
+      - masa.admin.services.configuration
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.services.configuration"
+
   masa.admin.services.authentication:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

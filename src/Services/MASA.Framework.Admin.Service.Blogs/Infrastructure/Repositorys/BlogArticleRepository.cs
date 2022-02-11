@@ -81,6 +81,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             var result = await _blogDbContext.BlogInfoes.AddAsync(model);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return result.Entity;
         }
@@ -110,6 +111,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 
                 _blogDbContext.Update(blogInfo);
                 await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 
@@ -130,6 +132,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 
             _blogDbContext.UpdateRange(blogInfos);
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         /// <summary>
@@ -183,6 +186,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                 blogInfo.Visits++;
                 _blogDbContext.Update(blogInfo);
                 await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 
@@ -204,6 +208,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                     _blogDbContext.BlogInfoes.Update(blogInfo);
 
                     await _blogDbContext.SaveChangesAsync();
+                    _blogDbContext.Database.CurrentTransaction?.Commit();
                 }
             }
         }

@@ -46,7 +46,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         protected override async void OnInitialized()
         {
-            var res = await BlogCaller.ArticleService.GetList(new() { PageIndex = 1, PageSize = 10});
+            await BlogCaller.GetBrandsAsync();
         }
 
     }

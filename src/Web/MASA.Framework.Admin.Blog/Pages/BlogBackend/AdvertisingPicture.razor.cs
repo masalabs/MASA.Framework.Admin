@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Caller;
+
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class AdvertisingPicture : ProCompontentBase
@@ -111,8 +113,13 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     #endregion
 
+    [Inject] public BlogCaller blogCaller { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+
+        await blogCaller.GetBrandsAsync();
+
         await FetchList();
 
         _totalCount = _tableData.Count;

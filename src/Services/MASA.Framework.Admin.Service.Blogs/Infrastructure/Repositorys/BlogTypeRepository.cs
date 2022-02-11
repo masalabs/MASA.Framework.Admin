@@ -21,6 +21,7 @@
             var model = await _blogDbContext.BlogTypes.AddAsync(entity);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
 
             return model.Entity;
         }
@@ -34,6 +35,7 @@
                 blogTypes.TypeName = entity.TypeName;
                 _blogDbContext.Update(blogTypes);
                 await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
             }
         }
 
@@ -69,6 +71,7 @@
 
             _blogDbContext.UpdateRange(blogTypes);
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
         public async Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)

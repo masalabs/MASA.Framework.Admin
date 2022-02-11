@@ -40,6 +40,7 @@
                 _blogDbContext.BlogInfoes.Update(blogInfo);
 
             await _blogDbContext.SaveChangesAsync();
+            _blogDbContext.Database.CurrentTransaction?.Commit();
         }
     }
 }

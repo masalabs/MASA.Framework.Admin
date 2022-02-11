@@ -59,9 +59,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    var daprConfig = AppSettings.GetModel<DaprConfig>("DaprStarter");
-    DaprStarter.Start(daprConfig);
 }
 
 app.UseHttpsRedirection();

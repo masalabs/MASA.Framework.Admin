@@ -54,9 +54,9 @@ public partial class Article : ProCompontentBase
 
         // TODO: http
         
-        var result = await BlogCaller.ArticleService.GetList(_options);
-        _tableData = result.Data;
-        _totalCount = result.TotalCount;
+        //var result = await BlogCaller.ArticleService.GetList(_options);
+        //_tableData = result.Data;
+        //_totalCount = result.TotalCount;
 
         _loading = false;
     }

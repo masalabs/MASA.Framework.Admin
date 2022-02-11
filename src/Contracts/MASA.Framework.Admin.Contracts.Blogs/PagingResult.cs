@@ -9,6 +9,4 @@ public class PagingResult<T>
     public int Size { get; set; }
 
     public int TotalCount { get; set; }
-
-    public int PageCount => Convert.ToInt32(Math.Ceiling((Decimal) this.TotalCount / Convert.ToDecimal(this.Size)));
 }

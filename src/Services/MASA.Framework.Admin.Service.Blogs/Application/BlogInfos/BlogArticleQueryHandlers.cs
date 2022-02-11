@@ -81,7 +81,12 @@
                 Content = d.Content,
                 Title = d.Title,
                 TypeId = d.TypeId,
-                CreationTime = d.CreationTime
+                CreationTime = d.CreationTime,
+                ApprovedCount = d.ApprovedCount,
+                CommentCount = d.CommentCount,
+                Id = d.Id,
+                ReleaseTime = d.ReleaseTime,
+                Visits = d.Visits
             }).ToList();
 
 

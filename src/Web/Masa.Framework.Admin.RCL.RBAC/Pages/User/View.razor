@@ -1,5 +1,4 @@
-﻿@page "/user/view"
-@page "/user/view/{Id}"
+﻿@page "/user/view/{Id}"
 @inherits ComponentBase
 
 <MCard Height="200" class="pt-2 pb-2">
@@ -136,7 +135,25 @@
                     </MButton>
                 </MCardTitle>
                 <MDivider />
-                <MCardText>2</MCardText>
+                <MCardText>
+                    <MDataTable Headers="_roleItemHeaders" TItem="RoleItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
+                        <HeaderColContent Context="header">
+                            <span class="text-subtitle">@header.Text</span>
+                        </HeaderColContent>
+                        <ItemColContent>
+                            @switch (context.Header.Value)
+                            {
+                                case nameof(RoleItemResponse.Id):
+                                    <span>详情</span>
+                                    <span>撤销角色</span>
+                                    break;
+                                default:
+                                    @context.Value
+                                    break;
+                            }
+                        </ItemColContent>
+                    </MDataTable>
+                </MCardText>
             </MCard>
         </MTabItem>
         <MTabItem>

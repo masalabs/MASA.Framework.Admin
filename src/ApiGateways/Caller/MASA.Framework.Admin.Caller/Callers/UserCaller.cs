@@ -1,9 +1,4 @@
-using MASA.Framework.Admin.Contracts.Base.Response;
-using MASA.Framework.Admin.Contracts.User;
-using MASA.Framework.Admin.Contracts.User.Request;
-using MASA.Framework.Admin.Contracts.User.Response;
-using MASA.Utils.Caller.HttpClient;
-using Microsoft.AspNetCore.WebUtilities;
+using Routing = MASA.Framework.Admin.Contracts.User.Routing;
 
 namespace MASA.Framework.Admin.Caller.Callers;
 

@@ -14,9 +14,14 @@ public partial class View
     };
     private List<DataTableHeader<UserGroup>> _userGroupHeaders = new List<DataTableHeader<UserGroup>>
     {
-        new (){ Text= "组名", Sortable= false, Value= nameof(UserGroup.Name)},
+        new (){ Text= "用户组名称", Sortable= false, Value= nameof(UserGroup.Name)},
         new (){ Text= "简介", Sortable= false, Value= nameof(UserGroup.Description)},
         new (){ Text= "操作", Sortable= false, Value= nameof(UserGroup.Id)}
+    };
+    private List<DataTableHeader<RoleItemResponse>> _roleItemHeaders = new List<DataTableHeader<RoleItemResponse>> {
+        new (){ Text= "角色名称", Sortable= false, Value= nameof(RoleItemResponse.Name)},
+        new (){ Text= "角色描述", Sortable= false, Value= nameof(RoleItemResponse.Describe)},
+        new (){ Text= "操作", Sortable= false, Value= nameof(RoleItemResponse.Id)}
     };
 
     [Inject]

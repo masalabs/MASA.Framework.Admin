@@ -7,19 +7,23 @@ public partial class AdvertisingPicture : ProCompontentBase
     private GetBlogAdvertisingPicturesOption _options = new();
     private int _totalCount = 0;
     private bool _loading = true;
-    private List<BlogAdvertisingPicturesListViewModel> _tableData = new();
+    private List<BlogAdvertisingPicturesListViewModel> _tableData;
 
     private readonly List<DataTableHeader<BlogAdvertisingPicturesListViewModel>> _headers = new()
     {
-        new DataTableHeader<BlogAdvertisingPicturesListViewModel>()
-            { Text = "标题", Value = nameof(BlogAdvertisingPicturesListViewModel.Title), Sortable = false },
-        new DataTableHeader<BlogAdvertisingPicturesListViewModel>()
-            { Text = "广告类型", Value = nameof(BlogAdvertisingPicturesListViewModel.Type), Sortable = false },
-        new DataTableHeader<BlogAdvertisingPicturesListViewModel>()
-            { Text = "背景图片", Value = nameof(BlogAdvertisingPicturesListViewModel.Pic), Sortable = false },
-        new DataTableHeader<BlogAdvertisingPicturesListViewModel>()
-            { Text = "排序", Value = nameof(BlogAdvertisingPicturesListViewModel.Sort), Sortable = false },
-        new DataTableHeader<BlogAdvertisingPicturesListViewModel>()
+        new()
+        { Text = "标题", Value = nameof(BlogAdvertisingPicturesListViewModel.Title), Sortable = false },
+        new()
+        { Text = "广告类型", Value = nameof(BlogAdvertisingPicturesListViewModel.Type), Sortable = false },
+        new()
+        { Text = "背景图片", Value = nameof(BlogAdvertisingPicturesListViewModel.Pic), Sortable = false },
+        new()
+        { Text = "排序", Value = nameof(BlogAdvertisingPicturesListViewModel.Sort), Sortable = false },
+        new ()
+            { Text = "状态", Value = nameof(BlogAdvertisingPicturesListViewModel.Status), Sortable = false },
+        new()
+        { Text = "操作", Value = "Actions", Sortable = false }
+
     };
 
     private async Task HandleOnOptionsUpdate(DataOptions options)
@@ -34,10 +38,36 @@ public partial class AdvertisingPicture : ProCompontentBase
 
         _loading = true;
 
-        // TODO: http
+        _tableData = new()
+        {
+            new()
+            {
+                Title = "测试2",
+                Pic =
+                    "https://img-cdn.lonsid.co/images/Promotion/Banner/832cd9c9-94a4-44d4-9b73-d90dbd3155d5.jpg?bannerTitle=春节快递停发公告",
+                Type = 1,
+                Sort = 1,
+                Status = true
+            }
+        };
 
         _loading = false;
     }
 
+
     #endregion
+
+    #region from
+
+
+    //private readonly DataModal<string> _dataModal = new();
+
+    #endregion
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchList();
+
+        await base.OnInitializedAsync();
+    }
 }

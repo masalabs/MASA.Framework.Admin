@@ -1,4 +1,6 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
+﻿using System.Linq.Expressions;
+
+namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
     public class BlogArticleRepository : IBlogArticleRepository
     {
@@ -9,6 +11,11 @@
             _blogDbContext = blogDbContext ?? throw new ArgumentNullException(nameof(blogDbContext));
         }
 
+        /// <summary>
+        /// 博客列表
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public async Task<PageResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
             var query = from blogInfo in _blogDbContext.BlogInfoes
@@ -17,7 +24,7 @@
                         select new BlogInfoListViewModel()
                         {
                             id = blogInfo.Id,
-                            typeId=blogInfo.TypeId,
+                            typeId = blogInfo.TypeId,
                             title = blogInfo.Title,
                             state = blogInfo.State,
                             typeName = blogType.TypeName,
@@ -26,7 +33,7 @@
                             commentCount = blogInfo.CommentCount,
                             approvedCount = blogInfo.ApprovedCount,
                             remark = blogInfo.Remark,
-                            CreationTime = blogInfo.CreationTime
+                            CreationTime = blogInfo.CreationTime,
                         };
 
             var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
@@ -40,31 +47,41 @@
             };
         }
 
+        /// <summary>
+        /// 博客详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<BlogInfoListViewModel> GetAsync(Guid id)
         {
             var data = await (from blogInfo in _blogDbContext.BlogInfoes
-                               join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
-                               into leftBlogType
-                               from blogType in leftBlogType.DefaultIfEmpty()
-                               where blogInfo.Id == id
-                               select new BlogInfoListViewModel()
-                               {
-                                   id = blogInfo.Id,
-                                   typeId = blogInfo.TypeId,
-                                   title = blogInfo.Title,
-                                   state = blogInfo.State,
-                                   typeName = blogType.TypeName,
-                                   content = blogInfo.Content,
-                                   visits = blogInfo.Visits,
-                                   commentCount = blogInfo.CommentCount,
-                                   approvedCount = blogInfo.ApprovedCount,
-                                   remark = blogInfo.Remark,
-                                   CreationTime = blogInfo.CreationTime
-                               }).FirstOrDefaultAsync();
+                              join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
+                              into leftBlogType
+                              from blogType in leftBlogType.DefaultIfEmpty()
+                              where blogInfo.Id == id
+                              select new BlogInfoListViewModel()
+                              {
+                                  id = blogInfo.Id,
+                                  typeId = blogInfo.TypeId,
+                                  title = blogInfo.Title,
+                                  state = blogInfo.State,
+                                  typeName = blogType.TypeName,
+                                  content = blogInfo.Content,
+                                  visits = blogInfo.Visits,
+                                  commentCount = blogInfo.CommentCount,
+                                  approvedCount = blogInfo.ApprovedCount,
+                                  remark = blogInfo.Remark,
+                                  CreationTime = blogInfo.CreationTime
+                              }).FirstOrDefaultAsync();
 
             return data;
         }
 
+        /// <summary>
+        /// 新增博客
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<BlogInfo> CreateAsync(BlogInfo model)
         {
             var result = await _blogDbContext.BlogInfoes.AddAsync(model);
@@ -74,6 +91,11 @@
             return result.Entity;
         }
 
+        /// <summary>
+        /// 更新博客
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(BlogInfo model)
         {
             var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(model.Id);
@@ -87,6 +109,11 @@
             }
         }
 
+        /// <summary>
+        /// 删除博客
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public async Task RemoveAsync(params Guid[] ids)
         {
             var blogInfos = await _blogDbContext.BlogInfoes.Where(type => ids.Contains(type.Id)).ToListAsync();

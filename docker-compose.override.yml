@@ -15,7 +15,7 @@ services:
 
   masa.admin.services.user:
     environment:
-      - ASPNETCORE_ENVIRONMENT=DockerCompose
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
       - "8081:80"
@@ -38,11 +38,11 @@ services:
 
   masa.admin.services.configuration:
     environment:
-      - ASPNETCORE_ENVIRONMENT=DockerCompose
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
-      - "8082:80"
-      - "9092:443"
+      - "5141:80"
+      - "7141:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
@@ -61,11 +61,11 @@ services:
 
   masa.admin.services.authentication:
     environment:
-      - ASPNETCORE_ENVIRONMENT=DockerCompose
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
-      - "8083:80"
-      - "9093:443"
+      - "5140:80"
+      - "7140:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
@@ -84,7 +84,7 @@ services:
 
   masa.admin.web:
     environment:
-      - ASPNETCORE_ENVIRONMENT=DockerCompose
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "8080:80"

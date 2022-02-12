@@ -19,3 +19,4 @@ global using Microsoft.Extensions.Options;
 global using MASA.BuildingBlocks.Configuration;
 global using MASA.Contrib.Configuration;
 global using MASA.Framework.Admin.Caller.Configurations;
+global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;

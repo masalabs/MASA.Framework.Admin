@@ -17,7 +17,21 @@ public class ConfigurationCaller : HttpClientCallerBase
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
         };
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(ConfigurationRouting.MenuList,
-            paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(ConfigurationRouting.MenuList, paramters);
+    }
+
+    public async Task<ApiResultResponseBase> CreateAsync(AddMenuRequest request)
+    {
+        return await CallerProvider.PostAsync<AddMenuRequest, ApiResultResponseBase>(ConfigurationRouting.OperateMenu, request);
+    }
+
+    public async Task<ApiResultResponseBase> EditAsync(EditMenuRequest request)
+    {
+        return await CallerProvider.PostAsync<EditMenuRequest, ApiResultResponseBase>(ConfigurationRouting.OperateMenu, request);
+    }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(Guid id)
+    {
+        return await CallerProvider.DeleteAsync<DeleteMenuRequest, ApiResultResponseBase>(ConfigurationRouting.OperateMenu, new DeleteMenuRequest { MenuId = id });
     }
 }

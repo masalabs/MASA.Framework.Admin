@@ -41,5 +41,12 @@
   "Confirm": "确认",
   "Cancel": "取消",
   "Show": "展示",
-  "Entries": "条目"
+  "Entries": "条目",
+  "State": "状态",
+  "Action": "操作",
+  "Search": "搜索",
+  "Delete": "删除",
+  "Are you sure you need to delete?": "您确定需要删除吗?",
+  "Error": "异常",
+  "Information": "提示"
 }

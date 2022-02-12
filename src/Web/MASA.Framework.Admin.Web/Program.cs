@@ -16,6 +16,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 Assembly[] assemblies = { typeof(UserCaller).Assembly };
 builder.Services.AddCaller(assemblies);
+builder.Services.AddRBAC();
 //builder.AddMasaConfiguration(null, assemblies: assemblies);
 var app = builder.Build();
 

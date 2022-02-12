@@ -21,5 +21,12 @@ public abstract class RBACCompontentBase : ComponentBase
     {
         return I18n.T(key) ?? key;
     }
+
+    public void RegisterPage(ComponentPage componentPage) => componentPage.Reload = ()=> InvokeAsync(StateHasChanged);
+}
+
+public abstract class ComponentPage
+{
+    public Func<Task>? Reload { get; set; }   
 }
 

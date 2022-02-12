@@ -3,68 +3,96 @@
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
 
-<MCard Width="1200" Class="mx-auto mt-5">
-    <MTabsItems>
-        <MTabItem>
-            <MCard Flat>
-                <MRow>
-                    <MCol Cols="10">
-                        <MCardText><h5>最新博文</h5></MCardText>
-                    </MCol>
-                    <MSpacer></MSpacer>
-                    <MCol Cols="2" Class="mt-5"><MButton Color="primary" OnClick="ToWrite">写文章</MButton></MCol>
-                </MRow>
-            </MCard>
-        </MTabItem>
-    </MTabsItems>
+<MRow NoGutters>
+    <MCol Cols="2">
+        
+    </MCol>
+    <MCol Cols="7" Class="ml-6">
+        <MCard Class="mx-auto mt-5">
+            <MTabsItems>
+                <MTabItem>
+                    <MCard Flat>
+                        <MRow>
+                            <MCol Cols="10">
+                                <MCardText>
+                                    <h5>最新博文</h5>
+                                </MCardText>
+                            </MCol>
+                            <MSpacer></MSpacer>
+                            <MCol Cols="2" Class="mt-5">
+                                <MButton Color="primary" OnClick="ToWrite">写文章</MButton>
+                            </MCol>
+                        </MRow>
+                    </MCard>
+                </MTabItem>
+            </MTabsItems>
 
-    <MDivider></MDivider>
-    
-    @if (Ad.Any())
-    {
-        <MSheet Class="mx-auto mt-2 mb-2">
-            <MSlideGroup Multiple ShowArrows="@(true)">
-                @foreach (var item in Ad)
+            <MDivider></MDivider>
+
+            @if (Ad.Any())
+            {
+                <MSheet Class="mx-auto mt-2 mb-2">
+                    <MSlideGroup Multiple ShowArrows="@(true)">
+                        @foreach (var item in Ad)
+                        {
+                            <MImage Height="50" Width="1095" Src="@item.Pic"></MImage>
+                        }
+                    </MSlideGroup>
+                </MSheet>
+            }
+
+            @if (Blogs.Data is not null)
+            {
+                @foreach (var blog in Blogs.Data)
                 {
-                    <MImage Height="50" Width="1095" Src="@item.Pic"></MImage>
-                }
-            </MSlideGroup>
-        </MSheet>
-    }
-
-    @if (Blogs.Data is not null)
-    {
-        @foreach (var blog in Blogs.Data)
-        {
-            <MCard>
-                <MCardTitle>@blog.Title</MCardTitle>
-                <MCardText> @($"{(blog.Content.Length > 50 ? blog.Content.Substring(0, 50) : blog.Content)}") </MCardText>
-                <MCardActions>
-                    <p>
-                       @* <MAvatar Color="primary" Size="56">
+                    <MCard>
+                        <MCardTitle>@blog.Title</MCardTitle>
+                        <MCardText> @($"{(blog.Content.Length > 50 ? blog.Content.Substring(0, 50) : blog.Content)}") </MCardText>
+                        <MCardActions>
+                            <p>
+                                @* <MAvatar Color="primary" Size="56">
                             <span class="white--text">@blog.typeName</span>
                         </MAvatar>*@
-                        <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
-                           @* <span>【@blog.CreatorUserId】</span>*@
-                    </p>
-                </MCardActions>
-            </MCard>
-            <MDivider></MDivider>
-        }
+                                <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
+                                @* <span>【@blog.CreatorUserId】</span>*@
+                            </p>
+                        </MCardActions>
+                    </MCard>
+                    <MDivider></MDivider>
+                }
+            }
+            <div class="text-center">
+                <MContainer>
+                    <MRow Justify="JustifyTypes.Center">
+                        <MCol Cols="8">
+                            <MContainer Class="max-width">
+                                <MPagination @bind-Value="@Blogs.Page" Class="my-4" Length=@_pageCount></MPagination>
+                            </MContainer>
+                        </MCol>
+                    </MRow>
+                </MContainer>
+            </div>
+        </MCard>
+    </MCol>
+    <MCol Cols="2">
+        <MCard Class="mx-auto mt-5 ml-10">
+            <MTabsItems>
+                <MTabItem>
+                    <MCard Flat>
+                        <MRow>
+                            <MCol Cols="10">
+                                <MCardText>
+                                    <h5>推荐分类</h5>
+                                </MCardText>
+                            </MCol>
+                        </MRow>
+                    </MCard>
+                </MTabItem>
+            </MTabsItems>
+        </MCard>
+    </MCol>
+</MRow>
 
-    }
-    <div class="text-center">
-        <MContainer>
-            <MRow Justify="JustifyTypes.Center">
-                <MCol Cols="8">
-                    <MContainer Class="max-width">
-                        <MPagination @bind-Value="@Blogs.Page" Class="my-4" Length=@_pageCount></MPagination>
-                    </MContainer>
-                </MCol>
-            </MRow>
-        </MContainer>
-    </div>
-</MCard>
 
 <FormModal Visible="_showWrite"
            Title="文章"
@@ -80,16 +108,16 @@
         </MCol>
         <MCol Cols="12">
             <MSelect Label="类别"
-                         @bind-Value="_options.TypeId"
-                         Items="_typeList"
-                         ItemText="x => x.Item2"
-                         ItemValue="x => x.Item1"
-                         TItemValue="Guid"
-                         TValue="Guid"
-                         Dense
-                         Outlined
-                         HideDetails="true"
-                         TItem="(Guid, string)"/>
+                     @bind-Value="_options.TypeId"
+                     Items="_typeList"
+                     ItemText="x => x.Item2"
+                     ItemValue="x => x.Item1"
+                     TItemValue="Guid"
+                     TValue="Guid"
+                     Dense
+                     Outlined
+                     HideDetails="true"
+                     TItem="(Guid, string)"/>
         </MCol>
         <MCol Cols="12">
             <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"

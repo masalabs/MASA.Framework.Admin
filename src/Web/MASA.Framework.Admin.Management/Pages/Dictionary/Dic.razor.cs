@@ -163,5 +163,10 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
                        StateHasChanged();
                    }, AlertTypes.Warning);
         }
+
+        protected override void OnInitialized()
+        {
+            GlobalConfig.OnLanguageChanged += base.StateHasChanged;
+        }
     }
 }

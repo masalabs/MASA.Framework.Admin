@@ -29,5 +29,9 @@
   "Reset Password v2": "重置密码版本2",
   "Others": "其他",
   "Account Settings": "账户设置",
-  "Favorite": "收藏"
+  "Favorite": "收藏",
+  "Dictionary Management": "字典管理",
+  "Dic": "字典",
+  "DicValue": "字典值",
+  "SimpleExample Management": "简单示例"
 }

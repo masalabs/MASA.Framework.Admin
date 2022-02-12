@@ -1,10 +1,11 @@
 ﻿@page "/management-admin/dic-list"
 @using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
+@inject GlobalConfig GlobalConfig;
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
     <LeftActions>
-        <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+        <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>@T("Add")</MButton>
     </LeftActions>
     <Filters Context="filter">
         <MRow Dense>

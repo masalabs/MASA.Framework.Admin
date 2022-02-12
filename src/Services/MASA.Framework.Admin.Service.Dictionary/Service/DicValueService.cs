@@ -1,4 +1,5 @@
-﻿using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+﻿using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Model;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
 using MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands;
 using MASA.Framework.Admin.Service.Dictionary.Application.DicValues.Queries;
 
@@ -20,14 +21,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             App.MapPost("api/dicValue/getPage", GetPageAsync);
         }
 
-        public async Task<IResult> CreateAsync([FromBody] DicValue dicValue, [FromServices] IEventBus eventBus)
+        public async Task<IResult> CreateAsync([FromBody] AddDicValueModel model, [FromServices] IEventBus eventBus)
         {
             try
             {
-                dicValue.Id = Guid.NewGuid();
-                var addCoommand = new AddDicValueCommand(dicValue);
+                var addCoommand = new AddDicValueCommand(model);
                 await eventBus.PublishAsync(addCoommand);
-                return Results.Ok(dicValue.Id);
+                return Results.Ok(addCoommand.Result);
             }
             catch
             {
@@ -35,13 +35,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             }
         }
 
-        public async Task<IResult> UpdateAsync([FromBody] DicValue dicValue, [FromServices] IEventBus eventBus)
+        public async Task<IResult> UpdateAsync([FromBody] UpdateDicValueModel model, [FromServices] IEventBus eventBus)
         {
             try
             {
-                var updateCommand = new UpdateDicValueCommand(dicValue);
+                var updateCommand = new UpdateDicValueCommand(model);
                 await eventBus.PublishAsync(updateCommand);
-                return Results.Ok(dicValue.Id);
+                return Results.Ok(updateCommand.Result);
             }
             catch
             {

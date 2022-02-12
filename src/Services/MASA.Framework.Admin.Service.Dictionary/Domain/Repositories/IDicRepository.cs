@@ -1,5 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Dictionary;
 using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
+using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 {
@@ -13,8 +14,8 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
         Task DeleteAllAsync(List<Guid> guids);
 
-        Task<Dic> GetAsync(Guid id);
+        Task<DicViewModel> GetAsync(Guid id);
 
-        Task<PagingResult<Dic>> GetPageAsync(DicPagingOptions dicPageOptions);
+        Task<PagingResult<DicViewModel>> GetPageAsync(DicPagingOptions dicPageOptions);
     }
 }

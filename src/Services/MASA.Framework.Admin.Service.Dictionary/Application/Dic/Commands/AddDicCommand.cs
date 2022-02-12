@@ -1,7 +1,10 @@
-﻿namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic.Commands
+﻿using MASA.Framework.Admin.Contracts.Dictionary.Dic.Model;
+using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel;
+
+namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic.Commands
 {
-    public record AddDicCommand(Domain.Entities.Dic Dic) : Command
+    public record AddDicCommand(AddDicModel Model) : Command
     {
-        public Domain.Entities.Dic Result { get; set; } = default!;
+        public Guid Result { get; set; } = default!;
     }
 }

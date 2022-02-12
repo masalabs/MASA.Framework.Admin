@@ -61,5 +61,7 @@
         Task<bool> ExistAsync(Guid id);
 
         Task<BlogInfo?> GetAsync(Guid id);
+
+        Task WithdrawAsync(Guid id, string reason);
     }
 }

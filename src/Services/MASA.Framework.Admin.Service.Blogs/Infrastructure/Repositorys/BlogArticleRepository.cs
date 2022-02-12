@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Nest;
 
 namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
@@ -233,6 +234,22 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         public Task<BlogInfo?> GetAsync(Guid id)
         {
             return _blogDbContext.BlogInfoes.FirstOrDefaultAsync(b => b.Id == id);
+        }
+
+        public async Task WithdrawAsync(Guid id, string reason)
+        {
+            var article = await GetAsync(id);
+            if (article == null)
+            {
+                // TODO:..
+                
+                return;
+            }
+
+            article.State = StateTypes.OffTheShelf;
+            article.WithdrawReason = reason;
+
+            _blogDbContext.Update(article);
         }
     }
 }

@@ -20,22 +20,22 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         public async Task<PagingResult<BlogReportListViewModel>> GetListAsync(GetBlogReportOptions options)
         {
             var query = from blogReport in _blogDbContext.BlogReports
-                        join blogInfo in _blogDbContext.BlogInfoes on blogReport.BlogInfoId equals blogInfo.Id into leftBlogInfo
-                        from blogInfo in leftBlogInfo.DefaultIfEmpty()
-                        select new BlogReportListViewModel()
-                        {
-                            Id = blogReport.Id,
-                            Title = blogReport.Title,
-                            BlogInfoId = blogInfo.Id,
-                            Detail = blogReport.Detail,
-                            Reason = blogReport.Reason,
-                            Connect = blogReport.Connect,
-                            CreationTime = blogInfo.CreationTime,
-                        };
+                join blogInfo in _blogDbContext.BlogInfoes on blogReport.BlogInfoId equals blogInfo.Id into leftBlogInfo
+                from blogInfo in leftBlogInfo.DefaultIfEmpty()
+                select new BlogReportListViewModel()
+                {
+                    Id = blogReport.Id,
+                    Title = blogReport.Title,
+                    BlogInfoId = blogInfo.Id,
+                    Detail = blogReport.Detail,
+                    Reason = blogReport.Reason,
+                    Connect = blogReport.Connect,
+                    CreationTime = blogInfo.CreationTime,
+                    Handled = blogReport.Handled
+                };
 
-            var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
-
-            return pageResult;
+            return await query.OrderByDescending(x => x.CreationTime)
+                .PagingAsync(options.PageIndex, options.PageSize);
         }
 
         /// <summary>
@@ -50,6 +50,33 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             await _blogDbContext.SaveChangesAsync();
 
             return result.Entity;
+        }
+
+        public async Task HandleAsync(Guid id)
+        {
+            var result = await _blogDbContext.BlogReports.FirstOrDefaultAsync(b => b.Id == id);
+            if (result == null)
+            {
+                // TODO:
+                return;
+            }
+
+            result.Handled = true;
+
+            _blogDbContext.Update(result);
+
+            await _blogDbContext.SaveChangesAsync();
+        }
+
+        public async Task HandleByArticleId(Guid id)
+        {
+            var reports = await _blogDbContext.BlogReports
+                .Where(b => b.Handled == false && b.BlogInfoId == id)
+                .ToListAsync();
+            
+            reports.ForEach(r => r.Handled = true);
+            
+            _blogDbContext.UpdateRange(reports);
         }
     }
 }

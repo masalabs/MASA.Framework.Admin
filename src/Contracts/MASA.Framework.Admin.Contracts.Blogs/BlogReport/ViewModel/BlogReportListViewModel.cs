@@ -53,5 +53,7 @@ namespace MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; } = DateTime.Now;
+        
+        public bool Handled { get; set; }
     }
 }

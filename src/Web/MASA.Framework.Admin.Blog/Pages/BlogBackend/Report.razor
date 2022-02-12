@@ -54,7 +54,7 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            
+            <MinorAction Label="处理" OnClick="() => OpenHandleModal(context.Item)"></MinorAction>
         }
         else if (context.Header.Value == nameof(BlogReportListViewModel.Title))
         {
@@ -73,3 +73,19 @@
         }
     </ItemColContent>
 </DefaultDataTable>
+
+<MDialog @bind-Value="_handleModalVisible">
+    <MCard>
+        <MCardTitle>处理举报 @CurrentModel?.Title</MCardTitle>
+        <MCardText>
+            <p>忽略：忽略此举报</p>
+            <p>下架：处理相同文章的所有举报并下架该文章</p>
+        </MCardText>
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MinorAction Label="取消" Color="" OnClick="() => _handleModalVisible = false"></MinorAction>
+            <MinorAction Label="忽略" Color="warning" OnClick="() => HandleIgnore(CurrentModel.Id)"></MinorAction>
+            <MinorAction Label="下架" OnClick="() => HandleAgree(CurrentModel.BlogInfoId)"></MinorAction>
+        </MCardActions>
+    </MCard>
+</MDialog>

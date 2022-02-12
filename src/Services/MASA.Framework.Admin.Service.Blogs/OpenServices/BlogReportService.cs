@@ -16,6 +16,8 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
 
             MapPost(GetListAsync);
             MapPost(CreateAsync);
+            MapPost(IgnoreAsync);
+            MapPost(AgreeAsync);
         }
 
         public async Task<IResult> GetListAsync(GetBlogReportOptions options)
@@ -42,5 +44,14 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             }
         }
 
+        public async Task IgnoreAsync(IgnoreBlogReportModel request)
+        {
+            await _eventBus.PublishAsync(new IgnoreBlogReportCommand(request));
+        }
+
+        public async Task AgreeAsync(AgreeBlogReportModel request)
+        {
+            await _eventBus.PublishAsync(new AgreeBlogReportCommand(request));
+        }
     }
 }

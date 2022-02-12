@@ -20,7 +20,17 @@ namespace MASA.Framework.Admin.Caller.Blogs
 
         public async Task CreateAsync(CreateBlogReportModel options)
         {
-            await _callerProviderProvider.PostAsync("/api/blog-report/creat", options);
+            await _callerProviderProvider.PostAsync("/api/blog-report/create", options);
+        }
+
+        public async Task IgnoreAsync(IgnoreBlogReportModel model)
+        {
+            await _callerProviderProvider.PostAsync("/api/blog-report/ignore", model);
+        }
+
+        public async Task AgreeAsync(AgreeBlogReportModel model)
+        {
+            await _callerProviderProvider.PostAsync("/api/blog-report/agree", model);
         }
     }
 }

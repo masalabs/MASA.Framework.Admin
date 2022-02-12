@@ -97,4 +97,14 @@ public class ArticleService
     {
         return await _callerProviderProvider.GetAsync<BlogInfoListViewModel>($"/api/articles/Get?id={id}");
     }
+
+    /// <summary>
+    /// 下架博客文章
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Task WithdrawAsync(WithdrawBlogArticleModel model)
+    {
+        return _callerProviderProvider.PostAsync($"/api/articles/withdraw", model);
+    }
 }

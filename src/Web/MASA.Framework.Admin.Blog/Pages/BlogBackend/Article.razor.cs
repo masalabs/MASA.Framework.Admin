@@ -1,11 +1,11 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
-
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class Article : ProCompontentBase
 {
     [Inject]
     public BlogCaller BlogCaller { get; set; }
+
+    #region table
 
     private GetBlogArticleOptions _options = new();
     private int _totalCount = 0;
@@ -28,9 +28,16 @@ public partial class Article : ProCompontentBase
         { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.approvedCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
         { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
+        new DataTableHeader<BlogInfoListViewModel>() { Text = "操作", Value = "actions", Sortable = false }
     };
 
-    private List<BlogTypeCondensedViewModel> _blogTypes = new();
+    #endregion
+
+    private List<BlogTypeCondensedViewModel> BlogTypes = new();
+
+    private bool _withdrawModalVisible;
+
+    private BlogInfoListViewModel CurrentModel { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -67,6 +74,19 @@ public partial class Article : ProCompontentBase
 
     private async Task FetchTypes()
     {
-        _blogTypes = await BlogCaller.BlogTypeService.GetAllAsync();
+        BlogTypes = await BlogCaller.BlogTypeService.GetAllAsync();
+    }
+
+    private void ShowWithdrawModal(BlogInfoListViewModel model)
+    {
+        CurrentModel = model;
+        _withdrawModalVisible = true;
+    }
+
+    private async Task OnWithdraw(WithdrawBlogArticleModel model)
+    {
+        model.Id = CurrentModel.id;
+
+        await BlogCaller.ArticleService.WithdrawAsync(model);
     }
 }

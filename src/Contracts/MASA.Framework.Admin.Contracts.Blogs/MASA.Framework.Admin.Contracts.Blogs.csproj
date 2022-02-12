@@ -11,4 +11,8 @@
     <Folder Include="Enums\Model\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MASA.Utils.Data.DataAnnotations" Version="0.0.1711196569" />
+  </ItemGroup>
+
 </Project>

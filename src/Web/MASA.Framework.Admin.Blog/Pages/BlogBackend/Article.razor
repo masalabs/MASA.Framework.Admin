@@ -1,4 +1,5 @@
 ﻿@page "/blog-admin/article"
+@using MASA.Framework.Admin.Blog.Pages.BlogBackend.Components
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
@@ -13,13 +14,13 @@
             </MCol>
             <MCol Cols="12" Sm="6" Md="4">
                 <DefaultAutoComplete Label="分类"
-                                     Items="Enum<StateTypes>.GetEnumObjectList<StateTypes>()"
+                                     Items="BlogTypes"
                                      ItemText="item => item.Name"
-                                     ItemValue="item => item.Value"
-                                     @bind-Value="_options.State"
-                                     TItem="EnumObject<StateTypes>"
-                                     TValue="StateTypes?"
-                                     TItemValue="StateTypes"
+                                     ItemValue="item => item.Id"
+                                     @bind-Value="_options.TypeId"
+                                     TItem="BlogTypeCondensedViewModel"
+                                     TValue="Guid?"
+                                     TItemValue="Guid"
                                      OnSelectedItemUpdate="filter.onSearch"
                                      OnClearClick="filter.onSearch">
                 </DefaultAutoComplete>
@@ -71,6 +72,18 @@
                   ServerItemsLength="_totalCount"
                   TItem="BlogInfoListViewModel">
     <ItemColContent>
-        <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        @if (context.Header.Value == "actions")
+        {
+            <PAction Color="primary" Label="下架" Type=ActionTypes.Label Text
+                 OnClick="() => ShowWithdrawModal(context.Item)"></PAction>
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
     </ItemColContent>
 </DefaultDataTable>
+
+<WithdrawModal Visible="_withdrawModalVisible"
+               OnCancel="() => _withdrawModalVisible =false"
+               OnOk="OnWithdraw" />

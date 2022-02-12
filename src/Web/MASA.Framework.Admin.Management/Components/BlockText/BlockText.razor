@@ -1,0 +1,73 @@
+﻿@namespace MASA.Framework.Admin.Management.Components
+
+<div class="d-flex align-items-center @Class" style="@Style">
+    <div>
+        <div class="@MajorClass" style="@MajorStyle">
+            @if (MajorContent is not null)
+            {
+                @MajorContent
+            }
+            else
+            {
+                @Major
+            }
+        </div>
+        @if (Minor != default || MinorContent != default || Tags.Any())
+        {
+            <small class="@MinorClass" style="display:block; color: darkgrey; margin-top: -2px; @MinorStyle">
+                @if (Tags.Any())
+                {
+                    <span class="mr-1">
+                        @foreach (var tag in Tags)
+                        {
+                            <MChip @key="tag" Class="@($"mr-1 {tag.Class}")" Color="@tag.Color" Label XSmall>@tag.Text</MChip>
+                        }
+                    </span>
+                }
+                @if (MinorContent is not null)
+                {
+                    @MinorContent
+                }
+                else
+                {
+                    @Minor
+                }
+            </small>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Class { get; set; }
+
+    [Parameter]
+    public string? Major { get; set; }
+
+    [Parameter]
+    public string MajorClass { get; set; }
+
+    [Parameter]
+    public RenderFragment? MajorContent { get; set; }
+
+    [Parameter]
+    public string MajorStyle { get; set; }
+
+    [Parameter]
+    public string? Minor { get; set; }
+
+    [Parameter]
+    public string MinorClass { get; set; }
+
+    [Parameter]
+    public RenderFragment? MinorContent { get; set; }
+
+    [Parameter]
+    public string MinorStyle { get; set; }
+
+    [Parameter]
+    public string Style { get; set; }
+
+    [Parameter]
+    public List<TagProps> Tags { get; set; } = new();
+}

@@ -1,0 +1,44 @@
+﻿@namespace MASA.Framework.Admin.Management.Components
+@typeparam TValue
+
+<MMenu Value="_menuValue"
+       ValueChanged="MenuValueChanged"
+       CloseOnContentClick="false"
+       OffsetY
+       MinWidth="@("auto")">
+    <ActivatorContent>
+        @{
+            var attrs = context.Attrs
+                .Concat(Attributes)
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        <MTextField Clearable="Clearable"
+                    Dense="Dense"
+                    Disabled="Disabled"
+                    HideDetails="@HideDetails"
+                    Label="@Label"
+                    Outlined="@Outlined"
+                    PrependIcon="@PrependIcon"
+                    PrependInnerIcon="@PrependInnerIcon"
+                    Readonly
+                    Value="@TextFieldValue"
+                    OnKeyDown="OnKeyDown"
+                    OnClearClick="HandleOnClearClick"
+                    @attributes="@attrs">
+        </MTextField>
+    </ActivatorContent>
+    <ChildContent>
+        <MDatePicker Value="InternalValue"
+                     ValueChanged="InternalValueChanged"
+                     TValue="TValue"
+                     NoTitle="NoTitle"
+                     Range="Range"
+                     Scrollable="Scrollable">
+            <MButton Text Color="primary" OnClick="() => UpdateInternalValue(DateOnly.FromDateTime(DateTime.Now))">此刻</MButton>
+            <MSpacer></MSpacer>
+            <MButton Text OnClick="HandleOnCancel">取消</MButton>
+            <MButton Text Color="primary" OnClick="HandleOnOk">确定</MButton>
+        </MDatePicker>
+    </ChildContent>
+</MMenu>

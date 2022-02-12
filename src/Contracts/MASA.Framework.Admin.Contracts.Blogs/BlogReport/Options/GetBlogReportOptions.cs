@@ -9,5 +9,10 @@
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// 处理：是否处理
+        /// </summary>
+        public bool? Handled { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MASA.Framework.Admin.Caller;
-
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class Article : ProCompontentBase
 {
@@ -27,7 +25,7 @@ public partial class Article : ProCompontentBase
         new DataTableHeader<BlogInfoListViewModel>()
             { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.approvedCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "发布时间", Value = nameof(BlogInfoListViewModel.CreationTime), Sortable = false },
+            { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
     };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -37,6 +35,8 @@ public partial class Article : ProCompontentBase
         if (firstRender)
         {
             await FetchList();
+
+            StateHasChanged();
         }
     }
 
@@ -52,14 +52,15 @@ public partial class Article : ProCompontentBase
 
         _loading = true;
 
-        // TODO: http
-        
-        //var result = await BlogCaller.ArticleService.GetList(_options);
-        //_tableData = result.Data;
-        //_totalCount = result.TotalCount;
+        var result = await BlogCaller.ArticleService.GetList(_options);
+        _tableData = result.Data;
+        _totalCount = result.TotalCount;
 
         _loading = false;
     }
-    
-    
+
+    private async Task FetchTypes()
+    {
+
+    }
 }

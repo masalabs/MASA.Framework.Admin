@@ -16,5 +16,11 @@
 
             query.Result = list;
         }
+
+        [EventHandler]
+        public async Task GetCondensedListAsync(GetBlogTypeCondensedQuery query)
+        {
+            query.Result = await this._blogTypeRepository.GetCondensedListAsync();
+        }
     }
 }

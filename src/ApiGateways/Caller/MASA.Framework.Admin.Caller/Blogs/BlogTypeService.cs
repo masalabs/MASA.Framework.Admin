@@ -39,5 +39,10 @@ namespace MASA.Framework.Admin.Caller.Blogs
             return await _callerProviderProvider.PostAsync<GetBlogTypePagingOption, PagingResult<BlogTypePagingViewModel>>(
                   "/api/blogtype/paging", request);
         }
+
+        public Task<List<BlogTypeCondensedViewModel>> GetAllAsync()
+        {
+            return _callerProviderProvider.GetAsync<List<BlogTypeCondensedViewModel>>("/api/blogtype/all");
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+﻿using MASA.Framework.Admin.Service.Blogs.Domain.Entities;
+
+namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
 
 public partial class Article : ProCompontentBase
 {
     [Inject]
     public BlogCaller BlogCaller { get; set; }
-    
+
     private GetBlogArticleOptions _options = new();
     private int _totalCount = 0;
     private bool _loading = true;
@@ -13,20 +15,22 @@ public partial class Article : ProCompontentBase
     private readonly List<DataTableHeader<BlogInfoListViewModel>> _headers = new()
     {
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "标题", Value = nameof(BlogInfoListViewModel.title), Sortable = false },
+        { Text = "标题", Value = nameof(BlogInfoListViewModel.title), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "状态", Value = nameof(BlogInfoListViewModel.state), Sortable = false },
+        { Text = "状态", Value = nameof(BlogInfoListViewModel.state), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "分类", Value = nameof(BlogInfoListViewModel.typeName), Sortable = false },
+        { Text = "分类", Value = nameof(BlogInfoListViewModel.typeName), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "阅读量", Value = nameof(BlogInfoListViewModel.visits), Sortable = false },
+        { Text = "阅读量", Value = nameof(BlogInfoListViewModel.visits), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "评论数量", Value = nameof(BlogInfoListViewModel.commentCount), Sortable = false },
+        { Text = "评论数量", Value = nameof(BlogInfoListViewModel.commentCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.approvedCount), Sortable = false },
+        { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.approvedCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-            { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
+        { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
     };
+
+    private List<BlogTypeCondensedViewModel> _blogTypes = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -34,6 +38,8 @@ public partial class Article : ProCompontentBase
 
         if (firstRender)
         {
+            await FetchTypes();
+
             await FetchList();
 
             StateHasChanged();
@@ -61,6 +67,6 @@ public partial class Article : ProCompontentBase
 
     private async Task FetchTypes()
     {
-
+        _blogTypes = await BlogCaller.BlogTypeService.GetAllAsync();
     }
 }

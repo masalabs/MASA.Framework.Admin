@@ -2,12 +2,33 @@
 @layout BlogFrontLayout
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
+@using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums
 
 <MRow NoGutters>
     <MCol Cols="2">
-        
+
     </MCol>
     <MCol Cols="7" Class="ml-6">
+
+        <MCard Class="mx-auto mt-5">
+            <MChipGroup
+                Class="ml-5"
+                Value="_searchOptions.TypeId.ToString()"
+                Column
+                ValueChanged="SelectedChipChanged"
+                Mandatory>
+
+                @foreach (var type in _typeList)
+                {
+                    <MChip Value="type.Item1.ToString()"
+                           Filter
+                           Outlined>
+                        @type.Item2
+                    </MChip>
+                }
+            </MChipGroup>
+        </MCard>
+
         <MCard Class="mx-auto mt-5">
             <MTabsItems>
                 <MTabItem>
@@ -31,14 +52,18 @@
 
             @if (Ad.Any())
             {
-                <MSheet Class="mx-auto mt-2 mb-2">
-                    <MSlideGroup Multiple ShowArrows="@(true)">
-                        @foreach (var item in Ad)
+                <MWindow ShowArrows Class="mx-auto mt-2 mb-2 ml-5 mr-5">
+                    <ChildContent>
+                        @foreach (var item in Ad.FindAll(ad => ad.Type == BlogAdvertisingPicturesTypes.Home))
                         {
-                            <MImage Height="50" Width="1095" Src="@item.Pic"></MImage>
+                            <MWindowItem>
+                                <MCard Color="grey" Height="100">
+                                    <MImage Height="100" Width="@("100%")" Src="@item.Pic"></MImage>
+                                </MCard>
+                            </MWindowItem>
                         }
-                    </MSlideGroup>
-                </MSheet>
+                    </ChildContent>
+                </MWindow>
             }
 
             @if (Blogs.Data is not null)
@@ -82,13 +107,56 @@
                         <MRow>
                             <MCol Cols="10">
                                 <MCardText>
-                                    <h5>推荐分类</h5>
+                                    <h5>推荐标签</h5>
                                 </MCardText>
                             </MCol>
                         </MRow>
                     </MCard>
                 </MTabItem>
             </MTabsItems>
+
+            <div class="pa-4">
+                <MChipGroup ActiveClass="primary--text"
+                            Column>
+                    @foreach (var type in _typeList)
+                    {
+                        <MChip>
+                            @type.Item2
+                        </MChip>
+                    }
+                </MChipGroup>
+            </div>
+
+        </MCard>
+        <MCard Class="mx-auto mt-5 ml-10 pb-3">
+            <MTabsItems>
+                <MTabItem>
+                    <MCard Flat>
+                        <MRow>
+                            <MCol Cols="10">
+                                <MCardText>
+                                    <h5>推荐广告</h5>
+                                </MCardText>
+                            </MCol>
+                        </MRow>
+                    </MCard>
+                </MTabItem>
+            </MTabsItems>
+            @if (Ad.Any())
+            {
+                <MWindow ShowArrows Class="mx-auto mt-2 mb-2 ml-5 mr-5 mb-5">
+                    <ChildContent>
+                        @foreach (var item in Ad.FindAll(ad => ad.Type == BlogAdvertisingPicturesTypes.HomeLowerRight))
+                        {
+                            <MWindowItem>
+                                <MCard Color="grey" Height="100">
+                                    <MImage Height="100" Width="@("100%")" Src="@item.Pic"></MImage>
+                                </MCard>
+                            </MWindowItem>
+                        }
+                    </ChildContent>
+                </MWindow>
+            }
         </MCard>
     </MCol>
 </MRow>

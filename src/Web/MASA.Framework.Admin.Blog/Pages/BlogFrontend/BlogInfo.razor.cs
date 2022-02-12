@@ -1,5 +1,6 @@
 ﻿using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
+using Microsoft.JSInterop;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
@@ -14,22 +15,29 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private BlogInfoListViewModel _blogInfo = new();
         private PagingResult<BlogCommentInfoListViewModel> _blogCommentInfoList = new();
         private CreateBlogReportModel _createBlogReportModel = new();
-
+        private List<StringNumber> _panel = new() { 0 };
+        public List<BlogAdvertisingPicturesListViewModel> Ad { get; set; } = new();
         [Parameter]
         public Guid BlogInfoId { get; set; }
 
+        [Inject] public IJSRuntime JsRuntime { get; set; }
+
         [Inject] protected BlogCaller BlogCaller { get; set; }
+
+        [Inject]
+        protected NavigationManager? Navigation { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             //详情
             await GetAsync();
             await GetCommentList();
+            await this.GetAdAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if(firstRender)
+            if (firstRender)
             {
                 await BlogCaller.ArticleService.AddVisitsAsync(new AddBlogVisitModel() { BlogId = BlogInfoId });
             }
@@ -53,10 +61,10 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         }
         private async Task GetAsync()
         {
-            if(BlogInfoId != Guid.Empty)
+            if (BlogInfoId != Guid.Empty)
             {
                 _blogInfo = await BlogCaller.ArticleService.GetAsync(BlogInfoId, CurrentUserId);
-            }   
+            }
         }
 
         private void ToReport()
@@ -71,7 +79,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         /// <summary>
         /// 发表评论
         /// </summary>
-        private async Task ToReportComment()
+        private async Task ToReportComment(Guid? replayId = null)
         {
             _reportCommentLoading = true;
             await BlogCaller.CommentsService.CreateAsync(new AddCommentModel()
@@ -79,7 +87,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                 BlogInfoId = BlogInfoId,
                 TypeId = _blogInfo.typeId,
                 CommentContent = _reportComment,
-                CreatorUserId = CurrentUserId
+                CreatorUserId = CurrentUserId,
+                ReplyId = replayId ?? Guid.Empty
             });
             Message("评论发表成功", AlertTypes.Success);
             _reportCommentLoading = false;
@@ -134,6 +143,16 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                     BlogAdvertisingPicturesTypes.DetailsLowerRight
                 }
             });
+        }
+
+        private void HrefArticlePage()
+        {
+            Navigation?.NavigateTo($"/blog-admin/article");
+        }
+
+        private async Task ScrollTop()
+        {
+            await JsRuntime.InvokeAsync<string>("scroll_top");
         }
     }
 }

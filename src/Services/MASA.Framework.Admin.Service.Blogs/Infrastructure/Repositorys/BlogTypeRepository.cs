@@ -9,14 +9,9 @@
             _blogDbContext = blogDbContext;
         }
 
-        public async Task<Domain.Entities.BlogType> CreateAsync(Domain.Entities.BlogType entity)
+        public async Task<BlogType> CreateAsync(BlogType entity)
         {
-            var blogType = await _blogDbContext.BlogTypes.FirstOrDefaultAsync(x => x.TypeName == entity.TypeName);
-
-            if (blogType != null)
-            {
-                throw new Exception($"{entity.TypeName}已存在！");
-            }
+            await ExistTypeName(entity);
 
             var model = await _blogDbContext.BlogTypes.AddAsync(entity);
 
@@ -26,12 +21,21 @@
             return model.Entity;
         }
 
-        public async Task UpdateAsync(Domain.Entities.BlogType entity)
+        private async Task ExistTypeName(BlogType entity)
+        {
+            if (await _blogDbContext.BlogTypes.AnyAsync(
+                x => x.TypeName == entity.TypeName && !x.Id.Equals(entity.Id)))
+                throw new Exception($"{entity.TypeName}已存在！");
+        }
+
+        public async Task UpdateAsync(BlogType entity)
         {
             var blogTypes = await _blogDbContext.BlogTypes.FindAsync(entity.Id);
 
             if (blogTypes != null)
             {
+                await ExistTypeName(entity);
+
                 blogTypes.TypeName = entity.TypeName;
                 _blogDbContext.Update(blogTypes);
                 await _blogDbContext.SaveChangesAsync();
@@ -60,7 +64,7 @@
 
                 if (blogInfoes.Any())
                 {
-                    throw new UserFriendlyException($"{string.Join(",",blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new UserFriendlyException($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
                 }
             }
 
@@ -76,7 +80,14 @@
 
         public Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
         {
-            return _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type =>
+            var query = _blogDbContext.BlogTypes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(options.TypeName))
+            {
+                query = query.Where(x => x.TypeName.Contains(options.TypeName));
+            }
+
+            return query.OrderByDescending(type => type.CreationTime).Select(type =>
                 new BlogTypePagingViewModel
                 {
                     Id = type.Id,

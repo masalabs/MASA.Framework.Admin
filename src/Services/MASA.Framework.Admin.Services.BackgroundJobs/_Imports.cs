@@ -13,6 +13,7 @@ global using MASA.Framework.Admin.Domains.BackgroundJobs.Repositories;
 global using MASA.Framework.Admin.Services.BackgroundJobs.Infrastructure.Middleware;
 global using MASA.Framework.Admin.Services.BackgroundJobs.Infrastructure.Repositories;
 global using MASA.Framework.Admin.Infrastructures.BackgroundJobs;
+global using MASA.Framework.Admin.Contracts.BackgroundJobs;
 global using MASA.Utils.Data.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Mvc;

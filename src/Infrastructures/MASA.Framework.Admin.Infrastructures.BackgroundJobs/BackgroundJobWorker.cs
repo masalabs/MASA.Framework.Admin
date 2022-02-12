@@ -2,12 +2,13 @@
 
 public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
 {
+    //private readonly List<IBackgroundJobExecuter> _executers;
+
     public BackgroundJobWorker(
-        IServiceScopeFactory serviceScopeFactory,
-        Timer timer)
-        : base(serviceScopeFactory,timer)
+        IServiceScopeFactory serviceScopeFactory)
+        : base(serviceScopeFactory)
     {
-        Period = 10;
+        //_executers = new List<IBackgroundJobExecuter>();
     }
 
     protected override async Task RunWorkAsync(PeriodicBackgroundWorkerContext workContext)
@@ -23,11 +24,13 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
 
         foreach(var job in jobs)
         {
+            if (job.NextTryTime > DateTime.Now) continue;
+
             job.TryCount++;
             job.LastTryTime = DateTime.Now;
             try
             {
-                var context = new JobExecutionContext(workContext.ServiceProvider, job.JobUri, job.JobArgs);
+                var context = new JobExecutionContext(workContext.ServiceProvider, job.JobMethod, job.JobArgs);
 
                 try
                 {
@@ -82,6 +85,6 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
 
     private DateTime CalculateNextTryTime(Job job)
     {
-        return (job.LastTryTime ?? job.CreationTime).Add(job.PeriodTime);
+        return (job.LastTryTime ?? job.CreateTime.DateTime).Add(job.PeriodTime);
     }
 }

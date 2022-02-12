@@ -6,12 +6,12 @@ public abstract class PeriodicBackgroundWorkerBase : BackgroundWorkerBase
 
     protected IServiceScopeFactory ServiceScopeFactory { get; }
 
-    public int Period { get; set; }
+    public int Period { get; set; } = 1000;
 
-    protected PeriodicBackgroundWorkerBase(IServiceScopeFactory serviceScopeFactory, Timer timer)
+    protected PeriodicBackgroundWorkerBase(IServiceScopeFactory serviceScopeFactory)
     {
         ServiceScopeFactory = serviceScopeFactory;
-        _timer = timer ?? new Timer(TimerCallBack, null, Timeout.Infinite, Timeout.Infinite);
+        _timer = new Timer(TimerCallBack, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     public override async Task StartAsync(CancellationToken cancellationToken = default)

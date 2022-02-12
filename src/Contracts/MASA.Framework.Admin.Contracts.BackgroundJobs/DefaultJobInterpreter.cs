@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,36 +11,62 @@ namespace MASA.Framework.Admin.Contracts.BackgroundJobs
     {
         public async Task ExecuteAsync(JobExecutionContext context)
         {
-            var jobType = Type.GetType(context.JobUri)!;
+            await Task.Yield();
 
-            var job = context.ServiceProvider.GetService(jobType);
+            var typeName = GetTypeName(context.JobMethod);
+
+            var methodName = GetMethodName(context.JobMethod);
+
+            var assemblyName = GetAssemblyName(typeName);
+
+            var types = Assembly.Load(assemblyName)?.GetTypes();
+
+            var jobType = types?.FirstOrDefault(t => t.FullName == typeName);
+
+            if(jobType == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var job = Activator.CreateInstance(jobType);
 
             if (job == null)
             {
                 throw new ArgumentNullException();
             }
 
-            var jobMethod = jobType.GetMethod(nameof(IBackgroundJob.Execute)) ??
-                jobType.GetMethod(nameof(IAsyncBackgroundJob.ExecuteAsync));
+            var jobMethod = jobType.GetMethod(methodName);
 
             if (jobMethod == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (jobMethod.Name == nameof(IAsyncBackgroundJob.ExecuteAsync))
-            {
-                await (Task)jobMethod.Invoke(job, new[] { context.JobArgs })!;
-            }
-            else
+
+            if(context.JobArgs != null)
             {
                 jobMethod.Invoke(job, new[] { context.JobArgs });
             }
+
+            jobMethod.Invoke(job, null);
         }
 
-        public Task OnExceptionNotifier(BackgroundJobExecutionException ex)
+        private string GetTypeName(string fullName)
         {
-            throw new NotImplementedException();
+            var start = fullName.LastIndexOf('.');
+            return fullName.Substring(0, start);
+        }
+
+        private string GetMethodName(string fullName)
+        {
+            var start = fullName.LastIndexOf('.')+1;
+            return fullName.Substring(start);
+        }
+
+        private string GetAssemblyName(string typeName)
+        {
+            var start = typeName.LastIndexOf('.');
+            return typeName.Substring(0, start);
         }
     }
 }

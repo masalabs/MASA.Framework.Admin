@@ -19,8 +19,15 @@ namespace MASA.Framework.Admin.Contracts.BackgroundJobs
 
         public async Task ExecuteAsync(JobExecutionContext context)
         {
-            var content = new StringContent(context.JobArgs.ToString(), Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync(context.JobUri, content);
+            await Task.Yield();
+            HttpContent? content = null;
+            if(context.JobArgs != null)
+            {
+                content = new StringContent(context.JobArgs, Encoding.UTF8, "application/json");
+                
+            }
+            await _httpClient.PostAsync(context.JobMethod, content);
+
         }
     }
 }

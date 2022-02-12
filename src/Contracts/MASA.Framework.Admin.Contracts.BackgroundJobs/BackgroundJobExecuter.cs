@@ -10,7 +10,6 @@ namespace MASA.Framework.Admin.Contracts.BackgroundJobs
 {
     public class BackgroundJobExecuter : IBackgroundJobExecuter
     {
-
         public virtual async Task ExecuteAsync(JobExecutionContext context)
         {
             try
@@ -32,7 +31,7 @@ namespace MASA.Framework.Admin.Contracts.BackgroundJobs
 
         public virtual IJobInterpreter JobExecuterSelector(JobExecutionContext context)
         {
-            if(Regex.IsMatch(context.JobUri, "^(?:https?://)?[\\w]{1,}(?:\\.?[\\w]{1,})+[\\w-_/?&=#%:]*$"))
+            if(Regex.IsMatch(context.JobMethod, "^(?:https?://)[\\w]{1,}(?:\\.?[\\w]{1,})+[\\w-_/?&=#%:]*$"))
             {
                 return context.ServiceProvider.GetService<HttpJobInterpreter>()!;
             }

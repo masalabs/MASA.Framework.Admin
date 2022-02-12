@@ -4,39 +4,39 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Application
 {
     public class JobCommandHandler
     {
-        public JobCommandHandler()
+        private readonly IJobRepository _jobRepository;
+        public JobCommandHandler(IJobRepository jobRepository)
         {
-
+            _jobRepository = jobRepository;
         }
 
         [EventHandler(Order = 1)]
         public async Task CreateHandleAsync(JobCreateCommand command)
         {
-            //you work
-            await Task.CompletedTask;
-        }
-    }
-
-    public class OrderStockHandler : CommandHandler<JobCreateCommand>
-    {
-        public override Task CancelAsync(JobCreateCommand comman)
-        {
-            //cancel todo callback 
-            return Task.CompletedTask;
-        }
-
-        [EventHandler(FailureLevels = FailureLevels.ThrowAndCancel)]
-        public override Task HandleAsync(JobCreateCommand comman)
-        {
-            //todo decrease stock
-            return Task.CompletedTask;
+            var entity = new Job
+            {
+                Id = Guid.NewGuid(),
+                JobName = command.Name,
+                JobMethod = command.Method,
+                JobArgs = command.Args,
+                IsStop = command.IsStop,
+                PeriodSeconds = command.PeriodSeconds
+            };
+            await _jobRepository.InsertAsync(entity);
         }
 
-        [EventHandler(0, FailureLevels.Ignore, IsCancel = true)]
-        public Task AddCancelLogs(JobCreateCommand query)
+        public async Task UpdateHandleAsync(JobUpdateCommand command)
         {
-            //todo increase stock
-            return Task.CompletedTask;
+            var entity = await _jobRepository.FindAsync(command.Id);
+
+            entity.JobName = command.Name;
+            entity.JobMethod = command.Method;
+            entity.JobArgs = command.Args;
+            entity.IsStop = command.IsStop;
+            entity.PeriodSeconds = command.PeriodSeconds;
+            entity.UpdateTime = DateTimeOffset.Now;
+
+            await _jobRepository.InsertAsync(entity);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private readonly Guid CurrentUserId = new Guid("DB4A41B4-0EE3-4957-A193-4DD4E633A52A");
         private BlogInfoListViewModel _blogInfo = new();
         private PagingResult<BlogCommentInfoListViewModel> _blogCommentInfoList = new();
+        private CreateBlogReportModel _createBlogReportModel = new();
 
         [Parameter]
         public Guid BlogInfoId { get; set; }
@@ -23,7 +24,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             //详情
             await GetAsync();
-            
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -58,6 +58,10 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private void ToReport()
         {
             _showWrite = true;
+            _createBlogReportModel.Title = _blogInfo.title;
+            _createBlogReportModel.BlogInfoId = BlogInfoId;
+            _createBlogReportModel.CreatorUserId = CurrentUserId;
+            _createBlogReportModel.Connect = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         }
         /// <summary>
         /// 发表评论
@@ -89,6 +93,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         }
         public async Task SubmitBlog()
         {
+            await BlogCaller.ReportService.CreateAsync(_createBlogReportModel);
             _showWrite = false;
         }
 

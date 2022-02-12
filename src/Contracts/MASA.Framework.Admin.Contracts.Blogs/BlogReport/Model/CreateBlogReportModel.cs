@@ -24,7 +24,7 @@ namespace MASA.Framework.Admin.Contracts.Blogs
         /// <summary>
         /// 文章编号
         /// </summary>
-        [StringLength(36)]
+        [NonDefault]
         public Guid BlogInfoId { get; set; }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace MASA.Framework.Admin.Contracts.Blogs
         /// <summary>
         /// CreatorUserId
         /// </summary>
-        [StringLength(36)]
+        [NonDefault]
         public Guid CreatorUserId { get; set; }
     }
 }

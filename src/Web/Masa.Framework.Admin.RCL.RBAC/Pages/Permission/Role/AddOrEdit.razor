@@ -16,17 +16,8 @@
 </MNavigationDrawer>
 
 @code {
-   public RolePage? _rolePage;
-
-    [Parameter]
-    public RolePage RolePage
-    {
-        get => _rolePage ?? throw new Exception("Please set parameter RolePage");
-        set
-        {
-            _rolePage = value;
-        }
-    }
+    [Inject]
+    public RolePage RolePage { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }

@@ -39,6 +39,12 @@ public class AuthenticationCaller : HttpClientCallerBase
         return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
     }
 
+    public async Task<ApiResultResponseBase> DeleteObjectAsync(DeleteObjectRequest request)
+    {
+        return await CallerProvider.DeleteAsync<DeleteObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
+    }
+
+
     // public async Task<ApiResultResponseBase> ChangeObjectStateAsync(ChangeStateCommand command)
     // {
     //     return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(AuthenticationRouting.OperateObject, command);
@@ -86,6 +92,12 @@ public class AuthenticationCaller : HttpClientCallerBase
         var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleListByIds, queryArguments);
         return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(url);
     }
+
+    public async Task<ApiResultResponseBase> DeleteRoleAsync(DeleteRoleRequest request)
+    {
+        return await CallerProvider.DeleteAsync<DeleteRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
+    }
+
 
     #endregion
 

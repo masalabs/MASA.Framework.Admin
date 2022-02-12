@@ -12,6 +12,7 @@ public class RoleService : CustomServiceBase
         App.MapGet(Routing.RoleListByIds, GetItemsByIdAsync);
         App.MapPost(Routing.OperateRole, CreateAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
+        App.MapDelete(Routing.OperateRole, DeleteAsync);
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>> GetItemsAsync(
@@ -68,6 +69,18 @@ public class RoleService : CustomServiceBase
         [FromBody] EditRoleRequest request)
     {
         await eventBus.PublishAsync(new RoleCommand.EditCommand(request)
+        {
+            Creator = creatorId
+        });
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(
+    [FromServices] IEventBus eventBus,
+    [FromHeader(Name = "creator-id")] Guid creatorId,
+    [FromBody] DeleteRoleRequest request)
+    {
+        await eventBus.PublishAsync(new RoleCommand.DeleteCommand(request)
         {
             Creator = creatorId
         });

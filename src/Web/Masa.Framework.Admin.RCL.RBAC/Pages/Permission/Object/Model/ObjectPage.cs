@@ -2,21 +2,41 @@ using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class ObjectPage
+public class ObjectPage : ComponentPage
 {
-    public List<ObjectItemResponse> ObjectDatas { get; set; }
+    public List<ObjectItemResponse> Datas { get; set; } = new();
 
-    public ObjectItemResponse CurrentObjectData { get; set; } = new();
+    public IEnumerable<ObjectItemResponse> SelectDatas { get; set; }=new List<ObjectItemResponse>();
+
+    public ObjectItemResponse CurrentData { get; set; } = new();
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
     public int ObjectType { get; set; } = -1;
 
-    public string? Search { get; set; }
+    public string? _search;
+    public string? Search
+    {
+        get { return _search; }
+        set
+        {
+            _search = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
     public int PageIndex { get; set; } = 1;
 
-    public int PageSize { get; set; } = 10;
+    public int _pageSize = 10;
+    public int PageSize
+    {
+        get { return _pageSize; }
+        set
+        {
+            _pageSize = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
@@ -30,19 +50,24 @@ public class ObjectPage
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
-    public List<DataTableHeader<ObjectItemResponse>> Headers = new()
-    {
-        new() { Text = "NAME", Value = nameof(ObjectItemResponse.Name) },
-        new() { Text = "CODE", Value = nameof(ObjectItemResponse.Code), Sortable = false },
-        new() { Text = "STATE", Value = nameof(ObjectItemResponse.State) },
-        new() { Text = "TYPE", Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
-        new() { Text = "ACTIONS", Value = "Action", Sortable = false }
-    };
+    public List<DataTableHeader<ObjectItemResponse>> Headers { get; set; }
 
-    public ObjectPage(AuthenticationCaller authenticationCaller)
+    public ObjectPage(AuthenticationCaller authenticationCaller, I18n i18n)
     {
         AuthenticationCaller = authenticationCaller;
-        ObjectDatas = new();
+        Headers = new()
+        {
+            new() { Text = T("Object.Name"), Value = nameof(ObjectItemResponse.Name) },
+            new() { Text = T("Code"), Value = nameof(ObjectItemResponse.Code), Sortable = false },
+            new() { Text = T("State"), Value = nameof(ObjectItemResponse.State) },
+            new() { Text = T("Type"), Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
+            new() { Text = T("Action"), Value = "Action", Sortable = false }
+        };
+
+        string T(string key)
+        {
+            return i18n.T(key) ?? key;
+        }
     }
 
     public async Task QueryPageDatasAsync()
@@ -55,7 +80,13 @@ public class ObjectPage
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
-            ObjectDatas = pageData.Items.ToList();
+            Datas = pageData.Items.ToList();
+            Datas.Add(new ObjectItemResponse()
+            {
+                Id = Guid.NewGuid(),
+                Code = "9527",
+                Name = "Test"
+            });
         }
         Lodding = false;
     }
@@ -64,13 +95,13 @@ public class ObjectPage
     {
         Lodding = true;
         var result = default(ApiResultResponseBase);
-        if (CurrentObjectData.Id != Guid.Empty)
+        if (CurrentData.Id != Guid.Empty)
         {
             var input = new AddObjectRequest
             {
-                Name = CurrentObjectData.Name,
-                Code = CurrentObjectData.Code,
-                ObjectType = CurrentObjectData.ObjectType,
+                Name = CurrentData.Name,
+                Code = CurrentData.Code,
+                ObjectType = CurrentData.ObjectType,
             };
             result = await AuthenticationCaller.AddObjectAsync(input);
         }
@@ -78,18 +109,25 @@ public class ObjectPage
         {
             var input = new EditObjectRequest
             {
-                Name = CurrentObjectData.Name,
-                ObjectId = CurrentObjectData.Id,
+                Name = CurrentData.Name,
+                ObjectId = CurrentData.Id,
             };
             result = await AuthenticationCaller.EditObjectAsync(input);
         }
-        Error = result.Success;
+        Error = !result.Success;
         Message = result.Message;
         Lodding = false;
     }
 
     public async Task DeleteAsync()
     {
-        await Task.CompletedTask;
+        Lodding = true;
+        var result = await AuthenticationCaller.DeleteObjectAsync(new DeleteObjectRequest
+        {
+            ObjectId = CurrentData.Id,
+        });
+        Error = !result.Success;
+        Message = result.Message;
+        Lodding = false;
     }
 }

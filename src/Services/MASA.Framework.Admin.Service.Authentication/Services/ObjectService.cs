@@ -7,6 +7,7 @@ public class ObjectService : CustomServiceBase
         App.MapGet(Routing.ObjectList, GetItemsAsync);
         App.MapPost(Routing.OperateObject, AddAsync);
         App.MapPut(Routing.OperateObject, EditAsync);
+        App.MapDelete(Routing.OperateObject, DeleteAsync);
     }
 
     /// <summary>
@@ -48,6 +49,18 @@ public class ObjectService : CustomServiceBase
         [FromBody] EditObjectRequest request)
     {
         await eventBus.PublishAsync(new ObjectCommand.EditCommand(request)
+        {
+            Creator = creatorId
+        });
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(
+    [FromServices] IEventBus eventBus,
+    [FromHeader(Name = "creator-id")] Guid creatorId,
+    [FromBody] DeleteObjectRequest request)
+    {
+        await eventBus.PublishAsync(new ObjectCommand.DeleteCommand(request)
         {
             Creator = creatorId
         });

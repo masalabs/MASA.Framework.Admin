@@ -30,7 +30,7 @@ public class PermissionService : CustomServiceBase
         [FromQuery] int permissionType = -1,
         [FromQuery] string name = "")
     {
-        var response = new PaginatedItemResponse<PermissionItemResponse>(pageIndex, pageSize, 0, new List<PermissionItemResponse>());
+        var response = new PaginatedItemResponse<PermissionItemResponse>(pageIndex, pageSize, 0, 0, new List<PermissionItemResponse>());
         return Success(response);
     }
 
@@ -57,4 +57,5 @@ public class PermissionService : CustomServiceBase
     }
 
     #endregion
+
 }

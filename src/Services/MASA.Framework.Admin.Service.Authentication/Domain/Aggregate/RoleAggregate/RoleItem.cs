@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
+namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate;
 
 public class RoleItem : Entity<Guid>
 {

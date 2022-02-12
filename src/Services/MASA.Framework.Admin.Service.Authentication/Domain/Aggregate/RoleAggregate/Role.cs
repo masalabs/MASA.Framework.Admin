@@ -4,7 +4,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 {
     public string Name { get; private set; } = default!;
 
-    public string? Describe { get; set; }
+    public string Describe { get; set; } = default!;
 
     public int Number { get; private set; }
 
@@ -20,6 +20,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     private Role()
     {
+        Describe = string.Empty;
         permissions = new();
         roleItems = new();
     }

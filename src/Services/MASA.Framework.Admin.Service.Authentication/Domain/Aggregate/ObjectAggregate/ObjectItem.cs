@@ -15,11 +15,11 @@ public class ObjectItem : Entity<Guid>
 
     public Object Object{ get; private set; }
 
-    public ObjectItem(string name, string action, string objectIdentifies, PermissionType permissionType)
+    public ObjectItem(string name, string objectIdentifies, string action, PermissionType permissionType)
     {
         Name = name;
-        Action = action;
         ObjectIdentifies = objectIdentifies;
+        Action = action;
         PermissionType = permissionType;
     }
 

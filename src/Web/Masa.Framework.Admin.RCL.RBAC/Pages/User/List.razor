@@ -43,14 +43,14 @@
             </MCol>
         </MRow>
     </MCardText>
-    <MDataTable Headers="_headers" Items="_userPage.UserPageData" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="_headers" Items="_userPage.UserPageData" ItemKey="r=>r.Id.ToString()" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
             @switch (context.Header.Value)
             {
-                case nameof(UserItemResponse.Name):
+                case nameof(UserItemResponse.Cover):
                     <div class="hover-pointer d-flex my-2">
                         @if (string.IsNullOrEmpty(context.Item.Cover))
                         {
@@ -70,7 +70,23 @@
                     <span>@context.Item.Email</span>
                     break;
                 case nameof(UserItemResponse.Gender):
-                    @context.Item.Gender
+                    var genderText = "";
+                    if (context.Item.Gender.HasValue)
+                    {
+                        if (context.Item.Gender.Value)
+                        {
+                            genderText = "男";
+                        }
+                        else
+                        {
+                            genderText = "女";
+                        }
+                    }
+                    else
+                    {
+                        genderText = "未知";
+                    }
+                    <span>@genderText</span>
                     break;
                 case (nameof(UserItemResponse.LastLoginTime)):
                     @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
@@ -102,10 +118,10 @@
                                     <MIcon Small>fas fa-user-tie</MIcon>
                                     <MListItemTitle Class="ml-2"> Details </MListItemTitle>
                                 </MListItem>
-                                <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
+@*                                <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
                                     <MIcon Small>far fa-trash-alt</MIcon>
                                     <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
-                                </MListItem>
+                                </MListItem>*@
                             </MList>
                         </ChildContent>
                     </MMenu>
@@ -147,6 +163,6 @@
 </MNavigationDrawer>
 
 <MSnackbar Absolute Dark Centered Timeout="3000" @bind-Value="_snackbar"
-    Color="deep-purple accent-4" Elevation="24">
-        添加失败
+           Color="deep-purple accent-4" Elevation="24">
+    添加失败
 </MSnackbar>

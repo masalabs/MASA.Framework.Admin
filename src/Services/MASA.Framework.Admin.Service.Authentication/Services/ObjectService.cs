@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
-
 namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class ObjectService : CustomServiceBase
@@ -20,29 +18,39 @@ public class ObjectService : CustomServiceBase
     /// <param name="type"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    public ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>> GetItemsAsync(
+    public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
         [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE,
         [FromQuery] int type = -1,
         [FromQuery] string name = "")
     {
-        var response = new PaginatedItemResponse<ObjectItemResponse>(pageIndex, pageSize, 0, new List<ObjectItemResponse>());
-        return Success(response);
+        var query = new ObjectQueries.ListQuery(pageIndex, pageSize, type, name);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
     }
 
-    public ApiResultResponseBase AddAsync(
+    public async Task<ApiResultResponseBase> AddAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] AddObjectRequest objectRequest)
+        [FromHeader(Name = "creator-id")] Guid creatorId,
+        [FromBody] AddObjectRequest request)
     {
-
+        await eventBus.PublishAsync(new ObjectCommand.AddCommand(request)
+        {
+            Creator = creatorId
+        });
         return Success();
     }
 
-    public ApiResultResponseBase EditAsync(
+    public async Task<ApiResultResponseBase> EditAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] EditObjectRequest command)
+        [FromHeader(Name = "creator-id")] Guid creatorId,
+        [FromBody] EditObjectRequest request)
     {
+        await eventBus.PublishAsync(new ObjectCommand.EditCommand(request)
+        {
+            Creator = creatorId
+        });
         return Success();
     }
 }

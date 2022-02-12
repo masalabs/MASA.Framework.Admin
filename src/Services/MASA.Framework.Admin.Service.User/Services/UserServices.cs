@@ -23,8 +23,7 @@ public class UserServices : CustomServiceBase
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetAsync(
-        [FromServices] IEventBus eventBus,
-        [FromQuery] Guid id)
+        [FromServices] IEventBus eventBus, Guid id)
     {
         var detailQuery = new UserQuery.DetailQuery(id);
         await eventBus.PublishAsync(detailQuery);
@@ -33,7 +32,7 @@ public class UserServices : CustomServiceBase
 
     public async Task<ApiResultResponseBase> CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] Guid creator,
+        [FromHeader(Name = "creator-id")] Guid creator,
         [FromBody] UserCreateRequest userCreateRequest)
     {
         await eventBus.PublishAsync(new UserCommand.CreateCommand(userCreateRequest)
@@ -44,8 +43,7 @@ public class UserServices : CustomServiceBase
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(
-        [FromServices] IEventBus eventBus,
-        [FromQuery] Guid id)
+        [FromServices] IEventBus eventBus, Guid id)
     {
         await eventBus.PublishAsync(new UserCommand.DeleteCommand(id));
         return Success();

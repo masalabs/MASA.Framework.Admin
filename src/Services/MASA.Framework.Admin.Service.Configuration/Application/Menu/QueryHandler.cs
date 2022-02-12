@@ -17,7 +17,7 @@ public class QueryHandler
         {
             condition = condition.And(menu => menu.Name.Contains(query.Name));
         }
-        var lists = await _repository.GetPaginatedListAsync(condition, new PaginatedOptions()
+        var menus = await _repository.GetPaginatedListAsync(condition, new PaginatedOptions()
         {
             Page = query.PageIndex,
             PageSize = query.PageSize
@@ -25,8 +25,9 @@ public class QueryHandler
         query.Result = new PaginatedItemResponse<MenuItemResponse>(
             query.PageIndex,
             query.PageSize,
-            lists.Total,
-            lists.Result.Select(menu => new MenuItemResponse()
+            menus.Total,
+            menus.TotalPages,
+            menus.Result.Select(menu => new MenuItemResponse()
             {
                 Id = menu.Id,
                 Code = menu.Code,

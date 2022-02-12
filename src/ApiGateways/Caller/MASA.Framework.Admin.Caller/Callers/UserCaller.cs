@@ -10,6 +10,11 @@ public class UserCaller : HttpClientCallerBase
         BaseAddress = configuration["ApiGateways:UserCaller"];
     }
 
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
+
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
         string account = "", int state = -1)
     {
@@ -26,7 +31,8 @@ public class UserCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(string.Format(UserRouting.UserDetail, id));
+        var url = UserRouting.UserDetail.Replace($"{{{nameof(id)}}}", id);
+        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(url);
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)

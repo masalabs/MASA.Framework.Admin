@@ -36,7 +36,13 @@ public partial class Article : ProCompontentBase
         { Text = "操作", Value = "actions", Width = 200, Sortable = false }
     };
 
-    private List<BlogTypeCondensedViewModel> _blogTypes = new();
+    #endregion
+
+    private List<BlogTypeCondensedViewModel> BlogTypes = new();
+
+    private bool _withdrawModalVisible;
+
+    private BlogInfoListViewModel CurrentModel { get; set; }
 
     private UpdateBlogInfoModel _updateBlogInfoModel = new();
 
@@ -115,7 +121,20 @@ public partial class Article : ProCompontentBase
 
     private async Task FetchTypes()
     {
-        _blogTypes = await BlogCaller.BlogTypeService.GetAllAsync();
+        BlogTypes = await BlogCaller.BlogTypeService.GetAllAsync();
+    }
+
+    private void ShowWithdrawModal(BlogInfoListViewModel model)
+    {
+        CurrentModel = model;
+        _withdrawModalVisible = true;
+    }
+
+    private async Task OnWithdraw(WithdrawBlogArticleModel model)
+    {
+        model.Id = CurrentModel.id;
+
+        await BlogCaller.ArticleService.WithdrawAsync(model);
     }
 
     public void HrefDetailPage(Guid id)

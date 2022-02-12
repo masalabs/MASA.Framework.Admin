@@ -40,7 +40,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         [EventHandler]
         public async Task BlogArticleDetailsQueryAsync(BlogArticleDetailsQuery query)
         {
-            var blogArticle = await _blogArticleRepository.GetAsync(query.Id);
+            var blogArticle = await _blogArticleRepository.GetInfoAsync(query.Id);
             if (blogArticle is not null)
             {
                 blogArticle.Relations = await _blogLabelRepository.GetRelationsByBlog(blogArticle.id);

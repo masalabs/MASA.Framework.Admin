@@ -108,6 +108,20 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         }
 
         /// <summary>
+        /// 下架文章
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [EventHandler]
+        public async Task WithdrawAsync(WithdrawBlogArticleCommand command)
+        {
+            var article = await _articleRepository.GetAsync(command.Model.Id);
+            article!.State = StateTypes.OffTheShelf;
+
+            await _articleRepository.UpdateAsync(article);
+        }
+
+        /// <summary>
         /// 添加博文标签
         /// </summary>
         /// <param name="labels"></param>

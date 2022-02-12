@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Nest;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
@@ -8,19 +9,22 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         private string _defaultIndex;
         private readonly ElasticClient _elasticClient;
         private ILogger<BlogArticleCommandHandler> _logger;
-        private readonly IBlogArticleRepository _blogArticleRepository;
         private readonly IBlogLabelRepository _blogLabelRepository;
+        private readonly IBlogArticleRepository _blogArticleRepository;
+        private readonly IBlogApprovedRecordRepository _approvedRecordRepository;
 
         public BlogCommentsQueryHandlers(
             IOptions<BlogAppSettiings> settings,
             IBlogLabelRepository blogLabelRepository,
-            IBlogArticleRepository blogArticleRepository,
             ILogger<BlogArticleCommandHandler> logger,
-            IElasticClientProvider elasticClientProvider)
+            IBlogArticleRepository blogArticleRepository,
+            IElasticClientProvider elasticClientProvider,
+            IBlogApprovedRecordRepository approvedRecordRepository)
         {
             _logger = logger;
             _blogLabelRepository = blogLabelRepository;
             _blogArticleRepository = blogArticleRepository;
+            _approvedRecordRepository = approvedRecordRepository;
             _defaultIndex = $"{settings.Value.ElasticConfig.IndexPrefix}_{nameof(BlogInfo)}".ToLower();
             _elasticClient = elasticClientProvider.GetClient(_defaultIndex);
         }
@@ -38,7 +42,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             var blogArticle = await _blogArticleRepository.GetAsync(query.Id);
             if (blogArticle is not null)
+            {
                 blogArticle.Relations = await _blogLabelRepository.GetRelationsByBlog(blogArticle.id);
+                if (query.UserId != Guid.Empty)
+                    blogArticle.IsApproved = await _approvedRecordRepository.ExistBlogApprovedRecord(query.Id, query.UserId);
+            }
 
             query.Result = blogArticle;
         }
@@ -78,7 +86,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 .Query(q => q.Bool(b => b.Must(matchQuery)))
                 .Sort(s => s.Descending(x => x.ApprovedCount).Descending(y => y.CreationTime)));
 
-            // TODO: mapping
             var data = searchResponse.Documents.Select(d => new BlogInfoHomeListViewModel()
             {
                 Content = RemoveHTML(d.Content),

@@ -1,4 +1,5 @@
 ﻿using Elasticsearch.Net;
+using Nest;
 
 namespace MASA.Framework.Admin.Service.Blogs.Helper
 {

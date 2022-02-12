@@ -2,6 +2,8 @@
 {
     public interface IBlogApprovedRecordRepository
     {
-        Task AddBlogApprovedRecord(BlogApprovedRecordModel model);
+        Task<BlogInfo> AddBlogApprovedRecord(BlogApprovedRecordModel model);
+
+        Task<bool> ExistBlogApprovedRecord(Guid blogInfoId, Guid userId);
     }
 }

@@ -14,4 +14,3 @@ global using MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys;
 global using MASA.Framework.Admin.Service.Blogs.Helper;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
-global using Nest;

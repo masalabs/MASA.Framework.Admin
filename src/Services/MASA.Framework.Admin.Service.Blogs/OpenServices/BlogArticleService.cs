@@ -37,11 +37,12 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             return Results.Ok(blogQuery.Result);
         }
 
-        public async Task<IResult> GetAsync(Guid id)
+        public async Task<IResult> GetAsync(Guid id, Guid? userId)
         {
             var blogDetailsQuery = new BlogArticleDetailsQuery
             {
-                Id = id
+                Id = id,
+                UserId = userId.HasValue ? userId.Value : Guid.Empty
             };
             await _eventBus.PublishAsync(blogDetailsQuery);
 

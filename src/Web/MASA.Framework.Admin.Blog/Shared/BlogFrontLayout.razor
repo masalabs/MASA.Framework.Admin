@@ -6,7 +6,7 @@
 
 <MApp>
     <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ? "mx-6" : "mx-6 rounded-b-4")}")">
-        <img class="hover-pointer" src="/img/mainLayout/logo-en.svg" />
+        <img class="hover-pointer ml-5" src="/img/mainLayout/logo-en.svg" />
         <MSpacer />
 
         <div style="width: 20%;" class="ml-10">
@@ -17,7 +17,7 @@
             </MTextField>
         </div>
 
-        <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>
+        <MIcon Size=20 Class="ml-5" OnClick="UserMessage" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>
         <MIcon Size=20 Class="ml-5 mr-5" Color="neutral-lighten-3">mdi-cog</MIcon>
 
         <Login />
@@ -47,3 +47,36 @@
         @_message.Content
     </Message>
 </MApp>
+
+<FormModal Visible="@_emailDataModal.Visible" Width="600" Title="测试发送邮箱" OnCancel="() => _emailDataModal.Hide()" OnOk="SendEmail" Model="_emailDataModal.Data">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField Label="收件人"
+                        Placeholder="发送多人请用逗号（,）隔开"
+                        Dense Outlined
+                        @bind-Value="_recipientArry">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+        <MCol Cols="12">
+            <MTextField Label="标题"
+                        Dense Outlined
+                        @bind-Value="_emailDataModal.Data.Title">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+        <MCol Cols="12">
+            <MTextarea Label="内容"
+                       Dense Outlined
+                       @bind-Value="_emailDataModal.Data.Body">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextarea>
+        </MCol>
+    </MRow>
+</FormModal>

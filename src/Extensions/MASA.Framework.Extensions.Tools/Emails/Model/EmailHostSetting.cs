@@ -11,7 +11,7 @@ namespace MASA.Framework.Extensions.Tools.Emails.Model
         /// <summary>
         /// 发送人
         /// </summary>
-        public string FromPerson { get; set; }
+        public string Account { get; set; }
 
         /// <summary>
         /// 客户端授权码(可存在配置文件中)

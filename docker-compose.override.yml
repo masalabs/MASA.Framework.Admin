@@ -85,12 +85,13 @@ services:
   masa.admin.web:
     environment:
       - ASPNETCORE_ENVIRONMENT=DockerCompose
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
     ports:
       - "8080:80"
       - "8443:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
   dapr-placement:
     command: ["./placement", "-port", "50000", "-log-level", "debug"]

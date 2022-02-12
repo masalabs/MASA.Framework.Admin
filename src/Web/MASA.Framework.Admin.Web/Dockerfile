@@ -17,5 +17,7 @@ RUN dotnet publish "MASA.Framework.Admin.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+RUN dotnet dev-certs https --clean
+RUN dotnet dev-certs https -ep .\MASA.Framework.Admin.Web.pfx -p P@ssw0rd
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MASA.Framework.Admin.Web.dll"]

@@ -1,2 +1,57 @@
 ﻿@page "/blog-admin/report"
+@using MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel
 @inherits ProCompontentBase
+
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <Filters Context="filter">
+        <MRow Dense>
+            <MCol Cols="12" Sm="6">
+                <DefaultTextField Label="举报标题"
+                                  @bind-Value="_options.Title"
+                                  OnKeyDown="filter.onEnter"
+                                  OnClearClick="filter.onSearch">
+                </DefaultTextField>
+            </MCol>
+            <MCol Cols="12" Sm="6">
+                <DefaultSelect Label="状态"
+                               Items="Enum<ReasonTypes>.GetEnumObjectList<ReasonTypes>()"
+                               ItemText="item => item.Name"
+                               ItemValue="item => item.Value"
+                               @bind-Value="_options.ReaosnType"
+                               TItem="EnumObject<ReasonTypes>"
+                               TValue="ReasonTypes?"
+                               TItemValue="ReasonTypes"
+                               OnSelectedItemUpdate="filter.onSearch"
+                               OnClearClick="filter.onSearch">
+                </DefaultSelect>
+            </MCol>
+            <MCol Cols="12" Sm="6">
+                <DefaultDateTimePicker Label="举报开始时间"
+                                       @bind-Value="_options.StartDate"
+                                       OnOk="filter.onSearch"
+                                       OnClearClick="filter.onSearch">
+                </DefaultDateTimePicker>
+            </MCol>
+            <MCol Cols="12" Sm="6">
+                <DefaultDateTimePicker Label="举报结束时间"
+                                       @bind-Value="_options.EndDate"
+                                       OnOk="filter.onSearch"
+                                       OnClearClick="filter.onSearch">
+                </DefaultDateTimePicker>
+            </MCol>
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  OnOptionsUpdate="HandleOnOptionsUpdate"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="BlogReportListViewModel">
+    <ItemColContent>
+        <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+    </ItemColContent>
+</DefaultDataTable>

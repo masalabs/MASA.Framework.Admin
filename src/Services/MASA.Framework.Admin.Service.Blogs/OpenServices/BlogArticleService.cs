@@ -1,6 +1,8 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
+using MASA.Framework.Admin.Contracts.Blogs.BlogReport.Options;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos;
+using MASA.Framework.Admin.Service.Blogs.Application.BlogReport.Querys;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.Blogs.OpenServices

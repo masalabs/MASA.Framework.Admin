@@ -4,14 +4,27 @@
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
     <Filters Context="filter">
         <MRow Dense>
-            <MCol Cols="12" Sm="6">
+            <MCol Cols="12" Sm="6" Md="4">
                 <DefaultTextField Label="标题"
                                   @bind-Value="_options.Title"
                                   OnKeyDown="filter.onEnter"
                                   OnClearClick="filter.onSearch">
                 </DefaultTextField>
             </MCol>
-            <MCol Cols="12" Sm="6">
+            <MCol Cols="12" Sm="6" Md="4">
+                <DefaultAutoComplete Label="分类"
+                                     Items="Enum<StateTypes>.GetEnumObjectList<StateTypes>()"
+                                     ItemText="item => item.Name"
+                                     ItemValue="item => item.Value"
+                                     @bind-Value="_options.State"
+                                     TItem="EnumObject<StateTypes>"
+                                     TValue="StateTypes?"
+                                     TItemValue="StateTypes"
+                                     OnSelectedItemUpdate="filter.onSearch"
+                                     OnClearClick="filter.onSearch">
+                </DefaultAutoComplete>
+            </MCol>
+            <MCol Cols="12" Sm="6" Md="4">
                 <DefaultSelect Label="状态"
                                Items="Enum<StateTypes>.GetEnumObjectList<StateTypes>()"
                                ItemText="item => item.Name"

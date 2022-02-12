@@ -1,14 +1,12 @@
 ﻿using MASA.Framework.Admin.Caller.Blogs;
-using MASA.Framework.Dapr.DaprClient;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace MASA.Framework.Admin.Caller;
 
 public class BlogCaller : HttpClientCallerBase
 {
     private ArticleService _articleService;
-    private BlogTypeService _blogTypeService;
+    private ReportService _reportService;
+    private BlogTypeService _typeService;
     private AdvertisingPicturesService _advertisingPicturesService;
 
     protected override string BaseAddress { get; set; } = "http://masa.admin.services.blogs";
@@ -19,7 +17,7 @@ public class BlogCaller : HttpClientCallerBase
     }
 
     public ArticleService ArticleService => _articleService ?? new ArticleService(CallerProvider);
-    public BlogTypeService BlogTypeService => _blogTypeService ?? new BlogTypeService(CallerProvider);
+    public BlogTypeService BlogTypeService => _typeService ?? new BlogTypeService(CallerProvider);
     public AdvertisingPicturesService AdvertisingPicturesService => _advertisingPicturesService ?? new AdvertisingPicturesService(CallerProvider);
-
+    public ReportService ReportService => _reportService ?? new ReportService(CallerProvider);
 }

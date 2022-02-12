@@ -27,15 +27,10 @@ namespace MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel
         public string Connect { get; set; } = string.Empty;
 
         /// <summary>
-        /// 文章编号
+        /// 举报编号
         /// </summary>
         [StringLength(36)]
         public Guid BlogInfoId { get; set; }
-
-        /// <summary>
-        /// 文章名称
-        /// </summary>
-        public string BlogInfoName { get; set; }
 
         /// <summary>
         /// 举报详细信息

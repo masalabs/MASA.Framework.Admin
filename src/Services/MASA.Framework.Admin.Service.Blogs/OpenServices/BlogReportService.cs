@@ -10,7 +10,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
     {
         private readonly IEventBus _eventBus;
 
-        public BlogReportService(IServiceCollection services) : base(services, "/api/blogreport")
+        public BlogReportService(IServiceCollection services) : base(services, "/api/blog-report")
         {
             _eventBus = this.GetService<IEventBus>() ?? throw new ArgumentNullException(nameof(IEventBus));
 

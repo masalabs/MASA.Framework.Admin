@@ -13,6 +13,11 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private CreateBlogInfoModel _options = new() { State = StateTypes.Reviewed };
         private List<(Guid, string)> _typeList = new();
 
+        private GetBlogArticleHomeOptions _searchOptions = new()
+        {
+            PageIndex = 1, PageSize = 20
+        };
+
         public PagingResult<BlogInfoHomeListViewModel> Blogs { get; set; } =
             new PagingResult<BlogInfoHomeListViewModel>();
 
@@ -28,6 +33,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
             }
+            
+            _typeList.Insert(0,(Guid.Empty, "全部"));
             await this.GetAdAsync();
         }
 
@@ -42,14 +49,21 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             Navigation?.NavigateTo($"/blogs/info/{id}");
         }
+        private async Task SelectedChipChanged(StringNumber id)
+        {
+            var guid = Guid.Parse(id.ToString());
+
+            _page= 1;
+            _searchOptions.TypeId = guid;
+
+            await FetchBlogs();
+        }
 
         private async Task FetchBlogs()
         {
-            Blogs = await BlogCaller.ArticleService.BlogArticleHomeAsync(new GetBlogArticleHomeOptions()
-            {
-                PageIndex = _page,
-                PageSize = 10
-            });
+            _searchOptions.PageIndex = _page;
+            
+            Blogs = await BlogCaller.ArticleService.BlogArticleHomeAsync(_searchOptions);
             if (Blogs.TotalCount > 0)
             {
                 _pageCount = Convert.ToInt32(Math.Ceiling((Decimal)Blogs.TotalCount / Convert.ToDecimal(Blogs.Size)));

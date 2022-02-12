@@ -48,19 +48,19 @@
                 var blogTypeIds = blogTypes.Select(x => x.Id).ToList();
 
                 var blogInfoes = await (from blogInfo in _blogDbContext.BlogInfoes
-                    join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
-                    where blogTypeIds.Contains(blogInfo.TypeId)
-                    select new BlogInfoListViewModel()
-                    {
-                        id = blogInfo.Id,
-                        typeId = blogInfo.TypeId,
-                        title = blogInfo.Title,
-                        typeName = blogType.TypeName
-                    }).ToListAsync();
+                                        join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
+                                        where blogTypeIds.Contains(blogInfo.TypeId)
+                                        select new BlogInfoListViewModel()
+                                        {
+                                            id = blogInfo.Id,
+                                            typeId = blogInfo.TypeId,
+                                            title = blogInfo.Title,
+                                            typeName = blogType.TypeName
+                                        }).ToListAsync();
 
                 if (blogInfoes.Any())
                 {
-                    throw new Exception($"{string.Join(",",blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new Exception($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
                 }
             }
 
@@ -74,9 +74,9 @@
             _blogDbContext.Database.CurrentTransaction?.Commit();
         }
 
-        public async Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
+        public Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
         {
-            var paging = await _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type =>
+            return _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type =>
                 new BlogTypePagingViewModel
                 {
                     Id = type.Id,
@@ -84,15 +84,16 @@
                     TypeName = type.TypeName,
                     LastModificationTime = type.LastModificationTime
                 }).PagingAsync(options.PageIndex, options.PageSize);
+        }
 
-
-            return new PagingResult<BlogTypePagingViewModel>()
-            {
-                Page = paging.Page,
-                Size = paging.Size,
-                TotalCount = paging.TotalCount,
-                Data = paging.Data
-            };
+        public Task<List<BlogTypeCondensedViewModel>> GetCondensedListAsync()
+        {
+            return _blogDbContext.BlogTypes.OrderBy(b => b.TypeName)
+                .Select(b => new BlogTypeCondensedViewModel
+                {
+                    Id = b.Id,
+                    Name = b.TypeName
+                }).ToListAsync();
         }
     }
 }

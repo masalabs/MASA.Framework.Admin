@@ -25,8 +25,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                         select new BlogReportListViewModel()
                         {
                             Id = blogReport.Id,
+                            Title = blogReport.Title,
                             BlogInfoId = blogInfo.Id,
-                            BlogInfoName = blogInfo.Title,
                             Detail = blogReport.Detail,
                             Reason = blogReport.Reason,
                             CreationTime = blogInfo.CreationTime,

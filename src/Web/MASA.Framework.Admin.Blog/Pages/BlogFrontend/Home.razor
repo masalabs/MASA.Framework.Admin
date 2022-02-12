@@ -19,6 +19,19 @@
     </MTabsItems>
 
     <MDivider></MDivider>
+    
+    @if (Ad.Any())
+    {
+        <MSheet Class="mx-auto mt-2 mb-2">
+            <MSlideGroup Multiple ShowArrows="@(true)">
+                @foreach (var item in Ad)
+                {
+                    <MImage Height="50" Width="1095" Src="@item.Pic"></MImage>
+                }
+            </MSlideGroup>
+        </MSheet>
+    }
+
     @if (Blogs.Data is not null)
     {
         @foreach (var blog in Blogs.Data)

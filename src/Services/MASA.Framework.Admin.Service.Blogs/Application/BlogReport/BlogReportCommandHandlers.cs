@@ -24,6 +24,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogReport
                 BlogInfoId = command.Request.BlogInfoId,
                 Detail = command.Request.Detail,
                 Reason = command.Request.Reason,
+                Handled = false,
                 CreatorUserId = command.Request.CreatorUserId,
                 LastModifierUserId = command.Request.CreatorUserId
             };

@@ -1,19 +1,28 @@
-﻿using Nest;
+﻿using Flurl.Http;
+using MASA.Framework.Admin.Contracts.Blogs.BlogInfo.ViewModel;
+using MASA.Utils.Caching.Core.Interfaces;
+using MASA.Utils.Caching.Core.Models;
+using Nest;
 using System.Text.Json;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
     public class BlogArticleCommandHandler
     {
+        private const string BaiduTextAIToken = "BaiduTextAIToken";
         private string _defaultIndex;
         private readonly ElasticClient _elasticClient;
+        private readonly BlogAppSettiings _appSettiings;
         private ILogger<BlogArticleCommandHandler> _logger;
+        private readonly IDistributedCacheClient _redisClient;
         private readonly IBlogArticleRepository _articleRepository;
         private readonly IBlogLabelRepository _blogLabelRepository;
         private readonly IBlogApprovedRecordRepository _approvedRecordRepository;
 
         public BlogArticleCommandHandler(
             IOptions<BlogAppSettiings> settings,
+            IDistributedCacheClient redisClient,
             IBlogArticleRepository articleRepository,
             IBlogLabelRepository blogLabelRepository,
             ILogger<BlogArticleCommandHandler> logger,
@@ -21,6 +30,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             IBlogApprovedRecordRepository approvedRecordRepository)
         {
             _logger = logger;
+            _redisClient = redisClient;
+            _appSettiings = settings.Value;
             _articleRepository = articleRepository;
             _blogLabelRepository = blogLabelRepository;
             _defaultIndex = $"{settings.Value.ElasticConfig.IndexPrefix}_{nameof(BlogInfo)}".ToLower();
@@ -28,12 +39,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             _approvedRecordRepository = approvedRecordRepository;
         }
 
-        [EventHandler]
+        [EventHandler(1)]
         public async Task CreateAsync(CreateBlogInfoCommand command)
         {
             var blogInfo = new BlogInfo
             {
-                Id = Guid.NewGuid(),
                 Title = command.Request.Title,
                 State = command.Request.State,
                 TypeId = command.Request.TypeId,
@@ -44,12 +54,30 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 ApprovedCount = 0,
                 ReleaseTime = DateTime.UtcNow,
                 CreatorUserId = command.Request.UserId,
-                LastModifierUserId = command.Request.UserId
+                LastModifierUserId = command.Request.UserId,
+                WithdrawReason = string.Empty
             };
 
             var blog = await _articleRepository.CreateAsync(blogInfo);
+            command.Request.Id = blog.Id;
             await InsertEsAsync(blog);
             await AddLabelRelations(command.Request.Labels, blog.Id);
+        }
+
+        [EventHandler(2)]
+        public async Task ContentDefinedAsync(CreateBlogInfoCommand command)
+        {
+            var (isSuccess, errMsg) = await BaiduDefined(
+                command.Request.Title + " " + command.Request.Content);
+            if (!isSuccess)
+            {
+                await WithdrawAsync(new (new WithdrawBlogArticleModel
+                {
+                    Id = command.Request.Id,
+                    ReasonType = ReasonTypes.Other,
+                    ReasonDetail = errMsg
+                }));
+            }
         }
 
         [EventHandler]
@@ -117,6 +145,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             var article = await _articleRepository.GetAsync(command.Model.Id);
             article!.State = StateTypes.OffTheShelf;
+            article!.WithdrawReason = $"{command.Model.ReasonType.GetDescription().Description}";
+            if (command.Model.ReasonDetail != null)
+            {
+                article!.WithdrawReason += ":" + command.Model.ReasonDetail;
+            }
 
             await _articleRepository.UpdateAsync(article);
         }
@@ -185,6 +218,86 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 获取百度token
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> GetBaiduAIAccessToken()
+        {
+            try
+            {
+                //TODO: redis redisvalue error
+                //var token = await _redisClient.GetAsync<string>(BaiduTextAIToken);
+                //if(!string.IsNullOrWhiteSpace(token))
+                //    return token;
+
+                var authHost = _appSettiings.BaiduAIConfig.GetAccessTokenUrl +
+                    "?grant_type=client_credentials"+
+                    $"&client_id={_appSettiings.BaiduAIConfig.APIKey}"+
+                    $"&client_secret={_appSettiings.BaiduAIConfig.SecretKey}";
+                var res = await authHost.PostAsync().ReceiveJson<BaiduAccessTokenViewModel>();
+                if (res is not null && !string.IsNullOrWhiteSpace(res.access_token))
+                {
+                    return res.access_token;
+                    //token = res.access_token;
+                    //var expiresIn = TimeSpan.FromSeconds(res.expires_in - 60 * 60 * 2);
+                    //try
+                    //{
+
+                    //    await _redisClient.SetAsync(BaiduTextAIToken, token, new CombinedCacheEntryOptions<string>
+                    //    {
+                    //        DistributedCacheEntryOptions = new DistributedCacheEntryOptions
+                    //        {
+                    //            //提前两天过期
+                    //            AbsoluteExpirationRelativeToNow = expiresIn
+                    //        }
+                    //    });
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    throw;
+                    //}
+                }
+
+                return string.Empty;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseJsonAsync<BaiduAccessTokenErrorViewModel>();
+                _logger.LogError(ex, $"GetAccessToken异常, error：{error}");
+
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 百度文本校验（屏蔽字）
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private async Task<(bool, string)> BaiduDefined(string text)
+        {
+            try
+            {
+                var token = await GetBaiduAIAccessToken();
+                if (string.IsNullOrWhiteSpace(token))
+                    return (false, "自动校验失败，待人工审核！");
+
+                var res = await $"{_appSettiings.BaiduAIConfig.PostUserDefined}?access_token={token}"
+                    .WithHeader("Connection", "keep-alive")
+                    .WithHeader("Keep-Alive", "600")
+                    .PostUrlEncodedAsync(new { text = text })
+                    .ReceiveJson<BaiduDefinedViewModel>();
+
+                return (res.IsSuccess, res.data?.First().msg ?? string.Empty);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "百度文本校验异常", text);
+                return (false, "自动校验失败，待人工审核！");
+            }
         }
     }
 }

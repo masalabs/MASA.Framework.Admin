@@ -93,9 +93,13 @@ public class ArticleService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public async Task<BlogInfoListViewModel> GetAsync(Guid id)
+    public async Task<BlogInfoListViewModel> GetAsync(Guid id, Guid? userId = null)
     {
-        return await _callerProviderProvider.GetAsync<BlogInfoListViewModel>($"/api/articles/Get?id={id}");
+        if (!userId.HasValue)
+        {
+            userId = Guid.Empty;
+        }
+        return await _callerProviderProvider.GetAsync<BlogInfoListViewModel>($"/api/articles/Get?id={id}&userId={userId}");
     }
 
     /// <summary>

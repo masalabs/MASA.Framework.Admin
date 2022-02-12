@@ -5,8 +5,9 @@ public partial class View
     private StringNumber _tab;
     private UserDetailResponse _userDetail = new();
     private bool _addRoleDialog = false;
-    private List<RoleSelectItem> _roleSelectItems = new() { new RoleSelectItem { Describetion = "1", Name = "2", Id = Guid.NewGuid() } };
-    private string _addRoleId;
+    private List<RoleSelectItem> _roleSelectItems = new();
+    private List<RoleItemResponse> _userRoles = new();
+    private string? _addRoleId;
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
         new (){ Text= "登录时间", Sortable= false, Value= nameof(LoginRecord.LoginTime)},
@@ -30,6 +31,9 @@ public partial class View
     [Inject]
     public UserCaller UserCaller { get; set; } = null!;
 
+    [Inject]
+    public AuthenticationCaller AuthenticationCaller { get; set; } = null!;
+
     [Parameter]
     public string? Id { get; set; }
 
@@ -44,11 +48,56 @@ public partial class View
         {
             _userDetail = dataRes.Data;
         }
+
+        await LoadUserRoles();
+    }
+
+    private async Task OpenRoleDialog()
+    {
+        var dataRes = await AuthenticationCaller.SelectRoleAsync();
+        if (!dataRes.Success || dataRes.Data == null)
+        {
+            //获取失败
+            return;
+        }
+        _addRoleDialog = true;
+        _roleSelectItems = dataRes.Data.Select(role => new RoleSelectItem
+        {
+            Name = role.Name,
+            Describetion = role.Describe ?? "",
+            Id = role.Id
+        }).ToList();
     }
 
     private async Task AddUserRole()
     {
+        if (string.IsNullOrEmpty(_addRoleId) || string.IsNullOrEmpty(Id))
+        {
+            //tip msg
+            return;
+        }
         _addRoleDialog = false;
+        await UserCaller.CreateRoleAsync(new CreateUserRoleRequest
+        {
+            RoleId = Guid.Parse(_addRoleId),
+            UserId = Guid.Parse(Id)
+        });
+        await LoadUserRoles();
+    }
+
+    private async Task LoadUserRoles()
+    {
+        var userRolesRes = await UserCaller.GetUserRolesAsync(Guid.Parse(Id));
+        if (!userRolesRes.Success || userRolesRes.Data == null)
+        {
+            return;
+        }
+        var rolesRes = await AuthenticationCaller.GetRolesByIdsAsync(userRolesRes.Data.Select(a => a.RoleId).ToList());
+        if (!rolesRes.Success || rolesRes.Data == null)
+        {
+            return;
+        }
+        _userRoles = rolesRes.Data;
     }
 }
 

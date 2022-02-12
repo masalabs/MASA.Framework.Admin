@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class AuthenticationCaller : HttpClientCallerBase
@@ -74,6 +76,21 @@ public class AuthenticationCaller : HttpClientCallerBase
     public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
     {
         return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> SelectRoleAsync()
+    {
+        return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(AuthenticationRouting.RoleSelect);
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> GetRolesByIdsAsync(List<Guid> roleIds)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+            { "roleIds", JsonSerializer.Serialize(roleIds)}
+        };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleListByIds, queryArguments);
+        return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(url);
     }
 
     public async Task<ApiResultResponseBase> DeleteRoleAsync(DeleteRoleRequest request)

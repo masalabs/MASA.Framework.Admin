@@ -19,13 +19,13 @@ public class QueryHandler
         if (query.Type != -1)
             condition = condition.And(obj => obj.ObjectType == (ObjectType)query.Type);
 
-        var objectItems = _repository.GetPaginatedListAsync(condition, new PaginatedOptions()
+        var objectItems = await _repository.GetPaginatedListAsync(condition, new PaginatedOptions()
         {
             Page = query.PageIndex,
             PageSize = query.PageSize
         });
-        query.Result = new PaginatedItemResponse<ObjectItemResponse>(query, objectItems.Result.Total, objectItems.Result.TotalPages,
-            objectItems.Result.Result.Select(obj => new ObjectItemResponse()
+        query.Result = new PaginatedItemResponse<ObjectItemResponse>(query, objectItems.Total, objectItems.TotalPages,
+            objectItems.Result.Select(obj => new ObjectItemResponse()
             {
                 Id = obj.Id,
                 Code = obj.Code,

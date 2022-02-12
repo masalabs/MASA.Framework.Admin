@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220212054324_init")]
+    [Migration("20220212091224_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,26 +143,32 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("role_id");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("user_roles", "user");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.UserRole", b =>
                 {
-                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", null)
+                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>

@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;
+
 namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class QueryHandler
@@ -61,7 +63,31 @@ public class QueryHandler
                 new KeyValuePair<Guid, string>(
                     item.ChildrenRoleId,
                     childrenRoles.Where(childrenRole => childrenRole.Id == item.ChildrenRoleId)
-                        .Select(childrenRole => childrenRole.Name).FirstOrDefault() ?? string.Empty)).ToList()
+                        .Select(childrenRole => childrenRole.Name).FirstOrDefault() ?? string.Empty)).ToList(),
         };
+    }
+
+    [EventHandler]
+    public async Task GetSelectAsync(RoleQuery.SelectQuery query)
+    {
+        query.Result = (await _repository.GetListAsync((r) => r.State == State.Enable)).Select(role => new RoleItemResponse
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Describe = role.Describe,
+        }).ToList();
+    }
+
+    [EventHandler]
+    public async Task GetRoleListByIdQuery(IdListQuery query)
+    {
+        query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id))).Select(role => new RoleItemResponse
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Describe = role.Describe,
+            Number = role.Number,
+            State = role.State,
+        }).ToList();
     }
 }

@@ -14,6 +14,6 @@ public class UserPage
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
-    public int CurrentCount => UserPageData.Count();
+    public long CurrentCount { get; set; }
 }
 

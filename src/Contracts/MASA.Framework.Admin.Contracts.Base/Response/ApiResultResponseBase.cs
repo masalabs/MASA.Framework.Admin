@@ -2,11 +2,6 @@ namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class ApiResultResponseBase
 {
-    public ApiResultResponseBase()
-    {
-
-    }
-
     public ApiResultResponseBase(string code, string message = "") : this()
     {
         Code = code;

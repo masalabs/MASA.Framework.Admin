@@ -6,6 +6,8 @@ public class MenuService : CustomServiceBase
     {
         App.MapGet(Routing.MenuList, GetItemsAsync);
         App.MapPost(Routing.OperateMenu, CreateAsync);
+        App.MapPost(Routing.OperateMenu, EditAsync);
+        App.MapDelete(Routing.OperateMenu, DeleteAsync);
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(
@@ -24,6 +26,22 @@ public class MenuService : CustomServiceBase
         [FromBody] AddMenuRequest request)
     {
         await eventBus.PublishAsync(new MenuCommand.AddCommand(request));
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> EditAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] EditMenuRequest request)
+    {
+        await eventBus.PublishAsync(new MenuCommand.EditCommand(request));
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> DeleteAsync(
+    [FromServices] IEventBus eventBus,
+    [FromBody] DeleteMenuRequest request)
+    {
+        await eventBus.PublishAsync(new MenuCommand.DeleteCommand(request));
         return Success();
     }
 }

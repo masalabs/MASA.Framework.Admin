@@ -30,6 +30,21 @@ public partial class List
     [Inject]
     public UserCaller UserCaller { get; set; } = null!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        var dataRes = await UserCaller.GetListAsync(_userPage.PageIndex, _userPage.PageSize, _userPage.Account ?? "", _userPage.State);
+        if (dataRes.Success && dataRes.Data != null)
+        {
+            _userPage.UserPageData = dataRes.Data.Items.ToList();
+            _userPage.CurrentCount = dataRes.Data.Count;
+        }
+    }
+
     private string GetInitialShow(string name)
     {
         return string.Join("", name.Split(' ').Select(n => n[0].ToString().ToUpper()));
@@ -60,6 +75,12 @@ public partial class List
         {
             return;
         }
+        if (!_createUserModel.Pwd.Trim().Equals(_createUserModel.ConfirmPwd.Trim()))
+        {
+            //密码确认失败 提示
+            return;
+        }
+
         var res = await UserCaller.CreateAsync(_createUserModel);
         if (!res.Success)
         {
@@ -67,6 +88,7 @@ public partial class List
         }
 
         _visible = false;
+        await LoadData();
     }
 }
 

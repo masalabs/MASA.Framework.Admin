@@ -1,12 +1,12 @@
 ﻿@page "/menu/list"
-@inject NavigationManager Nav
+@inherits RBACCompontentBase
 
 @*<MCard>
     <MCardText Class="pa-6">
     <h6>Filters</h6>
     <MRow Class="mt-3">
     <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Role"
+    <MSelect @bind-Value="MenuPage.Role"
     Color="primary"
     HideDetails="@("auto")"
     Clearable
@@ -18,7 +18,7 @@
     </MSelect>
     </MCol>
     <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Plan"
+    <MSelect @bind-Value="MenuPage.Plan"
     Color="primary"
     HideDetails="@("auto")"
     Clearable
@@ -30,7 +30,7 @@
     </MSelect>
     </MCol>
     <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="_menuPage.Status"
+    <MSelect @bind-Value="MenuPage.Status"
     Color="primary"
     HideDetails="@("auto")"
     Clearable
@@ -49,145 +49,116 @@
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">Show:</span>
-                <MSelect OnSelectedItemUpdate="OnPageSizeChanged"
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
+                <MSelect
+                         @bind-Value="MenuPage.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
                          Class="mx-6"
                          HideDetails="@("auto")"
                          Outlined
-                         Items="@_menuPage.PageSizes"
-                         TItem="int"
-                         TValue="int"
-                         TItemValue="int"
+                         Items="@MenuPage.PageSizes"
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">entries</span>
+                <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField OnChange="OnSearchChanged" Color="primary" TValue="string" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MTextField @bind-Value=MenuPage.Search Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="OpenAddMenuForm">
-                    Add Menu
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="() => OpenMenuForm()">
+                    @T("Add Menu")
                 </MButton>
             </MCol>
         </MRow>
     </MCardText>
 
-    <MDataTable Headers="_menuPage.Headers" Items="_menuPage.MenuDatas" TItem="MenuItemResponse" ItemsPerPage="_menuPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="MenuPage.Headers" Items="MenuPage.Datas" TItem="MenuItemResponse" ItemsPerPage="MenuPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
-            <div @onclick="()=> _menuPage.CurrentMenuData = context.Item">
-                @switch (context.Header.Value)
-                {
-                    case nameof(MenuItemResponse.Name):
-                        <div class="hover-pointer d-flex my-2" @onclick="()=> _openMenuForm = true">
-                            <span>@context.Item.Name</span>
-                        </div>
-                        break;
-                    case (nameof(MenuItemResponse.Icon)):
-                        <MIcon Left Small Color="primary">@context.Item.Icon</MIcon>
-                        break;
-                    case nameof(MenuItemResponse.Sort):
-                        @context.Item.Sort
-                        break;
-                    case (nameof(MenuItemResponse.Describe)):
-                        @context.Item.Describe
-                        break;
-                    case nameof(MenuItemResponse.Disabled):
-                        @(context.Item.Disabled?"Disabled":"Enable")
-                        break;
-                    case "Action":
-                        <MButton @onclick="OpenAddMenuForm">
-                            Edit
-                        </MButton>
-                        <MButton Color="error" OnClick="DeleteMenuAsync">
-                            Delete
-                        </MButton>
-                        break;
-                    default:
-                        @context.Value
-                        break;
-                }
-            </div>
+            @switch (context.Header.Value)
+            {
+                case nameof(MenuItemResponse.Name):
+                    <div class="hover-pointer d-flex my-2" @onclick="()=> OpenMenuForm(context.Item)">
+                        <span>@context.Item.Name</span>
+                    </div>
+                    break;
+                case (nameof(MenuItemResponse.Icon)):
+                    <MIcon Left Small Color="primary">@context.Item.Icon</MIcon>
+                    break;
+                case nameof(MenuItemResponse.Sort):
+                    @context.Item.Sort
+                    break;
+                case (nameof(MenuItemResponse.Describe)):
+                    @context.Item.Describe
+                    break;
+                case nameof(MenuItemResponse.Disabled):
+                    @(context.Item.Disabled?"Disabled":"Enable")
+                    break;
+                case "Action":
+                    <MButton Color="primary" @onclick="() => OpenMenuForm(context.Item)">
+                        @T("Edit")
+                    </MButton>
+                    <MButton Color="error" OnClick="() => OpenDeleteMenuDialog(context.Item)">
+                        @T("Delete") 
+                    </MButton>
+                    break;
+                default:
+                    @context.Value
+                    break;
+            }
         </ItemColContent>
     </MDataTable>
 
     <MCardText>
         <div class="d-flex">
-            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_menuPage.PageIndex-1)*_menuPage.PageSize+1) to @(_menuPage.PageIndex*_menuPage.PageSize) of @_menuPage.CurrentCount entries</div>
-            @if (_menuPage.PageCount > 0)
+            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">@T("Show") @((MenuPage.PageIndex-1)*MenuPage.PageSize+1) to @(MenuPage.PageIndex*MenuPage.PageSize) of @MenuPage.CurrentCount @T("Entries")</div>
+            @if (MenuPage.PageCount > 0)
             {
-                <MPagination @bind-Value="_menuPage.PageIndex" Color="primary" Circle Length=@_menuPage.PageCount></MPagination>
+                <MPagination @bind-Value="MenuPage.PageIndex" Color="primary" Circle Length=@MenuPage.PageCount></MPagination>
             }
         </div>
     </MCardText>
 </MCard>
 
-<AddOrEdit MenuPage=_menuPage @bind-Visible=_openMenuForm></AddOrEdit>
-
-<MDialog @bind-Value="_menuPage.Success" Transition="dialog-bottom-transition" MaxWidth=600>
-    <ChildContent>
-        <MCard>
-            <MToolbar Color="red">
-                Error
-            </MToolbar>
-            <MCardText>
-                <div class="text-h2 pa-12">@_menuPage.Message</div>
-            </MCardText>
-            <MCardActions Class="justify-end">
-                <MButton Text OnClick="() => _menuPage.Success = true">
-                    Close
-                </MButton>
-            </MCardActions>
-        </MCard>
-    </ChildContent>
-</MDialog>
-
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding />
+<AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@MenuPage.Message @bind-Show="MenuPage.Error" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteMenuAsync" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=MenuPage.Lodding />
 
 @code{
     public bool _openMenuForm;
-    public MenuPage _menuPage = default!;
+    public bool _confirmDelete;
 
     [Inject]
-    public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
+    public MenuPage MenuPage { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        _menuPage = new(ConfigurationCaller);
-        await _menuPage.QueryPageDatasAsync();
+        RegisterPage(MenuPage);
+        await MenuPage.QueryPageDatasAsync();
     }
 
-    public async Task OnPageSizeChanged(int pageSize)
+    public void OpenMenuForm(MenuItemResponse? item = null)
     {
-        _menuPage.PageSize = pageSize;
-        await _menuPage.QueryPageDatasAsync();
+        MenuPage.CurrentData = item ?? new();
+        _openMenuForm = true;
     }
 
-    public async Task OnSearchChanged(string search)
+    void OpenDeleteMenuDialog(MenuItemResponse item)
     {
-        _menuPage.Search = search;
-        await _menuPage.QueryPageDatasAsync();
+        MenuPage.CurrentData = item;
+        _confirmDelete = true;
     }
 
-    public void OpenAddMenuForm()
+    async Task DeleteMenuAsync(bool confirm)
     {
-        _menuPage.CurrentMenuData = new();
-        OpenMenuForm();
-    }
-
-    public void OpenMenuForm() => _openMenuForm = true;
-
-    private async Task DeleteMenuAsync()
-    {
-        await _menuPage.DeleteAsync();
+        if (confirm) await MenuPage.DeleteAsync();
     }
 }

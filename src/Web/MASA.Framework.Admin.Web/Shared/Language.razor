@@ -1,5 +1,6 @@
 ﻿@inject GlobalConfig GlobalConfig;
 @inject I18n I18n
+@inject NavigationManager Nav
 
 <MMenu OffsetY Bottom>
     <ActivatorContent>
@@ -32,5 +33,6 @@
     {      
         I18n.SetLang(language);
         GlobalConfig.Language = language;
+        Nav.NavigateTo(Nav.Uri,true);
     }
 }

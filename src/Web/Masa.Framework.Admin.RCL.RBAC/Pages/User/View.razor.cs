@@ -3,7 +3,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 public partial class View
 {
     private StringNumber _tab;
-    private readonly UserDetailResponse _userDetail = new();
+    private UserDetailResponse _userDetail = new();
+    private bool _addRoleDialog = false;
+    private List<RoleSelectItem> _roleSelectItems = new() { new RoleSelectItem { Describetion = "1", Name = "2", Id = Guid.NewGuid() } };
+    private string _addRoleId;
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
         new (){ Text= "登录时间", Sortable= false, Value= nameof(LoginRecord.LoginTime)},
@@ -30,5 +33,22 @@ public partial class View
     [Parameter]
     public string? Id { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrEmpty(Id))
+        {
+            return;
+        }
+        var dataRes = await UserCaller.GetDetailsAsync(Id);
+        if (dataRes.Success && dataRes.Data != null)
+        {
+            _userDetail = dataRes.Data;
+        }
+    }
+
+    private async Task AddUserRole()
+    {
+        _addRoleDialog = false;
+    }
 }
 

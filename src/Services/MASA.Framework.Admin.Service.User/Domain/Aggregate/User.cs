@@ -22,11 +22,16 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public DateTimeOffset LastUpdateTime { get; private set; }
 
+    private List<UserRole> userRoles;
+
+    public IReadOnlyCollection<UserRole> UserRoles => userRoles;
+
     private User()
     {
         State = State.Enable;
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
+        userRoles = new();
     }
 
     public User(Guid? creator, string account, string password) : this()
@@ -36,5 +41,6 @@ public class User : AuditAggregateRoot<Guid, Guid>
         Password = password;
         Creator = creator ?? Id;
         Modifier = Creator;
+        userRoles = new();
     }
 }

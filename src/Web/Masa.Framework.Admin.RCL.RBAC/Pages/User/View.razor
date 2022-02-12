@@ -8,13 +8,13 @@
                 <div style="width:300px;" class="text-center">
                     @if (string.IsNullOrEmpty(_userDetail.Cover))
                     {
-                        <MAvatar Size="120">
+                        <MAvatar Size="80">
                             <span class="@($"text-h3")">U</span>
                         </MAvatar>
                     }
                     else
                     {
-                        <MAvatar Size="120">
+                        <MAvatar Size="80">
                             <MImage Contain Src="@_userDetail.Cover" />
                         </MAvatar>
                     }
@@ -95,6 +95,7 @@
                         添加
                     </MButton>
                 </MCardTitle>
+                <MDivider />
                 <MCardText>
                     <MDataTable Headers="_userGroupHeaders" TItem="UserGroup" HideDefaultFooter Class="user ml-2 table-border-none">
                         <HeaderColContent Context="header">
@@ -120,7 +121,7 @@
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
-                    <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail)"/>
+                    <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail)" />
                 </MCardText>
             </MCard>
         </MTabItem>
@@ -129,7 +130,7 @@
                 <MCardTitle>
                     用户角色
                     <MSpacer />
-                    <MButton Text>
+                    <MButton Text OnClick="()=>{_addRoleDialog = true;}">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
                         添加
                     </MButton>
@@ -174,3 +175,42 @@
         </MTabItem>
     </MTabsItems>
 </MCard>
+
+<MDialog @bind-Value="_addRoleDialog" Persistent Width="500">
+    <ChildContent>
+        <MCard class="pa-6">
+            <MCardTitle class="pa-0 mb-2">
+                用户角色
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="() => _addRoleDialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+            </MCardTitle>
+            <MDivider />
+            <MCardText class="pt-5">
+                <MSelect Label="选择角色" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId" Dense
+                         ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
+                    <ItemContent>
+                        <MListItemContent v-else>
+                            <MListItemTitle>
+                                @context.Item.Name
+                            </MListItemTitle>
+                            <MListItemSubtitle>
+                                @context.Item.Describetion
+                            </MListItemSubtitle>
+                        </MListItemContent>
+                    </ItemContent>
+                </MSelect>
+            </MCardText>
+            <MDivider />
+            <MCardActions class="mt-2 d-flex justify-end">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
+                    取消
+                </MButton>
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserRole">
+                    保存
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>

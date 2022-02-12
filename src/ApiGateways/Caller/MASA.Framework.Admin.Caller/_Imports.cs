@@ -1,5 +1,6 @@
 global using MASA.BuildingBlocks.Configuration;
 global using MASA.Contrib.Configuration;
+global using MASA.Framework.Admin.Caller.Infrastructure;
 global using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 global using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 global using MASA.Framework.Admin.Contracts.Authentication.Response;
@@ -8,8 +9,11 @@ global using MASA.Framework.Admin.Contracts.Configuration.Response;
 global using MASA.Framework.Admin.Contracts.User.Request;
 global using MASA.Framework.Admin.Contracts.User.Response;
 global using MASA.Utils.Caller.HttpClient;
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
 global using AuthenticationRouting = MASA.Framework.Admin.Contracts.Authentication.Routing;
 global using ConfigurationRouting = MASA.Framework.Admin.Contracts.Configuration.Routing;
 global using UserRouting = MASA.Framework.Admin.Contracts.User.Routing;
+global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;

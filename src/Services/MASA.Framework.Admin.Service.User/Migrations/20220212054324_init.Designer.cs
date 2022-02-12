@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220211133314_init")]
+    [Migration("20220212054324_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,7 +58,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.ToTable("integration_event_log", "user");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.Users", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,6 +137,37 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users", "user");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.UserRole", b =>
+                {
+                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

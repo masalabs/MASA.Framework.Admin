@@ -6,6 +6,7 @@ public class UserServices : CustomServiceBase
     {
         App.MapGet(Routing.UserList, GetItemsAsync);
         App.MapGet(Routing.UserDetail, GetAsync);
+        App.MapGet(Routing.UserRole, GetUserRolesAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
         App.MapDelete(Routing.OperateUser, DeleteAsync);
@@ -21,6 +22,15 @@ public class UserServices : CustomServiceBase
         var listQuery = new UserQuery.ListQuery(pageIndex, pageSize, account);
         await eventBus.PublishAsync(listQuery);
         return Success(listQuery.Result);
+    }
+
+    public async Task<ApiResultResponse<List<UserRoleResponse>>> GetUserRolesAsync(
+        [FromServices] IEventBus eventBus,
+        [FromQuery] Guid userId)
+    {
+        var rolesQuery = new UserQuery.RoleListQuery(userId);
+        await eventBus.PublishAsync(rolesQuery);
+        return Success(rolesQuery.Result);
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetAsync(

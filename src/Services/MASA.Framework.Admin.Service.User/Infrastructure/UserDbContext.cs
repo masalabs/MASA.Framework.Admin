@@ -13,5 +13,6 @@ public class UserDbContext : IntegrationEventLogContext
     {
         modelBuilder.ApplyConfiguration(new IntegrationEventLogEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
     }
 }

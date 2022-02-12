@@ -6,6 +6,7 @@ public partial class View
     private UserDetailResponse _userDetail = new();
     private bool _addRoleDialog = false;
     private List<RoleSelectItem> _roleSelectItems = new();
+    private List<RoleItemResponse> _userRoles = new();
     private string? _addRoleId;
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
@@ -47,6 +48,8 @@ public partial class View
         {
             _userDetail = dataRes.Data;
         }
+
+        await LoadUserRoles();
     }
 
     private async Task OpenRoleDialog()
@@ -79,6 +82,22 @@ public partial class View
             RoleId = Guid.Parse(_addRoleId),
             UserId = Guid.Parse(Id)
         });
+        await LoadUserRoles();
+    }
+
+    private async Task LoadUserRoles()
+    {
+        var userRolesRes = await UserCaller.GetUserRolesAsync(Guid.Parse(Id));
+        if (!userRolesRes.Success || userRolesRes.Data == null)
+        {
+            return;
+        }
+        var rolesRes = await AuthenticationCaller.GetRolesByIdsAsync(userRolesRes.Data.Select(a => a.RoleId).ToList());
+        if (!rolesRes.Success || rolesRes.Data == null)
+        {
+            return;
+        }
+        _userRoles = rolesRes.Data;
     }
 }
 

@@ -29,6 +29,16 @@ public class UserCaller : HttpClientCallerBase
         return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
     }
 
+    public async Task<ApiResultResponse<List<UserRoleResponse>>> GetUserRolesAsync(Guid userId)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+            { "userId", userId.ToString() }
+        };
+        var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserRole, queryArguments);
+        return await CallerProvider.GetAsync<ApiResultResponse<List<UserRoleResponse>>>(url);
+    }
+
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
         var url = UserRouting.UserDetail.Replace($"{{{nameof(id)}}}", id);

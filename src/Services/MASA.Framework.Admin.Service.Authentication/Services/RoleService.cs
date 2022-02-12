@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class RoleService : CustomServiceBase
@@ -7,6 +9,7 @@ public class RoleService : CustomServiceBase
         App.MapGet(Routing.RoleList, GetItemsAsync);
         App.MapGet(Routing.RoleDetail, GetAsync);
         App.MapGet(Routing.RoleSelect, GetSelectListAsync);
+        App.MapGet(Routing.RoleListByIds, GetItemsByIdAsync);
         App.MapPost(Routing.OperateRole, CreateAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
     }
@@ -26,6 +29,14 @@ public class RoleService : CustomServiceBase
     public async Task<ApiResultResponse<List<RoleItemResponse>>> GetSelectListAsync([FromServices] IEventBus eventBus)
     {
         var query = new RoleQuery.SelectQuery();
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> GetItemsByIdAsync(
+        [FromServices] IEventBus eventBus, [FromQuery] string roleIds)
+    {
+        var query = new RoleQuery.IdListQuery(JsonSerializer.Deserialize<List<Guid>>(roleIds) ?? new());
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }

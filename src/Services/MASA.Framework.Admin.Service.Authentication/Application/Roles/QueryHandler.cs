@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;
+
 namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class QueryHandler
@@ -73,6 +75,19 @@ public class QueryHandler
             Id = role.Id,
             Name = role.Name,
             Describe = role.Describe,
+        }).ToList();
+    }
+
+    [EventHandler]
+    public async Task GetRoleListByIdQuery(IdListQuery query)
+    {
+        query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id))).Select(role => new RoleItemResponse
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Describe = role.Describe,
+            Number = role.Number,
+            State = role.State,
         }).ToList();
     }
 }

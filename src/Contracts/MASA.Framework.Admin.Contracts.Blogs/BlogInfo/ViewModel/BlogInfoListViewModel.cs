@@ -66,5 +66,10 @@
         /// 关联id
         /// </summary>
         public List<BlogLabelRelationsViewModel> Relations { get; set; }
+
+        /// <summary>
+        /// 是否已点赞
+        /// </summary>
+        public bool IsApproved { get; set; }
     }
 }

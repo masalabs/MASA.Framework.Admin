@@ -6,10 +6,5 @@
         /// 主键
         /// </summary>
         public Guid BlogId { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid UserId { get; set; }
     }
 }

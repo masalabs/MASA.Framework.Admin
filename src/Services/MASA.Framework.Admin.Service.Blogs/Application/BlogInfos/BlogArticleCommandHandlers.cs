@@ -71,7 +71,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 command.Request.Title + " " + command.Request.Content);
             if (!isSuccess)
             {
-                await WithdrawAsync(new (new WithdrawBlogArticleModel
+                await WithdrawAsync(new(new WithdrawBlogArticleModel
                 {
                     Id = command.Request.Id,
                     ReasonType = ReasonTypes.Other,
@@ -143,15 +143,13 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         [EventHandler]
         public async Task WithdrawAsync(WithdrawBlogArticleCommand command)
         {
-            var article = await _articleRepository.GetAsync(command.Model.Id);
-            article!.State = StateTypes.OffTheShelf;
-            article!.WithdrawReason = $"{command.Model.ReasonType.GetDescription().Description}";
+            var reason = $"{command.Model.ReasonType.GetDescription().Description}";
             if (command.Model.ReasonDetail != null)
             {
-                article!.WithdrawReason += ":" + command.Model.ReasonDetail;
+                reason += ":" + command.Model.ReasonDetail;
             }
 
-            await _articleRepository.UpdateAsync(article);
+            await _articleRepository.WithdrawAsync(command.Model.Id, reason);
         }
 
         /// <summary>
@@ -234,9 +232,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 //    return token;
 
                 var authHost = _appSettiings.BaiduAIConfig.GetAccessTokenUrl +
-                    "?grant_type=client_credentials"+
-                    $"&client_id={_appSettiings.BaiduAIConfig.APIKey}"+
-                    $"&client_secret={_appSettiings.BaiduAIConfig.SecretKey}";
+                               "?grant_type=client_credentials" +
+                               $"&client_id={_appSettiings.BaiduAIConfig.APIKey}" +
+                               $"&client_secret={_appSettiings.BaiduAIConfig.SecretKey}";
                 var res = await authHost.PostAsync().ReceiveJson<BaiduAccessTokenViewModel>();
                 if (res is not null && !string.IsNullOrWhiteSpace(res.access_token))
                 {

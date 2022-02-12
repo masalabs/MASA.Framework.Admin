@@ -8,6 +8,8 @@ public partial class Report : ProCompontentBase
     [Inject]
     public BlogCaller BlogCaller { get; set; }
 
+    #region table
+
     private GetBlogReportOptions _options = new();
     private int _totalCount = 0;
     private bool _loading = true;
@@ -16,16 +18,23 @@ public partial class Report : ProCompontentBase
     private readonly List<DataTableHeader<BlogReportListViewModel>> _headers = new()
     {
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "举报标题", Value = nameof(BlogReportListViewModel.Title), Sortable = false },
+            { Text = "举报标题", Value = nameof(BlogReportListViewModel.Title), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "举报理由", Value = nameof(BlogReportListViewModel.Reason), Sortable = false },
+            { Text = "举报理由", Value = nameof(BlogReportListViewModel.Reason), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "举报详细信息", Value = nameof(BlogReportListViewModel.Detail), Sortable = false },
+            { Text = "举报详细信息", Value = nameof(BlogReportListViewModel.Detail), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "举报时间", Value = nameof(BlogReportListViewModel.CreationTime), Sortable = false },
+            { Text = "举报时间", Value = nameof(BlogReportListViewModel.CreationTime), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "操作", Value = "actions", Sortable = false }
+            { Text = "处理状态", Value = nameof(BlogReportListViewModel.Handled), Sortable = false },
+        new DataTableHeader<BlogReportListViewModel>()
+            { Text = "操作", Value = "actions", Sortable = false },
     };
+
+    #endregion
+
+    private bool _handleModalVisible;
+    private BlogReportListViewModel CurrentModel { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -38,6 +47,7 @@ public partial class Report : ProCompontentBase
             StateHasChanged();
         }
     }
+
     private async Task HandleOnOptionsUpdate(DataOptions options)
     {
         await FetchList(options.Page, options.ItemsPerPage);
@@ -55,5 +65,25 @@ public partial class Report : ProCompontentBase
         _totalCount = result.TotalCount;
 
         _loading = false;
+    }
+
+    private void OpenHandleModal(BlogReportListViewModel model)
+    {
+        CurrentModel = model;
+        _handleModalVisible = true;
+    }
+
+    private async Task HandleIgnore(Guid reportId)
+    {
+        await BlogCaller.ReportService.IgnoreAsync(new IgnoreBlogReportModel() { Id = reportId });
+
+        _handleModalVisible = false;
+    }
+
+    private async Task HandleAgree(Guid articleId)
+    {
+        await BlogCaller.ReportService.AgreeAsync(new AgreeBlogReportModel() { ArticleId = articleId });
+
+        _handleModalVisible = false;
     }
 }

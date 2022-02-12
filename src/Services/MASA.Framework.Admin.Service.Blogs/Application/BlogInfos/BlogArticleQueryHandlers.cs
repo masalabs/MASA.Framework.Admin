@@ -70,7 +70,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 
             if (!string.IsNullOrWhiteSpace(query.Options.KeyWords))
             {
-                matchQuery.Add(mu => mu.Match(m => m.Field(fd => fd.Title.Contains(query.Options.KeyWords))));
+                matchQuery.Add(mu => mu.Match(m => m.Field(fd => fd.Title == query.Options.KeyWords)));
                 matchQuery.Add(mu => mu.Match(m => m.Field(fd => fd.Content.Contains(query.Options.KeyWords))));
             }
 

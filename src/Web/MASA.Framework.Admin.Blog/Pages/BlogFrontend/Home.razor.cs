@@ -1,11 +1,14 @@
 ﻿using MASA.Framework.Admin.Blog.Data.Blog;
+using MASA.Framework.Admin.Blog.Shared;
 using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
-    public partial class Home : BlogFrontComponentBase
+    public partial class Home : BlogFrontComponentBase, IDisposable
     {
+        [CascadingParameter] public BlogFrontLayout Layout { get; set; }
+
         private int _page = 1;
         private int _pageCount = 1;
         private bool _showWrite = false;
@@ -26,34 +29,48 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         protected override async Task OnInitializedAsync()
         {
+            if (Layout != null)
+            {
+                Layout.SearchEvent += AppOnSearch;
+            }
+
             await FetchBlogs();
             //分类
-            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption() { PageIndex = 1, PageSize = int.MaxValue });
+            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption()
+                { PageIndex = 1, PageSize = int.MaxValue });
             if (typesResult.Data is not null)
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
             }
-            
-            _typeList.Insert(0,(Guid.Empty, "全部"));
+
+            _typeList.Insert(0, (Guid.Empty, "全部"));
             await this.GetAdAsync();
         }
 
+        private async Task AppOnSearch()
+        {
+            _searchOptions.KeyWords = Layout.SearchName;
 
-        [Inject] 
-        protected BlogCaller BlogCaller { get; set; }
+            await FetchBlogs();
 
-        [Inject]
-        protected NavigationManager? Navigation { get; set; }
+            StateHasChanged();
+        }
+
+
+        [Inject] protected BlogCaller BlogCaller { get; set; }
+
+        [Inject] protected NavigationManager? Navigation { get; set; }
 
         public void HrefDetailPage(Guid id)
         {
             Navigation?.NavigateTo($"/blogs/info/{id}");
         }
+
         private async Task SelectedChipChanged(StringNumber id)
         {
             var guid = Guid.Parse(id.ToString());
 
-            _page= 1;
+            _page = 1;
             _searchOptions.TypeId = guid;
 
             await FetchBlogs();
@@ -62,13 +79,14 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private async Task FetchBlogs()
         {
             _searchOptions.PageIndex = _page;
-            
+
             Blogs = await BlogCaller.ArticleService.BlogArticleHomeAsync(_searchOptions);
             if (Blogs.TotalCount > 0)
             {
                 _pageCount = Convert.ToInt32(Math.Ceiling((Decimal)Blogs.TotalCount / Convert.ToDecimal(Blogs.Size)));
             }
         }
+
         private void ToWrite()
         {
             _showWrite = true;
@@ -113,6 +131,15 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                     BlogAdvertisingPicturesTypes.HomeLowerRight
                 }
             });
+        }
+
+
+        public void Dispose()
+        {
+            if (Layout != null)
+            {
+                Layout.SearchEvent -= AppOnSearch;
+            }
         }
     }
 }

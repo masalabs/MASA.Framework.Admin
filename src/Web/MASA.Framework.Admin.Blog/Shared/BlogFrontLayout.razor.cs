@@ -37,8 +37,11 @@ public partial class BlogFrontLayout
         GlobalConfig.OnPageModeChanged -= base.StateHasChanged;
     }
 
-    private async Task Search()
+    private async Task Search(KeyboardEventArgs args)
     {
-        SearchEvent.Invoke();
+        if (args.Code == "Enter")
+        {
+            SearchEvent.Invoke();
+        }
     }
 }

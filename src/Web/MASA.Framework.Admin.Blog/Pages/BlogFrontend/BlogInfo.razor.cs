@@ -8,8 +8,11 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private int _page = 1;
         private int _pageCount = 1;
         private bool _showWrite = false;
+        private string _reportComment = string.Empty;
+        private bool _reportCommentLoading = false;
         private readonly Guid CurrentUserId = new Guid("DB4A41B4-0EE3-4957-A193-4DD4E633A52A");
         private BlogInfoListViewModel _blogInfo = new();
+        private PagingResult<BlogCommentInfoListViewModel> _blogCommentInfoList = new();
 
         [Parameter]
         public Guid BlogInfoId { get; set; }
@@ -29,8 +32,21 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 await BlogCaller.ArticleService.AddVisitsAsync(new AddBlogVisitModel() { BlogId = BlogInfoId });
             }
+            await GetCommentList();
         }
-
+        /// <summary>
+        /// 获取评论列表
+        /// </summary>
+        /// <returns></returns>
+        private async Task GetCommentList()
+        {
+            _blogCommentInfoList = await BlogCaller.CommentsService.GetListAsync(new GetBlogCommentInfoOptions()
+            {
+                BlogInfoId = BlogInfoId,
+                PageIndex = _page,
+                PageSize = 10
+            });
+        }
         private async Task GetAsync()
         {
             if(BlogInfoId != Guid.Empty)
@@ -41,7 +57,24 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             _showWrite = true;
         }
-
+        /// <summary>
+        /// 发表评论
+        /// </summary>
+        private async Task ToReportComment()
+        {
+            _reportCommentLoading = true;
+            await BlogCaller.CommentsService.CreateAsync(new AddCommentModel()
+            {
+                BlogInfoId = BlogInfoId,
+                TypeId = _blogInfo.typeId,
+                CommentContent = _reportComment,
+                CreatorUserId = CurrentUserId
+            });
+            //Message("评论发表成功", AlertTypes.Success);
+            _reportCommentLoading = false;
+            _reportComment = String.Empty;
+            await GetCommentList();
+        }
         private void ToApprove()
         {
 

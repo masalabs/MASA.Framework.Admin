@@ -74,7 +74,8 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            <PAction Color="primary" Label="下架" Type=ActionTypes.Label Text
+            <PAction Visible="@(context.Item.state == StateTypes.Reviewed)"
+                 Color="primary" Label="下架" Type=ActionTypes.Label Text
                  OnClick="() => ShowWithdrawModal(context.Item)"></PAction>
         }
         else
@@ -84,6 +85,8 @@
     </ItemColContent>
 </DefaultDataTable>
 
-<WithdrawModal Visible="_withdrawModalVisible"
-               OnCancel="() => _withdrawModalVisible =false"
+<WithdrawModal Title="@($"下架文章（{CurrentModel.title}）")"
+               Visible="_withdrawModalVisible"
+               Width="800"
+               OnCancel="() => _withdrawModalVisible = false"
                OnOk="OnWithdraw" />

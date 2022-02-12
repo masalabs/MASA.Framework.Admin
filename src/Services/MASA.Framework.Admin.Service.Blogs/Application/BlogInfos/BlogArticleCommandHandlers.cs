@@ -116,6 +116,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             var article = await _articleRepository.GetAsync(command.Model.Id);
             article!.State = StateTypes.OffTheShelf;
+            article!.WithdrawReason = $"{command.Model.ReasonType.GetDescription().Description}";
+            if (command.Model.ReasonDetail != null)
+            {
+                article!.WithdrawReason += ":" + command.Model.ReasonDetail;
+            }
 
             await _articleRepository.UpdateAsync(article);
         }

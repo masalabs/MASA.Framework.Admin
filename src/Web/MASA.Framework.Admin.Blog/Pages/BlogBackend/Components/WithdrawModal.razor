@@ -1,9 +1,9 @@
-﻿<FormModal Visible=Visible
-           Title=Title
-           Width=Width
-           Model=Data
-           OnCancel=OnCancel
-           OnOk=HandleOnOk>
+﻿<FormModal Visible=@Visible
+           Title=@Title
+           Width=@Width
+           Model=@Data
+           OnCancel=@HandleOnCancel
+           OnOk=@HandleOnOk>
     <MRow>
         <MCol Cols="12">
             <MRadioGroup @bind-Value="Data.ReasonType" Row TValue=ReasonTypes>

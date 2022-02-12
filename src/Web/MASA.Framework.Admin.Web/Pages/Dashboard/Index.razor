@@ -46,10 +46,20 @@
     <MCol Cols="6">
         <MCard>
             <MCardText>
-                   <div class="d-flex align-center justify-center">
-    <MECharts Option="_option">
-    </MECharts>
-</div> 
+                <div style="position: absolute;margin-left: 70px;display: inline-block;z-index:1000;">
+                    <MButtonGroup Value="_current" ValueChanged="HandleOnChangeAsync" Color="primary" Mandatory>
+                        <MButton Value="@("PV")" Small>
+                            浏览量(PV)
+                        </MButton>
+                        <MButton Value="@("UV")" Small>
+                            访客数(UV)
+                        </MButton>
+                    </MButtonGroup>
+                </div>
+                <div class="d-flex align-center justify-center">
+                    <MECharts Option="_option">
+                    </MECharts>
+                </div>
             </MCardText>
         </MCard>
     </MCol>

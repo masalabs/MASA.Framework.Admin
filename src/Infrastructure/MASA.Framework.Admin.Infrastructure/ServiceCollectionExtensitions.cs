@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddRabbitMQEventBus(this IServiceCollection services, Action<RabbitMQEventBusOptions> configureOptions)
         {
-            services.TryAddScoped<IEventBus, RabbitMQEventBus>();
+            services.TryAddSingleton<IEventBus, RabbitMQEventBus>();
             services.Configure(configureOptions);
 
             return services;

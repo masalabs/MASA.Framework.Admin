@@ -15,11 +15,12 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         private int _count;
         private IEnumerable<VisitPageDayStatistics> _visitPageDayStatistics;
         private IEnumerable<VisitPageHourStatistics> _visitPageHourStatistics;
+        private StringNumber _current = "PV";
         private dynamic _option = new
         {
             Title = new
             {
-                Text = "浏览量(PV)"
+                Text = ""
             },
             Tooltip = new
             {
@@ -126,9 +127,26 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
 
                 for (int i = 0; i < 24; i++)
                 {
-                    _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.Time.Hour == i)?.PV ?? 0;
+                    if (_current == "PV")
+                    {
+                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.Time.Hour == i)?.PV ?? 0;
+                    }
+                    else if (_current == "UV")
+                    {
+                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.Time.Hour == i)?.UV ?? 0;
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             }
+        }
+
+        private async Task HandleOnChangeAsync(StringNumber value)
+        {
+            _current = value;
+            await UpdateVisitPageHourStatisticsAsync();
         }
 
         private async ValueTask<ItemsProviderResult<OperationLogDto>> LoadOperationLogs(ItemsProviderRequest request)

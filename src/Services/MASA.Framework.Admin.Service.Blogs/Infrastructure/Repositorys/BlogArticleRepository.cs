@@ -85,12 +85,20 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// <returns></returns>
         public async Task<BlogInfo> CreateAsync(BlogInfo model)
         {
-            var result = await _blogDbContext.BlogInfoes.AddAsync(model);
+            try
+            {
+                var result = await _blogDbContext.BlogInfoes.AddAsync(model);
 
-            await _blogDbContext.SaveChangesAsync();
-            _blogDbContext.Database.CurrentTransaction?.Commit();
+                await _blogDbContext.SaveChangesAsync();
+                _blogDbContext.Database.CurrentTransaction?.Commit();
 
-            return result.Entity;
+                return result.Entity;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         /// <summary>

@@ -60,7 +60,7 @@
 
                 if (blogInfoes.Any())
                 {
-                    throw new Exception($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new UserFriendlyException($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
                 }
             }
 

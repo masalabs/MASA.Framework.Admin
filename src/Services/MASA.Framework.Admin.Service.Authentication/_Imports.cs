@@ -40,3 +40,7 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.OpenApi.Models;
 global using MASA.Contrib.Configuration;
 global using Microsoft.Extensions.Options;
+global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
+global using System.Linq.Expressions;
+global using MASA.BuildingBlocks.Data.UoW;
+

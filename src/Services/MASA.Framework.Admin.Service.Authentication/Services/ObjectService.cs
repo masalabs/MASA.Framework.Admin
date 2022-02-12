@@ -27,7 +27,7 @@ public class ObjectService : CustomServiceBase
         [FromQuery] int type = -1,
         [FromQuery] string name = "")
     {
-        var response = new PaginatedItemResponse<ObjectItemResponse>(pageIndex, pageSize, 0, new List<ObjectItemResponse>());
+        var response = new PaginatedItemResponse<ObjectItemResponse>(pageIndex, pageSize, 0, 0, new List<ObjectItemResponse>());
         return Success(response);
     }
 
@@ -35,7 +35,6 @@ public class ObjectService : CustomServiceBase
         [FromServices] IEventBus eventBus,
         [FromBody] AddObjectRequest objectRequest)
     {
-
         return Success();
     }
 

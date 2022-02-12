@@ -57,5 +57,6 @@
         /// <param name="isAdd">false:减少</param>
         /// <returns></returns>
         Task AddCommentCount(Guid id, bool isAdd);
+
     }
 }

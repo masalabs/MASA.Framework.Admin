@@ -71,6 +71,21 @@
                   ServerItemsLength="_totalCount"
                   TItem="BlogInfoListViewModel">
     <ItemColContent>
-        <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        @if (context.Header.Value == "actions")
+        {
+            <PAction Color="primary" Label="查看" OnClick="() => HrefDetailPage(context.Item.id)" Text Icon="mdi-eye"> </PAction>
+            @if (context.Item.state == StateTypes.ToBeReviewed)
+            {
+                <PAction Color="primary" Label="审核" OnClick="()=>AuditArticleAsync(context.Item)" Text Icon="mdi-pencil"></PAction>
+            }
+            else if (context.Item.state == StateTypes.Reviewed)
+            {
+                <PAction Color="primary" Label="下架" OnClick="()=>TakeDownArticleAsync(context.Item)" Text Icon="mdi-pencil"></PAction>
+            }
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
     </ItemColContent>
 </DefaultDataTable>

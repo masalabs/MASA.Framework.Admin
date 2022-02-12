@@ -7,6 +7,7 @@ public class UserServices : CustomServiceBase
         App.MapGet(Routing.UserList, GetItemsAsync);
         App.MapGet(Routing.UserDetail, GetAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
+        App.MapPost(Routing.UserRole, CreateUserRoleAsync);
         App.MapDelete(Routing.OperateUser, DeleteAsync);
     }
 
@@ -33,9 +34,21 @@ public class UserServices : CustomServiceBase
     public async Task<ApiResultResponseBase> CreateAsync(
         [FromServices] IEventBus eventBus,
         [FromHeader(Name = "creator-id")] Guid creator,
-        [FromBody] UserCreateRequest userCreateRequest)
+        [FromBody] CreateUserRequest userCreateRequest)
     {
         await eventBus.PublishAsync(new UserCommand.CreateCommand(userCreateRequest)
+        {
+            Creator = creator
+        });
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> CreateUserRoleAsync(
+        [FromServices] IEventBus eventBus,
+        [FromHeader(Name = "creator-id")] Guid creator,
+        [FromBody] CreateUserRoleRequest userRoleCreateRequest)
+    {
+        await eventBus.PublishAsync(new UserCommand.CreateRoleCommand(userRoleCreateRequest)
         {
             Creator = creator
         });

@@ -35,9 +35,14 @@ public class UserCaller : HttpClientCallerBase
         return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(url);
     }
 
-    public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
+    public async Task<ApiResultResponseBase> CreateAsync(CreateUserRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+        return await CallerProvider.PostAsync<CreateUserRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+    }
+
+    public async Task<ApiResultResponseBase> CreateRoleAsync(CreateUserRoleRequest createUserRoleRequest)
+    {
+        return await CallerProvider.PostAsync<CreateUserRoleRequest, ApiResultResponseBase>(UserRouting.UserRole, createUserRoleRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)

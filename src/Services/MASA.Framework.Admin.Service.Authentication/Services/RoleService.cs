@@ -6,6 +6,7 @@ public class RoleService : CustomServiceBase
     {
         App.MapGet(Routing.RoleList, GetItemsAsync);
         App.MapGet(Routing.RoleDetail, GetAsync);
+        App.MapGet(Routing.RoleSelect, GetSelectListAsync);
         App.MapPost(Routing.OperateRole, CreateAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
     }
@@ -18,6 +19,13 @@ public class RoleService : CustomServiceBase
         [FromQuery] int state = -1)
     {
         var query = new RoleQuery.ListQuery(pageIndex, pageSize, name, state);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> GetSelectListAsync([FromServices] IEventBus eventBus)
+    {
+        var query = new RoleQuery.SelectQuery();
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }

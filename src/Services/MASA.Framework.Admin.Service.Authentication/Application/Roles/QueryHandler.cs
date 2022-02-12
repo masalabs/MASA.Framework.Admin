@@ -64,4 +64,15 @@ public class QueryHandler
                         .Select(childrenRole => childrenRole.Name).FirstOrDefault() ?? string.Empty)).ToList()
         };
     }
+
+    [EventHandler]
+    public async Task GetSelectAsync(RoleQuery.SelectQuery query)
+    {
+        query.Result = (await _repository.GetListAsync((r) => r.State == State.Enable)).Select(role => new RoleItemResponse
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Describe = role.Describe,
+        }).ToList();
+    }
 }

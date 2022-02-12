@@ -70,6 +70,11 @@ public class AuthenticationCaller : HttpClientCallerBase
         return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
 
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> SelectRoleAsync()
+    {
+        return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(AuthenticationRouting.RoleSelect);
+    }
+
     #endregion
 
     #region Authorize

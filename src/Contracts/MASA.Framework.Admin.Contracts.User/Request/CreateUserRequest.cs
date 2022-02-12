@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MASA.Framework.Admin.Contracts.User.Request;
 
-public class UserCreateRequest
+public class CreateUserRequest
 {
     public string Name { get; set; } = "";
 

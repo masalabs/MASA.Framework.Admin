@@ -50,7 +50,9 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private async Task GetAsync()
         {
             if(BlogInfoId != Guid.Empty)
-                _blogInfo = await BlogCaller.ArticleService.GetAsync(BlogInfoId);
+            {
+                _blogInfo = await BlogCaller.ArticleService.GetAsync(BlogInfoId, CurrentUserId);
+            }   
         }
 
         private void ToReport()
@@ -75,9 +77,15 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             _reportComment = String.Empty;
             await GetCommentList();
         }
-        private void ToApprove()
+        private async Task ToApprove()
         {
-
+            await BlogCaller.ArticleService.AddBlogApprovedRecordAsync(new BlogApprovedRecordModel()
+            {
+                BlogId = BlogInfoId,
+                IsApproved = !_blogInfo.IsApproved,
+                UserId = CurrentUserId
+            });
+            await GetAsync();
         }
         public async Task SubmitBlog()
         {

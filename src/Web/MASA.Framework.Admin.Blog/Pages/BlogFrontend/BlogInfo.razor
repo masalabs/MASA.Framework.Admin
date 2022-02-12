@@ -25,7 +25,10 @@
         <MCardActions>
             <p>
                 <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.commentCount</span>
-                <MButton Icon OnClick="ToApprove"><MIcon>mdi-thumb-up</MIcon></MButton> <span>@_blogInfo.approvedCount</span>
+                <MButton Icon OnClick="async()=>await ToApprove()">
+                    <MIcon>mdi-thumb-up</MIcon>
+                </MButton>
+                <span>@_blogInfo.approvedCount</span>
                 <MIcon>mdi-eye</MIcon> <span>@_blogInfo.visits</span>
             </p>
         </MCardActions>
@@ -60,7 +63,7 @@
     </MCardText>
     <MCardActions>
         <MSpacer></MSpacer>
-        <MButton Color="primary" Loading="_reportCommentLoading" OnClick="ToReportComment">发表评论</MButton>
+        <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment()">发表评论</MButton>
     </MCardActions>
 </MCard>
 @*<FormModal Visible="_showWrite"

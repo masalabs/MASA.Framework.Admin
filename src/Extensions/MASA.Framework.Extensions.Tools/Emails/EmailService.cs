@@ -5,32 +5,35 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using MASA.Framework.Extensions.Tools.Emails.Model;
+using MASA.Utils.Configuration.Json;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using NPOI.SS.UserModel;
 
 namespace MASA.Framework.Extensions.Tools
 {
-    public class EmailSerivce
+    public class EmailService
     {
+        private static EmailHostSetting HostSetting { get; set; }
 
-
+        static EmailService()
+        {
+            HostSetting = AppSettings.GetModel<EmailHostSetting>("EmailHostConfig");
+        }
 
         /// <summary>
         /// 发送邮件
         /// </summary>
-        public async Task<bool> PostEmails(EmailParameter mails)
+        public static bool Send(EmailParameter mails)
         {
+
+            if (HostSetting == null)
+            {
+                throw new ArgumentNullException("emailHostConfig is null");
+            }
+
             //截取发件人邮箱地址从而判断Smtp的值
             string[] sArray = mails.FromPerson.Split(new char[2] { '@', '.' });
-            if (sArray[1] == "qq")
-            {
-                mails.Host = "smtp.qq.com";//如果是QQ邮箱则：smtp.qq.com,依次类推  163:smtp.163.com
-            }
-            else if (sArray[1] == "163")
-            {
-                mails.Host = "smtp.163.com";//如果是QQ邮箱则：smtp.qq.com,依次类推  163:smtp.163.com
-            }
 
             //将发件人邮箱带入MailAddress中初始化
             MailAddress mailAddress = new MailAddress(mails.FromPerson);
@@ -98,9 +101,9 @@ namespace MASA.Framework.Extensions.Tools
             //实例化一个Smtp客户端
             SmtpClient smtp = new SmtpClient();
             //将发件人的邮件地址和客户端授权码带入以验证发件人身份
-            smtp.Credentials = new System.Net.NetworkCredential(mails.FromPerson, mails.Code);
+            smtp.Credentials = new System.Net.NetworkCredential(mails.FromPerson, HostSetting.Code);
             //指定SMTP邮件服务器
-            smtp.Host = mails.Host;
+            smtp.Host = HostSetting.Host;
 
             //邮件发送到SMTP服务器
             smtp.Send(mailMessage);

@@ -1,3 +1,4 @@
+using MASA.Framework.Admin.Blog.Filters;
 using MASA.Framework.Admin.Caller;
 using MASA.Framework.Development.Dapr;
 using MASA.Utils.Caller.Core;
@@ -16,6 +17,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMasaBlazor(builder =>
 {
+    builder.UseExceptionFilter<GlobalExceptionFilter>();
     builder.UseTheme(option =>
         {
             option.Primary = "#4318FF";

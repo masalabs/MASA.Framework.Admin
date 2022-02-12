@@ -85,8 +85,9 @@ public partial class Category : ProCompontentBase
 
                    Message("删除成功", AlertTypes.Success);
 
-                   StateHasChanged();
                }, AlertTypes.Warning);
+
+        StateHasChanged();
     }
 
     private async Task Save()

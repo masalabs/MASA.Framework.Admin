@@ -8,7 +8,7 @@ public class ObjectItemResponse
 
     public string Name { get; set; } = default!;
 
-    public State State { get; set; }
+    public State State { get; set; } = State.Enable;
 
-    public ObjectType ObjectType { get; set; }
+    public ObjectType ObjectType { get; set; } = ObjectType.Menu;
 }

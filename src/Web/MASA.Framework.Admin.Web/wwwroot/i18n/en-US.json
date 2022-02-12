@@ -29,5 +29,8 @@
   "Others": "Others",
   "Account Settings": "Account Settings",
   "Favorite": "Favorite",
-  "Menu.Name": "Menu"
+  "Menu.Name": "Menu",
+  "Object.Name": "Name",
+  "Role.Name": "Role",
+  "Role.Number": "Number"
 }

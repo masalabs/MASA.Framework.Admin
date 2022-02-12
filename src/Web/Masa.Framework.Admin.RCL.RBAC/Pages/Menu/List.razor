@@ -55,7 +55,7 @@
                     @context.Item.Describe
                     break;
                 case nameof(MenuItemResponse.Disabled):
-                    @(context.Item.Disabled?"Disabled":"Enable")
+                    @(context.Item.Disabled?T("Disabled"):T("Enable"))
                     break;
                 case "Action":
                     <MButton Color="primary" @onclick="() => OpenMenuForm(context.Item)">

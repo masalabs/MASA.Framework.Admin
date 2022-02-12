@@ -7,6 +7,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddRBAC(this IServiceCollection services)
         {
             services.AddScoped<MenuPage>();
+            services.AddScoped<ObjectPage>();
+            services.AddScoped<RolePage>();
 
             return services;
         }

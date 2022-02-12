@@ -1,80 +1,44 @@
-﻿@*<MCard>
-    <MCardText Class="pa-6">
-        <h6>Filters</h6>
-        <MRow Class="mt-3">
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Role"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetRoleList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Role">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Plan"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetPlanList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Plan">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Status"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetStatusList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Status">
-                </MSelect>
-            </MCol>
-        </MRow>
-    </MCardText>
-</MCard>*@
+﻿@inherits RBACCompontentBase
 
-<MCard Class="mt-6">
+<MCard Class="mt-2">
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">Show:</span>
-                <MSelect @bind-Value="_objectPage.PageSize"
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
+                <MSelect @bind-Value="ObjectPage.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
                          Class="mx-6"
                          HideDetails="@("auto")"
                          Outlined
-                         Items="@_objectPage.PageSizes"
+                         Items="@ObjectPage.PageSizes"
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">entries</span>
+                <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField @bind-Value="_objectPage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MTextField @bind-Value="ObjectPage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm(new())">
-                    Add Menu
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm()">
+                    @T("Add Object")
                 </MButton>
+                @if(ObjectPage.SelectDatas.Count()>0)
+                {
+                    <MButton Color="error" MinWidth=80 Height=32 Class="ml-4 rounded-pill" OnClick="()=>OpenBatchDeleteObjectDialog()">
+                        @T("Batch Delete")
+                    </MButton>
+                }
             </MCol>
         </MRow>
     </MCardText>
 </MCard>
 
-<MDataTable HideDefaultFooter Headers="_objectPage.Headers" TItem="ObjectItemResponse" Items="_objectPage.ObjectDatas" Class="table-header-fill table-border-solid">
+<MDataTable ShowSelect @bind-Value=ObjectPage.SelectDatas HideDefaultFooter Headers="ObjectPage.Headers" TItem="ObjectItemResponse" Items="ObjectPage.Datas" ItemKey="o => o.Code">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>
@@ -96,9 +60,9 @@
             case nameof(ObjectItemResponse.ObjectType):
                  <span>@context.Item.ObjectType.ToString()</span>
                 break;
-            case "ACTIONS":
-                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">Edit</MButton>
-                <MButton Color="red" OnClick="async()=> await DeleteAsync(context.Item)">Delete</MButton>
+            case "Action":
+                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">@T("Edit")</MButton>
+                <MButton Color="error" Class="ml-4" OnClick="()=> OpenDeleteObjectDialog(context.Item)">@T("Delete")</MButton>
                 break;
             default:
                 @context.Value
@@ -108,31 +72,49 @@
 </MDataTable>
 
 <AddOrEdit @bind-Visible=_openObjectForm />
-<Masa.Framework.Admin.RCL.RBAC.Shared.Loding Lodding="_objectPage.Lodding" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.Dialog Show="_objectPage.Error" Message="_objectPage.Message" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@ObjectPage.Message @bind-Show="ObjectPage.Error" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteObjectAsync" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmBatchDelete" WhenConfirm="BatchDeleteObjectAsync" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=ObjectPage.Lodding />
 
 @code{
     public bool _openObjectForm;
-    public ObjectPage _objectPage = default!;
+    public bool _confirmDelete;
+    public bool _confirmBatchDelete;
 
     [Inject]
-    public AuthenticationCaller AuthenticationCaller { get; set; } = default!;
+    public ObjectPage ObjectPage { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        _objectPage = new(AuthenticationCaller);
-        await _objectPage.QueryPageDatasAsync();
+        RegisterPage(ObjectPage);
+        await ObjectPage.QueryPageDatasAsync();
     }
 
-    public void OpenObjectForm(ObjectItemResponse objectItem)
+    public void OpenObjectForm(ObjectItemResponse? objectItem = null)
     {
         _openObjectForm = true;
-        _objectPage.CurrentObjectData = objectItem;
+        ObjectPage.CurrentData = objectItem ?? new();
     }
 
-    public async Task DeleteAsync(ObjectItemResponse objectItem)
-    {      
-        _objectPage.CurrentObjectData = objectItem;
-        await _objectPage.DeleteAsync();
+    void OpenDeleteObjectDialog(ObjectItemResponse item)
+    {
+        ObjectPage.CurrentData = item;
+        _confirmDelete = true;
+    }
+
+    async Task DeleteObjectAsync(bool confirm)
+    {
+        if (confirm) await ObjectPage.DeleteAsync();
+    }
+
+    void OpenBatchDeleteObjectDialog()
+    {
+        _confirmBatchDelete = true;
+    }
+
+    async Task BatchDeleteObjectAsync(bool confirm)
+    {
+        if (confirm) await ObjectPage.DeleteAsync();
     }
 }

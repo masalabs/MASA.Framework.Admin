@@ -29,15 +29,30 @@ public class UserCaller : HttpClientCallerBase
         return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
     }
 
+    public async Task<ApiResultResponse<List<UserRoleResponse>>> GetUserRolesAsync(Guid userId)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+            { "userId", userId.ToString() }
+        };
+        var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserRole, queryArguments);
+        return await CallerProvider.GetAsync<ApiResultResponse<List<UserRoleResponse>>>(url);
+    }
+
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
         var url = UserRouting.UserDetail.Replace($"{{{nameof(id)}}}", id);
         return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(url);
     }
 
-    public async Task<ApiResultResponseBase> CreateAsync(UserCreateRequest userCreateRequest)
+    public async Task<ApiResultResponseBase> CreateAsync(CreateUserRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<UserCreateRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+        return await CallerProvider.PostAsync<CreateUserRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+    }
+
+    public async Task<ApiResultResponseBase> CreateRoleAsync(CreateUserRoleRequest createUserRoleRequest)
+    {
+        return await CallerProvider.PostAsync<CreateUserRoleRequest, ApiResultResponseBase>(UserRouting.UserRole, createUserRoleRequest);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)

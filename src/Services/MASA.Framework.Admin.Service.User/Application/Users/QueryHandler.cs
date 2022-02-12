@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Service.User.Application.Users.Queres;
+
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 
 public class QueryHandler
@@ -10,7 +12,7 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task GetDetailAsync(UserQuery.DetailQuery detailQuery)
+    public async Task GetDetailAsync(DetailQuery detailQuery)
     {
         var user = await _userRepository.FindAsync(detailQuery.UserId);
         if (user == null)
@@ -32,7 +34,7 @@ public class QueryHandler
     }
 
     [EventHandler]
-    public async Task GetListAsync(UserQuery.ListQuery listQuery)
+    public async Task GetListAsync(ListQuery listQuery)
     {
         var users = await _userRepository.GetPaginatedListAsync((u) => string.IsNullOrEmpty(listQuery.Account) || u.Account.Contains(listQuery.Account)
                     , new PaginatedOptions
@@ -57,5 +59,21 @@ public class QueryHandler
                 Gender = user.Gender,
                 LastLoginTime = user.LastLoginTime
             }));
+    }
+
+    [EventHandler]
+    public async Task GetUserRolesAsync(RoleListQuery roleListQuery)
+    {
+        var user = await _userRepository.GetByIdAsync(roleListQuery.userId);
+        if (user is null)
+        {
+            throw new UserFriendlyException("userid not found");
+        }
+
+        roleListQuery.Result = user.UserRoles.Select(r => new UserRoleResponse
+        {
+            Id = r.Id,
+            RoleId = r.RoleId
+        }).ToList();
     }
 }

@@ -43,4 +43,12 @@ public class User : AuditAggregateRoot<Guid, Guid>
         Modifier = Creator;
         userRoles = new();
     }
+
+    public void AddRole(Guid roleId)
+    {
+        if (!userRoles.Any(r => r.RoleId == roleId))
+        {
+            userRoles.Add(new UserRole(roleId));
+        }
+    }
 }

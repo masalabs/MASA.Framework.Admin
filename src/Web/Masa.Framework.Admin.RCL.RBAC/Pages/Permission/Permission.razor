@@ -1,30 +1,30 @@
 ﻿@page "/permission"
 @inherits RBACCompontentBase
 
-<div class="text-h2">权限管理</div>
+<div class="text-h6">@T("Authority Management")</div>
 
-<MAlert Color="light-bluelighten-3" Class="my-4">
-    Authing 的权限系统基于 RBAC（Role-based access control，基于角色的访问控制）并可以通过环境属性进行更细粒度的权限控制。既可以管理你的业务系统实体资源，也能管理你的应用中的菜单、按钮等资源权限，具体可以参考文档。
+<MAlert Color="light-blue lighten-5" Class="my-4">
+    @T("Authing's permission system is based on RBAC (Role-based access control, role-based access control) and can perform more fine-grained permission control through environment attributes. It can not only manage your business system entity resources, but also manage resource permissions such as menus and buttons in your application. For details, please refer to the documentation.")   
 </MAlert>
 
 <MCard>
     <MCardText Class="px-6 pb-6">
         <MTabs @bind-Value="tab" HideSlider Height=10 Color="sample-green">
-            <MTab Value="@("Resource")">
-                <MIcon Size=16 Color="@(tab=="Resource"?"sample-green":"fill")">mdi-circle</MIcon>
-                <span class="ml-2 text-btn @(tab=="Resource"?"neutral--text":"")">Account</span>
+            <MTab Value="@("Object")">
+                <MIcon Size=16 Color="@(tab=="Object"?"sample-green":"fill")">mdi-circle</MIcon>
+                <span class="ml-2 text-btn @(tab=="Object"?"neutral--text":"")">@T("Object")</span>
             </MTab>
             <MTab Class="ml-2" Value="@("Role")">
                 <MIcon Size=16 Color="@(tab=="Role"?"sample-green":"fill")">mdi-circle</MIcon>
-                <span class="ml-2 text-btn @(tab=="Role"?"neutral--text":"")">Information</span>
+                <span class="ml-2 text-btn @(tab=="Role"?"neutral--text":"")">@T("Role")</span>
             </MTab>
             <MTab Class="ml-2" Value="@("Authorize")">
                 <MIcon Size=16 Color="@(tab=="Authorize"?"sample-green":"fill")">mdi-circle</MIcon>
-                <span class="ml-2 text-btn @(tab=="Authorize"?"neutral--text":"")">Social</span>
+                <span class="ml-2 text-btn @(tab=="Authorize"?"neutral--text":"")">@T("Authorize")</span>
             </MTab>
         </MTabs>
         <MTabsItems @bind-Value="tab" Class="mt-4">
-            <MTabItem Value="@("Resource")">
+            <MTabItem Value="@("Object")">
                <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Object.Object />
             </MTabItem>
 

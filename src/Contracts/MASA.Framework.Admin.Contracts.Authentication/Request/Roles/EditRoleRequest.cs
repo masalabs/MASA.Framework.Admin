@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
+namespace MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
 public class EditRoleRequest
 {
@@ -6,5 +6,5 @@ public class EditRoleRequest
 
     public string Name { get; set; } = default!;
 
-    public string Describe { get; set; } = default!;
+    public string? Describe { get; set; }
 }

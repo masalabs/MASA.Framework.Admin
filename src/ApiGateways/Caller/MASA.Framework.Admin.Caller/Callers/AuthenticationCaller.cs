@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class AuthenticationCaller : HttpClientCallerBase
@@ -37,6 +39,12 @@ public class AuthenticationCaller : HttpClientCallerBase
         return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
     }
 
+    public async Task<ApiResultResponseBase> DeleteObjectAsync(DeleteObjectRequest request)
+    {
+        return await CallerProvider.DeleteAsync<DeleteObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
+    }
+
+
     // public async Task<ApiResultResponseBase> ChangeObjectStateAsync(ChangeStateCommand command)
     // {
     //     return await CallerProvider.PostAsync<ChangeStateCommand, ApiResultResponseBase>(AuthenticationRouting.OperateObject, command);
@@ -69,6 +77,27 @@ public class AuthenticationCaller : HttpClientCallerBase
     {
         return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> SelectRoleAsync()
+    {
+        return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(AuthenticationRouting.RoleSelect);
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemResponse>>> GetRolesByIdsAsync(List<Guid> roleIds)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+            { "roleIds", JsonSerializer.Serialize(roleIds)}
+        };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleListByIds, queryArguments);
+        return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(url);
+    }
+
+    public async Task<ApiResultResponseBase> DeleteRoleAsync(DeleteRoleRequest request)
+    {
+        return await CallerProvider.DeleteAsync<DeleteRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
+    }
+
 
     #endregion
 

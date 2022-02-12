@@ -37,7 +37,6 @@
                     <span class="text-caption">@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
                 </div>
                 <div class="flex-grow-1 d-flex align-end">
-                    <MButton MinWidth="100" class="primary rounded-pill">Edit</MButton>
                     <MButton Outlined MinWidth="100" Color="red" class="ml-6 rounded-pill">Delete</MButton>
                 </div>
             </MCol>
@@ -130,14 +129,14 @@
                 <MCardTitle>
                     用户角色
                     <MSpacer />
-                    <MButton Text OnClick="()=>{_addRoleDialog = true;}">
+                    <MButton Text OnClick="OpenRoleDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
                         添加
                     </MButton>
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
-                    <MDataTable Headers="_roleItemHeaders" TItem="RoleItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
+                    <MDataTable Headers="_roleItemHeaders" Items="_userRoles" TItem="RoleItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
                         <HeaderColContent Context="header">
                             <span class="text-subtitle">@header.Text</span>
                         </HeaderColContent>

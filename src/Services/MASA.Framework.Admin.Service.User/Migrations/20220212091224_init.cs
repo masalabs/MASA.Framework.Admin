@@ -59,27 +59,30 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
+                name: "user_roles",
+                schema: "user",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.PrimaryKey("PK_user_roles", x => x.id);
                     table.ForeignKey(
-                        name: "FK_UserRole_users_UserId",
+                        name: "FK_user_roles_users_UserId",
                         column: x => x.UserId,
                         principalSchema: "user",
                         principalTable: "users",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRole_UserId",
-                table: "UserRole",
+                name: "IX_user_roles_UserId",
+                schema: "user",
+                table: "user_roles",
                 column: "UserId");
         }
 
@@ -90,7 +93,8 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 schema: "user");
 
             migrationBuilder.DropTable(
-                name: "UserRole");
+                name: "user_roles",
+                schema: "user");
 
             migrationBuilder.DropTable(
                 name: "users",

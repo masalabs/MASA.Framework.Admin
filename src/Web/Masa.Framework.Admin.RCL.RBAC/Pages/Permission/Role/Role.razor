@@ -1,80 +1,38 @@
-﻿@*<MCard>
-    <MCardText Class="pa-6">
-        <h6>Filters</h6>
-        <MRow Class="mt-3">
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Role"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetRoleList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Role">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Plan"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetPlanList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Plan">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=4>
-                <MSelect @bind-Value="_userPage.Status"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Outlined
-                         Items="@UserService.GetStatusList()"
-                         ItemText="u => u"
-                         ItemValue="u => u"
-                         Label="Status">
-                </MSelect>
-            </MCol>
-        </MRow>
-    </MCardText>
-</MCard>*@
+﻿@inherits RBACCompontentBase
 
-<MCard Class="mt-6">
+<MCard Class="mt-2">
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">Show:</span>
-                <MSelect @bind-Value="_rolePage.PageSize"
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
+                <MSelect @bind-Value="RolePage.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
                          Class="mx-6"
                          HideDetails="@("auto")"
                          Outlined
-                         Items="@_rolePage.PageSizes"
+                         Items="@RolePage.PageSizes"
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">entries</span>
+                <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField @bind-Value="_rolePage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MTextField @bind-Value="RolePage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm(new())">
-                    Add Role
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm()">
+                    @(RolePage.CurrentData.Id==Guid.Empty?T("Add Role"):T("Edit Role"))
                 </MButton>
             </MCol>
         </MRow>
     </MCardText>
 </MCard>
 
-<MDataTable HideDefaultFooter Headers="_rolePage.Headers" TItem="RoleItemResponse" Items="_rolePage.Datas" Class="table-header-fill table-border-solid">
+<MDataTable HideDefaultFooter Headers="RolePage.Headers" TItem="RoleItemResponse" Items="RolePage.Datas" Class="table-header-fill table-border-solid">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>
@@ -91,14 +49,17 @@
                  <span>@context.Item.Number</span>
                 break;
             case nameof(RoleItemResponse.State):
-                 <span>@context.Item.State.ToString()</span>
+                 <span>@T(context.Item.State.ToString())</span>
                 break;
+            case nameof(RoleItemResponse.CreationTime):
+                <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            break;
             case nameof(RoleItemResponse.Describe):
                  <span>@context.Item.Describe</span>
                 break;
-            case "ACTIONS":
+            case "Action":
                 <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">Edit</MButton>
-                <MButton Color="red" OnClick="async()=> await DeleteAsync(context.Item)">Delete</MButton>
+                <MButton Color="error" OnClick="()=> OpenDeleteRoleDialog(context.Item)">Delete</MButton>
                 break;
             default:
                 @context.Value
@@ -107,32 +68,39 @@
     </ItemColContent>
 </MDataTable>
 
-<AddOrEdit @bind-Visible=_openObjectForm />
-<Masa.Framework.Admin.RCL.RBAC.Shared.Loding Lodding="_rolePage.Lodding" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.Dialog Show="_rolePage.Error" Message="_rolePage.Message" />
+<AddOrEdit @bind-Visible=_openRoleForm />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@RolePage.Message @bind-Show="RolePage.Error" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteRoleAsync" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=RolePage.Lodding />
+
 
 @code{
-    public bool _openObjectForm;
-    public RolePage _rolePage = default!;
+    public bool _openRoleForm;
+    public bool _confirmDelete;
 
     [Inject]
-    public AuthenticationCaller AuthenticationCaller { get; set; } = default!;
+    public RolePage RolePage { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        _rolePage = new(AuthenticationCaller);
-        await _rolePage.QueryPageDatasAsync();
+        RegisterPage(RolePage);
+        await RolePage.QueryPageDatasAsync();
     }
 
-    public void OpenObjectForm(RoleItemResponse item)
+    public void OpenObjectForm(RoleItemResponse? item = null)
     {
-        _openObjectForm = true;
-        _rolePage.CurrentData = item;
+        _openRoleForm = true;
+        RolePage.CurrentData = item ?? new();
     }
 
-    public async Task DeleteAsync(RoleItemResponse item)
-    {      
-        _rolePage.CurrentData = item;
-        await _rolePage.DeleteAsync();
+     void OpenDeleteRoleDialog(RoleItemResponse item)
+    {
+        RolePage.CurrentData = item;
+        _confirmDelete = true;
+    }
+
+    async Task DeleteRoleAsync(bool confirm)
+    {
+        if (confirm) await RolePage.DeleteAsync();
     }
 }

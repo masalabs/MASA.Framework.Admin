@@ -2,13 +2,13 @@ using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class RolePage
+public class RolePage : ComponentPage
 {
-    public List<RoleItemResponse> Datas { get; set; }
+    public List<RoleItemResponse> Datas { get; set; } = new();
 
     public RoleItemResponse CurrentData { get; set; } = new();
 
-    public List<AuthorizeItemResponse> AuthorizeDatas { get; set; }
+    public List<AuthorizeItemResponse> AuthorizeDatas { get; set; } = new();
 
     public AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
 
@@ -16,11 +16,30 @@ public class RolePage
 
     public int State { get; set; } = -1;
 
-    public string? Search { get; set; }
+    public string? _search;
+
+    public string? Search
+    {
+        get { return _search; }
+        set
+        {
+            _search = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
+
+    public int _pageSize = 10;
+    public int PageSize
+    {
+        get { return _pageSize; }
+        set
+        {
+            _pageSize = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
     public int PageIndex { get; set; } = 1;
-
-    public int PageSize { get; set; } = 10;
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
@@ -34,22 +53,27 @@ public class RolePage
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
-    public List<DataTableHeader<RoleItemResponse>> Headers = new()
-    {
-        new() { Text = "NAME", Value = nameof(ObjectItemResponse.Name) },
-        new() { Text = "CODE", Value = nameof(ObjectItemResponse.Code), Sortable = false },
-        new() { Text = "STATE", Value = nameof(ObjectItemResponse.State) },
-        new() { Text = "TYPE", Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
-        new() { Text = "ACTIONS", Value = "Action", Sortable = false }
-    };
+    public List<DataTableHeader<RoleItemResponse>> Headers { get; set; }
 
     public bool IsAdd => CurrentData.Id != Guid.Empty;
 
-    public RolePage(AuthenticationCaller authenticationCaller)
+    public RolePage(AuthenticationCaller authenticationCaller, I18n i18n)
     {
         AuthenticationCaller = authenticationCaller;
-        Datas = new();
-        AuthorizeDatas=new();
+        Headers = new()
+        {
+            new() { Text = T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
+            new() { Text = T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
+            new() { Text = T("State"), Value = nameof(RoleItemResponse.State) },
+            new() { Text = T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
+            new() { Text = T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
+            new() { Text = T("Action"), Value = "Action", Sortable = false }
+        };
+
+        string T(string key)
+        {
+            return i18n.T(key) ?? key;
+        }
     }
 
     public async Task QueryPageDatasAsync()
@@ -63,6 +87,15 @@ public class RolePage
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
             Datas = pageData.Items.ToList();
+            Datas.Add(new RoleItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test",
+                Describe = "Test",
+                Number = 100,
+                CreationTime = DateTime.Now,
+                State = MASA.Framework.Admin.Contracts.Base.Enum.State.Enable,
+            });
         }
         Lodding = false;
     }
@@ -96,7 +129,14 @@ public class RolePage
 
     public async Task DeleteAsync()
     {
-        await Task.CompletedTask;
+        Lodding = true;
+        var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
+        {
+            RuleId = CurrentData.Id,
+        });
+        Error = result.Success;
+        Message = result.Message;
+        Lodding = false;
     }
 
     public async Task QueryAuthorizeItemsAsync()

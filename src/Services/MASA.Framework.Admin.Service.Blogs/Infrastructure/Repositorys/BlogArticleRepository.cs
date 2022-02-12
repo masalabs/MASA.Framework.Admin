@@ -18,14 +18,18 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// <returns></returns>
         public async Task<PagingResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
+            System.Linq.Expressions.Expression<Func<BlogInfoListViewModel, bool>> where = blogInfo => true;
+
+            where = where.And(!string.IsNullOrEmpty(options.Title),
+                    blogInfo => blogInfo.title.Contains(options.Title, StringComparison.OrdinalIgnoreCase))
+                .And(options.State.HasValue, blogInfo => blogInfo.state == options.State)
+                .And(options.ReleaseStartTime.HasValue, blogInfo => blogInfo.ReleaseTime >= options.ReleaseStartTime)
+                .And(options.ReleaseEndTime.HasValue, blogInfo => blogInfo.ReleaseTime < options.ReleaseEndTime)
+                .And(options.TypeId.HasValue, blogInfo => blogInfo.typeId == options.TypeId.Value);
+
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
                         from blogType in leftBlogType.DefaultIfEmpty()
-                        where (!string.IsNullOrEmpty(options.Title) && blogInfo.Title.Contains(options.Title, StringComparison.OrdinalIgnoreCase))
-                        || (options.State.HasValue && blogInfo.State == options.State)
-                        || (options.ReleaseStartTime.HasValue && blogInfo.ReleaseTime >= options.ReleaseStartTime)
-                        || (options.ReleaseEndTime.HasValue && blogInfo.ReleaseTime < options.ReleaseEndTime)
-                        || (options.TypeId.HasValue && blogType.Id == options.TypeId)
                         select new BlogInfoListViewModel()
                         {
                             id = blogInfo.Id,
@@ -41,7 +45,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             ReleaseTime = blogInfo.ReleaseTime,
                         };
 
-            return await query.OrderBy(x => x.ReleaseTime).PagingAsync(options.PageIndex, options.PageSize);
+            return await query.Where(where).OrderByDescending(x => x.ReleaseTime).PagingAsync(options.PageIndex, options.PageSize);
         }
 
         /// <summary>

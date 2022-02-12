@@ -9,5 +9,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.IRepositorys
         Task<PagingResult<BlogReportListViewModel>> GetListAsync(GetBlogReportOptions options);
 
         Task<BlogReport> CreateAsync(BlogReport model);
+
+        Task HandleAsync(Guid id);
+
+        Task HandleByArticleId(Guid id);
     }
 }

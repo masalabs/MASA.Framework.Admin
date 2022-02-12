@@ -6,9 +6,6 @@ public class AuthorizeItemResponse
     /// Primary key id of Role and Permission relationship table
     /// </summary>
     public Guid Id { get; set; }
-
-    public string RoleName { get; set; } = default!;
-
     public Guid PermissionId { get; set; }
 
     public string PermissionName { get; set; } = default!;
@@ -19,11 +16,10 @@ public class AuthorizeItemResponse
 
     public string ObjectIdentifies { get; set; } = default!;
 
-    public Guid? InheritanceRoleSource { get; set; }
-
-    public string InheritanceSource { get; set; } = default!;
-
-    public PermissionSource PermissionSource { get; set; }
+    /// <summary>
+    /// The name of the role to which the license was granted
+    /// </summary>
+    public string InheritanceRoleSource { get; set; } = default!;
 
     public PermissionType PermissionType { get; set; }
 

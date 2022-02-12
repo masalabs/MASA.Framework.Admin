@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.Authentication.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20220211160540_init")]
+    [Migration("20220212104923_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnName("creator");
 
                     b.Property<string>("Describe")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("describe");
 
@@ -229,6 +230,10 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                     b.Property<int>("PermissionEffect")
                         .HasColumnType("int")
                         .HasColumnName("permission_effect");
+
+                    b.Property<int>("PermissionType")
+                        .HasColumnType("int")
+                        .HasColumnName("permission_type");
 
                     b.Property<Guid>("PermissionsId")
                         .HasColumnType("uniqueidentifier")

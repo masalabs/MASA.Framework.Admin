@@ -34,4 +34,22 @@ public class QueryHandler
                 ObjectType = obj.ObjectType
             }));
     }
+
+    [EventHandler(Order = 2)]
+    public async Task GetDetailAsync(RoleQuery.DetailQuery query)
+    {
+        var permissionIds = query.Result.Permissions.Select(permission => permission.PermissionId).ToList();
+        var objectItems = (await _repository.GetListAsync(obj => obj.Permissions.Any(permission => permissionIds.Contains(permission.Id))))
+            .ToList();
+        foreach (var permission in query.Result.Permissions)
+        {
+            var obj = objectItems.FirstOrDefault(obj
+                => obj.Permissions.Any(item => item.Id == permission.PermissionId))!; //The permission policy does not allow deletion
+            var permissionInfo = obj.Permissions.FirstOrDefault(item => item.Id == permission.PermissionId)!;
+            permission.PermissionName = permissionInfo.Name;
+            permission.ObjectType = obj.ObjectType;
+            permission.ObjectCode = obj.Code;
+            permission.ObjectIdentifies = permission.ObjectIdentifies;
+        }
+    }
 }

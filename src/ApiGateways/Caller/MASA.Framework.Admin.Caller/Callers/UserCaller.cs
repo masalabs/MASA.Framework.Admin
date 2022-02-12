@@ -4,10 +4,10 @@ public class UserCaller : HttpClientCallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public UserCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
+    public UserCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(UserCaller);
-        BaseAddress = options.Value.UserCaller;
+        BaseAddress = configuration["ApiGateways:UserCaller"];
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,

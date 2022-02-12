@@ -16,7 +16,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 Assembly[] assemblies = { typeof(UserCaller).Assembly };
 builder.Services.AddCaller(assemblies);
-builder.AddMasaConfiguration(null, assemblies: assemblies);
+//builder.AddMasaConfiguration(null, assemblies: assemblies);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,7 +30,7 @@ else
     app.UseHsts();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 

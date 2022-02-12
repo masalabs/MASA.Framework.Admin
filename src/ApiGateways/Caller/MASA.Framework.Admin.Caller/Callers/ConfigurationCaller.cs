@@ -4,10 +4,10 @@ public class ConfigurationCaller : HttpClientCallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public ConfigurationCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
+    public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(ConfigurationCaller);
-        BaseAddress = options.Value.ConfigurationCaller;
+        BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)

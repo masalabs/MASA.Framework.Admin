@@ -4,10 +4,10 @@ public class AuthenticationCaller : HttpClientCallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public AuthenticationCaller(IServiceProvider serviceProvider, IOptions<CallerOptions> options) : base(serviceProvider)
+    public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(AuthenticationCaller);
-        BaseAddress = options.Value.AuthenticationCaller;
+        BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
     }
 
     #region Object

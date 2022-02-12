@@ -33,7 +33,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         {
             try
             {
-                await _eventBus.PublishAsync(new CreateBlogReportCommand());
+                await _eventBus.PublishAsync(new CreateBlogReportCommand(request));
             }
             catch (Exception e)
             {

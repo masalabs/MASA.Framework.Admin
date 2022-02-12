@@ -18,13 +18,13 @@ public partial class Report : ProCompontentBase
         new DataTableHeader<BlogReportListViewModel>()
         { Text = "举报标题", Value = nameof(BlogReportListViewModel.Title), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-        { Text = "举报链接", Value = nameof(BlogReportListViewModel.Connect), Sortable = false },
-        new DataTableHeader<BlogReportListViewModel>()
         { Text = "举报理由", Value = nameof(BlogReportListViewModel.Reason), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
         { Text = "举报详细信息", Value = nameof(BlogReportListViewModel.Detail), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
         { Text = "举报时间", Value = nameof(BlogReportListViewModel.CreationTime), Sortable = false },
+        new DataTableHeader<BlogReportListViewModel>()
+        { Text = "操作", Value = "actions", Sortable = false }
     };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

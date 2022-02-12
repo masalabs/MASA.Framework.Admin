@@ -45,5 +45,11 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         public ReasonTypes Reason { get; set; }
+
+        /// <summary>
+        /// 处理：是否处理
+        /// </summary>
+        [Required]
+        public bool Handled { get; set; }
     }
 }

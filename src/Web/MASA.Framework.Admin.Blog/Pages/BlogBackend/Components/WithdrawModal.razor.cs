@@ -23,6 +23,11 @@
         private void HandleOnCancel()
         {
             Data = new();
+
+            if (OnCancel.HasDelegate)
+            {
+                OnCancel.InvokeAsync();
+            }
         }
 
         private async Task HandleOnOk()

@@ -35,7 +35,7 @@ namespace MASA.Framework.Extensions.Tools
             //string[] sArray = mails.FromPerson.Split(new char[2] { '@', '.' });
 
             //将发件人邮箱带入MailAddress中初始化
-            MailAddress mailAddress = new MailAddress(HostSetting.FromPerson);
+            MailAddress mailAddress = new MailAddress(HostSetting.Account);
             //创建Email的Message对象
             MailMessage mailMessage = new MailMessage();
 
@@ -100,7 +100,7 @@ namespace MASA.Framework.Extensions.Tools
             //实例化一个Smtp客户端
             SmtpClient smtp = new SmtpClient();
             //将发件人的邮件地址和客户端授权码带入以验证发件人身份
-            smtp.Credentials = new System.Net.NetworkCredential(HostSetting.FromPerson, HostSetting.Code);
+            smtp.Credentials = new System.Net.NetworkCredential(HostSetting.Account, HostSetting.Code);
             //指定SMTP邮件服务器
             smtp.Host = HostSetting.Host;
 

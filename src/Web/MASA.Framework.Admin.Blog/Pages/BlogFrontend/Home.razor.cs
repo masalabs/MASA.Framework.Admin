@@ -31,13 +31,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         protected override async Task OnInitializedAsync()
         {
-            //EmailService.Send(new()
-            //{
-            //    RecipientArry = new string[] { "532977252@qq.com" },
-            //    Title = "测试",
-            //    Body = "测是啊啊啊啊啊啊啊啊"
-            //});
-
             if (Layout != null)
             {
                 Layout.SearchEvent += AppOnSearch;

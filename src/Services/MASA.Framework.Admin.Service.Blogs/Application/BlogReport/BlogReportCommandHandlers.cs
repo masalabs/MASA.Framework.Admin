@@ -1,14 +1,17 @@
-﻿using MASA.Framework.Admin.Service.Blogs.Application.BlogReport.Commands;
+﻿using MASA.BuildingBlocks.Data.UoW;
+using MASA.Framework.Admin.Service.Blogs.Application.BlogReport.Commands;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogReport
 {
     public class BlogReportCommandHandlers
     {
         private readonly IBlogReportRepository _blogReportRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BlogReportCommandHandlers(IBlogReportRepository blogReportRepository)
+        public BlogReportCommandHandlers(IBlogReportRepository blogReportRepository, IUnitOfWork unitOfWork)
         {
             _blogReportRepository = blogReportRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [EventHandler]
@@ -27,6 +30,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogReport
             };
 
             await _blogReportRepository.CreateAsync(blogReport);
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

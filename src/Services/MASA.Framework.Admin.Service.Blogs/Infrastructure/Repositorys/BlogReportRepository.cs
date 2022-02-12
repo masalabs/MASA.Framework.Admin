@@ -29,6 +29,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             BlogInfoId = blogInfo.Id,
                             Detail = blogReport.Detail,
                             Reason = blogReport.Reason,
+                            Connect = blogReport.Connect,
                             CreationTime = blogInfo.CreationTime,
                         };
 

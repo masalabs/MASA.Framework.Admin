@@ -52,6 +52,24 @@
                   ServerItemsLength="_totalCount"
                   TItem="BlogReportListViewModel">
     <ItemColContent>
-        <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        @if (context.Header.Value == "actions")
+        {
+            
+        }
+        else if (context.Header.Value == nameof(BlogReportListViewModel.Title))
+        {
+            if (string.IsNullOrWhiteSpace(context.Item.Connect))
+            {
+                @context.Item.Title
+            }
+            else
+            {
+                <a href="@context.Item.Connect" target="_blank">@context.Item.Title</a>
+            }
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
     </ItemColContent>
 </DefaultDataTable>

@@ -97,26 +97,6 @@ public partial class Article : ProCompontentBase
         StateHasChanged();
     }
 
-    /// <summary>
-    /// 下架
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    private async Task TakeDownArticleAsync(BlogInfoListViewModel model)
-    {
-        _updateBlogInfoModel =
-            new Mapping<BlogInfoListViewModel, UpdateBlogInfoModel>().Map(model);
-
-        _updateBlogInfoModel.State = StateTypes.OffTheShelf;
-
-        await BlogCaller.ArticleService.UpdateAsync(_updateBlogInfoModel);
-
-        Message("下架成功", AlertTypes.Success);
-
-        await FetchList();
-        StateHasChanged();
-    }
-
     private async Task FetchTypes()
     {
         BlogTypes = await BlogCaller.BlogTypeService.GetAllAsync();

@@ -74,9 +74,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 matchQuery.Add(mu => mu.Match(m => m.Field(fd => fd.Content.Contains(query.Options.KeyWords))));
             }
 
-            if (query.Options.TypeId.HasValue)
+            if (query.Options.TypeId.HasValue && !query.Options.TypeId.Equals(Guid.Empty))
             {
-                matchQuery.Add(mu => mu.Term("typeId", query.Options.TypeId.Value.ToString()));
+                matchQuery.Add(mu => mu.Term("typeId.keyword", query.Options.TypeId.Value.ToString()));
             }
 
             var searchResponse = await _elasticClient.SearchAsync<BlogInfo>(w => w

@@ -6,7 +6,7 @@ public class MenuService : CustomServiceBase
     {
         App.MapGet(Routing.MenuList, GetItemsAsync);
         App.MapPost(Routing.OperateMenu, CreateAsync);
-        App.MapPost(Routing.OperateMenu, EditAsync);
+        App.MapPut(Routing.OperateMenu, EditAsync);
         App.MapDelete(Routing.OperateMenu, DeleteAsync);
     }
 

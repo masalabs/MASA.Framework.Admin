@@ -44,4 +44,52 @@ public partial class BlogFrontLayout
             SearchEvent.Invoke();
         }
     }
+
+    #region Confirm
+
+    private Confirm.Model _confirm = new();
+
+    public void Confirm(
+        string title,
+        string content,
+        Func<Task> onOk,
+        AlertTypes type = default,
+        string icon = default,
+        string iconColor = default,
+        string okText = "确定",
+        string cancelText = "取消",
+        string okColor = "primary",
+        string cancelColor = "default",
+        System.Action onCancel = default)
+    {
+        _confirm = new Confirm.Model
+        {
+            Visible = true,
+            Title = title,
+            Content = content,
+            Type = type,
+            Icon = icon,
+            IconColor = iconColor,
+            OkText = okText,
+            CancelText = cancelText,
+            OkColor = okColor,
+            CancelColor = cancelColor,
+            OnCancel = EventCallback.Factory.Create<MouseEventArgs>(this, () => onCancel?.Invoke()),
+            OnOk = EventCallback.Factory.Create<MouseEventArgs>(this, async () =>
+            {
+                try
+                {
+                    await onOk.Invoke();
+                }
+                catch (Exception e)
+                {
+                    Message(e.Message, AlertTypes.Error);
+                }
+            })
+        };
+
+        StateHasChanged();
+    }
+
+    #endregion
 }

@@ -60,7 +60,7 @@
         /// <summary>
         /// CreationTime
         /// </summary>
-        public DateTime CreationTime { get; set; }
+        public DateTime ReleaseTime { get; set; }
 
         /// <summary>
         /// 关联id

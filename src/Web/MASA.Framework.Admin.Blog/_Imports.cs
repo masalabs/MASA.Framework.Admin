@@ -29,4 +29,4 @@ global using System.Net.Http.Json;
 global using System.Reflection;
 global using System.Text.Json;
 global using MASA.Framework.Admin.Contracts.Blogs;
-global using System.ComponentModel;
+global using MASA.Framework.Admin.Caller;

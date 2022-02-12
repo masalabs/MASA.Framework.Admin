@@ -1,4 +1,6 @@
-﻿using MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands;
+﻿using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+using MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands;
+using MASA.Framework.Admin.Service.Dictionary.Application.DicValues.Queries;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Service
 {
@@ -14,6 +16,8 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             App.MapPost("/api/dicValue/update", UpdateAsync);
             App.MapPost("/api/dicValue/delete/{id}", DeleteAsync);
             App.MapPost("/api/dicValue/deleteAll", DeleteAllAsync);
+            App.MapGet("api/dicValue/get/{id}", GetAsync);
+            App.MapPost("api/dicValue/getPage", GetPageAsync);
         }
 
         public async Task<IResult> CreateAsync([FromBody] DicValue dicValue, [FromServices] IEventBus eventBus)
@@ -65,6 +69,33 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
                 var deleteCommand = new DeleteAllDicValueCommand(ids);
                 await eventBus.PublishAsync(deleteCommand);
                 return Results.Ok();
+            }
+            catch
+            {
+                return Results.BadRequest();
+            }
+        }
+        public async Task<IResult> GetAsync([FromRoute] Guid id, [FromServices] IEventBus eventBus)
+        {
+            try
+            {
+                var query = new DicValueQuery(id);
+                await eventBus.PublishAsync(query);
+                return Results.Ok(query.Result);
+            }
+            catch
+            {
+                return Results.BadRequest();
+            }
+        }
+
+        public async Task<IResult> GetPageAsync([FromBody] DicValuePagingOptions options, [FromServices] IEventBus eventBus)
+        {
+            try
+            {
+                var query = new DicValuePageQuery(options);
+                await eventBus.PublishAsync(query);
+                return Results.Ok(query.Result);
             }
             catch
             {

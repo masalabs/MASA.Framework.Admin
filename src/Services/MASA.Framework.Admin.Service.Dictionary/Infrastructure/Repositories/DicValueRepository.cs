@@ -1,4 +1,7 @@
-﻿namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
+﻿using MASA.Framework.Admin.Contracts.Dictionary;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+
+namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 {
     public class DicValueRepository : IDicValueRepository
     {
@@ -58,6 +61,16 @@
         public async Task<DicValue> GetAsync(Guid id)
         {
             return await _dbContext.DicValues.SingleAsync(o => o.Id == id);
+        }
+
+        public async Task<PagingResult<DicValue>> GetPageAsync(DicValuePagingOptions options)
+        {
+            var query = _dbContext.DicValues.OrderBy(r => r.Sort);
+
+            var totalCount = await query.CountAsync();
+            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+
+            return new PagingResult<DicValue>(options.PageIndex, options.PageSize, totalCount, data);
         }
     }
 }

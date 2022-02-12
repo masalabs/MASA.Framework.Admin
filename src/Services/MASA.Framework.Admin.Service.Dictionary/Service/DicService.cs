@@ -17,7 +17,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             App.MapPost("/api/dic/delete/{id}", DeleteAsync);
             App.MapPost("/api/dic/deleteAll", DeleteAllAsync);
             App.MapGet("api/dic/get/{id}", GetAsync);
-            App.MapGet("api/dic/getPage", GetPageAsync);
+            App.MapPost("api/dic/getPage", GetPageAsync);
         }
 
         public async Task<IResult> CreateAsync([FromBody] Dic dic, [FromServices] IEventBus eventBus)

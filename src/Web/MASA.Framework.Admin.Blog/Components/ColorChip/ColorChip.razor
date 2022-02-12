@@ -1,0 +1,96 @@
+﻿@namespace MASA.Framework.Admin.Blog.Components
+@typeparam T
+
+<MChip Class="@Css" Small="Small" @attributes="@Attributes">
+    @Content
+</MChip>
+
+@code
+{
+    [Parameter]
+    public string[] Colors { get; set; }
+
+    [Parameter]
+    public Func<T, string>? Color { get; set; }
+
+    [Parameter]
+    public bool Small { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public T Value { get; set; }
+
+    [Parameter]
+    public Func<T, string>? ValueRender { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes { get; set; }
+
+    private string Css { get; set; }
+
+    private string Content { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        SetColorAndContent();
+    }
+
+    private void SetColorAndContent()
+    {
+        string? color = null;
+        string content;
+
+        color = Color?.Invoke(Value);
+
+        switch (Value)
+        {
+            case Enum e:
+                color ??= GetColor(e, Colors);
+                content = e.GetDescription().Description;
+                break;
+            case bool b:
+                color ??= GetColor(b ? 1 : 0, Colors);
+                content = ValueRender?.Invoke(Value) ?? BoolRender(b);
+                break;
+            case int i:
+                color ??= GetColor(i, Colors);
+                content = ValueRender?.Invoke(Value) ?? i.ToString();
+                break;
+            default:
+                color ??= GetColor(0, Colors);
+                content = ValueRender?.Invoke(Value) ?? Value?.ToString();
+                break;
+        }
+
+        Css = GenChipColorClass(color);
+        Content = content;
+    }
+
+    private string BoolRender(bool value)
+    {
+        return value ? "是" : "否";
+    }
+
+    private string GenChipColorClass(string color)
+    {
+        return ColorHelper.GenChipColorClass(color);
+    }
+
+    private string GetColor(Enum @enum, params string[] colors)
+    {
+        var index = (int)(object)@enum;
+        return GetColor(index, colors);
+    }
+
+    private string GetColor(int index, params string[] colors)
+    {
+        if (colors.Length <= index)
+        {
+            return string.Empty;
+        }
+
+        return colors[index];
+    }
+}

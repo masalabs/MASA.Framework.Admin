@@ -52,9 +52,16 @@
                   ServerItemsLength="_totalCount"
                   TItem="BlogReportListViewModel">
     <ItemColContent>
-        @if (context.Header.Value == "actions")
+        @if (context.Header.Value == nameof(BlogReportListViewModel.Handled))
         {
-            <MinorAction Label="处理" OnClick="() => OpenHandleModal(context.Item)"></MinorAction>
+            if (context.Item.Handled)
+            {
+                <MinorAction Disabled Label="已处理"></MinorAction>
+            }
+            else
+            {
+                <MinorAction Label="处理" OnClick="() => OpenHandleModal(context.Item)"></MinorAction>
+            }
         }
         else if (context.Header.Value == nameof(BlogReportListViewModel.Title))
         {

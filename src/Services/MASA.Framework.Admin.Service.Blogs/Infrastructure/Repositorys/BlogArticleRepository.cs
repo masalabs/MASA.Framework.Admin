@@ -44,6 +44,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             approvedCount = blogInfo.ApprovedCount,
                             remark = blogInfo.Remark,
                             ReleaseTime = blogInfo.ReleaseTime,
+                            WithdrawReason = blogInfo.WithdrawReason
                         };
 
             return await query.Where(where).OrderByDescending(x => x.ReleaseTime).PagingAsync(options.PageIndex, options.PageSize);
@@ -251,6 +252,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             article.WithdrawReason = reason;
 
             _blogDbContext.Update(article);
+
+            await _blogDbContext.SaveChangesAsync();
         }
     }
 }

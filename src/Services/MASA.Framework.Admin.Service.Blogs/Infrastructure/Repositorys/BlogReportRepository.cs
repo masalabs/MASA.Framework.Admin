@@ -77,6 +77,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             reports.ForEach(r => r.Handled = true);
             
             _blogDbContext.UpdateRange(reports);
+
+            await _blogDbContext.SaveChangesAsync();
         }
     }
 }

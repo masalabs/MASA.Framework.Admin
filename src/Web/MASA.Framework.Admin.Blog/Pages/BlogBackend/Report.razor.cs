@@ -26,9 +26,7 @@ public partial class Report : ProCompontentBase
         new DataTableHeader<BlogReportListViewModel>()
             { Text = "举报时间", Value = nameof(BlogReportListViewModel.CreationTime), Sortable = false },
         new DataTableHeader<BlogReportListViewModel>()
-            { Text = "处理状态", Value = nameof(BlogReportListViewModel.Handled), Sortable = false },
-        new DataTableHeader<BlogReportListViewModel>()
-            { Text = "操作", Value = "actions", Sortable = false },
+            { Text = "操作", Value = nameof(BlogReportListViewModel.Handled), Sortable = false },
     };
 
     #endregion
@@ -60,6 +58,8 @@ public partial class Report : ProCompontentBase
 
         _loading = true;
 
+        StateHasChanged();
+
         var result = await BlogCaller.ReportService.GetList(_options);
         _tableData = result.Data;
         _totalCount = result.TotalCount;
@@ -78,6 +78,8 @@ public partial class Report : ProCompontentBase
         await BlogCaller.ReportService.IgnoreAsync(new IgnoreBlogReportModel() { Id = reportId });
 
         _handleModalVisible = false;
+        
+        await FetchList(_options.PageIndex, _options.PageSize);
     }
 
     private async Task HandleAgree(Guid articleId)
@@ -85,5 +87,7 @@ public partial class Report : ProCompontentBase
         await BlogCaller.ReportService.AgreeAsync(new AgreeBlogReportModel() { ArticleId = articleId });
 
         _handleModalVisible = false;
+
+        await FetchList(_options.PageIndex, _options.PageSize);
     }
 }

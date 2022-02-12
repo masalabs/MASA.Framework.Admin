@@ -71,5 +71,10 @@
         /// 是否已点赞
         /// </summary>
         public bool IsApproved { get; set; }
+        
+        /// <summary>
+        /// 下架原因
+        /// </summary>
+        public string WithdrawReason { get; set; }
     }
 }

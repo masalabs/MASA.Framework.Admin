@@ -75,12 +75,29 @@
         @if (context.Header.Value == "actions")
         {
             <PAction Visible="@(context.Item.state == StateTypes.Reviewed)"
-                 Color="error" Label="下架" Type=ActionTypes.Label Text
-                 OnClick="() => ShowWithdrawModal(context.Item)"></PAction>
+                     Color="error" Label="下架" Type=ActionTypes.Label Text
+                     OnClick="() => ShowWithdrawModal(context.Item)">
+            </PAction>
             <PAction Color="primary" Label="查看"
-                 OnClick="() => HrefDetailPage(context.Item.id)" Text Icon="mdi-eye"> </PAction>
+                     OnClick="() => HrefDetailPage(context.Item.id)" Text Icon="mdi-eye">
+            </PAction>
             <PAction Visible="@(context.Item.state == StateTypes.ToBeReviewed)"
-                 Color="primary" Label="审核" OnClick="()=>AuditArticleAsync(context.Item)" Text Icon="mdi-pencil"></PAction>
+                     Color="primary" Label="审核" OnClick="() => AuditArticleAsync(context.Item)" Text Icon="mdi-pencil">
+            </PAction>
+        }
+        else if (context.Header.Value == nameof(BlogInfoListViewModel.state))
+        {
+            <MTooltip Disabled="@(context.Item.state != StateTypes.OffTheShelf)" Top>
+                <ActivatorContent Context="activatorContext">
+                    <ColorChip Colors="@(new[] { "", "grey", "red", "green", "orange" })"
+                               Value="context.Item.state"
+                               @attributes="@activatorContext.Attrs">
+                    </ColorChip>
+                </ActivatorContent>
+                <ChildContent>
+                    @context.Item.WithdrawReason
+                </ChildContent>
+            </MTooltip>
         }
         else
         {
@@ -93,4 +110,4 @@
                Visible="_withdrawModalVisible"
                Width="800"
                OnCancel="() => _withdrawModalVisible = false"
-               OnOk="OnWithdraw" />
+               OnOk="OnWithdraw"/>

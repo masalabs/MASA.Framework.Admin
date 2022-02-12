@@ -78,5 +78,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         public DateTime ReleaseTime { get; set; } = DateTime.Now;
+
+        /// <summary>
+        /// 下架原因
+        /// </summary>
+        public string WithdrawReason { get; set; }
     }
 }

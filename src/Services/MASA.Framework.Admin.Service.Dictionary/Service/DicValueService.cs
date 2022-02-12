@@ -1,16 +1,21 @@
 ﻿using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Model;
 using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.ViewModel;
 using MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands;
 using MASA.Framework.Admin.Service.Dictionary.Application.DicValues.Queries;
+using MASA.Utils.Caching.Core.Interfaces;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Service
 {
     public class DicValueService : ServiceBase
     {
+        private readonly IDistributedCacheClient _distributedCacheClient;
         private readonly IEventBus _eventBus;
 
-        public DicValueService(IServiceCollection services) : base(services)
+        public DicValueService(IServiceCollection services, IDistributedCacheClient distributedCacheClient) : base(services)
         {
+            _distributedCacheClient = distributedCacheClient;
+
             _eventBus = this.GetService<IEventBus>() ?? throw new ArgumentNullException(nameof(IEventBus));
 
             App.MapPost("/api/dicValue/create", CreateAsync);
@@ -101,6 +106,21 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             {
                 return Results.BadRequest();
             }
+        }
+
+        public async Task<IResult> GetListAsync(Guid dicId)
+        {
+            try
+            {
+                var result = await _distributedCacheClient.GetAsync<List<DicValueViewModel>>($"DicValue-{dicId}");
+
+                return Results.Ok(result);
+            }
+            catch (Exception)
+            {
+                return Results.Ok();
+            }
+
         }
     }
 }

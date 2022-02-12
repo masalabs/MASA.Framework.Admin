@@ -51,7 +51,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             //分类
             var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption()
-                { PageIndex = 1, PageSize = int.MaxValue });
+            { PageIndex = 1, PageSize = 50 });
             if (typesResult.Data is not null)
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();

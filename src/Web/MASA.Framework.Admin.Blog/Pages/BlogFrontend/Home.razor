@@ -3,7 +3,7 @@
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
 
-<MCard Width="1200" Class="mx-auto">
+<MCard Width="1200" Class="mx-auto mt-5">
     <MTabsItems>
         <MTabItem>
             <MCard Flat>
@@ -32,7 +32,7 @@
                             <span class="white--text">@blog.typeName</span>
                         </MAvatar>*@
                         <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
-                            <span>【@blog.CreatorUserId】</span>
+                           @* <span>【@blog.CreatorUserId】</span>*@
                     </p>
                 </MCardActions>
             </MCard>

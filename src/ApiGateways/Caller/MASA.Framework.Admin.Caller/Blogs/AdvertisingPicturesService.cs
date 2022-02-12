@@ -18,7 +18,7 @@ namespace MASA.Framework.Admin.Caller.Blogs
         public Task<List<BlogAdvertisingPicturesListViewModel>> GetList(GetBlogAdvertisingPicturesFrontOption options)
         {
             return _callerProviderProvider.PostAsync<GetBlogAdvertisingPicturesFrontOption, List<BlogAdvertisingPicturesListViewModel>>(
-                "/api/articles/getList", options);
+                "/api/adPictures/getList", options);
         }
 
         public async Task CreateAsync(CreateBlogAdvertisingPicturesModel request)

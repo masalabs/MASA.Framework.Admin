@@ -1,0 +1,26 @@
+﻿<FormModal Visible=Visible
+           Title=Title
+           Width=Width
+           Model=Data
+           OnCancel=OnCancel
+           OnOk=HandleOnOk>
+    <MRow>
+        <MCol Cols="12">
+            <MRadioGroup @bind-Value="Data.ReasonType" Row TValue=ReasonTypes>
+                <LabelContent>
+                    下架原因
+                </LabelContent>
+                <ChildContent>
+                    @foreach (var item in Enum<ReasonTypes>.GetEnumObjectList<ReasonTypes>())
+                    {
+                        <MRadio Value="@item.Value" Label=@item.Name TValue="ReasonTypes"></MRadio>
+                    }
+                </ChildContent>
+            </MRadioGroup>
+        </MCol>
+        <MCol Cols="12">
+            <MTextarea Label="原因详情" Dense Outlined @bind-Value="Data.ReasonDetail">
+            </MTextarea>
+        </MCol>
+    </MRow>
+</FormModal>

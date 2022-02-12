@@ -30,3 +30,4 @@ global using System.Reflection;
 global using System.Text.Json;
 global using MASA.Framework.Admin.Contracts.Blogs;
 global using MASA.Framework.Admin.Caller;
+global using MASA.Blazor.Presets;

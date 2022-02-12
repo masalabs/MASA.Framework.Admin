@@ -21,7 +21,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             System.Linq.Expressions.Expression<Func<BlogInfoListViewModel, bool>> where = blogInfo => true;
 
             where = where.And(!string.IsNullOrEmpty(options.Title),
-                    blogInfo => blogInfo.title.Contains(options.Title, StringComparison.OrdinalIgnoreCase))
+                    blogInfo => blogInfo.title.Contains(options.Title))
                 .And(options.State.HasValue, blogInfo => blogInfo.state == options.State)
                 .And(options.ReleaseStartTime.HasValue, blogInfo => blogInfo.ReleaseTime >= options.ReleaseStartTime)
                 .And(options.ReleaseEndTime.HasValue, blogInfo => blogInfo.ReleaseTime < options.ReleaseEndTime)
@@ -53,7 +53,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<BlogInfoListViewModel> GetAsync(Guid id)
+        public async Task<BlogInfoListViewModel> GetInfoAsync(Guid id)
         {
             var data = await (from blogInfo in _blogDbContext.BlogInfoes
                               join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id
@@ -223,6 +223,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                     _blogDbContext.Database.CurrentTransaction?.Commit();
                 }
             }
+        }
+
+        public Task<bool> ExistAsync(Guid id)
+        {
+            return _blogDbContext.BlogInfoes.AnyAsync(b => b.Id == id);
+        }
+
+        public Task<BlogInfo?> GetAsync(Guid id)
+        {
+            return _blogDbContext.BlogInfoes.FirstOrDefaultAsync(b => b.Id == id);
         }
     }
 }

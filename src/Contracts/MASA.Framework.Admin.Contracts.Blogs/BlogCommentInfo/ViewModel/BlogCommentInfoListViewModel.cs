@@ -41,5 +41,10 @@
         /// 
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// 回复记录
+        /// </summary>
+        public BlogCommentInfoListViewModel ReplyInfo { get; set; }
     }
 }

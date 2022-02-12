@@ -29,5 +29,6 @@
         /// <returns></returns>
         Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options);
 
+        Task<List<BlogTypeCondensedViewModel>> GetCondensedListAsync();
     }
 }

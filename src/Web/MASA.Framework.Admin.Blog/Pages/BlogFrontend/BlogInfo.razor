@@ -1,4 +1,4 @@
-﻿@page "/blogs/info/{BlogInfoId}"
+﻿@page "/blogs/info/{BlogInfoId:guid}"
 @layout BlogFrontLayout
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
@@ -12,19 +12,19 @@
                         <MCardText><h5>@_blogInfo.title</h5></MCardText>
                     </MCol>
                     <MSpacer></MSpacer>
-                    <MCol><MButton Color="primary" OnClick="ToWrite">举报</MButton></MCol>
+                    <MCol><MButton Color="primary" OnClick="ToReport">举报</MButton></MCol>
                 </MRow>
             </MCard>
         </MTabItem>
     </MTabsItems>
     <MDivider></MDivider>
     <MCard>
-        <MCardText>@_blogInfo.content</MCardText>
+        <MCardText>@((MarkupString)_blogInfo.content)</MCardText>
         <MCardActions>
             <p>
-                <span>评论：@_blogInfo.commentCount</span>
-                <span>点赞：@_blogInfo.approvedCount</span>
-                <span>点赞：@_blogInfo.approvedCount</span>
+                <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.commentCount</span>
+                <MButton Icon OnClick="ToApprove"><MIcon>mdi-thumb-up</MIcon></MButton> <span>@_blogInfo.approvedCount</span>
+                <MIcon>mdi-eye</MIcon> <span>@_blogInfo.visits</span>
             </p>
         </MCardActions>
     </MCard>

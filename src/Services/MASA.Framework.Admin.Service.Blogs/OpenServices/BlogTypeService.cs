@@ -15,6 +15,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             App.MapPost("/api/blogtype/update", UpdateAsync);
             App.MapPost("/api/blogtype/remove", RemoveAsync);
             App.MapPost("/api/blogtype/paging", GetListAsync);
+            App.MapGet("/api/blogtype/all", GetCondensedListAsync);
         }
 
         public async Task CreateAsync(CreateBlogTypeModel request)
@@ -35,6 +36,15 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         public async Task<IResult> GetListAsync(GetBlogTypePagingOption option)
         {
             var query = new GetBlogTypePagingQuery(option);
+
+            await _eventBus.PublishAsync(query);
+
+            return Results.Ok(query.Result);
+        }
+
+        public async Task<IResult> GetCondensedListAsync()
+        {
+            var query = new GetBlogTypeCondensedQuery();
 
             await _eventBus.PublishAsync(query);
 

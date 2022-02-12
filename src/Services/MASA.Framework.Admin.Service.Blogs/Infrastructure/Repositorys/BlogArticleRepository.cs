@@ -18,6 +18,15 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// <returns></returns>
         public async Task<PagingResult<BlogInfoListViewModel>> GetListAsync(GetBlogArticleOptions options)
         {
+            System.Linq.Expressions.Expression<Func<BlogInfoListViewModel, bool>> where = blogInfo => true;
+
+            where = where.And(!string.IsNullOrEmpty(options.Title),
+                    blogInfo => blogInfo.title.Contains(options.Title, StringComparison.OrdinalIgnoreCase))
+                .And(options.State.HasValue, blogInfo => blogInfo.state == options.State)
+                .And(options.ReleaseStartTime.HasValue, blogInfo => blogInfo.ReleaseTime >= options.ReleaseStartTime)
+                .And(options.ReleaseEndTime.HasValue, blogInfo => blogInfo.ReleaseTime < options.ReleaseEndTime)
+                .And(options.TypeId.HasValue, blogInfo => blogInfo.typeId == options.TypeId.Value);
+
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
                         from blogType in leftBlogType.DefaultIfEmpty()
@@ -33,12 +42,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             commentCount = blogInfo.CommentCount,
                             approvedCount = blogInfo.ApprovedCount,
                             remark = blogInfo.Remark,
-                            CreationTime = blogInfo.CreationTime,
+                            ReleaseTime = blogInfo.ReleaseTime,
                         };
 
-            var pageResult = await query.OrderBy(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
-
-            return pageResult;
+            return await query.Where(where).OrderByDescending(x => x.ReleaseTime).PagingAsync(options.PageIndex, options.PageSize);
         }
 
         /// <summary>
@@ -65,7 +72,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                                   commentCount = blogInfo.CommentCount,
                                   approvedCount = blogInfo.ApprovedCount,
                                   remark = blogInfo.Remark,
-                                  CreationTime = blogInfo.CreationTime
+                                  ReleaseTime = blogInfo.CreationTime
                               }).FirstOrDefaultAsync();
 
             return data;
@@ -98,14 +105,14 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             if (blogInfo != null)
             {
                 // TODO: mapping
-                
+
                 blogInfo.Content = model.Content;
                 blogInfo.Remark = model.Remark;
                 blogInfo.State = model.State;
                 blogInfo.Title = model.Title;
                 blogInfo.IsShow = model.IsShow;
                 blogInfo.TypeId = model.TypeId;
-                
+
                 _blogDbContext.Update(blogInfo);
                 await _blogDbContext.SaveChangesAsync();
                 _blogDbContext.Database.CurrentTransaction?.Commit();
@@ -155,10 +162,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             commentCount = blogInfo.CommentCount,
                             approvedCount = blogInfo.ApprovedCount,
                             remark = blogInfo.Remark,
-                            CreationTime = blogInfo.CreationTime
+                            ReleaseTime = blogInfo.CreationTime
                         };
 
-            var pageResult = await query.OrderByDescending(x => x.CreationTime).PagingAsync(options.PageIndex, options.PageSize);
+            var pageResult = await query.OrderByDescending(x => x.ReleaseTime).PagingAsync(options.PageIndex, options.PageSize);
 
             return new PagingResult<BlogInfoListViewModel>()
             {

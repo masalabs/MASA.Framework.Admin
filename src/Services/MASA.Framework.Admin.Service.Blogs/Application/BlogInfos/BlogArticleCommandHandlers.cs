@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Nest;
+using System.Text.Json;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
@@ -56,7 +57,6 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         {
             var blogInfo = new BlogInfo()
             {
-                Id = command.Request.Id,
                 Title = command.Request.Title,
                 TypeId = command.Request.TypeId,
                 Content = command.Request.Content,
@@ -102,7 +102,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         [EventHandler]
         public async Task AddBlogApprovedRecord(AddBlogApprovedRecordCommand command)
         {
-            await _approvedRecordRepository.AddBlogApprovedRecord(command.Request);
+            var blog = await _approvedRecordRepository.AddBlogApprovedRecord(command.Request);
+            await InsertEsAsync(blog);
         }
 
         /// <summary>

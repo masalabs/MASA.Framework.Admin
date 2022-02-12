@@ -48,6 +48,12 @@
         "Title": "Dic",
         "Icon": "mdi-circle",
         "Href": "/management-admin/dic-list"
+      },
+      {
+        "Id": 302,
+        "Title": "DicValue",
+        "Icon": "mdi-circle",
+        "Href": "/management-admin/dicValue-list"
       }
     ]
   }

@@ -10,7 +10,9 @@ namespace MASA.Framework.Admin.Caller.Callers
 {
     public class ManagementCaller : HttpClientCallerBase
     {
-        private DictionaryService _dictionaryService;
+        private DicService _dicService;
+
+        private DicValueService _dicValueService;
 
         protected override string BaseAddress { get; set; } = "https://localhost:7049";
 
@@ -19,6 +21,8 @@ namespace MASA.Framework.Admin.Caller.Callers
             Name = nameof(ManagementCaller);
         }
 
-        public DictionaryService DictionaryService => _dictionaryService ?? new DictionaryService(CallerProvider);
+        public DicService DicService => _dicService ?? new DicService(CallerProvider);
+
+        public DicValueService DicValueService => _dicValueService ?? new DicValueService(CallerProvider);
     }
 }

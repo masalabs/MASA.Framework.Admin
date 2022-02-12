@@ -1,34 +1,36 @@
 ﻿using MASA.Framework.Admin.Caller.Callers;
-using MASA.Framework.Admin.Contracts.Dictionary.Dic.Model;
-using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
-using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Model;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.ViewModel;
 
 namespace MASA.Framework.Admin.Management.Pages.Dictionary
 {
-    public partial class Dic : ProCompontentBase
+    public partial class DicValue:ProCompontentBase
     {
-        private DicPagingOptions _options = new();
+        private DicValuePagingOptions _options = new();
         private int _totalCount = 0;
         private bool _loading = false;
-        private List<DicViewModel> _tableData = new();
+        private List<DicValueViewModel> _tableData = new();
 
-        private readonly List<DataTableHeader<DicViewModel>> _headers = new()
+        private readonly List<DataTableHeader<DicValueViewModel>> _headers = new()
         {
             new()
-            { Text = "名称", Value = nameof(DicViewModel.Name), Sortable = false },
+            { Text = "标签", Value = nameof(DicValueViewModel.Lable), Sortable = false },
             new()
-            { Text = "类型", Value = nameof(DicViewModel.Type), Sortable = false },
+            { Text = "数据值", Value = nameof(DicValueViewModel.Value), Sortable = false },
             new()
-            { Text = "描述", Value = nameof(DicViewModel.Description), Sortable = false },
+            { Text = "描述", Value = nameof(DicValueViewModel.Description), Sortable = false },
             new()
-            { Text = "启用", Value = nameof(DicViewModel.Enable), Sortable = false },
+            { Text = "启用", Value = nameof(DicValueViewModel.Enable), Sortable = false },
             new()
-            { Text = "创建时间", Value = nameof(DicViewModel.CreateTime), Sortable = false },
+            { Text = "创建时间", Value = nameof(DicValueViewModel.CreateTime), Sortable = false },
+            new()
+            { Text = "排序", Value = nameof(DicValueViewModel.Sort), Sortable = false },
             new()
             { Text = "操作", Value = "actions", Width = 300, Sortable = false }
         };
 
-        private DataModal<DicViewModel> _dataModal = new();
+        private DataModal<DicValueViewModel> _dataModal = new();
 
         private string _dialogTitle = string.Empty;
         [Inject] protected ManagementCaller ManagementCaller { get; set; }
@@ -52,28 +54,28 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
             _loading = true;
 
-            _tableData = new List<DicViewModel>
+            _tableData = new List<DicValueViewModel>
             {
-                new DicViewModel
+                new DicValueViewModel
                 {
-                    Name = "测试1",
-                    Type = "测试1",
+                     Lable = "测试1",
+                    Value = "测试1",
                     Description = "测试1",
                     Enable = true,
                     CreateTime = DateTime.Now,
                 },
-                new DicViewModel
+                new DicValueViewModel
                 {
-                    Name = "测试2",
-                    Type = "测试2",
+                    Lable = "测试2",
+                    Value = "测试2",
                     Description = "测试2",
                     Enable = false,
                     CreateTime = DateTime.Now,
                 },
-                new DicViewModel
+                new DicValueViewModel
                 {
-                    Name = "测试3",
-                    Type = "测试3",
+                    Lable = "测试3",
+                    Value = "测试3",
                     Description = "测试3",
                     Enable = true,
                     CreateTime = DateTime.Now,
@@ -102,27 +104,27 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         {
             if (!_dataModal.HasValue)
             {
-                await ManagementCaller.DicService.CreateAsync(new AddDicModel
+                await ManagementCaller.DicValueService.CreateAsync(new AddDicValueModel
                 {
                     Description = _dataModal.Data.Description,
                     Enable = _dataModal.Data.Enable,
-                    ModuleId = _dataModal.Data.ModuleId,
-                    Name = _dataModal.Data.Name,
-                    Type = _dataModal.Data.Type,
+                    Lable = _dataModal.Data.Lable,
+                    Sort = _dataModal.Data.Sort,
+                    Value = _dataModal.Data.Value,
                 });
 
                 Message("新增成功", AlertTypes.Success);
             }
             else
             {
-                await ManagementCaller.DicService.UpdateAsync(new UpdateDicModel
+                await ManagementCaller.DicValueService.UpdateAsync(new UpdateDicValueModel
                 {
                     Id = _dataModal.Data.Id,
                     Description = _dataModal.Data.Description,
                     Enable = _dataModal.Data.Enable,
-                    ModuleId = _dataModal.Data.ModuleId,
-                    Name = _dataModal.Data.Name,
-                    Type = _dataModal.Data.Type,
+                    Lable = _dataModal.Data.Lable,
+                    Sort = _dataModal.Data.Sort,
+                    Value = _dataModal.Data.Value,
                 });
 
                 Message("更新成功", AlertTypes.Success);
@@ -138,7 +140,7 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
             await FetchList(options.Page, options.ItemsPerPage);
         }
 
-        public async Task UpdateAsync(DicViewModel model)
+        public async Task UpdateAsync(DicValueViewModel model)
         {
             _dialogTitle = "更新";
             _dataModal.Visible = true;
@@ -149,14 +151,14 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         /// 删除
         /// </summary>
         /// <returns></returns>
-        public async Task DelAsync(DicViewModel model)
+        public async Task DelAsync(DicValueViewModel model)
         {
             Confirm(
                    title: "删除字典",
                    content: $"您确认要删除吗？",
                    onOk: async () =>
                    {
-                       await ManagementCaller.DicService.DeleteAsync(model.Id);
+                       await ManagementCaller.DicValueService.DeleteAsync(model.Id);
 
                        Message("删除成功", AlertTypes.Success);
 

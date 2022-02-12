@@ -1,5 +1,5 @@
-﻿@page "/management-admin/dic-list"
-@using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
+﻿@page "/management-admin/dicValue-list"
+@using MASA.Framework.Admin.Contracts.Dictionary.DicValue.ViewModel
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
@@ -8,21 +8,7 @@
     </LeftActions>
     <Filters Context="filter">
         <MRow Dense>
-            @*            <MCol Cols="12">
-                <DefaultTextField Label="名称"
-                @bind-Value="_options.Name"
-                OnKeyDown="filter.onEnter"
-                OnClearClick="filter.onSearch">
-                </DefaultTextField>
-                </MCol>
 
-                <MCol Cols="12">
-                <DefaultTextField Label="类型"
-                @bind-Value="_options.Type"
-                OnKeyDown="filter.onEnter"
-                OnClearClick="filter.onSearch">
-                </DefaultTextField>
-                </MCol>*@
         </MRow>
     </Filters>
 </PPageHeader>
@@ -34,7 +20,7 @@
                   Page="_options.PageIndex"
                   ItemsPerPage="_options.PageSize"
                   ServerItemsLength="_totalCount"
-                  TItem="DicViewModel">
+                  TItem="DicValueViewModel">
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
@@ -53,9 +39,9 @@
 <FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
     <MRow>
         <MCol Cols="12">
-            <MTextField Label="名称"
+            <MTextField Label="标签"
                         Dense Outlined
-                        @bind-Value="_dataModal.Data.Name">
+                        @bind-Value="_dataModal.Data.Lable">
                 <PrependInnerContent>
                     <lable class="red--text">*</lable>
                 </PrependInnerContent>
@@ -63,13 +49,17 @@
         </MCol>
 
         <MCol Cols="12">
-            <MTextField Label="类型"
+            <MTextField Label="值"
                         Dense Outlined
-                        @bind-Value="_dataModal.Data.Type">
+                        @bind-Value="_dataModal.Data.Value">
                 <PrependInnerContent>
                     <lable class="red--text">*</lable>
                 </PrependInnerContent>
             </MTextField>
+        </MCol>
+
+        <MCol Cols="12">
+            <MSwitch Label="开关" @bind-Value="_dataModal.Data.Enable" />
         </MCol>
 
         <MCol Cols="12">
@@ -83,7 +73,13 @@
         </MCol>
 
         <MCol Cols="12">
-            <MSwitch Label="开关" @bind-Value="_dataModal.Data.Enable" />
+            <MTextField Label="描述"
+                        Dense Outlined
+                        @bind-Value="_dataModal.Data.Sort">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextField>
         </MCol>
     </MRow>
 </FormModal>

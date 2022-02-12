@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MASA.Contrib.DDD.Domain" Version="0.0.1736024337" />
+  </ItemGroup>
+
 </Project>

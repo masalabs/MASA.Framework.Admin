@@ -27,7 +27,7 @@
         "Id": 201,
         "Title": "Home",
         "Icon": "mdi-circle",
-        "Href": "backgroundJobs"
+        "Href": "/management-admin/job-list"
       }
     ]
   },

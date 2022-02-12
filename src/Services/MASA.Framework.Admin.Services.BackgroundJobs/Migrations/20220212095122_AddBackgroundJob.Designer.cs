@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Services.BackgroundJobs.Migrations
 {
     [DbContext(typeof(JobDbContext))]
-    [Migration("20220212075719_AddBackgroundJob")]
+    [Migration("20220212095122_AddBackgroundJob")]
     partial class AddBackgroundJob
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,7 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Migrations
                     b.Property<DateTimeOffset>("CreateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool>("IsStop")
+                    b.Property<bool>("Enable")
                         .HasColumnType("bit");
 
                     b.Property<string>("JobArgs")
@@ -122,23 +122,7 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobId");
-
                     b.ToTable("JobLogs");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Domains.BackgroundJobs.Entities.JobLog", b =>
-                {
-                    b.HasOne("MASA.Framework.Admin.Domains.BackgroundJobs.Entities.Job", null)
-                        .WithMany("Logs")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Domains.BackgroundJobs.Entities.Job", b =>
-                {
-                    b.Navigation("Logs");
                 });
 #pragma warning restore 612, 618
         }

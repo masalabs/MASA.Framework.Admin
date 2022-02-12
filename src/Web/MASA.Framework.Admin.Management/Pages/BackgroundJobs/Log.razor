@@ -1,0 +1,20 @@
+﻿@page "/management-admin/job-log-list/{id}"
+@using MASA.Framework.Admin.Caller.Model.BackgroundJob.ViewModel
+@inherits ProCompontentBase
+
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <Filters Context="filter">
+        <MRow Dense>
+
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="JobLogViewModel">
+</DefaultDataTable>

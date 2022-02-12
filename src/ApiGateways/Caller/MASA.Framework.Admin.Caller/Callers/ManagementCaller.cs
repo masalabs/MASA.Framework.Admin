@@ -14,7 +14,9 @@ namespace MASA.Framework.Admin.Caller.Callers
 
         private DicValueService _dicValueService;
 
-        protected override string BaseAddress { get; set; } = "https://localhost:7049";
+        private JobService _jobService;
+
+        protected override string BaseAddress { get; set; } = "https://localhost:6383";
 
         public ManagementCaller(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -24,5 +26,7 @@ namespace MASA.Framework.Admin.Caller.Callers
         public DicService DicService => _dicService ?? new DicService(CallerProvider);
 
         public DicValueService DicValueService => _dicValueService ?? new DicValueService(CallerProvider);
+
+        public JobService JobService => _jobService ?? new JobService(CallerProvider);
     }
 }

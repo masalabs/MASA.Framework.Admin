@@ -50,6 +50,7 @@ builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
 builder.Services.AddEventBus();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IBackgroundJobStore, JobRepository>();
+builder.Services.AddScoped<IQueryRepository, JobRepository>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

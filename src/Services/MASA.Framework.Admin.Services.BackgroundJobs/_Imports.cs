@@ -19,3 +19,4 @@ global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.OpenApi.Models;
+global using MASA.Framework.Admin.Services.BackgroundJobs.ViewModel;

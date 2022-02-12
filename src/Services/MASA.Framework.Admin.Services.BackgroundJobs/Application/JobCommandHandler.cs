@@ -19,7 +19,7 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Application
                 JobName = command.Name,
                 JobMethod = command.Method,
                 JobArgs = command.Args,
-                IsStop = command.IsStop,
+                Enable = command.Enable,
                 PeriodSeconds = command.PeriodSeconds
             };
             await _jobRepository.InsertAsync(entity);
@@ -32,7 +32,7 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Application
             entity.JobName = command.Name;
             entity.JobMethod = command.Method;
             entity.JobArgs = command.Args;
-            entity.IsStop = command.IsStop;
+            entity.Enable = command.Enable;
             entity.PeriodSeconds = command.PeriodSeconds;
             entity.UpdateTime = DateTimeOffset.Now;
 

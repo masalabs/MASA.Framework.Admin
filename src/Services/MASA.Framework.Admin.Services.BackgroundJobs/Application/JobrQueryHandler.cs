@@ -2,23 +2,23 @@
 {
     public class JobQueryHandler
     {
-        readonly IJobRepository _orderRepository;
-        public JobQueryHandler(IJobRepository orderRepository)
+        readonly IQueryRepository _queryRepository;
+        public JobQueryHandler(IQueryRepository queryRepository)
         {
-            _orderRepository = orderRepository;
+            _queryRepository = queryRepository;
         }
 
         [EventHandler]
-        public async Task JobListHandleAsync(JobQuery query)
+        public async Task JobListPageHandleAsync(JobQuery query)
         {
-            query.Result = await _orderRepository.List();
+            query.Result = await _queryRepository.JobPageAsync(query.PageIndex, query.PageSize);
         }
 
 
         [EventHandler]
-        public async Task JobLogListHandleAsync(JobLogQuery query)
+        public async Task JobLogPageHandleAsync(JobLogQuery query)
         {
-            query.Result = await _orderRepository.LogList(query.jobId);
+            query.Result = await _queryRepository.JobLogPageAsync(query.jobId, query.PageIndex, query.PageSize);
         }
     }
 }

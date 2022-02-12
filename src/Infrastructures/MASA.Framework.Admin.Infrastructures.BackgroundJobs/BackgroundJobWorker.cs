@@ -62,7 +62,7 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
             catch (Exception ex)
             {
                 // TODO: 处理异常
-                job.IsStop = true;
+                job.Enable = false;
             }
             finally
             {

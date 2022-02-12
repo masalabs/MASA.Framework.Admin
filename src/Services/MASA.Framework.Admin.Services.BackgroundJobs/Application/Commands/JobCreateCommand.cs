@@ -8,7 +8,7 @@
 
         public string? Args { get; set; }
 
-        public bool IsStop { get; set; }
+        public bool Enable { get; set; }
 
         public int PeriodSeconds { get; set; }
     }

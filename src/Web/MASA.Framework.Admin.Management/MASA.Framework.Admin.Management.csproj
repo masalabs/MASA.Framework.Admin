@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Dictionary\" />
     <Folder Include="Pages\BackgroundJobs\" />
   </ItemGroup>
 

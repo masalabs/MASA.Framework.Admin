@@ -1,0 +1,59 @@
+﻿@page "/management-admin/dic-list"
+@using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
+@inherits ProCompontentBase
+
+<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+    <LeftActions>
+        <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>新增</MButton>
+    </LeftActions>
+    <Filters Context="filter">
+        <MRow Dense>
+            <MCol Cols="12">
+                @*<DefaultTextField Label="分类名称"
+                                  @bind-Value="_options.TypeName"
+                                  OnKeyDown="filter.onEnter"
+                                  OnClearClick="filter.onSearch">
+                </DefaultTextField>*@
+            </MCol>
+        </MRow>
+    </Filters>
+</PPageHeader>
+
+<DefaultDataTable Headers="_headers"
+                  Items="_tableData"
+                  Loading="_loading"
+                  OnOptionsUpdate="HandleOnOptionsUpdate"
+                  Page="_options.PageIndex"
+                  ItemsPerPage="_options.PageSize"
+                  ServerItemsLength="_totalCount"
+                  TItem="DicViewModel">
+    <ItemColContent>
+        @if (context.Header.Value == "actions")
+        {
+            @*<PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
+            <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>*@
+            <PAction Color="primary" Label="编辑" Text Icon="mdi-pencil"> </PAction>
+            <PAction Color="error" Label="删除" Text Icon="mdi-delete"></PAction>
+        }
+        else
+        {
+            <GenericColumnRender Value="@context.Value" ChippedEnum></GenericColumnRender>
+        }
+
+
+    </ItemColContent>
+</DefaultDataTable>
+
+<FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField Label="名称"
+                        Dense Outlined
+                        @bind-Value="_dataModal.Data.Name">
+                <PrependInnerContent>
+                    <lable class="red--text">*</lable>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+    </MRow>
+</FormModal>

@@ -37,5 +37,18 @@
         "Href": "/management-admin/simple-example"
       }
     ]
+  },
+  {
+    "Id": 300,
+    "Title": "Dic",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 301,
+        "Title": "Dic",
+        "Icon": "mdi-circle",
+        "Href": "/management-admin/dic-list"
+      }
+    ]
   }
 ]

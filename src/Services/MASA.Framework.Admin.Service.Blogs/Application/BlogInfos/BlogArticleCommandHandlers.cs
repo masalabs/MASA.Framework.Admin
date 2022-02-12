@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Nest;
+using System.Text.Json;
 
 namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
@@ -68,7 +69,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 
             await AddLabelRelations(command.Request.AddLabels, blogInfo.Id);
 
-            if (command.Request.DeleteRelationIds is not null && 
+            if (command.Request.DeleteRelationIds is not null &&
                 command.Request.DeleteRelationIds.Count > 0)
                 await _blogLabelRepository.DeleteBlogLabelRelationBatchAsync(command.Request.DeleteRelationIds);
         }
@@ -102,7 +103,22 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         [EventHandler]
         public async Task AddBlogApprovedRecord(AddBlogApprovedRecordCommand command)
         {
-            await _approvedRecordRepository.AddBlogApprovedRecord(command.Request);
+            var blog = await _approvedRecordRepository.AddBlogApprovedRecord(command.Request);
+            await InsertEsAsync(blog);
+        }
+
+        /// <summary>
+        /// 下架文章
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [EventHandler]
+        public async Task WithdrawAsync(WithdrawBlogArticleCommand command)
+        {
+            var article = await _articleRepository.GetAsync(command.Model.Id);
+            article!.State = StateTypes.OffTheShelf;
+
+            await _articleRepository.UpdateAsync(article);
         }
 
         /// <summary>

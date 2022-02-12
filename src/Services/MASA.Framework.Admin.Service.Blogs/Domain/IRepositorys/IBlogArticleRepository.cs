@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<BlogInfoListViewModel> GetAsync(Guid id);
+        Task<BlogInfoListViewModel> GetInfoAsync(Guid id);
 
         /// <summary>
         /// 创建
@@ -57,5 +57,9 @@
         /// <param name="isAdd">false:减少</param>
         /// <returns></returns>
         Task AddCommentCount(Guid id, bool isAdd);
+
+        Task<bool> ExistAsync(Guid id);
+
+        Task<BlogInfo?> GetAsync(Guid id);
     }
 }

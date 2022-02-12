@@ -3,16 +3,18 @@
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
 
-<MCard Width="1600" Class="mx-auto">
+<MCard Width="1600" Class="mx-auto mt-5">
     <MTabsItems>
         <MTabItem>
             <MCard Flat>
                 <MRow>
-                    <MCol>
+                    <MCol Cols="10">
                         <MCardText><h5>@_blogInfo.title</h5></MCardText>
                     </MCol>
                     <MSpacer></MSpacer>
-                    <MCol><MButton Color="primary" OnClick="ToReport">举报</MButton></MCol>
+                    <MCol Cols="2" Class="mt-5">
+                        <MButton Color="primary" OnClick="ToReport">举报</MButton>
+                    </MCol>
                 </MRow>
             </MCard>
         </MTabItem>

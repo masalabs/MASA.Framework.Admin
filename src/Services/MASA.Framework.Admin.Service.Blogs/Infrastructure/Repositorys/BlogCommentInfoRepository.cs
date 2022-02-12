@@ -38,21 +38,35 @@
         public async Task<PagingResult<BlogCommentInfoListViewModel>> GetBlogComments(
             GetBlogCommentInfoOptions options)
         {
-            return await _blogDbContext.BlogCommentInfoes
-                .Where(x => x.BlogInfoId.Equals(options.BlogInfoId) && x.IsShow && !x.IsDeleted)
-                .Select(x => new BlogCommentInfoListViewModel
-                {
-                    BlogInfoId = x.BlogInfoId,
-                    CommentContent = x.CommentContent,
-                    CreatorUserId = x.CreatorUserId,
-                    Id = x.Id,
-                    IpAddress = x.IpAddress,
-                    QQ = x.QQ,
-                    TypeId = x.TypeId,
-                    CreationTime = x.CreationTime,
-                })
-                .OrderByDescending(x => x.CreationTime)
-                .PagingAsync(options.PageIndex, options.PageSize);
+            return await (from x in _blogDbContext.BlogCommentInfoes
+                          join y in _blogDbContext.BlogCommentInfoes
+                          on new { ReplyId = x.Id, x.IsDeleted } equals new { y.ReplyId, y.IsDeleted }
+                          into reply
+                          from r in reply.DefaultIfEmpty()
+                          where x.BlogInfoId.Equals(options.BlogInfoId) && x.IsShow && x.ReplyId == Guid.Empty && !x.IsDeleted
+                          orderby x.CreationTime descending
+                          select new BlogCommentInfoListViewModel
+                          {
+                              BlogInfoId = x.BlogInfoId,
+                              CommentContent = x.CommentContent,
+                              CreatorUserId = x.CreatorUserId,
+                              Id = x.Id,
+                              IpAddress = x.IpAddress,
+                              QQ = x.QQ,
+                              TypeId = x.TypeId,
+                              CreationTime = x.CreationTime,
+                              ReplyInfo = r == null ? new() : new()
+                              {
+                                  BlogInfoId = r.BlogInfoId,
+                                  CommentContent = r.CommentContent,
+                                  CreatorUserId = r.CreatorUserId,
+                                  Id = r.Id,
+                                  IpAddress = r.IpAddress,
+                                  QQ = r.QQ,
+                                  TypeId = r.TypeId,
+                                  CreationTime = r.CreationTime
+                              }
+                          }).PagingAsync(options.PageIndex, options.PageSize);
         }
     }
 }

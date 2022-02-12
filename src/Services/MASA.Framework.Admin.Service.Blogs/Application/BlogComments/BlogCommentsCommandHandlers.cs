@@ -24,7 +24,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogComments
                 IpAddress = command.Request.IpAddress,
                 CommentContent = command.Request.CommentContent,
                 QQ = command.Request.QQ,
-                TypeId = command.Request.TypeId
+                TypeId = command.Request.TypeId,
+                ReplyId = command.Request.ReplyId
             });
 
             await _blogArticleRepository.AddCommentCount(command.Request.BlogInfoId, true);

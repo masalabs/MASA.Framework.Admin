@@ -38,7 +38,7 @@ public abstract class ProCompontentBase : ComponentBase
          string cancelText = "取消",
          string okColor = "primary",
          string cancelColor = "default",
-         Action onCancel = default)
+         System.Action onCancel = default)
     {
         App.Confirm(title, content, onOk, type, icon, iconColor, okText, cancelText, okColor, cancelColor, onCancel);
     }
@@ -46,7 +46,7 @@ public abstract class ProCompontentBase : ComponentBase
     public void Confirm(
         string title,
         string content,
-        Action onOk,
+        System.Action onOk,
         AlertTypes type = default,
         string icon = default,
         string iconColor = default,
@@ -54,7 +54,7 @@ public abstract class ProCompontentBase : ComponentBase
         string cancelText = "取消",
         string okColor = "primary",
         string cancelColor = "default",
-        Action onCancel = default)
+        System.Action onCancel = default)
     {
         Confirm(title, content, () => onOk(), type, icon, iconColor, okText, cancelText, okColor, cancelColor, onCancel);
     }

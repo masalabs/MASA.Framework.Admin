@@ -9,7 +9,7 @@
             _blogDbContext = blogDbContext ?? throw new ArgumentNullException(nameof(blogDbContext));
         }
 
-        public async Task AddBlogApprovedRecord(BlogApprovedRecordModel model)
+        public async Task<BlogInfo> AddBlogApprovedRecord(BlogApprovedRecordModel model)
         {
             var blogInfo = await _blogDbContext.BlogInfoes.FindAsync(model.BlogId);
             if (blogInfo is null)
@@ -36,11 +36,22 @@
 
             blogInfo.ApprovedCount = model.IsApproved ?
             blogInfo.ApprovedCount + 1 : blogInfo.ApprovedCount - 1;
-            if (blogInfo.ApprovedCount >= 0)
-                _blogDbContext.BlogInfoes.Update(blogInfo);
+            blogInfo.ApprovedCount = blogInfo.ApprovedCount >= 0 ? blogInfo.ApprovedCount : 0;
+            _blogDbContext.BlogInfoes.Update(blogInfo);
 
             await _blogDbContext.SaveChangesAsync();
             _blogDbContext.Database.CurrentTransaction?.Commit();
+
+            return blogInfo;
+        }
+
+        public async Task<bool> ExistBlogApprovedRecord(Guid blogInfoId, Guid userId)
+        { 
+            if(blogInfoId == Guid.Empty || userId == Guid.Empty)
+                return false;
+
+            return await _blogDbContext.BlogApprovedRecords.AnyAsync(x =>
+                x.BlogInfoId.Equals(blogInfoId) && x.CreatorUserId.Equals(userId) && !x.IsDeleted);
         }
     }
 }

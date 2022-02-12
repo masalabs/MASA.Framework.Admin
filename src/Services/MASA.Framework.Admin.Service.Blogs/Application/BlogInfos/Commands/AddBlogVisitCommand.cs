@@ -10,7 +10,6 @@
 
 
             RuleFor(cmd => cmd.Request).NotNull().WithMessage("Request is not null");
-            RuleFor(cmd => cmd.Request.UserId).NotEqual(default(Guid)).WithMessage("wrong UserId");
         }
     }
 

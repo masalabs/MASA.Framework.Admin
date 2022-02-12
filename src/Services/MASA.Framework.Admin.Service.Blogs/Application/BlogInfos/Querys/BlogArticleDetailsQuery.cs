@@ -4,6 +4,8 @@
     {
         public Guid Id { get; set; }
 
+        public Guid UserId { get; set; }
+
         public override BlogInfoListViewModel Result { get; set; } = default!;
     }
 }

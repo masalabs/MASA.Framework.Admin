@@ -1,8 +1,6 @@
 ﻿using MASA.BuildingBlocks.Dispatcher.Events;
 using MASA.Contrib.Service.MinimalAPIs;
-using MASA.Framework.Admin.Contracts.Blogs.BlogReport.Options;
 using MASA.Framework.Admin.Service.Blogs.Application.BlogInfos;
-using MASA.Framework.Admin.Service.Blogs.Application.BlogReport.Querys;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.Blogs.OpenServices
@@ -24,6 +22,7 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             MapPost(BlogArticleByUserAsync);
             MapPost(AddVisitsAsync);
             MapPost(AddBlogApprovedRecordAsync);
+            MapPost(WithdrawAsync);
         }
 
         public async Task<IResult> GetListAsync(GetBlogArticleOptions options)
@@ -37,11 +36,12 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
             return Results.Ok(blogQuery.Result);
         }
 
-        public async Task<IResult> GetAsync(Guid id)
+        public async Task<IResult> GetAsync(Guid id, Guid? userId)
         {
             var blogDetailsQuery = new BlogArticleDetailsQuery
             {
-                Id = id
+                Id = id,
+                UserId = userId.HasValue ? userId.Value : Guid.Empty
             };
             await _eventBus.PublishAsync(blogDetailsQuery);
 
@@ -98,6 +98,11 @@ namespace MASA.Framework.Admin.Service.Blogs.OpenServices
         public async Task AddBlogApprovedRecordAsync(BlogApprovedRecordModel request)
         {
             await _eventBus.PublishAsync(new AddBlogApprovedRecordCommand(request));
+        }
+
+        public async Task WithdrawAsync(WithdrawBlogArticleModel model)
+        {
+            await _eventBus.PublishAsync(new WithdrawBlogArticleCommand(model));
         }
     }
 }

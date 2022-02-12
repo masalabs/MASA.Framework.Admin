@@ -31,5 +31,10 @@
         /// QQ
         /// </summary>
         public string QQ { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 回复id
+        /// </summary>
+        public Guid ReplyId { get; set; } = Guid.Empty;
     }
 }

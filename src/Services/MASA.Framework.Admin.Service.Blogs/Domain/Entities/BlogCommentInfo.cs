@@ -55,5 +55,12 @@ namespace MASA.Framework.Admin.Service.Blogs.Domain.Entities
         /// </summary>
         [Required]
         public bool IsShow { get; set; } = true;
+
+        /// <summary>
+        /// 回复Id
+        /// </summary>
+        [Required]
+        [StringLength(36)]
+        public Guid ReplyId { get; set; } = Guid.Empty;
     }
 }

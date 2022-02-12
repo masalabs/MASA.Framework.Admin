@@ -1,0 +1,41 @@
+﻿@page "/blog-admin/articledetail/{BlogInfoId:guid}"
+@layout BlogFrontLayout
+@inherits BlogFrontComponentBase
+@using TinyMCE.Blazor
+
+<MCard Width="1600" Class="mx-auto">
+    <MTabsItems>
+        <MTabItem>
+            <MCard Flat>
+                <MRow>
+                    <MCol>
+                        <MCardText><h5>@_blogInfo.title</h5></MCardText>
+                    </MCol>
+                    <MSpacer></MSpacer>
+                    <MCol><MButton Color="primary" OnClick="ToReport">举报</MButton></MCol>
+                </MRow>
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+    <MDivider></MDivider>
+    <MCard>
+        <MCardText>@((MarkupString)_blogInfo.content)</MCardText>
+        <MCardActions>
+            <p>
+                <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.commentCount</span>
+                <MButton Icon OnClick="ToApprove"><MIcon>mdi-thumb-up</MIcon></MButton> <span>@_blogInfo.approvedCount</span>
+                <MIcon>mdi-eye</MIcon> <span>@_blogInfo.visits</span>
+            </p>
+        </MCardActions>
+    </MCard>
+    <MDivider></MDivider>
+    <MCard>
+        <MRow Style="justify-content:center">
+            @if (_blogInfo.state == StateTypes.ToBeReviewed)
+            {
+                <MButton Color="primary" OnClick="()=>AuditArticleAsync(_blogInfo)">审核</MButton>
+            }
+            <MButton Color="primary" OnClick="HrefArticlePage">返回</MButton>
+        </MRow>
+    </MCard>
+</MCard>

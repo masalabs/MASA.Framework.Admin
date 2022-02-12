@@ -8,6 +8,6 @@ namespace MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options
 {
     public class DicValuePagingOptions : PagingOptions
     {
-       
+        public Guid DicId { get; set; }
     }
 }

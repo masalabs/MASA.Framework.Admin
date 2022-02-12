@@ -7,6 +7,6 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic.Queries
 {
     public record DicPageQuery(DicPagingOptions Options) : Query<PagingResult<DicViewModel>>
     {
-        public override PagingResult<DicViewModel> Result { get; set; }
+        public override PagingResult<DicViewModel> Result { get; set; } = default!;
     }
 }

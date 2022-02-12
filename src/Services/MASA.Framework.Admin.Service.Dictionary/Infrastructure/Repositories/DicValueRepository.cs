@@ -42,7 +42,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var detail = await GetAsync(id);
+            var detail = await _dbContext.DicValues.SingleAsync(o => o.Id == id);
 
             if (detail != null)
             {
@@ -78,7 +78,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
         public async Task<PagingResult<DicValueViewModel>> GetPageAsync(DicValuePagingOptions options)
         {
-            var query = _dbContext.DicValues.OrderBy(r => r.Sort);
+            var query = _dbContext.DicValues.Where(r => r.DicId == options.DicId).OrderBy(r => r.Sort);
 
             var totalCount = await query.CountAsync();
             var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).Select(r => new DicValueViewModel

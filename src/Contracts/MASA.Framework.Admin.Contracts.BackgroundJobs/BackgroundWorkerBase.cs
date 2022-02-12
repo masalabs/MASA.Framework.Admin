@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Infrastructures.BackgroundJobs;
+﻿namespace MASA.Framework.Admin.Contracts.BackgroundJobs;
 
 public abstract class BackgroundWorkerBase : IBackgroundWorker
 {

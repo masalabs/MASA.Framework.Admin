@@ -2,6 +2,14 @@
 {
     public record JobCreateCommand : Command
     {
-        public List<JobLog> Items { get; set; } = new();
+        public string Name { get; set; }
+
+        public string Method { get; set; }
+
+        public string? Args { get; set; }
+
+        public bool IsStop { get; set; }
+
+        public int PeriodSeconds { get; set; }
     }
 }

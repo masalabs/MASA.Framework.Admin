@@ -4,14 +4,14 @@ public class JobExecutionContext
 {
     public IServiceProvider ServiceProvider { get; }
 
-    public string JobUri { get; }
+    public string JobMethod { get; }
 
-    public object JobArgs { get; }
+    public string? JobArgs { get; }
 
-    public JobExecutionContext(IServiceProvider serviceProvider, string jobUri, object jobArgs)
+    public JobExecutionContext(IServiceProvider serviceProvider, string jobMethod, string? jobArgs)
     {
         ServiceProvider = serviceProvider;
-        JobUri = jobUri;
+        JobMethod = jobMethod;
         JobArgs = jobArgs;
     }
 }

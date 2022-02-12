@@ -9,9 +9,16 @@
         }
 
         [EventHandler]
-        public async Task OrderListHandleAsync(JobQuery query)
+        public async Task JobListHandleAsync(JobQuery query)
         {
             query.Result = await _orderRepository.List();
+        }
+
+
+        [EventHandler]
+        public async Task JobLogListHandleAsync(JobLogQuery query)
+        {
+            query.Result = await _orderRepository.LogList(query.jobId);
         }
     }
 }

@@ -52,39 +52,12 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
             _loading = true;
 
-            _tableData = new List<DicViewModel>
-            {
-                new DicViewModel
-                {
-                    Name = "测试1",
-                    Type = "测试1",
-                    Description = "测试1",
-                    Enable = true,
-                    CreateTime = DateTime.Now,
-                },
-                new DicViewModel
-                {
-                    Name = "测试2",
-                    Type = "测试2",
-                    Description = "测试2",
-                    Enable = false,
-                    CreateTime = DateTime.Now,
-                },
-                new DicViewModel
-                {
-                    Name = "测试3",
-                    Type = "测试3",
-                    Description = "测试3",
-                    Enable = true,
-                    CreateTime = DateTime.Now,
-                },
-            };
-            _totalCount = 3;
 
-            //var result = await ManagementCaller.DictionaryService.PagingAsync(_options);
 
-            //_tableData = result.Data;
-            //_totalCount = (int)result.TotalCount;
+            var result = await ManagementCaller.DicService.PagingAsync(_options);
+
+            _tableData = result.Data;
+            _totalCount = (int)result.TotalCount;
 
             _loading = false;
         }
@@ -160,9 +133,13 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
                        Message("删除成功", AlertTypes.Success);
 
+                       await FetchList();
+
                        StateHasChanged();
                    }, AlertTypes.Warning);
         }
+
+        public void DetailList(DicViewModel model) => NavigationManager.NavigateTo($"/management-admin/dicValue-list/{model.Id}");
 
         protected override void OnInitialized()
         {

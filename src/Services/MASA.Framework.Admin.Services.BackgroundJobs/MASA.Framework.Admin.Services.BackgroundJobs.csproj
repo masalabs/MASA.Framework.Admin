@@ -16,12 +16,18 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
 		<PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.0.1685760477" />
 		<PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1685760477" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Domains\MASA.Framework.Admin.Domains.BackgroundJobs\MASA.Framework.Admin.Domains.BackgroundJobs.csproj" />
 	  <ProjectReference Include="..\..\Infrastructures\MASA.Framework.Admin.Infrastructures.BackgroundJobs\MASA.Framework.Admin.Infrastructures.BackgroundJobs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ViewModel\" />
 	</ItemGroup>
 </Project>

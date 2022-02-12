@@ -16,29 +16,31 @@
 
     <Navigation />
 
-    <MMain Class="fill-lighten-1" Style="padding-top:60px">
-        @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
-        {
-            <div class="pa-6 max-width">
-                <Breadcrumb></Breadcrumb>
-                @Body
-            </div>
-        }
-        else if (GlobalConfig.PageMode == PageModes.PageTab)
-        {
-            <PageTabs>
-                @Body
-            </PageTabs>
-        }
-        else
-        {
-            <MContainer Fluid Class="pa-6">
-                @Body
-            </MContainer>
-        }
-    </MMain>
+    <CascadingValue Value="this">
+        <MMain Class="fill-lighten-1" Style="padding-top:60px">
+            @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
+            {
+                <div class="pa-6 max-width">
+                    <Breadcrumb></Breadcrumb>
+                    @Body
+                </div>
+            }
+            else if (GlobalConfig.PageMode == PageModes.PageTab)
+            {
+                <PageTabs>
+                    @Body
+                </PageTabs>
+            }
+            else
+            {
+                <MContainer Fluid Class="pa-6">
+                    @Body
+                </MContainer>
+            }
+        </MMain>
+    </CascadingValue>
 
-     <PConfirm @bind-Visible="_confirm.Visible"
+    <PConfirm @bind-Visible="_confirm.Visible"
               Title="@_confirm.Title"
               Type="@_confirm.Type"
               Icon="@_confirm.Icon"

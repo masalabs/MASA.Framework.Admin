@@ -38,7 +38,7 @@
 
 @if (_blogCommentInfoList.TotalCount > 0)
 {
-    <MCard Width="1600" Class="mx-auto">
+    <MCard Width="1600" Class="mx-auto mt-3">
         <MCardTitle>评论列表</MCardTitle>
         @foreach (var comment in _blogCommentInfoList.Data)
         {
@@ -48,23 +48,69 @@
                     <MListItemSubtitle>@comment.CommentContent</MListItemSubtitle>
                 </MListItemContent>
             </MListItem>
+            @if (comment.ReplyInfo is not null && comment.ReplyInfo.CreationTime > DateTime.MinValue)
+            {
+                <MExpansionPanels @bind-Values="_panel" Disabled>
+                    <MExpansionPanel @key="comment.Id">
+                        <MExpansionPanelHeader>
+                            回复
+                        </MExpansionPanelHeader>
+                        <MExpansionPanelContent>
+
+                            <MListItem TwoLine>
+                                <MListItemContent>
+                                    <MListItemTitle>@comment.ReplyInfo.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
+                                    <MListItemSubtitle>@comment.ReplyInfo.CommentContent</MListItemSubtitle>
+                                </MListItemContent>
+                            </MListItem>
+                        </MExpansionPanelContent>
+                    </MExpansionPanel>
+                </MExpansionPanels>
+
+            }
+            else
+            {
+                <MExpansionPanels>
+                    <MExpansionPanel @key="comment.Id">
+                        <MExpansionPanelHeader>
+                            回复
+                        </MExpansionPanelHeader>
+                        <MExpansionPanelContent>
+                            <MCard>
+                                <MCardTitle>发表回复</MCardTitle>
+                                <MCardText>
+                                    <MCol Cols="12">
+                                        <MTextarea @bind-Value="_reportComment">
+                                        </MTextarea>
+                                    </MCol>
+                                </MCardText>
+                                <MCardActions>
+                                    <MSpacer></MSpacer>
+                                    <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment(comment.Id)">发表回复</MButton>
+                                </MCardActions>
+                            </MCard>
+                        </MExpansionPanelContent>
+                    </MExpansionPanel>
+                </MExpansionPanels>
+            }
+
             <MDivider></MDivider>
         }
         <div class="text-center">
-                <MContainer>
-                    <MRow Justify="JustifyTypes.Center">
-                        <MCol Cols="8">
-                            <MContainer Class="max-width">
-                                <MPagination @bind-Value="_page" Class="my-4" Length=@_pageCount></MPagination>
-                            </MContainer>
-                        </MCol>
-                    </MRow>
-                </MContainer>
-            </div>
+            <MContainer>
+                <MRow Justify="JustifyTypes.Center">
+                    <MCol Cols="8">
+                        <MContainer Class="max-width">
+                            <MPagination @bind-Value="_page" Class="my-4" Length=@_pageCount></MPagination>
+                        </MContainer>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </div>
     </MCard>
 }
 
-<MCard Width="1600" Class="mx-auto">
+<MCard Width="1600" Class="mx-auto mt-3">
     <MCardTitle>发表评论</MCardTitle>
     <MCardText>
         <MCol Cols="12">
@@ -74,7 +120,7 @@
     </MCardText>
     <MCardActions>
         <MSpacer></MSpacer>
-        <MButton Color="primary" Loading="_reportCommentLoading" OnClick="ToReportComment">发表评论</MButton>
+        <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment()">发表评论</MButton>
     </MCardActions>
 </MCard>
 

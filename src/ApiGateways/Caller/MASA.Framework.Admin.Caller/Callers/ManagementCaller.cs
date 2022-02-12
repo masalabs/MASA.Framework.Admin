@@ -12,7 +12,7 @@ namespace MASA.Framework.Admin.Caller.Callers
     {
         private DictionaryService _dictionaryService;
 
-        protected override string BaseAddress { get; set; } = "http://masa.admin.services.blogs";
+        protected override string BaseAddress { get; set; } = "https://localhost:7049";
 
         public ManagementCaller(IServiceProvider serviceProvider) : base(serviceProvider)
         {

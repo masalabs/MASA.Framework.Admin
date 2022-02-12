@@ -22,7 +22,7 @@ namespace MASA.Framework.Admin.Caller.Management
         public async Task<PagingResult<DicViewModel>> PagingAsync(DicPagingOptions options)
         {
             return await _callerProviderProvider.PostAsync<DicPagingOptions, PagingResult<DicViewModel>>(
-                  "/api/blogtype/paging", options);
+                  "/api/dic/getPage", options);
         }
     }
 }

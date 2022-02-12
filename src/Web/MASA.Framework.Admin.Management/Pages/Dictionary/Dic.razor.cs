@@ -54,7 +54,7 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
             _loading = true;
 
-            var result = await ManagementCaller.PagingAsync(_options);
+            var result = await ManagementCaller.DictionaryService.PagingAsync(_options);
 
             _tableData = result.Data;
             _totalCount = (int)result.TotalCount;

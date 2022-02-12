@@ -1,4 +1,5 @@
 ﻿using MASA.Framework.Data.Mapping;
+using Microsoft.JSInterop;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
 {
@@ -15,6 +16,11 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private BlogInfoListViewModel _blogInfo = new();
         private bool _showWrite = false;
         private UpdateBlogInfoModel _updateBlogInfoModel = new();
+
+        [Inject] public IJSRuntime JsRuntime { get; set; }
+
+        private CreateBlogReportModel _createBlogReportModel = new();
+        private readonly Guid CurrentUserId = new Guid("DB4A41B4-0EE3-4957-A193-4DD4E633A52A");
 
 
         protected async override Task OnInitializedAsync()
@@ -33,11 +39,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private void ToApprove()
         {
 
-        }
-
-        private void ToReport()
-        {
-            _showWrite = true;
         }
 
         /// <summary>
@@ -62,6 +63,32 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private void HrefArticlePage()
         {
             Navigation?.NavigateTo($"/blog-admin/article");
+        }
+
+        private async Task ScrollTop()
+        {
+            await JsRuntime.InvokeAsync<string>("scroll_top");
+        }
+
+        private void ToReport()
+        {
+            _showWrite = true;
+            _createBlogReportModel.Title = _blogInfo.title;
+            _createBlogReportModel.BlogInfoId = BlogInfoId;
+            _createBlogReportModel.CreatorUserId = CurrentUserId;
+            _createBlogReportModel.Connect = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        }
+
+        /// <summary>
+        /// 提交举报
+        /// </summary>
+        /// <returns></returns>
+        public async Task SubmitReport()
+        {
+            await BlogCaller.ReportService.CreateAsync(_createBlogReportModel);
+            _showWrite = false;
+
+            Message("举报成功", AlertTypes.Success);
         }
     }
 }

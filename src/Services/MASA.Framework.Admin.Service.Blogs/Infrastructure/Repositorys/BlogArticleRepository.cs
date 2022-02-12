@@ -158,7 +158,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
                         from blogType in leftBlogType.DefaultIfEmpty()
-                        where blogInfo.CreatorUserId == options.Author
+                        where blogInfo.CreatorUserId == options.Author &&
+                            (string.IsNullOrWhiteSpace(options.Title) || blogInfo.Title.Contains(options.Title))
                         select new BlogInfoListViewModel()
                         {
                             id = blogInfo.Id,

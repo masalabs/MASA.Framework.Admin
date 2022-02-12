@@ -5,40 +5,42 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using MASA.Framework.Extensions.Tools.Emails.Model;
+using MASA.Utils.Configuration.Json;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using NPOI.SS.UserModel;
 
 namespace MASA.Framework.Extensions.Tools
 {
-    public class EmailSerivce
+    public class EmailService
     {
+        private static EmailHostSetting HostSetting { get; set; }
 
-
+        static EmailService()
+        {
+            HostSetting = AppSettings.GetModel<EmailHostSetting>("EmailHostConfig");
+            
+            if (HostSetting == null)
+            {
+                throw new ArgumentNullException("emailHostConfig is null");
+            }
+        }
 
         /// <summary>
         /// 发送邮件
         /// </summary>
-        public async Task<bool> PostEmails(EmailParameter mails)
+        public static bool Send(EmailParameter mails)
         {
             //截取发件人邮箱地址从而判断Smtp的值
-            string[] sArray = mails.FromPerson.Split(new char[2] { '@', '.' });
-            if (sArray[1] == "qq")
-            {
-                mails.Host = "smtp.qq.com";//如果是QQ邮箱则：smtp.qq.com,依次类推  163:smtp.163.com
-            }
-            else if (sArray[1] == "163")
-            {
-                mails.Host = "smtp.163.com";//如果是QQ邮箱则：smtp.qq.com,依次类推  163:smtp.163.com
-            }
+            //string[] sArray = mails.FromPerson.Split(new char[2] { '@', '.' });
 
             //将发件人邮箱带入MailAddress中初始化
-            MailAddress mailAddress = new MailAddress(mails.FromPerson);
+            MailAddress mailAddress = new MailAddress(HostSetting.Account);
             //创建Email的Message对象
             MailMessage mailMessage = new MailMessage();
 
             //判断收件人数组中是否有数据
-            if (mails.RecipientArry.Any())
+            if (mails.RecipientArry is not null)
             {
                 //循环添加收件人地址
                 foreach (var item in mails.RecipientArry)
@@ -49,7 +51,7 @@ namespace MASA.Framework.Extensions.Tools
             }
 
             //判断抄送地址数组是否有数据
-            if (mails.MailCcArray.Any())
+            if (mails.MailCcArray is not null)
             {
                 //循环添加抄送地址
                 foreach (var item in mails.MailCcArray)
@@ -61,11 +63,11 @@ namespace MASA.Framework.Extensions.Tools
             //发件人邮箱
             mailMessage.From = mailAddress;
             //标题
-            mailMessage.Subject = mails.MailTitle;
+            mailMessage.Subject = mails.Title;
             //编码
             mailMessage.SubjectEncoding = Encoding.UTF8;
             //正文
-            mailMessage.Body = mails.MailBody;
+            mailMessage.Body = mails.Body;
             //正文编码
             mailMessage.BodyEncoding = Encoding.Default;
             //邮件优先级
@@ -75,7 +77,7 @@ namespace MASA.Framework.Extensions.Tools
             //取得Web根目录和内容根目录的物理路径
             string webRootPath = string.Empty;
             //添加附件
-            foreach (IFormFile item in mails.files)
+            foreach (IFormFile item in mails.Files)
             {
                 //路径拼接
                 //webRootPath = _hostingEnvironment.WebRootPath + "\\" + "upload-file" + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetFileNameWithoutExtension(item.FileName) + Path.GetExtension(item.FileName).ToLower();
@@ -98,9 +100,9 @@ namespace MASA.Framework.Extensions.Tools
             //实例化一个Smtp客户端
             SmtpClient smtp = new SmtpClient();
             //将发件人的邮件地址和客户端授权码带入以验证发件人身份
-            smtp.Credentials = new System.Net.NetworkCredential(mails.FromPerson, mails.Code);
+            smtp.Credentials = new System.Net.NetworkCredential(HostSetting.Account, HostSetting.Code);
             //指定SMTP邮件服务器
-            smtp.Host = mails.Host;
+            smtp.Host = HostSetting.Host;
 
             //邮件发送到SMTP服务器
             smtp.Send(mailMessage);

@@ -1,4 +1,4 @@
-﻿@page "/blogs"
+﻿@page "/user"
 @layout BlogFrontLayout
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
@@ -11,38 +11,16 @@
     <MCol Cols="7" Class="ml-6">
 
         <MCard Class="mx-auto mt-5">
-            <MChipGroup
-                Class="ml-5"
-                Value="_searchOptions.TypeId.ToString()"
-                Column
-                ValueChanged="SelectedChipChanged"
-                Mandatory>
-
-                @foreach (var type in _typeList)
-                {
-                    <MChip Value="type.Item1.ToString()"
-                           Filter
-                           Outlined>
-                        @type.Item2
-                    </MChip>
-                }
-            </MChipGroup>
-        </MCard>
-
-        <MCard Class="mx-auto mt-5">
             <MTabsItems>
                 <MTabItem>
                     <MCard Flat>
                         <MRow>
                             <MCol Cols="10">
                                 <MCardText>
-                                    <h5>最新博文</h5>
+                                    <h5>个人文章管理</h5>
                                 </MCardText>
                             </MCol>
                             <MSpacer></MSpacer>
-                            <MCol Cols="2" Class="mt-5">
-                                <MButton Color="primary" OnClick="ToWrite">写文章</MButton>
-                            </MCol>
                         </MRow>
                     </MCard>
                 </MTabItem>
@@ -70,19 +48,26 @@
             {
                 @foreach (var blog in Blogs.Data)
                 {
-                    <MCard OnClick="() => HrefDetailPage(blog.Id)">
-                        <MCardTitle>@blog.Title</MCardTitle>
-                        <MCardText> @($"{(blog.Content.Length > 200 ? blog.Content.Substring(0, 200) : blog.Content)}") </MCardText>
+                    <MCard OnClick="() => HrefDetailPage(blog.id)">
+                        <MCardTitle>@blog.title</MCardTitle>
+                        <MCardText> @($"{(blog.content.Length > 200 ? blog.content.Substring(0, 200) : blog.content)}") </MCardText>
                         <MCardActions Style="padding-left:20px">
                             <p>
-                                @* <MAvatar Color="primary" Size="56">
-                            <span class="white--text">@blog.typeName</span>
-                        </MAvatar>*@
                                 <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
-                                @* <span>【@blog.CreatorUserId】</span>*@
+                                <span>【@blog.state.GetDescription().Description】</span>
                             </p>
                         </MCardActions>
                     </MCard>
+                    <MRow Style="margin:auto">
+                        <MCol Cols="9"></MCol>
+                        <MCol Cols="1">
+                            <MButton Color="primary" OnClick="() => ToWrite(blog.id)" Outlined>编辑</MButton>
+                        </MCol>
+                        <MCol Cols="1">
+                            <MButton Color="error" OnClick="() => ToDelete(blog)" Outlined>删除</MButton>
+                        </MCol>
+                        <MCol Cols="1"></MCol>
+                    </MRow>
                     <MDivider></MDivider>
                 }
             }
@@ -100,34 +85,6 @@
         </MCard>
     </MCol>
     <MCol Cols="2">
-        <MCard Class="mx-auto mt-5 ml-10">
-            <MTabsItems>
-                <MTabItem>
-                    <MCard Flat>
-                        <MRow>
-                            <MCol Cols="10">
-                                <MCardText>
-                                    <h5>推荐标签</h5>
-                                </MCardText>
-                            </MCol>
-                        </MRow>
-                    </MCard>
-                </MTabItem>
-            </MTabsItems>
-
-            <div class="pa-4">
-                <MChipGroup ActiveClass="primary--text"
-                            Column>
-                    @foreach (var type in _typeList)
-                    {
-                        <MChip>
-                            @type.Item2
-                        </MChip>
-                    }
-                </MChipGroup>
-            </div>
-
-        </MCard>
         <MCard Class="mx-auto mt-5 ml-10 pb-3">
             <MTabsItems>
                 <MTabItem>
@@ -163,7 +120,7 @@
 
 
 <FormModal Visible="_showWrite"
-           Title="文章"
+           Title="文章编辑"
            Width="1000"
            OnCancel="Cancel"
            OnOk="SubmitBlog"
@@ -172,11 +129,11 @@
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
                         Label="标题" Clearable
-                        @bind-Value="_options.Title"/>
+                        @bind-Value="_options.title"/>
         </MCol>
         <MCol Cols="12">
             <MSelect Label="类别"
-                     @bind-Value="_options.TypeId"
+                     @bind-Value="_options.typeId"
                      Items="_typeList"
                      ItemText="x => x.Item2"
                      ItemValue="x => x.Item1"
@@ -189,16 +146,16 @@
         </MCol>
         <MCol Cols="12">
             <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
-                    Field="() => _options.Content"
-                    @bind-Value="_options.Content"/>
+                    Field="() => _options.content"
+                    @bind-Value="_options.content"/>
         </MCol>
-        @if (_options.Labels is not null && _options.Labels.Count > 0)
+        @if (_options.Relations is not null && _options.Relations.Count > 0)
         {
             <MCol Cols="12">
                 <MChipGroup ActiveClass="primary--text" Column>
-                    @foreach (var label in _options.Labels)
+                    @foreach (var relation in _options.Relations)
                     {
-                        <MChip Close OnCloseClick="() => _options.Labels.Remove(label)">@label</MChip>
+                        <MChip Close OnCloseClick="() => OnCloseClick(relation)">@relation.LabelName</MChip>
                     }
                 </MChipGroup>
             </MCol>
@@ -219,9 +176,9 @@
             </MButton>
         </MCol>
         <MCol Cols="12">
-            <MSwitch @bind-Value="_options.IsShow"
+            <MSwitch @bind-Value="_options.isShow"
                      Class="mt-0"
-                     Label="@($"{(_options.IsShow ? "仅自己可见" : "全部可见")}")">
+                     Label="@($"{(_options.isShow ? "仅自己可见" : "全部可见")}")">
             </MSwitch>
         </MCol>
     </MRow>

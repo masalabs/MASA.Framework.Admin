@@ -24,4 +24,20 @@ public class BlogFrontComponentBase : PageBase
     {
         NavigationManager.NavigateTo(uri);
     }
+
+    public void Confirm(
+        string title,
+        string content,
+        Func<Task> onOk,
+        AlertTypes type = default,
+        string icon = default,
+        string iconColor = default,
+        string okText = "确定",
+        string cancelText = "取消",
+        string okColor = "primary",
+        string cancelColor = "default",
+        System.Action onCancel = default)
+    {
+        App.Confirm(title, content, onOk, type, icon, iconColor, okText, cancelText, okColor, cancelColor, onCancel);
+    }
 }

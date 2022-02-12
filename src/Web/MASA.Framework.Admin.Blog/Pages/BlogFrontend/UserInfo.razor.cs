@@ -2,11 +2,10 @@
 using MASA.Framework.Admin.Blog.Shared;
 using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
-using MASA.Framework.Extensions.Tools;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
-    public partial class Home : BlogFrontComponentBase, IDisposable
+    public partial class UserInfo : BlogFrontComponentBase
     {
         [CascadingParameter] public BlogFrontLayout Layout { get; set; }
 
@@ -14,20 +13,22 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private int _pageCount = 1;
         private bool _showWrite = false;
         private string _label = string.Empty;
-        private CreateBlogInfoModel _options = new() { State = StateTypes.Reviewed };
         private List<(Guid, string)> _typeList = new();
-
-        private GetBlogArticleHomeOptions _searchOptions = new()
-        {
-            PageIndex = 1,
-            PageSize = 20
+        private GetBlogArticleUserOptions _searchOptions = new() 
+        { 
+            Author = Guid.Empty, 
+            PageIndex = 1, 
+            PageSize = 20 
         };
 
-        public PagingResult<BlogInfoHomeListViewModel> Blogs { get; set; } =
-            new PagingResult<BlogInfoHomeListViewModel>();
+        public PagingResult<BlogInfoListViewModel> Blogs { get; set; } =
+            new PagingResult<BlogInfoListViewModel>();
 
         public List<BlogAdvertisingPicturesListViewModel> Ad { get; set; } = new();
 
+        private BlogInfoListViewModel _options { get; set; }
+
+        private UpdateBlogInfoModel _updateOption { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -37,6 +38,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             }
 
             await FetchBlogs();
+            await GetAdAsync();
             //分类
             var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption()
             { PageIndex = 1, PageSize = int.MaxValue });
@@ -44,20 +46,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
             }
-
-            _typeList.Insert(0, (Guid.Empty, "全部"));
-            await this.GetAdAsync();
         }
-
-        private async Task AppOnSearch()
-        {
-            _searchOptions.KeyWords = Layout.SearchName;
-
-            await FetchBlogs();
-
-            StateHasChanged();
-        }
-
 
         [Inject] protected BlogCaller BlogCaller { get; set; }
 
@@ -68,35 +57,59 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             Navigation?.NavigateTo($"/blogs/info/{id}");
         }
 
-        private async Task SelectedChipChanged(StringNumber id)
+        private async Task AppOnSearch()
         {
-            var guid = Guid.Parse(id.ToString());
-
-            _page = 1;
-            _searchOptions.TypeId = guid;
+            _searchOptions.Title = Layout.SearchName;
 
             await FetchBlogs();
+
+            StateHasChanged();
         }
 
         private async Task FetchBlogs()
         {
-            _searchOptions.PageIndex = _page;
-
-            Blogs = await BlogCaller.ArticleService.BlogArticleHomeAsync(_searchOptions);
+            Blogs = await BlogCaller.ArticleService.BlogArticleByUserAsync(_searchOptions);
             if (Blogs.TotalCount > 0)
             {
                 _pageCount = Convert.ToInt32(Math.Ceiling((Decimal)Blogs.TotalCount / Convert.ToDecimal(Blogs.Size)));
             }
         }
 
-        private void ToWrite()
+        private async Task ToWrite(Guid id)
         {
+            //详情
+            _options = await BlogCaller.ArticleService.GetAsync(id);
             _showWrite = true;
+        }
+
+        private async Task ToDelete(BlogInfoListViewModel blog)
+        {
+            Confirm(
+               title: "删除文章类型",
+               content: $"您确认要删除文章：<<{blog.title}>>吗？",
+               onOk: async () =>
+               {
+                   Guid[] ids = { blog.id };
+                   await BlogCaller.ArticleService.RemoveAsync(ids);
+
+                   Message("删除成功", AlertTypes.Success);
+
+               }, AlertTypes.Warning);
+
+            StateHasChanged();
         }
 
         public async Task SubmitBlog()
         {
-            await BlogCaller.ArticleService.CreateAsync(_options);
+            _updateOption.Id = _options.id;
+            _updateOption.State = _options.state == StateTypes.OffTheShelf ? 
+                StateTypes.ToBeReviewed : _updateOption.State;
+            _updateOption.DeleteRelationIds = new();
+            _updateOption.Content = _options.content;
+            _updateOption.Title = _options.title;
+            _updateOption.IsShow = _options.isShow;
+            _updateOption.TypeId = _options.typeId;
+            await BlogCaller.ArticleService.UpdateAsync(_updateOption);
             _showWrite = false;
         }
 
@@ -115,9 +128,14 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         /// <param name="ex"></param>
         private void AddLabel(MouseEventArgs ex)
         {
-            _options.Labels ??= new();
-            _options.Labels.Add(_label);
+            _updateOption.AddLabels ??= new();
+            _updateOption.AddLabels.Add(_label);
             _label = string.Empty;
+        }
+
+        private void OnCloseClick(BlogLabelRelationsViewModel relation)
+        {
+            _options.Relations.Remove(relation);
         }
 
         /// <summary>
@@ -133,15 +151,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                     BlogAdvertisingPicturesTypes.HomeLowerRight
                 }
             });
-        }
-
-
-        public void Dispose()
-        {
-            if (Layout != null)
-            {
-                Layout.SearchEvent -= AppOnSearch;
-            }
         }
     }
 }

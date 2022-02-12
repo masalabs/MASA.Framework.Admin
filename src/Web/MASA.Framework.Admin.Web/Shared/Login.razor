@@ -1,9 +1,14 @@
-﻿<AuthorizeView>
+﻿@inject NavigationManager Navigation
+
+<AuthorizeView>
     <Authorized>
         <MMenu OffsetX Left OffsetY>
             <ActivatorContent Context="menuContext">
-                <span>Hello, @context.User.Identity?.Name!</span>
-                <MButton Icon Large @attributes="menuContext.Attrs"><MIcon>mdi-account-circle-outline</MIcon></MButton>
+                 <div class="text-center border-left-solid" style="width:88px;">
+                    <MAvatar  @attributes="menuContext.Attrs" Size=40>
+                        <MImage Src="/img/avatar/2.svg"></MImage>
+                    </MAvatar>
+                </div>
             </ActivatorContent>
             <ChildContent>
                 <MList Dense>
@@ -27,7 +32,7 @@
                             </MListItemTitle>
                         </MListItemContent>
                     </MListItem>
-                    <MListItem Link Href="/Identity/Account/LogOut">
+                    <MListItem Link OnClick="@(()=>Navigation.NavigateTo("/Account/Logout",true))">
                         <MListItemIcon>
                             <MIcon>fas fa-sign-out-alt</MIcon>
                         </MListItemIcon>

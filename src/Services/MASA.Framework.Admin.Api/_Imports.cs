@@ -1,0 +1,11 @@
+﻿global using MASA.BuildingBlocks.Dispatcher.Events;
+global using MASA.Contrib.Data.UoW.EF;
+global using MASA.Contrib.Dispatcher.Events;
+global using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
+global using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
+global using MASA.Framework.Admin.Service.Infrastructure;
+global using MASA.Framework.Admin.Service.Infrastructure.Middleware;
+global using MASA.Utils.Data.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.OpenApi.Models;

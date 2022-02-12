@@ -36,8 +36,6 @@ public partial class Article : ProCompontentBase
         { Text = "操作", Value = "actions", Width = 200, Sortable = false }
     };
 
-    #endregion
-
     private List<BlogTypeCondensedViewModel> BlogTypes = new();
 
     private bool _withdrawModalVisible;

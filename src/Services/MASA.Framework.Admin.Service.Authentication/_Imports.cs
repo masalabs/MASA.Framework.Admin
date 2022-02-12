@@ -43,4 +43,6 @@ global using Microsoft.Extensions.Options;
 global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
 global using System.Linq.Expressions;
 global using MASA.BuildingBlocks.Data.UoW;
-
+global using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
+global using ObjectCommand = MASA.Framework.Admin.Service.Authentication.Application.Objects.Commands;
+global using ObjectQueries = MASA.Framework.Admin.Service.Authentication.Application.Objects.Queries;

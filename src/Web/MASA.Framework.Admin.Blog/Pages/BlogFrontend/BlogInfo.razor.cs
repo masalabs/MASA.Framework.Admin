@@ -16,6 +16,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private PagingResult<BlogCommentInfoListViewModel> _blogCommentInfoList = new();
         private CreateBlogReportModel _createBlogReportModel = new();
         private List<StringNumber> _panel = new() { 0 };
+        public List<BlogAdvertisingPicturesListViewModel> Ad { get; set; } = new();
         [Parameter]
         public Guid BlogInfoId { get; set; }
 
@@ -31,6 +32,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             //详情
             await GetAsync();
             await GetCommentList();
+            await this.GetAdAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

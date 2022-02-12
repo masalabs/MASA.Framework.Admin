@@ -13,6 +13,9 @@ namespace MASA.Framework.Admin.Contracts.Dictionary.DicValue.Model
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "不能为空")]
+        public Guid DicId  { get; set; }
+
+        [Required(ErrorMessage = "不能为空")]
         public string Lable { get; set; }
 
         [Required(ErrorMessage = "不能为空")]

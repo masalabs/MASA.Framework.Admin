@@ -41,12 +41,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.DicValues
             {
                 var model = new Domain.Entities.DicValue
                 {
-                    Id = Guid.NewGuid(),
+                    Id = command.Model.Id,
                     Description = command.Model.Description,
                     Enable = command.Model.Enable,
                     Lable = command.Model.Lable,
                     Sort = command.Model.Sort,
                     Value = command.Model.Value,
+                    DicId = command.Model.DicId,
                 };
 
                 var reuslt = await _dicValueRepository.UpdateAsync(model);

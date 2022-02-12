@@ -30,5 +30,6 @@
         public int ApprovedCount { get; set; }
         public int CommentCount { get; set; }
         public int Visits { get; set; }
+        public Guid CreatorUserId { get; set; }
     }
 }

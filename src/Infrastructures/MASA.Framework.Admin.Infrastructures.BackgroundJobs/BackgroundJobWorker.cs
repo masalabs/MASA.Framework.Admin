@@ -33,22 +33,22 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
                 {
                     await jobExecuter.ExecuteAsync(context);
 
-                    await store.InsertLogAsync(new BackgroundJobLog
+                    await store.InsertLogAsync(new JobLog
                     {
                         Id = Guid.NewGuid(),
                         JobId = job.Id,
                         JobName = job.JobName,
-                        ExecutionResult = JobExecutionResult.Success,
+                        JobResult = (int)JobExecutionResult.Success,
                     });
                 }
                 catch (BackgroundJobExecutionException)
                 {
-                    await store.InsertLogAsync(new BackgroundJobLog
+                    await store.InsertLogAsync(new JobLog
                     {
                         Id = Guid.NewGuid(),
                         JobId = job.Id,
                         JobName = job.JobName,
-                        ExecutionResult = JobExecutionResult.Failed,
+                        JobResult = (int)JobExecutionResult.Failed,
                     });
                 }
                 finally
@@ -68,7 +68,7 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
         }
     }
 
-    private async Task TryUpdateAsync(IBackgroundJobStore store, BackgroundJobInfo job)
+    private async Task TryUpdateAsync(IBackgroundJobStore store, Job job)
     {
         try
         {
@@ -80,7 +80,7 @@ public class BackgroundJobWorker : PeriodicBackgroundWorkerBase
         }
     }
 
-    private DateTime CalculateNextTryTime(BackgroundJobInfo job)
+    private DateTime CalculateNextTryTime(Job job)
     {
         return (job.LastTryTime ?? job.CreationTime).Add(job.PeriodTime);
     }

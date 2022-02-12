@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.BackgroundJobs\MASA.Framework.Admin.Contracts.BackgroundJobs.csproj" />
+    <ProjectReference Include="..\..\Domains\MASA.Framework.Admin.Domains.BackgroundJobs\MASA.Framework.Admin.Domains.BackgroundJobs.csproj" />
   </ItemGroup>
 
 </Project>

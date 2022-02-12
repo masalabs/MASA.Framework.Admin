@@ -2,16 +2,16 @@
 
 public interface IBackgroundJobStore
 {
-    Task<BackgroundJobInfo> FindAsync(Guid jobId);
+    Task<Job> FindAsync(Guid jobId);
 
-    Task<List<BackgroundJobInfo>> GetWaitingJobsAsync();
+    Task<List<Job>> GetWaitingJobsAsync();
 
-    Task InsertAsync(BackgroundJobInfo job);
+    Task InsertAsync(Job job);
 
     Task DeleteAsync(Guid jobId);
 
-    Task UpdateAsync(BackgroundJobInfo jobInfo);
+    Task UpdateAsync(Job jobInfo);
 
-    Task InsertLogAsync(BackgroundJobLog log);
+    Task InsertLogAsync(JobLog log);
 }
 

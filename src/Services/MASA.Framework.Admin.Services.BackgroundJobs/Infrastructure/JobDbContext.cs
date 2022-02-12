@@ -2,7 +2,9 @@
 {
     public class JobDbContext : IntegrationEventLogContext
     {
-        public DbSet<Job> Orders { get; set; } = null!;
+        public DbSet<Job> Jobs { get; set; } = null!;
+
+        public DbSet<JobLog> JobLogs { get; set; } = null!;
 
         public JobDbContext(MasaDbContextOptions<JobDbContext> options) : base(options)
         {

@@ -9,7 +9,7 @@ namespace MASA.Framework.Admin.Api.Controllers
 {
     //TODO:[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class OperationLogController : ControllerBase
     {
         private readonly IOperationLogRepository _repository;

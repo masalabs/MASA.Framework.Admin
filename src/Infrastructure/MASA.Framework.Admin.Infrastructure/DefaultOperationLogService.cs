@@ -25,7 +25,7 @@ namespace MASA.Framework.Admin.Infrastructure
                 Description = description,
                 OperationLogType = operationLogType
             };
-            await _httpClient.PostAsJsonAsync("/operationLog", viewModel);
+            await _httpClient.PostAsJsonAsync("/api/operationLog", viewModel);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
+﻿using System.Text.RegularExpressions;
+using System.Web;
+
+namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
 {
     public class BlogCommentsQueryHandlers
     {
@@ -73,12 +76,12 @@
                 .From(query.Options.PageIndex <= 1 ? 0 : (query.Options.PageIndex - 1) * query.Options.PageSize)
                 .Size(query.Options.PageSize)
                 .Query(q => q.Bool(b => b.Must(matchQuery)))
-                .Sort(s => s.Descending(y => y.CreationTime)));
+                .Sort(s => s.Descending(x => x.ApprovedCount).Descending(y => y.CreationTime)));
 
             // TODO: mapping
             var data = searchResponse.Documents.Select(d => new BlogInfoHomeListViewModel()
             {
-                Content = d.Content,
+                Content = RemoveHTML(d.Content),
                 Title = d.Title,
                 TypeId = d.TypeId,
                 CreationTime = d.CreationTime,
@@ -90,7 +93,6 @@
                 CreatorUserId = d.CreatorUserId
             }).ToList();
 
-
             query.Result = new()
             {
                 Data = data,
@@ -98,6 +100,40 @@
                 Size = query.Options.PageSize,
                 TotalCount = (int)searchResponse.Total
             };
+        }
+
+        /// <summary>
+        /// 去除HTML标记
+        /// </summary>
+        /// <param name="htmlString"></param>
+        /// <returns></returns>
+        private string RemoveHTML(string htmlString)
+        {
+            //删除脚本
+            htmlString = Regex.Replace(htmlString, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase);
+            //删除HTML
+            htmlString = Regex.Replace(htmlString, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"-->", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"<!--.*", "", RegexOptions.IgnoreCase);
+
+            htmlString = Regex.Replace(htmlString, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(nbsp|#160);", " ", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&#(\d+);", "", RegexOptions.IgnoreCase);
+
+            htmlString.Replace("<", "");
+            htmlString.Replace(">", "");
+            htmlString.Replace("\r\n", "");
+            htmlString = HttpUtility.HtmlEncode(htmlString).Trim();
+
+            return htmlString;
         }
     }
 }

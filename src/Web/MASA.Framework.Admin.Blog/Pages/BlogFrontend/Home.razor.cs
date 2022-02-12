@@ -4,7 +4,7 @@ using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
-    public partial class Home
+    public partial class Home : BlogFrontComponentBase
     {
         private int _page = 1;
         private int _pageCount = 1;
@@ -31,8 +31,16 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         }
 
 
-        [Inject] protected BlogCaller BlogCaller { get; set; }
+        [Inject] 
+        protected BlogCaller BlogCaller { get; set; }
 
+        [Inject]
+        protected NavigationManager? Navigation { get; set; }
+
+        public void HrefDetailPage(Guid id)
+        {
+            Navigation?.NavigateTo($"/blogs/info/{id}");
+        }
 
         private async Task FetchBlogs()
         {

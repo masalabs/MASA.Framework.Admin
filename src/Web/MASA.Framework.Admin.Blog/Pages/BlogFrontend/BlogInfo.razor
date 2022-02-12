@@ -1,0 +1,97 @@
+﻿@page "/blogs/info/{BlogInfoId}"
+@layout BlogFrontLayout
+@inherits BlogFrontComponentBase
+@using TinyMCE.Blazor
+
+<MCard Width="1600" Class="mx-auto">
+    <MTabsItems>
+        <MTabItem>
+            <MCard Flat>
+                <MRow>
+                    <MCol>
+                        <MCardText><h5>@_blogInfo.title</h5></MCardText>
+                    </MCol>
+                    <MSpacer></MSpacer>
+                    <MCol><MButton Color="primary" OnClick="ToWrite">举报</MButton></MCol>
+                </MRow>
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+    <MDivider></MDivider>
+    <MCard>
+        <MCardText>@_blogInfo.content</MCardText>
+        <MCardActions>
+            <p>
+                <span>评论：@_blogInfo.commentCount</span>
+                <span>点赞：@_blogInfo.approvedCount</span>
+                <span>点赞：@_blogInfo.approvedCount</span>
+            </p>
+        </MCardActions>
+    </MCard>
+    <MDivider></MDivider>
+</MCard>
+
+@*<FormModal Visible="_showWrite"
+           Title="举报"
+           Width="1000"
+           OnCancel="Cancel"
+           OnOk="SubmitBlog"
+           Model="_options">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="标题" Clearable
+                        @bind-Value="_options.Title"/>
+        </MCol>
+        <MCol Cols="12">
+            <MSelect Label="类别"
+                         @bind-Value="_options.TypeId"
+                         Items="_typeList"
+                         ItemText="x => x.Item2"
+                         ItemValue="x => x.Item1"
+                         TItemValue="Guid"
+                         TValue="Guid"
+                         Dense
+                         Outlined
+                         HideDetails="true"
+                         TItem="(Guid, string)"/>
+        </MCol>
+        <MCol Cols="12">
+            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
+                    Field="() => _options.Content"
+                    @bind-Value="_options.Content"/>
+        </MCol>
+        @if (_options.Labels is not null && _options.Labels.Count > 0)
+        {
+            <MCol Cols="12">
+                <MChipGroup ActiveClass="primary--text" Column>
+                    @foreach (var label in _options.Labels)
+                    {
+                        <MChip>@label</MChip>
+                    }
+                </MChipGroup>
+            </MCol>
+        }
+        <MCol Cols="8">
+            <MTextField TValue="string"
+                        Dense
+                        Outlined
+                        Label="标签信息"
+                        @bind-Value="_label"
+                        HideDetails="true"
+                        Clearable/>
+        </MCol>
+        <MCol Cols="4">
+            <MButton Rounded Color="success" OnClick="AddLabel">
+                <MIcon Left>mdi-pencil</MIcon>
+                添加标签
+            </MButton>
+        </MCol>
+        <MCol Cols="12">
+            <MSwitch @bind-Value="_options.IsShow"
+                     Class="mt-0"
+                     Label="@($"{(_options.IsShow ? "仅自己可见" : "全部可见")}")">
+            </MSwitch>
+        </MCol>
+    </MRow>
+</FormModal>*@

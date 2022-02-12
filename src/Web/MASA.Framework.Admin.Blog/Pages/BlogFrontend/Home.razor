@@ -45,7 +45,7 @@
             {
                 @foreach (var blog in Blogs.Data)
                 {
-                    <MCard>
+                    <MCard OnClick="() => HrefDetailPage(blog.Id)">
                         <MCardTitle>@blog.Title</MCardTitle>
                         <MCardText> @($"{(blog.Content.Length > 50 ? blog.Content.Substring(0, 50) : blog.Content)}") </MCardText>
                         <MCardActions>

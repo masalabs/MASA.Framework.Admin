@@ -1,7 +1,7 @@
 ﻿namespace MASA.Framework.Admin.Services.BackgroundJobs.Application.Queries
 {
-    public record JobQuery : Query<List<Job>>
+    public record JobLogQuery(Guid jobId) : Query<List<JobLog>>
     {
-        public override List<Job> Result { get; set; } = new();
+        public override List<JobLog> Result { get; set; } = new();
     }
 }

@@ -28,5 +28,9 @@
   "Reset Password v2": "Reset Password v2",
   "Others": "Others",
   "Account Settings": "Account Settings",
-  "Favorite": "Favorite"
+  "Favorite": "Favorite",
+  "Dictionary Management": "Dictionary",
+  "Dic": "Dictionary",
+  "DicValue": "Dictionary Value",
+  "SimpleExample Management": "SimpleExample"
 }

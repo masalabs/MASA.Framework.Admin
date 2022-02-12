@@ -140,5 +140,10 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         }
 
         public void DetailList(DicViewModel model) => NavigationManager.NavigateTo($"/management-admin/dicValue-list/{model.Id}");
+
+        protected override void OnInitialized()
+        {
+            GlobalConfig.OnLanguageChanged += base.StateHasChanged;
+        }
     }
 }

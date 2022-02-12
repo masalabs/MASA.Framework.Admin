@@ -12,11 +12,7 @@ public class PaginatedItemResponse<TEntity> where TEntity : class
 
     public IEnumerable<TEntity> Items { get; private set; }
 
-    private PaginatedItemResponse()
-    {
-        Items = new List<TEntity>();
-    }
-
+    [JsonConstructor]
     public PaginatedItemResponse(
         int pageIndex,
         int pageSize,

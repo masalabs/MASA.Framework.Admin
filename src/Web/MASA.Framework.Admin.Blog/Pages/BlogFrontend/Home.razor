@@ -73,7 +73,7 @@
                     <MCard OnClick="() => HrefDetailPage(blog.Id)">
                         <MCardTitle>@blog.Title</MCardTitle>
                         <MCardText> @($"{(blog.Content.Length > 200 ? blog.Content.Substring(0, 200) : blog.Content)}") </MCardText>
-                        <MCardActions>
+                        <MCardActions Style="padding-left:20px">
                             <p>
                                 @* <MAvatar Color="primary" Size="56">
                             <span class="white--text">@blog.typeName</span>

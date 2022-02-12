@@ -55,7 +55,10 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         public async Task BlogArticleUserAsync(BlogArticleUserQuery query)
         {
             var blogArticle = await _blogArticleRepository.GetBlogArticleByUser(query.Options);
-
+            blogArticle.Data.ForEach(x =>
+            {
+                x.content = RemoveHTML(x.content);
+            });
             query.Result = blogArticle;
         }
 

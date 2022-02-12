@@ -13,7 +13,7 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
 
         public FileContainer(IFileContainerFactory fileContainerFactory)
         {
-            _container = fileContainerFactory.Create<TContainer>();
+            _container = fileContainerFactory.Create(typeof(TContainer).Name.ToLower());
         }
 
         public Task SaveAsync(

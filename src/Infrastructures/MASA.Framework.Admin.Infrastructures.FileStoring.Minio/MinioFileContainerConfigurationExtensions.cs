@@ -9,6 +9,29 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
 {
     public static class MinioFileContainerConfigurationExtensions
     {
+        public static void AddMinioFileStoring(this IServiceCollection services)
+        {
+
+            services.AddOptions();
+
+            services.AddTransient(
+                        typeof(IFileContainer<>),
+                        typeof(FileContainer<>)
+                    );
+            services.AddTransient(
+                        typeof(IFileProviderSelector),
+                        typeof(DefaultFileProviderSelector)
+                    );
+            services.AddTransient(
+                        typeof(IFileProvider),
+                        typeof(MinioFileProvider)
+                    );
+            services.AddTransient(
+                        typeof(IFileContainerFactory),
+                        typeof(FileContainerFactory)
+                    );
+        }
+
         public static FileContainerConfiguration UseMinio(
         this FileContainerConfiguration containerConfiguration,
         Action<MinioFileProviderConfiguration> minioConfigureAction)

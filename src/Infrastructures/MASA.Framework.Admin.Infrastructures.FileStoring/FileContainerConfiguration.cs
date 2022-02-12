@@ -9,17 +9,17 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
     public class FileContainerConfiguration
     {
         /// <summary>
-        /// The provider to be used to store BLOBs of this container.
+        /// The provider to be used to store Files of this container.
         /// </summary>
         public Type ProviderType { get; set; }
 
         private readonly Dictionary<string, object> _properties;
 
-        private readonly FileContainerConfiguration _fallbackConfiguration;
+        //private readonly FileContainerConfiguration _fallbackConfiguration;
 
-        public FileContainerConfiguration(FileContainerConfiguration fallbackConfiguration = null)
+        public FileContainerConfiguration()
         {
-            _fallbackConfiguration = fallbackConfiguration;
+            //_fallbackConfiguration = fallbackConfiguration;
             _properties = new Dictionary<string, object>();
         }
 
@@ -32,17 +32,17 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
         {
             if (_properties.ContainsKey(name))
             {
-                return _properties;
+                return _properties.TryGetValue(name, out object obj) ? obj : defaultValue;
             }
             else
             {
-                return _fallbackConfiguration?.GetConfigurationOrNull(name, defaultValue) ?? defaultValue;
+                return GetConfigurationOrNull(name, defaultValue) ?? defaultValue;
             }
         }
 
         public T GetConfiguration<T>(string name)
         {
-            var value = _fallbackConfiguration.GetConfigurationOrNull(name);
+            var value = GetConfigurationOrNull(name);
             if (value == null)
             {
                 throw new ArgumentException($"Could not find the configuration value for '{name}'!");

@@ -1,6 +1,7 @@
 ﻿@page "/management-admin/dic-list"
 @using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
 @inject NavigationManager NavigationManager
+@inject GlobalConfig GlobalConfig
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">

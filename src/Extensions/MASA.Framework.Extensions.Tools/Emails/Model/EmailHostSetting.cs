@@ -9,6 +9,11 @@ namespace MASA.Framework.Extensions.Tools.Emails.Model
     public class EmailHostSetting
     {
         /// <summary>
+        /// 发送人
+        /// </summary>
+        public string Account { get; set; }
+
+        /// <summary>
         /// 客户端授权码(可存在配置文件中)
         /// </summary>
         public string Code { get; set; }

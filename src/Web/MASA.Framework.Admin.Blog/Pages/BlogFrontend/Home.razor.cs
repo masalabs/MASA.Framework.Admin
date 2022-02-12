@@ -2,6 +2,7 @@
 using MASA.Framework.Admin.Blog.Shared;
 using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
+using MASA.Framework.Extensions.Tools;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
@@ -18,7 +19,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         private GetBlogArticleHomeOptions _searchOptions = new()
         {
-            PageIndex = 1, PageSize = 20
+            PageIndex = 1,
+            PageSize = 20
         };
 
         public PagingResult<BlogInfoHomeListViewModel> Blogs { get; set; } =
@@ -37,7 +39,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             await FetchBlogs();
             //分类
             var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption()
-                { PageIndex = 1, PageSize = int.MaxValue });
+            { PageIndex = 1, PageSize = int.MaxValue });
             if (typesResult.Data is not null)
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();

@@ -17,7 +17,7 @@
                         <MRow>
                             <MCol Cols="10">
                                 <MCardText>
-                                    <h5>个人中心</h5>
+                                    <h5>个人文章管理</h5>
                                 </MCardText>
                             </MCol>
                             <MSpacer></MSpacer>
@@ -51,19 +51,23 @@
                     <MCard OnClick="() => HrefDetailPage(blog.id)">
                         <MCardTitle>@blog.title</MCardTitle>
                         <MCardText> @($"{(blog.content.Length > 200 ? blog.content.Substring(0, 200) : blog.content)}") </MCardText>
-                        <MCardActions>
+                        <MCardActions Style="padding-left:20px">
                             <p>
-                                @* <MAvatar Color="primary" Size="56">
-                            <span class="white--text">@blog.typeName</span>
-                        </MAvatar>*@
                                 <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
                                 <span>【@blog.state.GetDescription().Description】</span>
-                                @* <span>【@blog.CreatorUserId】</span>*@
                             </p>
                         </MCardActions>
                     </MCard>
-                    <MButton OnClick="() => ToWrite(blog.id)" Outlined>编辑</MButton>
-                    <MButton OnClick="() => ToDelete(blog)" Outlined>删除</MButton>
+                    <MRow Style="margin:auto">
+                        <MCol Cols="9"></MCol>
+                        <MCol Cols="1">
+                            <MButton Color="primary" OnClick="() => ToWrite(blog.id)" Outlined>编辑</MButton>
+                        </MCol>
+                        <MCol Cols="1">
+                            <MButton Color="error" OnClick="() => ToDelete(blog)" Outlined>删除</MButton>
+                        </MCol>
+                        <MCol Cols="1"></MCol>
+                    </MRow>
                     <MDivider></MDivider>
                 }
             }

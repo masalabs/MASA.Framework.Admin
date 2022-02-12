@@ -60,7 +60,7 @@
 
                 if (blogInfoes.Any())
                 {
-                    throw new UserFriendlyException($"{string.Join(",",blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new UserFriendlyException($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
                 }
             }
 
@@ -76,7 +76,14 @@
 
         public Task<PagingResult<BlogTypePagingViewModel>> GetListAsync(GetBlogTypePagingOption options)
         {
-            return _blogDbContext.BlogTypes.OrderByDescending(type => type.CreationTime).Select(type =>
+            var query = _blogDbContext.BlogTypes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(options.TypeName))
+            {
+                query = query.Where(x => x.TypeName.Contains(options.TypeName));
+            }
+
+            return query.OrderByDescending(type => type.CreationTime).Select(type =>
                 new BlogTypePagingViewModel
                 {
                     Id = type.Id,

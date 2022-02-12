@@ -51,20 +51,20 @@
             <MDivider></MDivider>
         }
         <div class="text-center">
-                <MContainer>
-                    <MRow Justify="JustifyTypes.Center">
-                        <MCol Cols="8">
-                            <MContainer Class="max-width">
-                                <MPagination @bind-Value="_page" Class="my-4" Length=@_pageCount></MPagination>
-                            </MContainer>
-                        </MCol>
-                    </MRow>
-                </MContainer>
-            </div>
+            <MContainer>
+                <MRow Justify="JustifyTypes.Center">
+                    <MCol Cols="8">
+                        <MContainer Class="max-width">
+                            <MPagination @bind-Value="_page" Class="my-4" Length=@_pageCount></MPagination>
+                        </MContainer>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </div>
     </MCard>
 }
 
-<MCard  Tile="true"  Width="1600" Class="mx-auto mt-1">
+<MCard Tile="true" Width="1600" Class="mx-auto mt-1">
     <MCardTitle>发表评论</MCardTitle>
     <MCardText>
         <MCol Cols="12">
@@ -77,6 +77,26 @@
         <MButton Color="primary" Loading="_reportCommentLoading" OnClick="ToReportComment">发表评论</MButton>
     </MCardActions>
 </MCard>
+
+<div style="float:right">
+    <div class="el-backtop-scroll-top">
+        <MButton class="mx-2" Fab Small Dark Color="primary" OnClick="ScrollTop">
+            <MIcon>
+                mdi-arrow-collapse-up
+            </MIcon>
+        </MButton>
+    </div>
+    <div class="el-backtop-scroll-report">
+        <MButton class="mx-2" Fab Small Dark OnClick="ToReport">举报</MButton>
+    </div>
+    <div class="el-backtop-scroll-return">
+        <MButton class="mx-2" Fab Small Dark Color="primary" OnClick="HrefArticlePage">
+            <MIcon>
+                mdi-arrow-u-left-top
+            </MIcon>
+        </MButton>
+    </div>
+</div>
 
 <FormModal Visible="_showWrite"
            Title="举报"

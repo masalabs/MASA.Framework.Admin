@@ -1,5 +1,6 @@
 ﻿using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
+using Microsoft.JSInterop;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 {
@@ -18,7 +19,12 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         [Parameter]
         public Guid BlogInfoId { get; set; }
 
+        [Inject] public IJSRuntime JsRuntime { get; set; }
+
         [Inject] protected BlogCaller BlogCaller { get; set; }
+
+        [Inject]
+        protected NavigationManager? Navigation { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -134,6 +140,16 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                     BlogAdvertisingPicturesTypes.DetailsLowerRight
                 }
             });
+        }
+
+        private void HrefArticlePage()
+        {
+            Navigation?.NavigateTo($"/blog-admin/article");
+        }
+
+        private async Task ScrollTop()
+        {
+            await JsRuntime.InvokeAsync<string>("scroll_top");
         }
     }
 }

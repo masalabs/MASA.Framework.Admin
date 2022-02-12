@@ -3,7 +3,7 @@
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
 
-<MCard Width="1600" Class="mx-auto mt-5">
+<MCard Width="1600" Class="mx-auto mt-5 ">
     <MTabsItems>
         <MTabItem>
             <MCard Flat>
@@ -38,7 +38,7 @@
 
 @if (_blogCommentInfoList.TotalCount > 0)
 {
-    <MCard Width="1600" Class="mx-auto">
+    <MCard Tile="true" Width="1600" Class="mx-auto mt-5">
         <MCardTitle>评论列表</MCardTitle>
         @foreach (var comment in _blogCommentInfoList.Data)
         {
@@ -64,7 +64,7 @@
     </MCard>
 }
 
-<MCard Width="1600" Class="mx-auto">
+<MCard  Tile="true"  Width="1600" Class="mx-auto mt-1">
     <MCardTitle>发表评论</MCardTitle>
     <MCardText>
         <MCol Cols="12">

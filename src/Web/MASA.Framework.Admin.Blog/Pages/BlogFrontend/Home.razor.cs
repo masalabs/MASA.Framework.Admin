@@ -49,6 +49,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
             }
+
+            await this.GetAdAsync();
         }
 
         private void ToWrite()
@@ -76,7 +78,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         /// </summary>
         private async Task GetAdAsync()
         {
-            await BlogCaller.AdvertisingPicturesService.GetList(new()
+            Ad = await BlogCaller.AdvertisingPicturesService.GetList(new()
             {
                 Types = new()
                 {

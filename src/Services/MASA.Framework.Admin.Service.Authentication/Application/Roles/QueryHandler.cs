@@ -61,7 +61,7 @@ public class QueryHandler
                 new KeyValuePair<Guid, string>(
                     item.ChildrenRoleId,
                     childrenRoles.Where(childrenRole => childrenRole.Id == item.ChildrenRoleId)
-                        .Select(childrenRole => childrenRole.Name).FirstOrDefault() ?? string.Empty)).ToList()
+                        .Select(childrenRole => childrenRole.Name).FirstOrDefault() ?? string.Empty)).ToList(),
         };
     }
 }

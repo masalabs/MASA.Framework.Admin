@@ -2,7 +2,7 @@ namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class ApiResultResponse<TEntity> : ApiResultResponseBase
 {
-    private ApiResultResponse() : base(Const.Code.SUCCESS, "")
+    public ApiResultResponse() : base(Const.Code.SUCCESS, "")
     {
     }
 

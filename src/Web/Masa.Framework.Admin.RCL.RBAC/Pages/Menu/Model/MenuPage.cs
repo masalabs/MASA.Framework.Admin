@@ -10,12 +10,6 @@ public class MenuPage
 
     private ConfigurationCaller ConfigurationCaller { get; set; }
 
-    public string? Role { get; set; }
-
-    public string? Plan { get; set; }
-
-    public string? Status { get; set; }
-
     public string? Search { get; set; }
 
     public int PageIndex { get; set; } = 1;
@@ -24,11 +18,13 @@ public class MenuPage
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
-    public bool Success { get; set; } = true;
+    public bool Lodding { get; set; }
 
-    public string Message { get; set; } = "";
+    public bool Error { get; set; }
 
-    public long CurrentCount { get; set; }//=> GetFilterDatas().Count();
+    public string? Message { get; set; }
+
+    public long CurrentCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
@@ -50,15 +46,17 @@ public class MenuPage
 
     public async Task QueryPageDatasAsync()
     {
+        Lodding = true;
         var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
-        Success = result.Success;
+        Error = !result.Success;
         Message = result.Message;
-        if(Success)
+        if(result.Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
             MenuDatas = pageData.Items.ToList();
         }
+        Lodding = false;
     }
 
     public async Task AddOrUpdateAsync()

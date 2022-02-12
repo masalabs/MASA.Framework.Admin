@@ -1,5 +1,5 @@
 ﻿@page "/menu/list"
-@inject NavigationManager Nav
+@inherits RBACCompontentBase
 
 @*<MCard>
     <MCardText Class="pa-6">
@@ -49,8 +49,9 @@
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">Show:</span>
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
                 <MSelect OnSelectedItemUpdate="OnPageSizeChanged"
+                         Value="_menuPage.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
@@ -64,7 +65,7 @@
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">entries</span>
+                <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
                 <MTextField OnChange="OnSearchChanged" Color="primary" TValue="string" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
@@ -132,26 +133,8 @@
 </MCard>
 
 <AddOrEdit MenuPage=_menuPage @bind-Visible=_openMenuForm></AddOrEdit>
-
-<MDialog @bind-Value="_menuPage.Success" Transition="dialog-bottom-transition" MaxWidth=600>
-    <ChildContent>
-        <MCard>
-            <MToolbar Color="red">
-                Error
-            </MToolbar>
-            <MCardText>
-                <div class="text-h2 pa-12">@_menuPage.Message</div>
-            </MCardText>
-            <MCardActions Class="justify-end">
-                <MButton Text OnClick="() => _menuPage.Success = true">
-                    Close
-                </MButton>
-            </MCardActions>
-        </MCard>
-    </ChildContent>
-</MDialog>
-
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding />
+<Masa.Framework.Admin.RCL.RBAC.Shared.Dialog Message=@_menuPage.Message @bind-Show="_menuPage.Error" />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=_menuPage.Lodding />
 
 @code{
     public bool _openMenuForm;
@@ -163,7 +146,7 @@
     protected override async Task OnInitializedAsync()
     {
         _menuPage = new(ConfigurationCaller);
-        await _menuPage.QueryPageDatasAsync();
+       // await _menuPage.QueryPageDatasAsync();
     }
 
     public async Task OnPageSizeChanged(int pageSize)

@@ -57,6 +57,30 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 {
                     table.PrimaryKey("PK_users", x => x.id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "UserRole",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRole_users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "user",
+                        principalTable: "users",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRole_UserId",
+                table: "UserRole",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -64,6 +88,9 @@ namespace MASA.Framework.Admin.Service.User.Migrations
             migrationBuilder.DropTable(
                 name: "integration_event_log",
                 schema: "user");
+
+            migrationBuilder.DropTable(
+                name: "UserRole");
 
             migrationBuilder.DropTable(
                 name: "users",

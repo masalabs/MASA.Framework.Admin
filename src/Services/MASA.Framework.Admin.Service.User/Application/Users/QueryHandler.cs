@@ -18,6 +18,7 @@ public class QueryHandler
 
         detailQuery.Result = new UserDetailResponse
         {
+            Id = user.Id,
             Account = user.Account,
             Name = user.Name,
             Cover = user.Cover,
@@ -33,11 +34,12 @@ public class QueryHandler
     [EventHandler]
     public async Task GetListAsync(UserQuery.ListQuery listQuery)
     {
-        var users = await _userRepository.GetPaginatedListAsync((u) => u.Account.Contains(listQuery.Account), new PaginatedOptions
-        {
-            Page = listQuery.PageIndex,
-            PageSize = listQuery.PageSize,
-        });
+        var users = await _userRepository.GetPaginatedListAsync((u) => string.IsNullOrEmpty(listQuery.Account) || u.Account.Contains(listQuery.Account)
+                    , new PaginatedOptions
+                    {
+                        Page = listQuery.PageIndex,
+                        PageSize = listQuery.PageSize,
+                    });
 
         listQuery.Result = new PaginatedItemResponse<UserItemResponse>(
             listQuery.PageIndex,

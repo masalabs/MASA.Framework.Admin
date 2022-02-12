@@ -25,6 +25,8 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
         builder.Property(c => c.CreationTime).HasColumnName("creation_time").IsRequired();
         builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
         builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
+
+        builder.HasMany(c => c.UserRoles);
     }
 }
 

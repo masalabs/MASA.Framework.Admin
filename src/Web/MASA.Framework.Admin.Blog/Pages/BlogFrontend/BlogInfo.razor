@@ -3,7 +3,7 @@
 @inherits BlogFrontComponentBase
 @using TinyMCE.Blazor
 
-<MCard Width="1600" Class="mx-auto mt-5 ">
+<MCard Width="1600" Class="mx-auto mt-5">
     <MTabsItems>
         <MTabItem>
             <MCard Flat>
@@ -110,7 +110,7 @@
     </MCard>
 }
 
-<MCard Width="1600" Class="mx-auto mt-2">
+<MCard Width="1600" Class="mx-auto mt-3">
     <MCardTitle>发表评论</MCardTitle>
     <MCardText>
         <MCol Cols="12">
@@ -133,7 +133,7 @@
     <MRow>
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="标题" Clearable Readonly
+                        Label="标题" Readonly
                         @bind-Value="_createBlogReportModel.Title" />
         </MCol>
         <MCol Cols="12">

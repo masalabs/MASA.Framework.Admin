@@ -28,6 +28,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
             }
+            await this.GetAdAsync();
         }
 
 
@@ -54,20 +55,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                 _pageCount = Convert.ToInt32(Math.Ceiling((Decimal)Blogs.TotalCount / Convert.ToDecimal(Blogs.Size)));
             }
         }
-
-        protected override async void OnInitialized()
-        {
-            //分类
-            var typesResult = await BlogCaller.BlogTypeService.PagingAsync(new GetBlogTypePagingOption()
-            { PageIndex = 1, PageSize = 50 });
-            if (typesResult.Data is not null)
-            {
-                _typeList = typesResult.Data.Select(m => (m.Id, m.TypeName)).ToList();
-            }
-
-            await this.GetAdAsync();
-        }
-
         private void ToWrite()
         {
             _showWrite = true;

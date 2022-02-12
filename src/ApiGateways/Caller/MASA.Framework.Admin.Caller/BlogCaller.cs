@@ -22,6 +22,4 @@ public class BlogCaller : HttpClientCallerBase
     public BlogTypeService BlogTypeService => _blogTypeService ?? new BlogTypeService(CallerProvider);
     public AdvertisingPicturesService AdvertisingPicturesService => _advertisingPicturesService ?? new AdvertisingPicturesService(CallerProvider);
 
-
-
 }

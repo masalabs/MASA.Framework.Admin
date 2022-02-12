@@ -24,10 +24,7 @@ public partial class Category : ProCompontentBase
     private CreateBlogTypeModel _createBlogTypeModel = new();
     private UpdateBlogTypeModel _updateBlogTypeModel = new();
     private string _dialogTitle = string.Empty;
-    private BlogTypePagingViewModel _model = new BlogTypePagingViewModel();
-
     [Inject] protected BlogCaller BlogCaller { get; set; }
-
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
@@ -83,7 +80,7 @@ public partial class Category : ProCompontentBase
                content: $"您确认要文章类型（{model.TypeName}）吗？",
                onOk: async () =>
                {
-                   Guid[] ids = { _model.Id };
+                   Guid[] ids = { model.Id };
                    await BlogCaller.BlogTypeService.RemoveAsync(ids);
 
                    Message("删除成功", AlertTypes.Success);

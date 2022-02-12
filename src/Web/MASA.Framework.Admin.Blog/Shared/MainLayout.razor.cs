@@ -4,6 +4,11 @@ namespace MASA.Framework.Admin.Blog.Shared
 {
     public partial class MainLayout
     {
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
         #region Confirm
 
         private Confirm.Model _confirm = new();

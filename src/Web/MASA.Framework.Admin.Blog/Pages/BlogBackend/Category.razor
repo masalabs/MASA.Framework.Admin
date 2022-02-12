@@ -30,7 +30,7 @@
         @if (context.Header.Value == "actions")
         {
             <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
-            <PAction Color="error" Label="删除" Text OnClick="() => DialogAsync(context.Item)" Icon="mdi-delete"></PAction>
+            <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
         }
         else
         {

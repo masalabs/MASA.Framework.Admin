@@ -12,7 +12,6 @@
                         <MCardText><h5>@_blogInfo.title</h5></MCardText>
                     </MCol>
                     <MSpacer></MSpacer>
-                    <MCol><MButton Color="primary" OnClick="ToReport">举报</MButton></MCol>
                 </MRow>
             </MCard>
         </MTabItem>
@@ -41,12 +40,15 @@
 
 </MCard>
 <MRow>
-    <div class="el-backtop">
-        <div class="btn" onclick="$('html,body').animate({scrollTop: '0px'}, 800);">
-        </div>
-    </div>
 
-    <div class="el-backtop1">
-        <input value="举报" type="button" style="font-size:10px"/>
+    <div class="el-backtop-scroll-top">
+        <MButton class="mx-2" Fab Small Dark Color="primary" OnClick="ScrollTop">
+            <MIcon>
+                mdi-arrow-collapse-up
+            </MIcon>
+        </MButton>
+    </div>
+    <div class="el-backtop-scroll-report">
+        <MButton class="mx-2" Fab Small Dark>举报</MButton>
     </div>
 </MRow>

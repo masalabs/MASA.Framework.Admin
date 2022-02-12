@@ -1,4 +1,5 @@
 ﻿using MASA.Framework.Data.Mapping;
+using Microsoft.JSInterop;
 
 namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
 {
@@ -15,6 +16,8 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private BlogInfoListViewModel _blogInfo = new();
         private bool _showWrite = false;
         private UpdateBlogInfoModel _updateBlogInfoModel = new();
+
+        [Inject] public IJSRuntime JsRuntime { get; set; }
 
 
         protected async override Task OnInitializedAsync()
@@ -62,6 +65,11 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private void HrefArticlePage()
         {
             Navigation?.NavigateTo($"/blog-admin/article");
+        }
+
+        private async Task ScrollTop()
+        {
+            await JsRuntime.InvokeAsync<string>("scroll_top");
         }
     }
 }

@@ -1,0 +1,41 @@
+[
+  {
+    "Id": 100,
+    "Title": "Dictionary Management",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 101,
+        "Title": "Home",
+        "Icon": "mdi-circle",
+        "Href": "dictionary"
+      }
+    ]
+  },
+  {
+    "Id": 200,
+    "Title": "BackgroundJobs Management",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 201,
+        "Title": "Home",
+        "Icon": "mdi-circle",
+        "Href": "backgroundJobs"
+      }
+    ]
+  },
+  {
+    "Id": 300,
+    "Title": "SimpleExample Management",
+    "Icon": "mdi-trending-up",
+    "Children": [
+      {
+        "Id": 201,
+        "Title": "Home",
+        "Icon": "mdi-circle",
+        "Href": "/management-admin/simple-example"
+      }
+    ]
+  }
+]

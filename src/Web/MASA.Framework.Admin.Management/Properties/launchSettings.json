@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "MASA.Framework.Admin.Management": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DAPR_GRPC_PORT": "18522",
+        "DAPR_HTTP_PORT": "18523"
+      },
+      "applicationUrl": "https://localhost:18520",
+      "dotnetRunMessages": true
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}

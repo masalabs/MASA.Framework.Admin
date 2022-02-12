@@ -1,4 +1,5 @@
 ﻿using Minio;
+using Minio.Exceptions;
 
 namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
 {
@@ -94,9 +95,25 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring.Minio
             // Make sure File Container exists.
             if (await client.BucketExistsAsync(containerName))
             {
-                await client.StatObjectAsync(containerName, flieName);
+                try
+                {
+                    await client.StatObjectAsync(containerName, flieName);
+                }
+                catch (Exception e)
+                {
+                    if (e is ObjectNotFoundException)
+                    {
+                        return false;
+                    }
+
+                    throw;
+                }
 
                 return true;
+            }
+            else
+            {
+                await client.MakeBucketAsync(containerName);
             }
 
             return false;

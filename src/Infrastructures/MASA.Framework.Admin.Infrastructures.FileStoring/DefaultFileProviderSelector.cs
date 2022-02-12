@@ -11,13 +11,9 @@ namespace MASA.Framework.Admin.Infrastructures.FileStoring
     {
         protected IEnumerable<IFileProvider> FileProviders { get; }
 
-        //protected IBlobContainerConfigurationProvider ConfigurationProvider { get; }
-
         public DefaultFileProviderSelector(
-            //IBlobContainerConfigurationProvider configurationProvider,
             IEnumerable<IFileProvider> fileProviders)
         {
-            //ConfigurationProvider = configurationProvider;
             FileProviders = fileProviders;
         }
 

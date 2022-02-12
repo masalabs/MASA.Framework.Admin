@@ -39,6 +39,7 @@ builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>
         .UseEventLog<BlogDbContext>();
 });
 
+builder.Services.AddLocalization();
 builder.Services.AddScoped<IBlogAdvertisingPicturesRepository, BlogAdvertisingPicturesRepository>();
 builder.Services.AddScoped<IBlogArticleRepository, BlogArticleRepository>();
 builder.Services.AddScoped<IBlogCommentInfoRepository, BlogCommentInfoRepository>();
@@ -61,6 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMasaExceptionHandling(options => { });
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

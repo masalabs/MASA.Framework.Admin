@@ -34,7 +34,6 @@
             {
                 <MButton Color="primary" OnClick="()=>AuditArticleAsync(_blogInfo)">审核</MButton>
             }
-            <MButton Color="primary" OnClick="HrefArticlePage">返回</MButton>
         </MRow>
     </MCard>
 
@@ -49,6 +48,62 @@
         </MButton>
     </div>
     <div class="el-backtop-scroll-report">
-        <MButton class="mx-2" Fab Small Dark>举报</MButton>
+        <MButton class="mx-2" Fab Small Dark OnClick="ToReport">举报</MButton>
     </div>
+    <div class="el-backtop-scroll-return">
+        <MButton class="mx-2" Fab Small Dark Color="primary" OnClick="HrefArticlePage">
+            <MIcon>
+                mdi-arrow-u-left-top
+            </MIcon>
+        </MButton>
+    </div>
+
+    @if (_blogInfo.state == StateTypes.ToBeReviewed)
+    {
+        <div class="el-backtop-scroll-audit">
+            <MButton Color="primary" Fab Small Dark OnClick="()=>AuditArticleAsync(_blogInfo)">
+                <MIcon>
+                    mdi-shield-key-outline
+                </MIcon>
+            </MButton>
+        </div>
+    }
 </MRow>
+
+<FormModal Visible="_showWrite"
+           Title="举报"
+           Width="1000"
+           OnCancel="() => _showWrite=false"
+           OnOk="async ()=> await SubmitReport()"
+           Model="_createBlogReportModel">
+    <MRow>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="标题" Clearable Readonly
+                        @bind-Value="_createBlogReportModel.Title" />
+        </MCol>
+        <MCol Cols="12">
+            <MRadioGroup @bind-Value="_createBlogReportModel.Reason" Row TValue=ReasonTypes>
+                <LabelContent>
+                    举报原因
+                </LabelContent>
+                <ChildContent>
+                    @foreach (var item in Enum<ReasonTypes>.GetEnumObjectList<ReasonTypes>())
+                    {
+                        <MRadio Value="@item.Value" Label=@item.Name TValue="ReasonTypes"></MRadio>
+                    }
+                </ChildContent>
+            </MRadioGroup>
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="链接" Readonly
+                        @bind-Value="_createBlogReportModel.Connect" />
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="详细信息" Clearable
+                        @bind-Value="_createBlogReportModel.Detail" />
+        </MCol>
+    </MRow>
+</FormModal>

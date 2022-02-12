@@ -46,6 +46,10 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                 PageIndex = _page,
                 PageSize = 10
             });
+            if (_blogCommentInfoList.TotalCount > 0)
+            {
+                _pageCount = Convert.ToInt32(Math.Ceiling((Decimal)_blogCommentInfoList.TotalCount / Convert.ToDecimal(_blogCommentInfoList.Size)));
+            }
         }
         private async Task GetAsync()
         {
@@ -63,6 +67,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             _createBlogReportModel.CreatorUserId = CurrentUserId;
             _createBlogReportModel.Connect = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         }
+
         /// <summary>
         /// 发表评论
         /// </summary>
@@ -76,11 +81,16 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                 CommentContent = _reportComment,
                 CreatorUserId = CurrentUserId
             });
-            //Message("评论发表成功", AlertTypes.Success);
+            Message("评论发表成功", AlertTypes.Success);
             _reportCommentLoading = false;
             _reportComment = String.Empty;
             await GetCommentList();
         }
+
+        /// <summary>
+        /// 点赞或取消点赞
+        /// </summary>
+        /// <returns></returns>
         private async Task ToApprove()
         {
             await BlogCaller.ArticleService.AddBlogApprovedRecordAsync(new BlogApprovedRecordModel()
@@ -91,7 +101,12 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             });
             await GetAsync();
         }
-        public async Task SubmitBlog()
+
+        /// <summary>
+        /// 提交举报
+        /// </summary>
+        /// <returns></returns>
+        public async Task SubmitReport()
         {
             await BlogCaller.ReportService.CreateAsync(_createBlogReportModel);
             _showWrite = false;

@@ -1,50 +1,6 @@
 ﻿@page "/menu/list"
 @inherits RBACCompontentBase
 
-@*<MCard>
-    <MCardText Class="pa-6">
-    <h6>Filters</h6>
-    <MRow Class="mt-3">
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="MenuPage.Role"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetRoleList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Role">
-    </MSelect>
-    </MCol>
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="MenuPage.Plan"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetPlanList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Plan">
-    </MSelect>
-    </MCol>
-    <MCol Sm=12 Md=4>
-    <MSelect @bind-Value="MenuPage.Status"
-    Color="primary"
-    HideDetails="@("auto")"
-    Clearable
-    Outlined
-    Items="@UserService.GetStatusList()"
-    ItemText="u => u"
-    ItemValue="u => u"
-    Label="Status">
-    </MSelect>
-    </MCol>
-    </MRow>
-    </MCardText>
-    </MCard>*@
-
 <MCard Class="mt-6">
     <MCardText Class="pa-6">
         <MRow>

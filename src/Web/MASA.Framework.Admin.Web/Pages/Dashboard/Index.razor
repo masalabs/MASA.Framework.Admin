@@ -64,17 +64,13 @@
         </MCard>
     </MCol>
     <MCol Cols="6">
-        <MCard>
+        <MCard Height="456">
             <MCardText>
                 @if (_operationLogs != null)
                 {
-                    <ul style="height:300px;overflow-y:scroll">
-                        <Virtualize Context="log" ItemsProvider="LoadOperationLogs" ItemSize="25">
-                            <MListItem>
-                                <li>@log.Username @log.Description [@log.CreateTime]</li>
-                            </MListItem>
-                        </Virtualize>
-                    </ul>
+                    <MDataTable Headers="_headers"
+                            Items="_operationLogs"
+                            ItemsPerPage="5"></MDataTable>
                 }
             </MCardText>
         </MCard>

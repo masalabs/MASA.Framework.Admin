@@ -16,6 +16,18 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         private IEnumerable<VisitPageDayStatistics> _visitPageDayStatistics;
         private IEnumerable<VisitPageHourStatistics> _visitPageHourStatistics;
         private StringNumber _current = "PV";
+        private List<DataTableHeader<OperationLogDto>> _headers = new List<DataTableHeader<OperationLogDto>>
+        {
+           new ()
+           {
+            Text= "用户名",
+            Align= "start",
+            Sortable= false,
+            Value= nameof(OperationLogDto.Username)
+          },
+          new (){ Text= "描述", Value= nameof(OperationLogDto.Description)},
+          new (){ Text= "时间", Value= nameof(OperationLogDto.CreateTime)}
+        };
         private dynamic _option = new
         {
             Title = new
@@ -86,15 +98,15 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         {
             _httpClient = HttpClientFactory.CreateClient("MASA.Framework.Admin.Api");
 
-            await UpdateOperationLogsAsync();
+            await UpdateOperationLogsAsync(0, int.MaxValue);
             await UpdateVisitPageDayStatisticsAsync();
             await UpdateVisitPageHourStatisticsAsync();
         }
 
-        private async Task UpdateOperationLogsAsync(int offset = 1, int limit = 10)
+        private async Task UpdateOperationLogsAsync(int offset = 0, int limit = 10)
         {
             var query = $"?offset={offset}&limit={limit}";
-            var pageResult = await _httpClient.GetFromJsonAsync<PageResult<OperationLogDto>>("/operationLog" + query);
+            var pageResult = await _httpClient.GetFromJsonAsync<PageResult<OperationLogDto>>("/api/operationLog" + query);
 
             _operationLogs = pageResult.Data;
             _count = pageResult.Count;
@@ -147,15 +159,6 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         {
             _current = value;
             await UpdateVisitPageHourStatisticsAsync();
-        }
-
-        private async ValueTask<ItemsProviderResult<OperationLogDto>> LoadOperationLogs(ItemsProviderRequest request)
-        {
-            var offset = request.StartIndex;
-            var limit = Math.Min(request.Count, _count - request.StartIndex);
-
-            await UpdateOperationLogsAsync(offset, limit);
-            return new ItemsProviderResult<OperationLogDto>(_operationLogs, _count);
         }
     }
 }

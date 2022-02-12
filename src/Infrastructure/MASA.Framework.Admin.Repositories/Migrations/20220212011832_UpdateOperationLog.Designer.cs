@@ -4,6 +4,7 @@ using MASA.Framework.Admin.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Repositories.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    partial class AdminDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220212011832_UpdateOperationLog")]
+    partial class UpdateOperationLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,56 +71,6 @@ namespace MASA.Framework.Admin.Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("user");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Models.VisitPageDayStatistics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IPCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PV")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UV")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("visit_page_day_statistics");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Models.VisitPageHourStatistics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("IPCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PV")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UV")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("visit_page_hour_statistics");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Models.OperationLog", b =>

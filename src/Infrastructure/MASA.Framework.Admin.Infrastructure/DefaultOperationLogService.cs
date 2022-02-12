@@ -18,11 +18,12 @@ namespace MASA.Framework.Admin.Infrastructure
             _httpClient = httpClientFactory.CreateClient("MASA.Framework.Admin.Api");
         }
 
-        public async Task LogAsync(string message)
+        public async Task LogAsync(string description, OperationLogType operationLogType)
         {
             var viewModel = new OperationLogViewModel
             {
-                Description = message
+                Description = description,
+                OperationLogType = operationLogType
             };
             await _httpClient.PostAsJsonAsync("/operationLog", viewModel);
         }

@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AdminDbContext>(options =>
     options.UseSqlServer("Server=.;Initial Catalog=LogDB;User ID=SA;Password=Pass@w0rd;");
 });
 builder.Services.AddScoped<IOperationLogRepository, OperationLogRepository>();
+builder.Services.AddScoped<IVisitPageDayStatisticsRepository, VisitPageDayStatisticsRepository>();
+builder.Services.AddScoped<IVisitPageHourStatisticsRepository, VisitPageHourStatisticsRepository>();
 builder.Services.AddRabbitMQEventBus(options =>
 {
     options.HostName = "localhost";

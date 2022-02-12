@@ -18,5 +18,9 @@ namespace MASA.Framework.Admin.Repositories
         public DbSet<OperationLog> OperationLogs { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<VisitPageDayStatistics> VisitPageDayStatistics { get; set; }
+
+        public DbSet<VisitPageHourStatistics> VisitPageHourStatistics { get; set; }
     }
 }

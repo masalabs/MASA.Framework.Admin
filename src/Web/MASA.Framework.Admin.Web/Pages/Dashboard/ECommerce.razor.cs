@@ -388,7 +388,7 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
 
         protected override async Task OnParametersSetAsync()
         {
-            await OperationLogService.LogAsync("访问了电子商务页面!");
+            await OperationLogService.VisitPageAsync("电子商务");
         }
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MASA.Framework.Admin.Infrastructure
+namespace MASA.Framework.Admin.Repositories
 {
-    public interface IOperationLogService
+    public interface IVisitPageHourStatisticsRepository
     {
-        Task LogAsync(string description, OperationLogType operationLogType);
+        IQueryable<VisitPageHourStatistics> GetAll();
     }
 }

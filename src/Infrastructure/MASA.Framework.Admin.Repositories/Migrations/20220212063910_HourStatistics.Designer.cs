@@ -4,6 +4,7 @@ using MASA.Framework.Admin.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Repositories.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    partial class AdminDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220212063910_HourStatistics")]
+    partial class HourStatistics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -61,7 +61,9 @@ namespace MASA.Framework.Admin.Api.Controllers
             {
                 Description = viewModel.Description,
                 CreateTime = DateTime.Now,
-                UserId = 1//TODO:UserId
+                UserId = 1,//TODO:UserId
+                ClientIP = HttpContext.Connection.RemoteIpAddress.ToString(),
+                Type = viewModel.OperationLogType.Value
             };
             _eventBus.Publish(operationLog);
 

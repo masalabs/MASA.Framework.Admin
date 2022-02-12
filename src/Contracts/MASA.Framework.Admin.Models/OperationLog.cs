@@ -12,6 +12,10 @@ namespace MASA.Framework.Admin.Models
 
         public DateTime CreateTime { get; set; }
 
+        public OperationLogType Type { get; set; }
+
+        public string ClientIP { get; set; }
+
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Reposi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Api", "src\Services\MASA.Framework.Admin.Api\MASA.Framework.Admin.Api.csproj", "{BA87266A-6F8F-4674-9C5A-73934457CFEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Jobs", "src\Services\MASA.Framework.Admin.Jobs\MASA.Framework.Admin.Jobs.csproj", "{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,14 @@ Global
 		{BA87266A-6F8F-4674-9C5A-73934457CFEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA87266A-6F8F-4674-9C5A-73934457CFEA}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA87266A-6F8F-4674-9C5A-73934457CFEA}.Release|x86.Build.0 = Release|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +161,7 @@ Global
 		{9084BA72-AE71-4F57-A2BA-2EF9B9176FFF} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
 		{8FB3144C-D640-4B33-87C7-C70A432A6D94} = {76EF2AA7-AC05-446C-B886-E95FC32F06B9}
 		{BA87266A-6F8F-4674-9C5A-73934457CFEA} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
+		{CA68F099-9324-4BD2-AEFD-55BEAD0CB2E1} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BA2BA-19E5-41FB-A92A-16A03DA229E4}

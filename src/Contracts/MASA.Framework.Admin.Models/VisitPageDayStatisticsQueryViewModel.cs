@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace MASA.Framework.Admin.Models
 {
-    public class OperationLogViewModel
+    public class VisitPageDayStatisticsQueryViewModel
     {
-        [Required]
-        public string Description { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        [Required]
-        public OperationLogType? OperationLogType { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

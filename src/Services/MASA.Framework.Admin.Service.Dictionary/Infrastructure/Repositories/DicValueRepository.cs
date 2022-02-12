@@ -1,5 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Dictionary;
 using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Options;
+using MASA.Framework.Admin.Contracts.Dictionary.DicValue.ViewModel;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 {
@@ -23,7 +24,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
             }
             catch (DbUpdateException ex) when ((ex.InnerException as SqlException)?.Number == 2627)
             {
-                return await GetAsync(dicValue.Id);
+                return dicValue;
             }
         }
 
@@ -58,19 +59,41 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
             return dicValue;
         }
 
-        public async Task<DicValue> GetAsync(Guid id)
+        public async Task<DicValueViewModel> GetAsync(Guid id)
         {
-            return await _dbContext.DicValues.SingleAsync(o => o.Id == id);
+            var result = await _dbContext.DicValues.SingleAsync(o => o.Id == id);
+
+            return new DicValueViewModel
+            {
+                Id = result.Id,
+                CreateTime = result.CreateTime,
+                Description = result.Description,
+                DicId = result.DicId,
+                Enable = result.Enable,
+                Lable = result.Lable,
+                Sort = result.Sort,
+                Value = result.Value,
+            };
         }
 
-        public async Task<PagingResult<DicValue>> GetPageAsync(DicValuePagingOptions options)
+        public async Task<PagingResult<DicValueViewModel>> GetPageAsync(DicValuePagingOptions options)
         {
             var query = _dbContext.DicValues.OrderBy(r => r.Sort);
 
             var totalCount = await query.CountAsync();
-            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).Select(r => new DicValueViewModel
+            {
+                Id = r.Id,
+                CreateTime = r.CreateTime,
+                Description = r.Description,
+                DicId = r.DicId,
+                Enable = r.Enable,
+                Lable = r.Lable,
+                Sort = r.Sort,
+                Value = r.Value,
+            }).ToListAsync();
 
-            return new PagingResult<DicValue>(options.PageIndex, options.PageSize, totalCount, data);
+            return new PagingResult<DicValueViewModel>(options.PageIndex, options.PageSize, totalCount, data);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
+﻿using MASA.Framework.Admin.Contracts.Dictionary.Dic.Model;
+using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
 using MASA.Framework.Admin.Service.Dictionary.Application.Dic.Commands;
 using MASA.Framework.Admin.Service.Dictionary.Application.Dic.Queries;
 
@@ -20,14 +21,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             App.MapPost("api/dic/getPage", GetPageAsync);
         }
 
-        public async Task<IResult> CreateAsync([FromBody] Dic dic, [FromServices] IEventBus eventBus)
+        public async Task<IResult> CreateAsync([FromBody] AddDicModel model, [FromServices] IEventBus eventBus)
         {
             try
             {
-                dic.Id = Guid.NewGuid();
-                var addCoommand = new AddDicCommand(dic);
+                var addCoommand = new AddDicCommand(model);
                 await eventBus.PublishAsync(addCoommand);
-                return Results.Ok(dic.Id);
+                return Results.Ok(addCoommand.Result);
             }
             catch
             {
@@ -35,13 +35,13 @@ namespace MASA.Framework.Admin.Service.Dictionary.Service
             }
         }
 
-        public async Task<IResult> UpdateAsync([FromBody] Dic dic, [FromServices] IEventBus eventBus)
+        public async Task<IResult> UpdateAsync([FromBody] UpdateDicModel model, [FromServices] IEventBus eventBus)
         {
             try
             {
-                var updateCommand = new UpdateDicCommand(dic);
+                var updateCommand = new UpdateDicCommand(model);
                 await eventBus.PublishAsync(updateCommand);
-                return Results.Ok(dic.Id);
+                return Results.Ok(updateCommand.Result);
             }
             catch
             {

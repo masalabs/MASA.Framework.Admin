@@ -1,6 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Dictionary;
 using MASA.Framework.Admin.Contracts.Dictionary.Dic.Options;
-using System.Linq.Expressions;
+using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel;
 
 namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 {
@@ -24,7 +24,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
             }
             catch (DbUpdateException ex) when ((ex.InnerException as SqlException)?.Number == 2627)
             {
-                return await GetAsync(dic.Id);
+                return dic;
             }
         }
 
@@ -59,19 +59,39 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
             return dic;
         }
 
-        public async Task<Dic> GetAsync(Guid id)
+        public async Task<DicViewModel> GetAsync(Guid id)
         {
-            return await _dbContext.Dics.SingleAsync(o => o.Id == id);
+            var result = await _dbContext.Dics.SingleAsync(o => o.Id == id);
+
+            return new DicViewModel
+            {
+                CreateTime = result.CreateTime,
+                Description = result.Description,
+                Enable = result.Enable,
+                Id = result.Id,
+                ModuleId = result.ModuleId,
+                Name = result.Name,
+                Type = result.Type,
+            };
         }
 
-        public async Task<PagingResult<Dic>> GetPageAsync(DicPagingOptions options)
+        public async Task<PagingResult<DicViewModel>> GetPageAsync(DicPagingOptions options)
         {
             var query = _dbContext.Dics.OrderBy(r => r.CreateTime);
 
             var totalCount = await query.CountAsync();
-            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+            var data = await query.Skip((options.PageIndex - 1) * options.PageSize).Take(options.PageSize).Select(s => new DicViewModel
+            {
+                CreateTime = s.CreateTime,
+                Description = s.Description,
+                Enable = s.Enable,
+                Id = s.Id,
+                ModuleId = s.ModuleId,
+                Name = s.Name,
+                Type = s.Type,
+            }).ToListAsync();
 
-            return new PagingResult<Dic>(options.PageIndex, options.PageSize, totalCount, data);
+            return new PagingResult<DicViewModel>(options.PageIndex, options.PageSize, totalCount, data);
         }
 
     }

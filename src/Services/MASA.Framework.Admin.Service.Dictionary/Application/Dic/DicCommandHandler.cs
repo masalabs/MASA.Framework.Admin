@@ -19,9 +19,22 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
         [EventHandler(1)]
         public async Task AddAsync(AddDicCommand command)
         {
-            if (command.Id != default)
+            if (command.Model != null)
             {
-                command.Result = await _dicRepository.AddAsync(command.Dic);
+                var model = new Domain.Entities.Dic
+                {
+                    CreateTime = DateTimeOffset.UtcNow,
+                    Description = command.Model.Description,
+                    Enable = command.Model.Enable,
+                    Id = Guid.NewGuid(),
+                    ModuleId = command.Model.ModuleId,
+                    Name = command.Model.Name,
+                    Type = command.Model.Type,
+                };
+
+                await _dicRepository.AddAsync(model);
+
+                command.Result = model.Id;
             }
         }
 
@@ -73,7 +86,19 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
         {
             if (command.Id != default)
             {
-                command.Result = await _dicRepository.UpdateAsync(command.Dic);
+                var model = new Domain.Entities.Dic
+                {
+                    Description = command.Model.Description,
+                    Enable = command.Model.Enable,
+                    Id = command.Model.Id,
+                    ModuleId = command.Model.ModuleId,
+                    Name = command.Model.Name,
+                    Type = command.Model.Type,
+                };
+
+                await _dicRepository.UpdateAsync(model);
+
+                command.Result = model.Id;
             }
         }
 

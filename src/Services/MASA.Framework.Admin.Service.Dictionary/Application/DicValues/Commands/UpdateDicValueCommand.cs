@@ -1,7 +1,9 @@
-﻿namespace MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands
+﻿using MASA.Framework.Admin.Contracts.Dictionary.DicValue.Model;
+
+namespace MASA.Framework.Admin.Service.Dictionary.Application.DicValue.Commands
 {
-    public record UpdateDicValueCommand(Domain.Entities.DicValue DicValue) : Command
+    public record UpdateDicValueCommand(UpdateDicValueModel Model) : Command
     {
-        public Domain.Entities.DicValue Result { get; set; } = default!;
+        public Guid Result { get; set; } = default!;
     }
 }

@@ -14,7 +14,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
         [EventHandler]
         public async Task GetAsync(DicQuery query)
         {
-            query.Result = await _dicRepository.GetAsync(query.id);
+            query.Result = await _dicRepository.GetAsync(query.Id);
         }
 
         [EventHandler]

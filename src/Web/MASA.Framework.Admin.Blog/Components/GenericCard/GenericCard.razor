@@ -1,0 +1,73 @@
+﻿@namespace MASA.Framework.Admin.Blog.Components
+@inherits MCard
+
+<MCard Class="@Class"
+       Height="@Height"
+       OnClick="@OnClick"
+       Style="@Style"
+       Width="@Width"
+       @attributes="@Attributes">
+    @if (ShowLoader)
+    {
+        <MSkeletonLoader Type="@Type"></MSkeletonLoader>
+    }
+    else
+    {
+        @if (NormalTitle)
+        {
+            <MCardTitle Class="d-flex align-items-center">
+                @Title
+                @if (OnNavigate.HasDelegate)
+                {
+                    <MSpacer/>
+                    <MButton Icon Small Color="primary" OnClick="OnNavigate">
+                        <MIcon>mdi-arrow-right</MIcon>
+                    </MButton>
+                }
+            </MCardTitle>
+        }
+
+        <MCardText>
+            @if (!NormalTitle)
+            {
+                <div class="text-btn d-flex align-items-center mb-2">
+                    @Title
+                    @if (OnNavigate.HasDelegate)
+                    {
+                        <MSpacer/>
+                        <MButton Icon Small Color="primary" OnClick="OnNavigate">
+                            <MIcon>mdi-arrow-right</MIcon>
+                        </MButton>
+                    }
+                </div>
+            }
+            <div class="@ContentClass" style="@ContentStyle">
+                @ChildContent
+            </div>
+        </MCardText>
+    }
+</MCard>
+
+@code
+{
+    [Parameter]
+    public string ContentClass { get; set; }
+
+    [Parameter]
+    public string ContentStyle { get; set; }
+
+    [Parameter]
+    public bool NormalTitle { get; set; }
+
+    [Parameter]
+    public EventCallback OnNavigate { get; set; }
+
+    [Parameter]
+    public bool ShowLoader { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Type { get; set; } = "article";
+}

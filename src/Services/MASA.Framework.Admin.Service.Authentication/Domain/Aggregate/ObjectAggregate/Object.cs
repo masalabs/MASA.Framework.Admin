@@ -2,15 +2,40 @@
 
 public class Object : AuditAggregateRoot<Guid, Guid>
 {
-    public string Code { get; set; } = default!;
+    public string Code { get; private set; }
 
-    public string Name { get; set; } = default!;
+    public string Name { get; private set; }
 
-    public ObjectType ObjectType { get; set; }
+    public ObjectType ObjectType { get; private set; }
 
-    public State State { get; set; }
+    public State State { get; private set; }
 
     private readonly List<ObjectItem> _permissionItems;
 
     public IReadOnlyCollection<ObjectItem> Permissions => _permissionItems;
+
+    private Object()
+    {
+        _permissionItems = new();
+        State = State.Enable;
+    }
+
+    public Object(Guid creator, string code, string name, ObjectType objectType) : this()
+    {
+        Creator = creator;
+        Modifier = creator;
+        Code = code;
+        Name = name;
+        ObjectType = objectType;
+    }
+
+    public void Update(string name)
+    {
+        this.Name = name;
+    }
+
+    public void AddPermission(string name, string objectIdentifies, string action, PermissionType permissionType)
+    {
+        _permissionItems.Add(new ObjectItem(name, objectIdentifies, action, permissionType));
+    }
 }

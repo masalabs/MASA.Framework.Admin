@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1711196569" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -4,5 +4,5 @@ public interface IRoleRepository : IRepository<Role>
 {
     Task<bool> ExistAsync(string name);
 
-    List<Role> GetList();
+    Task<Role?> FindAsync(Guid id);
 }

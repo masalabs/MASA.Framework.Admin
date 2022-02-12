@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -59,7 +58,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    describe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    describe = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     number = table.Column<int>(type: "int", nullable: false),
                     state = table.Column<int>(type: "int", nullable: false),
                     is_deleted = table.Column<bool>(type: "bit", nullable: false),

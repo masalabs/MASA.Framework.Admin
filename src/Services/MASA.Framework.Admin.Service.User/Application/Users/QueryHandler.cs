@@ -45,6 +45,7 @@ public class QueryHandler
             listQuery.PageIndex,
             listQuery.PageSize,
             users.Total,
+            users.TotalPages,
             users.Result.Select(user => new UserItemResponse()
             {
                 Id = user.Id,

@@ -2,6 +2,8 @@
 
 public class CreateBlogInfoModel
 {
+    public Guid Id { get; set; }
+
     /// <summary>
     /// 标题
     /// </summary>

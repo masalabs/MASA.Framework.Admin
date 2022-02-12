@@ -24,8 +24,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis")).AddMasaMemoryCache();
+builder.Services.AddMasaRedisCache(AppSettings.GetModel<RedisConfigurationOptions>("Redis"));
 builder.Services.AddScoped<IBlogArticleRepository, BlogArticleRepository>();
 
 builder.Services.AddDaprEventBus<IntegrationEventLogService>(options =>

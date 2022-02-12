@@ -25,7 +25,10 @@
         <MCardActions>
             <p>
                 <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.commentCount</span>
-                <MButton Icon OnClick="ToApprove"><MIcon>mdi-thumb-up</MIcon></MButton> <span>@_blogInfo.approvedCount</span>
+                <MButton Icon OnClick="async()=>await ToApprove()">
+                    <MIcon>mdi-thumb-up</MIcon>
+                </MButton>
+                <span>@_blogInfo.approvedCount</span>
                 <MIcon>mdi-eye</MIcon> <span>@_blogInfo.visits</span>
             </p>
         </MCardActions>
@@ -33,67 +36,71 @@
     <MDivider></MDivider>
 </MCard>
 
-@*<FormModal Visible="_showWrite"
+@if (_blogCommentInfoList.TotalCount > 0)
+{
+    <MCard Width="1600" Class="mx-auto">
+        <MCard>评论列表</MCard>
+        @foreach (var comment in _blogCommentInfoList.Data)
+        {
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <MListItemTitle>@comment.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
+                    <MListItemSubtitle>@comment.CommentContent</MListItemSubtitle>
+                </MListItemContent>
+            </MListItem>
+            <MDivider></MDivider>
+        }
+    </MCard>
+}
+
+<MCard Width="1600" Class="mx-auto">
+    <MCardTitle>发表评论</MCardTitle>
+    <MCardText>
+        <MCol Cols="12">
+            <MTextarea @bind-Value="_reportComment">
+            </MTextarea>
+        </MCol>
+    </MCardText>
+    <MCardActions>
+        <MSpacer></MSpacer>
+        <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment()">发表评论</MButton>
+    </MCardActions>
+</MCard>
+
+<FormModal Visible="_showWrite"
            Title="举报"
            Width="1000"
            OnCancel="Cancel"
-           OnOk="SubmitBlog"
-           Model="_options">
+           OnOk="async()=>await SubmitBlog()"
+           Model="_createBlogReportModel">
     <MRow>
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="标题" Clearable
-                        @bind-Value="_options.Title"/>
+                        Label="标题" Clearable Readonly
+                        @bind-Value="_createBlogReportModel.Title" />
         </MCol>
         <MCol Cols="12">
-            <MSelect Label="类别"
-                         @bind-Value="_options.TypeId"
-                         Items="_typeList"
-                         ItemText="x => x.Item2"
-                         ItemValue="x => x.Item1"
-                         TItemValue="Guid"
-                         TValue="Guid"
-                         Dense
-                         Outlined
-                         HideDetails="true"
-                         TItem="(Guid, string)"/>
-        </MCol>
-        <MCol Cols="12">
-            <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
-                    Field="() => _options.Content"
-                    @bind-Value="_options.Content"/>
-        </MCol>
-        @if (_options.Labels is not null && _options.Labels.Count > 0)
-        {
-            <MCol Cols="12">
-                <MChipGroup ActiveClass="primary--text" Column>
-                    @foreach (var label in _options.Labels)
+            <MRadioGroup @bind-Value="_createBlogReportModel.Reason" Row TValue=ReasonTypes>
+                <LabelContent>
+                    举报原因
+                </LabelContent>
+                <ChildContent>
+                    @foreach (var item in Enum<ReasonTypes>.GetEnumObjectList<ReasonTypes>())
                     {
-                        <MChip>@label</MChip>
+                        <MRadio Value="@item.Value" Label=@item.Name TValue="ReasonTypes"></MRadio>
                     }
-                </MChipGroup>
-            </MCol>
-        }
-        <MCol Cols="8">
-            <MTextField TValue="string"
-                        Dense
-                        Outlined
-                        Label="标签信息"
-                        @bind-Value="_label"
-                        HideDetails="true"
-                        Clearable/>
-        </MCol>
-        <MCol Cols="4">
-            <MButton Rounded Color="success" OnClick="AddLabel">
-                <MIcon Left>mdi-pencil</MIcon>
-                添加标签
-            </MButton>
+                </ChildContent>
+            </MRadioGroup>
         </MCol>
         <MCol Cols="12">
-            <MSwitch @bind-Value="_options.IsShow"
-                     Class="mt-0"
-                     Label="@($"{(_options.IsShow ? "仅自己可见" : "全部可见")}")">
-            </MSwitch>
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="链接" Readonly
+                        @bind-Value="_createBlogReportModel.Connect" />
+        </MCol>
+        <MCol Cols="12">
+            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
+                        Label="详细信息" Clearable
+                        @bind-Value="_createBlogReportModel.Detail" />
         </MCol>
     </MRow>
-</FormModal>*@
+</FormModal>

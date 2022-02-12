@@ -1,5 +1,12 @@
 ﻿namespace MASA.Framework.Admin.Contracts.Blogs
 {
+    public class BlogAppSettiings
+    { 
+        public ElasticConfig ElasticConfig { get; set; }
+
+        public BaiduAIConfig BaiduAIConfig { get; set; }
+    }
+
     public class ElasticConfig
     {
         /// <summary>
@@ -28,8 +35,14 @@
         public int RequestTimeout { get; set; }
     }
 
-    public class BlogAppSettiings
+    public class BaiduAIConfig
     { 
-        public ElasticConfig ElasticConfig { get; set; }
+        public string GetAccessTokenUrl { get; set; }
+
+        public string PostUserDefined { get; set; }
+
+        public string APIKey { get; set; }
+
+        public string SecretKey { get; set; }
     }
 }

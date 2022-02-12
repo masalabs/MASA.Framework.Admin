@@ -12,10 +12,15 @@ namespace MASA.Framework.Admin.Caller.Blogs
             _callerProviderProvider = callerProvider;
         }
 
-        public Task<PagingResult<BlogReportListViewModel>> GetList(GetBlogReportOptions options)
+        public async Task<PagingResult<BlogReportListViewModel>> GetList(GetBlogReportOptions options)
         {
-            return _callerProviderProvider.PostAsync<GetBlogReportOptions, PagingResult<BlogReportListViewModel>>(
+            return await _callerProviderProvider.PostAsync<GetBlogReportOptions, PagingResult<BlogReportListViewModel>>(
                 "/api/blog-report/getList", options);
+        }
+
+        public async Task CreateAsync(CreateBlogReportModel options)
+        {
+            await _callerProviderProvider.PostAsync("/api/blog-report/creat", options);
         }
     }
 }

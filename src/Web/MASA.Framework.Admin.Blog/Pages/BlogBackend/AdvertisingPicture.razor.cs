@@ -114,9 +114,21 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     public async Task RemoveAsync(BlogAdvertisingPicturesListViewModel model)
     {
-        await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
+        Confirm(
+            title: "删除操作",
+            content: $"您确认要删除（{model.Title}）吗？",
+            onOk: async () =>
+            {
+                await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
 
-        await FetchList();
+                await FetchList();
+
+                Message("删除成功", AlertTypes.Success);
+
+            }, AlertTypes.Warning);
+
+        StateHasChanged();
+
     }
 
     #endregion

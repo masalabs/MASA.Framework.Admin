@@ -1,5 +1,6 @@
 ﻿@page "/management-admin/dic-list"
 @using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
+@inject NavigationManager NavigationManager
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
@@ -39,6 +40,7 @@
         @if (context.Header.Value == "actions")
         {
             <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
+            <PAction Color="primary" Label="值列表" Text OnClick="() => DetailList(context.Item)" Icon="mdi-pencli"></PAction>
             <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
         }
         else

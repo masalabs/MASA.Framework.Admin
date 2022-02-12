@@ -42,7 +42,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Infrastructure.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var detail = await GetAsync(id);
+            var detail = await _dbContext.Dics.SingleAsync(o => o.Id == id);
 
             if (detail != null)
             {

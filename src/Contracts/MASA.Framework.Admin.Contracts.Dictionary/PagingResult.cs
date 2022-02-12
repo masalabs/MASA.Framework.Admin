@@ -37,6 +37,11 @@ namespace MASA.Framework.Admin.Contracts.Dictionary
         /// </summary>
         public long PageCount { get; set; }
 
+        public PagingResult()
+        {
+
+        }
+
         public PagingResult(int pageIndex, int pageSize, long count, IEnumerable<T> data)
         {
             PageIndex = pageIndex;

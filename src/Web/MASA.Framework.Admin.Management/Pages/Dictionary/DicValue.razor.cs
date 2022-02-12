@@ -5,12 +5,15 @@ using MASA.Framework.Admin.Contracts.Dictionary.DicValue.ViewModel;
 
 namespace MASA.Framework.Admin.Management.Pages.Dictionary
 {
-    public partial class DicValue:ProCompontentBase
+    public partial class DicValue : ProCompontentBase
     {
         private DicValuePagingOptions _options = new();
         private int _totalCount = 0;
         private bool _loading = false;
         private List<DicValueViewModel> _tableData = new();
+
+        [Parameter]
+        public string Id { get; set; }
 
         private readonly List<DataTableHeader<DicValueViewModel>> _headers = new()
         {
@@ -51,42 +54,14 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         {
             _options.PageIndex = pageIndex;
             _options.PageSize = pageSize;
+            _options.DicId = Guid.Parse(Id);
 
             _loading = true;
 
-            _tableData = new List<DicValueViewModel>
-            {
-                new DicValueViewModel
-                {
-                     Lable = "测试1",
-                    Value = "测试1",
-                    Description = "测试1",
-                    Enable = true,
-                    CreateTime = DateTime.Now,
-                },
-                new DicValueViewModel
-                {
-                    Lable = "测试2",
-                    Value = "测试2",
-                    Description = "测试2",
-                    Enable = false,
-                    CreateTime = DateTime.Now,
-                },
-                new DicValueViewModel
-                {
-                    Lable = "测试3",
-                    Value = "测试3",
-                    Description = "测试3",
-                    Enable = true,
-                    CreateTime = DateTime.Now,
-                },
-            };
-            _totalCount = 3;
+            var result = await ManagementCaller.DicValueService.PagingAsync(_options);
 
-            //var result = await ManagementCaller.DictionaryService.PagingAsync(_options);
-
-            //_tableData = result.Data;
-            //_totalCount = (int)result.TotalCount;
+            _tableData = result.Data;
+            _totalCount = (int)result.TotalCount;
 
             _loading = false;
         }
@@ -111,7 +86,8 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
                     Lable = _dataModal.Data.Lable,
                     Sort = _dataModal.Data.Sort,
                     Value = _dataModal.Data.Value,
-                });
+                    DicId = Guid.Parse(Id)
+            });
 
                 Message("新增成功", AlertTypes.Success);
             }

@@ -24,6 +24,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             //详情
             await GetAsync();
+            await GetCommentList();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,7 +33,6 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             {
                 await BlogCaller.ArticleService.AddVisitsAsync(new AddBlogVisitModel() { BlogId = BlogInfoId });
             }
-            await GetCommentList();
         }
         /// <summary>
         /// 获取评论列表

@@ -19,4 +19,14 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
             .Where(role => role.Id == id)
             .FirstOrDefaultAsync();
     }
+
+    public async new Task<IEnumerable<Role>> GetListAsync(
+        Expression<Func<Role, bool>> predicate,
+        CancellationToken cancellationToken = default(CancellationToken))
+    {
+        return await _context.Set<Role>()
+            .Include(role => role.RoleItems)
+            .Include(role => role.Permissions)
+            .ToListAsync(cancellationToken);
+    }
 }

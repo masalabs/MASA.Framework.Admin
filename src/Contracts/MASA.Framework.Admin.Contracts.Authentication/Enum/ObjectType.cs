@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Enum;
+namespace MASA.Framework.Admin.Contracts.Authentication.Enum;
 
 public enum ObjectType
 {

@@ -16,3 +16,4 @@ global using Microsoft.Extensions.DependencyInjection;
 global using AuthenticationRouting = MASA.Framework.Admin.Contracts.Authentication.Routing;
 global using ConfigurationRouting = MASA.Framework.Admin.Contracts.Configuration.Routing;
 global using UserRouting = MASA.Framework.Admin.Contracts.User.Routing;
+global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;

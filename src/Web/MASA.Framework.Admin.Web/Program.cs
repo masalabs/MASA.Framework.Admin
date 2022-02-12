@@ -20,6 +20,7 @@ builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
 Assembly[] assemblies = { typeof(UserCaller).Assembly };
 builder.Services.AddCaller(assemblies);
+builder.Services.AddRBAC();
 //builder.AddMasaConfiguration(null, assemblies: assemblies);
 var app = builder.Build();
 

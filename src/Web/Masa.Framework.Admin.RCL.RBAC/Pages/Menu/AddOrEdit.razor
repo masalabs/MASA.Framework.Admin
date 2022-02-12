@@ -1,34 +1,30 @@
-﻿<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
+﻿@inherits RBACCompontentBase
+
+<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">Add New User</span>
+        <span class="text-h6">@(MenuPage.CurrentData.Id == Guid.Empty ? T("Add Menu"):T("Edit Menu"))</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=MenuPage.CurrentMenuData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Icon" Class="mb-6" Label="Icon" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="MenuPage.CurrentMenuData.Sort" Class="mb-6" Label="Sort" HideDetails="@("auto")" Outlined />
-        <MSwitch @bind-Value="MenuPage.CurrentMenuData.Disabled" Class="mb-6" Label="Status"></MSwitch>
-        <MTextarea @bind-Value="MenuPage.CurrentMenuData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
+    <MForm Model=MenuPage.CurrentData EnableDataAnnotationsValidation>
+        <MTextField @bind-Value="MenuPage.CurrentData.Name" Class="mb-6" Label="@T("Menu.Name")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="MenuPage.CurrentData.Icon" Class="mb-6" Label="@T("Icon")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="MenuPage.CurrentData.Sort" Class="mb-6" Label="@T("Sort")" HideDetails="@("auto")" Outlined />
+        <MRadioGroup @bind-Value="MenuPage.CurrentData.Disabled" Row Class="mb-6">
+            <MRadio Label="@T("Enable")" Value="false" />
+            <MRadio Label="@T("Disabled")" Value="true" />
+        </MRadioGroup>
+        <MTextarea @bind-Value="MenuPage.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddData(context)"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> @T("Cancel") </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddData(context)"> @T("Confirm") </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
 
 @code {
-    public MenuPage? _menuPage;
-
-    [Parameter]
-    public MenuPage MenuPage
-    {
-        get => _menuPage ?? throw new Exception("Please set parameter MenuPage");
-        set
-        {
-            _menuPage = value;
-        }
-    }
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }

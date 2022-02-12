@@ -11,6 +11,8 @@
 
   <ItemGroup>
 	  <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+	  <PackageReference Include="Flurl" Version="3.0.4" />
+	  <PackageReference Include="Flurl.Http" Version="3.2.2" />
 	  <PackageReference Include="MASA.BuildingBlocks.DDD.Domain" Version="0.0.1706110254" />
 	  <PackageReference Include="MASA.Contrib.Configuration" Version="0.0.1706108591" />
 	  <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1706108591" />

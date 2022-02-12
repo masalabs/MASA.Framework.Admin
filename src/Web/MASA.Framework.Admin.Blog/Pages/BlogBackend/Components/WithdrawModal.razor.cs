@@ -18,10 +18,12 @@
         [Parameter]
         public EventCallback<WithdrawBlogArticleModel> OnOk { get; set; }
 
-        private WithdrawBlogArticleModel Data { get; set; } = new()
+        private WithdrawBlogArticleModel Data { get; set; } = new();
+
+        private void HandleOnCancel()
         {
-            ReasonType = ReasonTypes.Other
-        };
+            Data = new();
+        }
 
         private async Task HandleOnOk()
         {

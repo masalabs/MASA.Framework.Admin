@@ -74,6 +74,10 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
+            <PAction Visible="@(context.Item.state == StateTypes.Reviewed)"
+                     Color="primary" Label="下架" Type=ActionTypes.Label Text
+                     OnClick="() => ShowWithdrawModal(context.Item)"></PAction>
+            
             <PAction Color="primary" Label="查看" OnClick="() => HrefDetailPage(context.Item.id)" Text Icon="mdi-eye"> </PAction>
             @if (context.Item.state == StateTypes.ToBeReviewed)
             {
@@ -91,6 +95,8 @@
     </ItemColContent>
 </DefaultDataTable>
 
-<WithdrawModal Visible="_withdrawModalVisible"
-               OnCancel="() => _withdrawModalVisible =false"
+<WithdrawModal Title="@($"下架文章（{CurrentModel.title}）")"
+               Visible="_withdrawModalVisible"
+               Width="800"
+               OnCancel="() => _withdrawModalVisible = false"
                OnOk="OnWithdraw" />

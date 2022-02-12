@@ -133,6 +133,10 @@ public partial class Article : ProCompontentBase
         model.Id = CurrentModel.id;
 
         await BlogCaller.ArticleService.WithdrawAsync(model);
+
+        _withdrawModalVisible = false;
+
+        await FetchList(_options.PageIndex, _options.PageSize);
     }
 
     public void HrefDetailPage(Guid id)

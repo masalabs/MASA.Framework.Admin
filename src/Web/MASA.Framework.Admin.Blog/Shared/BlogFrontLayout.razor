@@ -5,14 +5,28 @@
 @implements IDisposable
 
 <MApp>
-    <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ?"mx-6":"mx-6 rounded-b-4")}")">
+    <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ? "mx-6" : "mx-6 rounded-b-4")}")">
         <img class="hover-pointer" src="/img/mainLayout/logo-en.svg" />
         <MSpacer />
+
+        <div style="width: 20%;" class="ml-10">
+            <MTextField OnKeyDown="Search" @bind-Value="SearchName" Class="rounded-2" Style="width: 80%; height: 40px;" Flat Dense Solo BackgroundColor="fill-lighten-1" HideDetails="@("auto")" Placeholder="Search">
+                <PrependInnerContent>
+                    <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                </PrependInnerContent>
+            </MTextField>
+        </div>
+
+        <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>
+        <MIcon Size=20 Class="ml-5 mr-5" Color="neutral-lighten-3">mdi-cog</MIcon>
+
         <Login />
     </MAppBar>
 
     <MMain Class="fill-lighten-1" Style="padding-top:60px">
-        @Body
+        <CascadingValue Value="this">
+            @Body
+        </CascadingValue>
     </MMain>
 
     <Message @bind-Value="_message.Visible" Timeout="_message.Timeout" Type="_message.Type">

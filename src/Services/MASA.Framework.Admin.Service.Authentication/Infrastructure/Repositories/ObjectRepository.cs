@@ -20,4 +20,13 @@ public class ObjectRepository :
             .Where(obj => obj.Id == id)
             .FirstOrDefaultAsync();
     }
+
+    public async new Task<IEnumerable<Domain.Aggregate.ObjectAggregate.Object>> GetListAsync(
+        Expression<Func<Domain.Aggregate.ObjectAggregate.Object, bool>> predicate,
+        CancellationToken cancellationToken = default(CancellationToken))
+    {
+        return await _context.Set<Domain.Aggregate.ObjectAggregate.Object>()
+            .Include(obj => obj.Permissions)
+            .ToListAsync(cancellationToken);
+    }
 }

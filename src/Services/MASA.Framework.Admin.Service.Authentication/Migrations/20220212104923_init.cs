@@ -1,3 +1,4 @@
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -124,6 +125,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     permissions_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    permission_type = table.Column<int>(type: "int", nullable: false),
                     permission_effect = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

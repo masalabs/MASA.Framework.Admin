@@ -43,7 +43,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             var blogArticle = await _blogArticleRepository.GetInfoAsync(query.Id);
             if (blogArticle is not null)
             {
-                blogArticle.Relations = await _blogLabelRepository.GetRelationsByBlog(blogArticle.id);
+                blogArticle.Relations = await _blogLabelRepository.GetRelationsByBlog(blogArticle.Id);
                 if (query.UserId != Guid.Empty)
                     blogArticle.IsApproved = await _approvedRecordRepository.ExistBlogApprovedRecord(query.Id, query.UserId);
             }
@@ -57,7 +57,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             var blogArticle = await _blogArticleRepository.GetBlogArticleByUser(query.Options);
             blogArticle.Data.ForEach(x =>
             {
-                x.content = RemoveHTML(x.content);
+                x.Content = RemoveHTML(x.Content);
             });
             query.Result = blogArticle;
         }

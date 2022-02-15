@@ -73,7 +73,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
         private void ToReport()
         {
             _showWrite = true;
-            _createBlogReportModel.Title = _blogInfo.title;
+            _createBlogReportModel.Title = _blogInfo.Title;
             _createBlogReportModel.BlogInfoId = BlogInfoId;
             _createBlogReportModel.CreatorUserId = CurrentUserId;
             _createBlogReportModel.Connect = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);

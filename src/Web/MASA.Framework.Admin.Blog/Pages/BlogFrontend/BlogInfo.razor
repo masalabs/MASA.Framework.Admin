@@ -13,7 +13,7 @@
                     <MCard Flat>
                         <MRow>
                             <MCol Cols="10">
-                                <MCardText><h5>@_blogInfo.title</h5></MCardText>
+                                <MCardText><h5>@_blogInfo.Title</h5></MCardText>
                             </MCol>
                             <MSpacer></MSpacer>
                             <MCol Cols="2" Class="mt-5">
@@ -43,15 +43,15 @@
             }
 
             <MCard>
-                <MCardText>@((MarkupString)_blogInfo.content)</MCardText>
+                <MCardText>@((MarkupString)_blogInfo.Content)</MCardText>
                 <MCardActions>
                     <p>
-                        <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.commentCount</span>
+                        <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.CommentCount</span>
                         <MButton Icon OnClick="ToApprove">
                             <MIcon>mdi-thumb-up</MIcon>
                         </MButton>
-                        <span>@_blogInfo.approvedCount</span>
-                        <MIcon>mdi-eye</MIcon> <span>@_blogInfo.visits</span>
+                        <span>@_blogInfo.ApprovedCount</span>
+                        <MIcon>mdi-eye</MIcon> <span>@_blogInfo.Visits</span>
                     </p>
                 </MCardActions>
             </MCard>

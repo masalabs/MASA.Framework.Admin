@@ -56,15 +56,15 @@
                                         where blogTypeIds.Contains(blogInfo.TypeId)
                                         select new BlogInfoListViewModel()
                                         {
-                                            id = blogInfo.Id,
-                                            typeId = blogInfo.TypeId,
-                                            title = blogInfo.Title,
-                                            typeName = blogType.TypeName
+                                            Id = blogInfo.Id,
+                                            TypeId = blogInfo.TypeId,
+                                            Title = blogInfo.Title,
+                                            TypeName = blogType.TypeName
                                         }).ToListAsync();
 
                 if (blogInfoes.Any())
                 {
-                    throw new UserFriendlyException($"{string.Join(",", blogInfoes.Select(x => x.typeName).ToList())}已被使用,删除失败！");
+                    throw new UserFriendlyException($"{string.Join(",", blogInfoes.Select(x => x.TypeName).ToList())}已被使用,删除失败！");
                 }
             }
 

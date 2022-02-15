@@ -70,7 +70,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         private void ToReport()
         {
             _showWrite = true;
-            _createBlogReportModel.Title = _blogInfo.title;
+            _createBlogReportModel.Title = _blogInfo.Title;
             _createBlogReportModel.BlogInfoId = BlogInfoId;
             _createBlogReportModel.CreatorUserId = CurrentUserId;
             _createBlogReportModel.Connect = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
@@ -85,7 +85,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
             await BlogCaller.CommentsService.CreateAsync(new AddCommentModel()
             {
                 BlogInfoId = BlogInfoId,
-                TypeId = _blogInfo.typeId,
+                TypeId = _blogInfo.TypeId,
                 CommentContent = _reportComment,
                 CreatorUserId = CurrentUserId,
                 ReplyId = replayId ?? Guid.Empty

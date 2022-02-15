@@ -48,20 +48,20 @@
             {
                 @foreach (var blog in Blogs.Data)
                 {
-                    <MCard OnClick="() => HrefDetailPage(blog.id)">
-                        <MCardTitle>@blog.title</MCardTitle>
-                        <MCardText> @($"{(blog.content.Length > 200 ? blog.content.Substring(0, 200) : blog.content)}") </MCardText>
+                    <MCard OnClick="() => HrefDetailPage(blog.Id)">
+                        <MCardTitle>@blog.Title</MCardTitle>
+                        <MCardText> @($"{(blog.Content.Length > 200 ? blog.Content.Substring(0, 200) : blog.Content)}") </MCardText>
                         <MCardActions Style="padding-left:20px">
                             <p>
                                 <span>@blog.ReleaseTime.ToString("yyyy-MM-dd HH:mm")</span>
-                                <span>【@blog.state.GetDescription().Description】</span>
+                                <span>【@blog.State.GetDescription().Description】</span>
                             </p>
                         </MCardActions>
                     </MCard>
                     <MRow Style="margin:auto">
                         <MCol Cols="9"></MCol>
                         <MCol Cols="1">
-                            <MButton Color="primary" OnClick="() => ToWrite(blog.id)" Outlined>编辑</MButton>
+                            <MButton Color="primary" OnClick="() => ToWrite(blog.Id)" Outlined>编辑</MButton>
                         </MCol>
                         <MCol Cols="1">
                             <MButton Color="error" OnClick="() => ToDelete(blog)" Outlined>删除</MButton>
@@ -129,11 +129,11 @@
         <MCol Cols="12">
             <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
                         Label="标题" Clearable
-                        @bind-Value="_options.title"/>
+                        @bind-Value="_options.Title"/>
         </MCol>
         <MCol Cols="12">
             <MSelect Label="类别"
-                     @bind-Value="_options.typeId"
+                     @bind-Value="_options.TypeId"
                      Items="_typeList"
                      ItemText="x => x.Item2"
                      ItemValue="x => x.Item1"
@@ -146,8 +146,8 @@
         </MCol>
         <MCol Cols="12">
             <Editor ApiKey="ci3b169hzg64kvofmshgj2886wybbdxpzsvgrdpto65ke50w"
-                    Field="() => _options.content"
-                    @bind-Value="_options.content"/>
+                    Field="() => _options.Content"
+                    @bind-Value="_options.Content"/>
         </MCol>
         @if (_options.Relations is not null && _options.Relations.Count > 0)
         {
@@ -176,9 +176,9 @@
             </MButton>
         </MCol>
         <MCol Cols="12">
-            <MSwitch @bind-Value="_options.isShow"
+            <MSwitch @bind-Value="_options.IsShow"
                      Class="mt-0"
-                     Label="@($"{(_options.isShow ? "仅自己可见" : "全部可见")}")">
+                     Label="@($"{(_options.IsShow ? "仅自己可见" : "全部可见")}")">
             </MSwitch>
         </MCol>
     </MRow>

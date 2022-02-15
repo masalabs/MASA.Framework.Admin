@@ -19,17 +19,17 @@ public partial class Article : ProCompontentBase
     private readonly List<DataTableHeader<BlogInfoListViewModel>> _headers = new()
     {
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "标题", Value = nameof(BlogInfoListViewModel.title), Sortable = false },
+        { Text = "标题", Value = nameof(BlogInfoListViewModel.Title), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "状态", Value = nameof(BlogInfoListViewModel.state), Sortable = false },
+        { Text = "状态", Value = nameof(BlogInfoListViewModel.State), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "分类", Value = nameof(BlogInfoListViewModel.typeName), Sortable = false },
+        { Text = "分类", Value = nameof(BlogInfoListViewModel.TypeName), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "阅读量", Value = nameof(BlogInfoListViewModel.visits), Sortable = false },
+        { Text = "阅读量", Value = nameof(BlogInfoListViewModel.Visits), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "评论数量", Value = nameof(BlogInfoListViewModel.commentCount), Sortable = false },
+        { Text = "评论数量", Value = nameof(BlogInfoListViewModel.CommentCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.approvedCount), Sortable = false },
+        { Text = "点赞数量", Value = nameof(BlogInfoListViewModel.ApprovedCount), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
         { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
@@ -110,7 +110,7 @@ public partial class Article : ProCompontentBase
 
     private async Task OnWithdraw(WithdrawBlogArticleModel model)
     {
-        model.Id = CurrentModel.id;
+        model.Id = CurrentModel.Id;
 
         await BlogCaller.ArticleService.WithdrawAsync(model);
 

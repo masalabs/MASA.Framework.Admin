@@ -86,10 +86,10 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
         {
             Confirm(
                title: "删除文章类型",
-               content: $"您确认要删除文章：<<{blog.title}>>吗？",
+               content: $"您确认要删除文章：<<{blog.Title}>>吗？",
                onOk: async () =>
                {
-                   Guid[] ids = { blog.id };
+                   Guid[] ids = { blog.Id };
                    await BlogCaller.ArticleService.RemoveAsync(ids);
 
                    Message("删除成功", AlertTypes.Success);
@@ -101,14 +101,14 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         public async Task SubmitBlog()
         {
-            _updateOption.Id = _options.id;
-            _updateOption.State = _options.state == StateTypes.OffTheShelf ? 
+            _updateOption.Id = _options.Id;
+            _updateOption.State = _options.State == StateTypes.OffTheShelf ? 
                 StateTypes.ToBeReviewed : _updateOption.State;
             _updateOption.DeleteRelationIds = new();
-            _updateOption.Content = _options.content;
-            _updateOption.Title = _options.title;
-            _updateOption.IsShow = _options.isShow;
-            _updateOption.TypeId = _options.typeId;
+            _updateOption.Content = _options.Content;
+            _updateOption.Title = _options.Title;
+            _updateOption.IsShow = _options.IsShow;
+            _updateOption.TypeId = _options.TypeId;
             await BlogCaller.ArticleService.UpdateAsync(_updateOption);
             _showWrite = false;
         }

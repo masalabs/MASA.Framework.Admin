@@ -22,27 +22,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             System.Linq.Expressions.Expression<Func<BlogInfoListViewModel, bool>> where = blogInfo => true;
 
             where = where.And(!string.IsNullOrEmpty(options.Title),
-                    blogInfo => blogInfo.title.Contains(options.Title))
-                .And(options.State.HasValue, blogInfo => blogInfo.state == options.State)
+                    blogInfo => blogInfo.Title.Contains(options.Title))
+                .And(options.State.HasValue, blogInfo => blogInfo.State == options.State)
                 .And(options.ReleaseStartTime.HasValue, blogInfo => blogInfo.ReleaseTime >= options.ReleaseStartTime)
                 .And(options.ReleaseEndTime.HasValue, blogInfo => blogInfo.ReleaseTime < options.ReleaseEndTime)
-                .And(options.TypeId.HasValue, blogInfo => blogInfo.typeId == options.TypeId.Value);
+                .And(options.TypeId.HasValue, blogInfo => blogInfo.TypeId == options.TypeId.Value);
 
             var query = from blogInfo in _blogDbContext.BlogInfoes
                         join blogType in _blogDbContext.BlogTypes on blogInfo.TypeId equals blogType.Id into leftBlogType
                         from blogType in leftBlogType.DefaultIfEmpty()
                         select new BlogInfoListViewModel()
                         {
-                            id = blogInfo.Id,
-                            typeId = blogInfo.TypeId,
-                            title = blogInfo.Title,
-                            state = blogInfo.State,
-                            typeName = blogType.TypeName,
-                            content = blogInfo.Content,
-                            visits = blogInfo.Visits,
-                            commentCount = blogInfo.CommentCount,
-                            approvedCount = blogInfo.ApprovedCount,
-                            remark = blogInfo.Remark,
+                            Id = blogInfo.Id,
+                            TypeId = blogInfo.TypeId,
+                            Title = blogInfo.Title,
+                            State = blogInfo.State,
+                            TypeName = blogType.TypeName,
+                            Content = blogInfo.Content,
+                            Visits = blogInfo.Visits,
+                            CommentCount = blogInfo.CommentCount,
+                            ApprovedCount = blogInfo.ApprovedCount,
+                            Remark = blogInfo.Remark,
                             ReleaseTime = blogInfo.ReleaseTime,
                             WithdrawReason = blogInfo.WithdrawReason
                         };
@@ -64,16 +64,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                               where blogInfo.Id == id
                               select new BlogInfoListViewModel()
                               {
-                                  id = blogInfo.Id,
-                                  typeId = blogInfo.TypeId,
-                                  title = blogInfo.Title,
-                                  state = blogInfo.State,
-                                  typeName = blogType.TypeName,
-                                  content = blogInfo.Content,
-                                  visits = blogInfo.Visits,
-                                  commentCount = blogInfo.CommentCount,
-                                  approvedCount = blogInfo.ApprovedCount,
-                                  remark = blogInfo.Remark,
+                                  Id = blogInfo.Id,
+                                  TypeId = blogInfo.TypeId,
+                                  Title = blogInfo.Title,
+                                  State = blogInfo.State,
+                                  TypeName = blogType.TypeName,
+                                  Content = blogInfo.Content,
+                                  Visits = blogInfo.Visits,
+                                  CommentCount = blogInfo.CommentCount,
+                                  ApprovedCount = blogInfo.ApprovedCount,
+                                  Remark = blogInfo.Remark,
                                   ReleaseTime = blogInfo.CreationTime
                               }).FirstOrDefaultAsync();
 
@@ -163,16 +163,16 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
                             (string.IsNullOrWhiteSpace(options.Title) || blogInfo.Title.Contains(options.Title))
                         select new BlogInfoListViewModel()
                         {
-                            id = blogInfo.Id,
-                            typeId = blogInfo.TypeId,
-                            title = blogInfo.Title,
-                            state = blogInfo.State,
-                            typeName = blogType.TypeName,
-                            content = blogInfo.Content,
-                            visits = blogInfo.Visits,
-                            commentCount = blogInfo.CommentCount,
-                            approvedCount = blogInfo.ApprovedCount,
-                            remark = blogInfo.Remark,
+                            Id = blogInfo.Id,
+                            TypeId = blogInfo.TypeId,
+                            Title = blogInfo.Title,
+                            State = blogInfo.State,
+                            TypeName = blogType.TypeName,
+                            Content = blogInfo.Content,
+                            Visits = blogInfo.Visits,
+                            CommentCount = blogInfo.CommentCount,
+                            ApprovedCount = blogInfo.ApprovedCount,
+                            Remark = blogInfo.Remark,
                             ReleaseTime = blogInfo.CreationTime
                         };
 

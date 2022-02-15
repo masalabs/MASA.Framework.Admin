@@ -5,57 +5,57 @@
         /// <summary>
         /// 主键
         /// </summary>
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 标题
         /// </summary>
-        public string title { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// 文章状态
         /// </summary>
-        public StateTypes state { get; set; }
+        public StateTypes State { get; set; }
 
         /// <summary>
         /// 类型编号
         /// </summary>
-        public Guid typeId { get; set; }
+        public Guid TypeId { get; set; }
 
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string typeName { get; set; }
+        public string TypeName { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
-        public string content { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
         /// 访问数量
         /// </summary>
-        public int visits { get; set; }
+        public int Visits { get; set; }
 
         /// <summary>
         /// 评论数量
         /// </summary>
-        public int commentCount { get; set; }
+        public int CommentCount { get; set; }
 
         /// <summary>
         /// 是否展示
         /// </summary>
-        public bool isShow { get; set; } = true;
+        public bool IsShow { get; set; } = true;
 
         /// <summary>
         /// 点赞数量
         /// </summary>
-        public int approvedCount { get; set; }
+        public int ApprovedCount { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string remark { get; set; }
+        public string Remark { get; set; }
 
         /// <summary>
         /// CreationTime

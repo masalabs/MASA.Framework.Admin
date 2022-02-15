@@ -66,5 +66,6 @@
   "Edit Role": "编辑角色",
   "Role.Name": "角色名称",
   "CreationTime": "创建时间",
-  "Role.Number": "角色分配数量上限"
+  "Role.Number": "角色分配数量上限",
+  "Operation confirmation" : "操作确认"
 }

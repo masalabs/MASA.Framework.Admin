@@ -2,7 +2,7 @@ using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class RolePage : ComponentPage
+public class RolePage : ComponentPageBase
 {
     public List<RoleItemResponse> Datas { get; set; } = new();
 
@@ -57,7 +57,7 @@ public class RolePage : ComponentPage
 
     public bool IsAdd => CurrentData.Id != Guid.Empty;
 
-    public RolePage(AuthenticationCaller authenticationCaller, I18n i18n)
+    public RolePage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         Headers = new()

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Global.Nav.Model;
+﻿namespace MASA.Framework.Admin.Web.Base.Global;
 
 public class NavModel
 {

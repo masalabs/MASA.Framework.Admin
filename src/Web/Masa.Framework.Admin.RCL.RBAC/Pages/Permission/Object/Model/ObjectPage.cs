@@ -2,7 +2,7 @@ using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class ObjectPage : ComponentPage
+public class ObjectPage : ComponentPageBase
 {
     public List<ObjectItemResponse> Datas { get; set; } = new();
 
@@ -52,7 +52,7 @@ public class ObjectPage : ComponentPage
 
     public List<DataTableHeader<ObjectItemResponse>> Headers { get; set; }
 
-    public ObjectPage(AuthenticationCaller authenticationCaller, I18n i18n)
+    public ObjectPage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         Headers = new()

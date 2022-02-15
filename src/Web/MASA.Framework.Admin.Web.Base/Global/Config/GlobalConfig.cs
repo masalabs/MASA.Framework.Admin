@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Global;
+namespace MASA.Framework.Admin.Web.Base.Global;
 
 public class GlobalConfig
 {
@@ -10,6 +10,8 @@ public class GlobalConfig
     private bool _navigationMini;
     private string? _favorite;
     private NavModel? _currentNav;
+    private bool _lodding;
+    private bool _confirm;
     private CookieStorage? _cookieStorage;
 
     #endregion
@@ -102,6 +104,29 @@ public class GlobalConfig
         }
     }
 
+    public bool Lodding
+    {
+        get => _lodding;
+        set
+        {
+            if (_lodding != value)
+            {
+                _lodding = value;
+                OnLoddingChanged?.Invoke(_lodding);
+            }
+        }
+    }
+
+    public void OpenConfirmDialog(string title, string message, EventCallback<bool> confirmFunc)
+    {
+        OnConfirmChanged?.Invoke(title, message, confirmFunc);
+    }
+
+    public void OpenMessage(string message, MessageType messageType, int timeOut = 2)
+    {
+        OnMessageChanged?.Invoke(message, messageType, timeOut);
+    }
+
     #endregion
 
     public GlobalConfig(CookieStorage cookieStorage, I18nConfig i18nConfig, IHttpContextAccessor httpContextAccessor)
@@ -114,9 +139,16 @@ public class GlobalConfig
     #region event
 
     public delegate void GlobalConfigChanged();
+    public delegate void LoddingChanged(bool lodding);
+    public delegate void MessageChanged(string message, MessageType messageType, int timeOut);
+    public delegate void ConfirmChanged(string title, string message, EventCallback<bool> confirmFunc);
+
     public event GlobalConfigChanged? OnPageModeChanged;
     public event GlobalConfigChanged? OnCurrentNavChanged;
     public event GlobalConfigChanged? OnLanguageChanged;
+    public event LoddingChanged? OnLoddingChanged;
+    public event ConfirmChanged? OnConfirmChanged;
+    public event MessageChanged? OnMessageChanged;
 
     #endregion
 

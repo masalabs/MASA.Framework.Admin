@@ -1,5 +1,5 @@
 ﻿@page "/menu/list"
-@inherits RBACCompontentBase
+@inherits AdminCompontentBase
 
 <MCard Class="mt-6">
     <MCardText Class="pa-6">
@@ -84,13 +84,9 @@
 </MCard>
 
 <AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@MenuPage.Message @bind-Show="MenuPage.Error" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteMenuAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=MenuPage.Lodding />
 
 @code{
     public bool _openMenuForm;
-    public bool _confirmDelete;
 
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;
@@ -109,8 +105,8 @@
 
     void OpenDeleteMenuDialog(MenuItemResponse item)
     {
-        MenuPage.CurrentData = item;
-        _confirmDelete = true;
+        MenuPage.CurrentData = item;        
+        MenuPage.OpenDeleteConfirmDialog(this,DeleteMenuAsync);
     }
 
     async Task DeleteMenuAsync(bool confirm)

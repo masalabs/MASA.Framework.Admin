@@ -1,0 +1,60 @@
+﻿@implements IDisposable
+@inherits AdminCompontentBase;
+@inject GlobalConfig GlobalConfig;
+
+<MSnackbar @bind-Value="Show" Top> @*TimeOut=TimeOut*@
+    <ChildContent>
+        @Message
+    </ChildContent>
+    <ActionContent>
+        <MButton Color="red" Text OnClick="Close">
+            @T("Close")
+        </MButton>
+    </ActionContent>
+</MSnackbar>
+
+@code{
+    [Parameter]
+    public bool Show { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public int TimeOut { get; set; } = 2;
+
+    [Parameter]
+    public MessageType MessageType { get; set; }
+
+    async Task Close()
+    {
+        if (ShowChanged.HasDelegate)
+        {
+            await ShowChanged.InvokeAsync(false);
+        }
+        else Show = false;
+    }
+
+    public void ShowMessage(string message,MessageType messageType,int timeOut)
+    {
+        Show = true;
+        Message = message;
+        MessageType = messageType;
+        TimeOut = timeOut;
+
+        base.StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        GlobalConfig.OnMessageChanged += ShowMessage;
+    }
+
+    public void Dispose()
+    {
+        GlobalConfig.OnMessageChanged -= ShowMessage;
+    }
+}

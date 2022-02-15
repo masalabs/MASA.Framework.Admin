@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
-    public partial class Analytics : ProCompontentBase
+    public partial class Analytics : AdminCompontentBase
     {
         private object? _subscribersChart;
         private object? _ordersChart;

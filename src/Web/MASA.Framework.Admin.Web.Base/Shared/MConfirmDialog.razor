@@ -1,7 +1,8 @@
-﻿@inherits RBACCompontentBase
+﻿@implements IDisposable
+@inherits AdminCompontentBase;
+@inject GlobalConfig GlobalConfig;
 
-<MDialog @bind-Value="Show"
-         MaxWidth="290">
+<MDialog @bind-Value="Show" Width=300>
     <MCard>
         <MCardTitle Class="text-h5">
             @Title
@@ -13,13 +14,9 @@
 
         <MCardActions>
             <MSpacer></MSpacer>
-            @if (ConfirmMode)
-            {
-                <MButton
-                     OnClick="async ()=> await Confirm(false)">
-                    @T("Cancel")
-                </MButton>
-            }
+            <MButton OnClick="async ()=> await Confirm(false)">
+                @T("Cancel")
+            </MButton>
             <MButton Color="primary"
                      OnClick="async ()=> await Confirm(true)">
                 @T("Confirm")
@@ -36,9 +33,6 @@
     public EventCallback<bool> ShowChanged { get; set; }
 
     [Parameter]
-    public bool ConfirmMode { get; set; }
-
-    [Parameter]
     public string? Title { get; set; }
 
     [Parameter]
@@ -49,14 +43,35 @@
 
     async Task Confirm(bool confirm)
     {
-        if (WhenConfirm.HasDelegate)
-        {
-            await WhenConfirm.InvokeAsync(confirm);
-        }
         if (ShowChanged.HasDelegate)
         {
             await ShowChanged.InvokeAsync(false);
         }
         else Show = false;
+
+        if (WhenConfirm.HasDelegate)
+        {
+            await WhenConfirm.InvokeAsync(confirm);
+        }     
+    }
+
+    void Confirm(string title, string message, EventCallback<bool> whenConfirm)
+    {
+        Title = title;
+        Message = message;
+        WhenConfirm = whenConfirm;
+        Show = true;
+
+        base.StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        GlobalConfig.OnConfirmChanged += Confirm;
+    }
+
+    public void Dispose()
+    {
+        GlobalConfig.OnConfirmChanged -= Confirm;
     }
 }

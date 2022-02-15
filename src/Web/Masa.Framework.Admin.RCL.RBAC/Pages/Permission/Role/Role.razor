@@ -1,4 +1,4 @@
-﻿@inherits RBACCompontentBase
+﻿@inherits AdminCompontentBase
 
 <MCard Class="mt-2">
     <MCardText Class="pa-6">
@@ -69,9 +69,9 @@
 </MDataTable>
 
 <AddOrEdit @bind-Visible=_openRoleForm />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@RolePage.Message @bind-Show="RolePage.Error" />
+@*<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@RolePage.Message @bind-Show="RolePage.Error" />
 <Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteRoleAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=RolePage.Lodding />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=RolePage.Lodding />*@
 
 
 @code{

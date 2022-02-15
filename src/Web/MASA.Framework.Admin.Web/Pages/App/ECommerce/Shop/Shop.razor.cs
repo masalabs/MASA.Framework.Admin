@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Web.Pages.App.ECommerce.Shop
 {
-    public partial class Shop : ProCompontentBase
+    public partial class Shop : AdminCompontentBase
     {
         readonly List<MultiRangeDto> _multiRanges = ShopService.GetMultiRangeList();
         readonly List<string> _categories = ShopService.GetCategortyList();

@@ -1,4 +1,4 @@
-﻿@inherits RBACCompontentBase
+﻿@inherits AdminCompontentBase
 
 <MCard Class="mt-2">
     <MCardText Class="pa-6">
@@ -72,10 +72,10 @@
 </MDataTable>
 
 <AddOrEdit @bind-Visible=_openObjectForm />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@ObjectPage.Message @bind-Show="ObjectPage.Error" />
+@*<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@ObjectPage.Message @bind-Show="ObjectPage.Error" />
 <Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteObjectAsync" />
 <Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmBatchDelete" WhenConfirm="BatchDeleteObjectAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=ObjectPage.Lodding />
+<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=ObjectPage.Lodding />*@
 
 @code{
     public bool _openObjectForm;

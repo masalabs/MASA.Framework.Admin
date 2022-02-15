@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Global.Config;
+﻿namespace MASA.Framework.Admin.Web.Base.Global;
 
 public static class PageModes
 {

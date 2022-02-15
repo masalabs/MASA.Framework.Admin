@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Base;
+namespace MASA.Framework.Admin.Web.Base.Global;
 
 public static class GlobalVariables
 {

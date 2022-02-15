@@ -27,7 +27,7 @@ public class ConfigurationCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponseBase> EditAsync(EditMenuRequest request)
     {
-        return await CallerProvider.PostAsync<EditMenuRequest, ApiResultResponseBase>(ConfigurationRouting.OperateMenu, request);
+        return await CallerProvider.PutAsync<EditMenuRequest, ApiResultResponseBase>(ConfigurationRouting.OperateMenu, request);
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(Guid id)

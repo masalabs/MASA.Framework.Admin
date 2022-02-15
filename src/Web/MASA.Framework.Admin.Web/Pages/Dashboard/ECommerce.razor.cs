@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
-    public partial class ECommerce : ProCompontentBase
+    public partial class ECommerce : AdminCompontentBase
     {
         private object? _orderChart;
         private object? _profitChart;

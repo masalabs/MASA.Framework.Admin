@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.RCL.RBAC;
 
-public class MenuPage : ComponentPage
+public class MenuPage : ComponentPageBase
 {
     public List<MenuItemResponse> Datas { get; set; } = new();
 
@@ -34,43 +34,30 @@ public class MenuPage : ComponentPage
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
-    public bool Lodding { get; set; }
-
-    public bool Error { get; set; }
-
-    public string? Message { get; set; }
-
     public long CurrentCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
     public List<DataTableHeader<MenuItemResponse>> Headers { get; set; }
 
-    public MenuPage(ConfigurationCaller configurationCaller, I18n i18n)
+    public MenuPage(ConfigurationCaller configurationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         ConfigurationCaller = configurationCaller;
         Headers = new()
         {
-            new() { Text = T("Menu.Name"), Value = nameof(MenuItemResponse.Name) },
-            new() { Text = T("Icon"), Value = nameof(MenuItemResponse.Icon), Sortable = false },
-            new() { Text = T("Sort"), Value = nameof(MenuItemResponse.Sort) },
-            new() { Text = T("Describe"), Value = nameof(MenuItemResponse.Describe), Sortable = false },
-            new() { Text = T("State"), Value = nameof(MenuItemResponse.Disabled) },
-            new() { Text = T("Action"), Value = "Action", Sortable = false }
+            new() { Text = i18n.T("Menu.Name"), Value = nameof(MenuItemResponse.Name) },
+            new() { Text = i18n.T("Icon"), Value = nameof(MenuItemResponse.Icon), Sortable = false },
+            new() { Text = i18n.T("Sort"), Value = nameof(MenuItemResponse.Sort) },
+            new() { Text = i18n.T("Describe"), Value = nameof(MenuItemResponse.Describe), Sortable = false },
+            new() { Text = i18n.T("State"), Value = nameof(MenuItemResponse.Disabled) },
+            new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
         };
-
-        string T(string key)
-        {
-            return i18n.T(key) ?? key;
-        }
     }
 
     public async Task QueryPageDatasAsync()
     {
-        Lodding = true;
+        GlobalConfig.Lodding = true;
         var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
-        Error = !result.Success;
-        Message = result.Message;
         if (result.Success)
         {
             var pageData = result.Data!;
@@ -86,17 +73,21 @@ public class MenuPage : ComponentPage
                 Url = "/menu/list",
                 Sort = 1
             });
+            OpenSuccessMessage("查询成功！");
         }
-        Lodding = false;
+        GlobalConfig.Lodding = false;
     }
 
     public async Task AddOrUpdateAsync()
     {
-        Lodding = true;
-        Reload?.Invoke();
+        GlobalConfig.Lodding = true;
         var result = default(ApiResultResponseBase);
         if (CurrentData.Id == Guid.Empty)
         {
+            CurrentData.Code = "123";
+            CurrentData.Url = "";
+            CurrentData.ParentName = "234";
+            CurrentData.ParentId = Guid.NewGuid();
             result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Code, CurrentData.Name, CurrentData.Sort, CurrentData.ParentId, CurrentData.ParentName)
             {
                 Describe = CurrentData.Describe,
@@ -113,18 +104,24 @@ public class MenuPage : ComponentPage
                 Icon = CurrentData.Icon,
             });
         }
-        Error = !result.Success;
-        Message = result.Message;
-        Lodding = false;
+        GlobalConfig.Lodding = false;
     }
 
     public async Task DeleteAsync()
     {
-        Lodding = true;
+        GlobalConfig.Lodding = true;
         var result = await ConfigurationCaller.DeleteAsync(CurrentData.Id);
-        Error = !result.Success;
-        Message = result.Message;
-        Lodding = false;
+       
+        if (result.Success is false)
+        {
+            OpenErrorDialog(result.Message);         
+        }
+        else
+        {
+
+            await QueryPageDatasAsync();
+        }
+        GlobalConfig.Lodding = false;
     }
 }
 

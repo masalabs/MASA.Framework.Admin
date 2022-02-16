@@ -40,6 +40,8 @@ public class MenuPage : ComponentPageBase
 
     public List<DataTableHeader<MenuItemResponse>> Headers { get; set; }
 
+    public bool IsOpenMenuForm { get; set; }
+
     public MenuPage(ConfigurationCaller configurationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         ConfigurationCaller = configurationCaller;
@@ -73,9 +75,15 @@ public class MenuPage : ComponentPageBase
                 Url = "/menu/list",
                 Sort = 1
             });
-            OpenSuccessMessage("查询成功！");
+            OpenErrorMessage("查询成功！");
         }
         GlobalConfig.Lodding = false;
+    }
+
+    public void OpenMenuForm(MenuItemResponse? item = null)
+    {
+        CurrentData = item ?? new();
+        IsOpenMenuForm = true;
     }
 
     public async Task AddOrUpdateAsync()
@@ -107,14 +115,25 @@ public class MenuPage : ComponentPageBase
         GlobalConfig.Lodding = false;
     }
 
+    public void OpenDeleteMenuDialog(MenuItemResponse item)
+    {
+        CurrentData = item;
+        OpenDeleteConfirmDialog(DeleteMenuAsync);
+    }
+
+    async Task DeleteMenuAsync(bool confirm)
+    {
+        if (confirm) await DeleteAsync();
+    }
+
     public async Task DeleteAsync()
     {
         GlobalConfig.Lodding = true;
         var result = await ConfigurationCaller.DeleteAsync(CurrentData.Id);
-       
+
         if (result.Success is false)
         {
-            OpenErrorDialog(result.Message);         
+            OpenErrorDialog(result.Message);
         }
         else
         {

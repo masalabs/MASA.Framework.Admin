@@ -26,7 +26,7 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="() => OpenMenuForm()">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="() => MenuPage.OpenMenuForm()">
                     @T("Add Menu")
                 </MButton>
             </MCol>
@@ -41,7 +41,7 @@
             @switch (context.Header.Value)
             {
                 case nameof(MenuItemResponse.Name):
-                    <div class="hover-pointer d-flex my-2" @onclick="()=> OpenMenuForm(context.Item)">
+                    <div class="hover-pointer d-flex my-2" @onclick="()=> MenuPage.OpenMenuForm(context.Item)">
                         <span>@context.Item.Name</span>
                     </div>
                     break;
@@ -58,10 +58,10 @@
                     @(context.Item.Disabled?T("Disabled"):T("Enable"))
                     break;
                 case "Action":
-                    <MButton Color="primary" @onclick="() => OpenMenuForm(context.Item)">
+                    <MButton Color="primary" @onclick="() => MenuPage.OpenMenuForm(context.Item)">
                         @T("Edit")
                     </MButton>
-                    <MButton Color="error" OnClick="() => OpenDeleteMenuDialog(context.Item)">
+                    <MButton Color="error" OnClick="() => MenuPage.OpenDeleteMenuDialog(context.Item)">
                         @T("Delete") 
                     </MButton>
                     break;
@@ -83,10 +83,9 @@
     </MCardText>
 </MCard>
 
-<AddOrEdit @bind-Visible=_openMenuForm></AddOrEdit>
+<AddOrEdit @bind-Visible=MenuPage.IsOpenMenuForm></AddOrEdit>
 
 @code{
-    public bool _openMenuForm;
 
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;
@@ -95,22 +94,5 @@
     {
         RegisterPage(MenuPage);
         await MenuPage.QueryPageDatasAsync();
-    }
-
-    public void OpenMenuForm(MenuItemResponse? item = null)
-    {
-        MenuPage.CurrentData = item ?? new();
-        _openMenuForm = true;
-    }
-
-    void OpenDeleteMenuDialog(MenuItemResponse item)
-    {
-        MenuPage.CurrentData = item;        
-        MenuPage.OpenDeleteConfirmDialog(this,DeleteMenuAsync);
-    }
-
-    async Task DeleteMenuAsync(bool confirm)
-    {
-        if (confirm) await MenuPage.DeleteAsync();
     }
 }

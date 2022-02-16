@@ -1,15 +1,16 @@
 ﻿@implements IDisposable
-@inherits AdminCompontentBase;
 @inject GlobalConfig GlobalConfig;
 
-<MSnackbar @bind-Value="Show" Top> @*TimeOut=TimeOut*@
+<MSnackbar @bind-Value="Show" Color="white" Top> @*TimeOut=TimeOut*@
     <ChildContent>
-        @Message
+        @{
+            var (icon, color) = GetMessageIconInfo();
+        }
+        <MIcon Color="@color" Size=18>@icon</MIcon>
+        <span class="text-caption neutral--text ml-1">@Message</span>
     </ChildContent>
     <ActionContent>
-        <MButton Color="red" Text OnClick="Close">
-            @T("Close")
-        </MButton>
+        <MIcon Color="neutral-lighten-3" Size=18 OnClick="Close">mdi-close</MIcon>
     </ActionContent>
 </MSnackbar>
 
@@ -47,6 +48,14 @@
 
         base.StateHasChanged();
     }
+
+    (string icon,string color) GetMessageIconInfo()
+    {
+        if(MessageType == MessageType.Information) return ("mdi-information","blue");
+        else if(MessageType == MessageType.Success) return ("mdi-check-circle","green");
+        else if(MessageType == MessageType.Error) return ("mdi-close-circle","error");
+        else return ("mdi-alert-circle","warning");
+    } 
 
     protected override void OnInitialized()
     {

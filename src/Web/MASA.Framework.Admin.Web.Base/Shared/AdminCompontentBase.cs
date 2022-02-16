@@ -17,16 +17,25 @@ public abstract class AdminCompontentBase : ComponentBase
         }
     }
 
-    public string T(string key)
-    {
-        return I18n.T(key) ?? key;
-    }
+    public string T(string key) => I18n.T(key);
 
-    public void RegisterPage(ComponentPageBase componentPage) => componentPage.Reload = () => InvokeAsync(StateHasChanged);
+    public void RegisterPage(ComponentPageBase componentPage)
+    {
+        componentPage.Reload = () => InvokeAsync(StateHasChanged);
+        componentPage.Component = this;
+    }
 }
 
 public abstract class ComponentPageBase
 {
+    public ComponentBase? _component { get; set; }
+
+    public ComponentBase Component
+    {
+        get => _component ?? throw new Exception("Please registerPage ComponentPageBase in AdminCompontentBase !");
+        set => _component = value;
+    }
+
     public Func<Task>? Reload { get; set; }
 
     public GlobalConfig GlobalConfig { get; }
@@ -39,9 +48,9 @@ public abstract class ComponentPageBase
         I18n = i18n;
     }
 
-    public void OpenDeleteConfirmDialog(ComponentBase componentBase,Func<bool,Task> confirmFunc)
+    public void OpenDeleteConfirmDialog(Func<bool, Task> confirmFunc)
     {
-        EventCallback<bool> callback = EventCallback.Factory.Create(componentBase, confirmFunc);
+        EventCallback<bool> callback = EventCallback.Factory.Create(Component, confirmFunc);
         GlobalConfig.OpenConfirmDialog(I18n.T("Operation confirmation"), I18n.T("Are you sure you need to delete?"), callback);
     }
 
@@ -52,7 +61,7 @@ public abstract class ComponentPageBase
 
     public void OpenInformationMessage(string message)
     {
-        GlobalConfig.OpenMessage(message,MessageType.Information);
+        GlobalConfig.OpenMessage(message, MessageType.Information);
     }
 
     public void OpenSuccessMessage(string message)

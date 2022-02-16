@@ -651,7 +651,15 @@
 }
 
 /* pagetabs */
+
+.m-snack__wrapper {
+    min-width: 200px !important;
+    max-height: 35px !important;
+    min-height: 20px !important;
+}
+
 /*组件样式全局修改end*/
+
 /*shop*/
 .ml300 {
     margin-left: 300px;

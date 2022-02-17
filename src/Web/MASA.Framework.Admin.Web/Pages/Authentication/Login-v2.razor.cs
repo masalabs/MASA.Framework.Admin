@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.SignalR;
 using MASA.Framework.Admin.Caller.UserCallers;
 using MASA.Framework.Admin.Contracts.Login.Model;
+using MASA.Framework.Admin.Web.Shared;
 
 namespace MASA.Framework.Admin.Web.Pages.Authentication
 {
@@ -36,36 +37,49 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         [Inject]
         public UserCaller UserCaller { get; set; } = default!;
 
+        [CascadingParameter]
+        public MainLayout App { get; set; } = default!;
 
         private async Task LoginAsync()
         {
             _loading = true;
-            var token = await GetToken();
+            var tokenInfo = await GetToken();
 
-            if (!string.IsNullOrWhiteSpace(token))
+            if (tokenInfo == null || tokenInfo.Code == 1)
+            {
+                _loading = false;
+            }
+            else if (tokenInfo.Code == 0)
             {
                 try
                 {
-                    string huburl = NavigationManager.BaseUri.TrimEnd('/') + $"/{_hubName}";
-                    _hubConnection = new HubConnectionBuilder()
-                        .WithUrl("http://localhost:5041/login", options =>
-                        {
-                            options.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                        })
-                        .WithAutomaticReconnect()
-                        .Build();
+                    //string huburl = NavigationManager.BaseUri.TrimEnd('/') + $"/{_hubName}";
+                    //_hubConnection = new HubConnectionBuilder()
+                    //    .WithUrl("http://localhost:5041/login", options =>
+                    //    {
+                    //        options.AccessTokenProvider = () => Task.FromResult<string?>(tokenInfo.Result);
+                    //    })
+                    //    .WithAutomaticReconnect()
+                    //    .Build();
 
-                    _hubConnection.On<string, string>("Logout", Logout);
+                    //_hubConnection.On<string, string>("Logout", Logout);
 
-                    await _hubConnection.StartAsync();
+                    //await _hubConnection.StartAsync();
+
+                    //await App.StartSignalR(tokenInfo.Result);
 
                     _loading = false;
 
-                    NavigationManager.NavigateTo($"/Account/Login?token={token}", true);
+                    NavigationManager.NavigateTo($"/Account/Login?token={tokenInfo.Result}", true);
                 }
                 catch (Exception)
                 {
+                    _loading = false;
                     throw;
+                }
+                finally
+                {
+                    _loading = false;
                 }
             }
         }
@@ -75,7 +89,7 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
 
         }
 
-        private async Task<string> GetToken()
+        private async Task<LoginViewModel?> GetToken()
         {
             if (!string.IsNullOrWhiteSpace(_account) && !string.IsNullOrWhiteSpace(_password))
             {
@@ -89,17 +103,19 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
                 {
                     _showErrorMessage = true;
                     _errorMessage = loginViewModel.Result;
-                    return "";
                 }
                 else
                 {
                     _showErrorMessage = false;
-                    return loginViewModel.Result;
                 }
+
+                return loginViewModel;
             }
             else
             {
-                return "";
+                _showErrorMessage = true;
+                _errorMessage = "请输入账号或密码";
+                return null;
             }
         }
     }

@@ -37,7 +37,6 @@ namespace MASA.Framework.Admin.Service.Order.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

@@ -42,42 +42,47 @@ public class MenuPage : ComponentPageBase
 
     public bool IsOpenMenuForm { get; set; }
 
+    public bool IsAdd => CurrentData.Id == Guid.Empty;
+
     public MenuPage(ConfigurationCaller configurationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         ConfigurationCaller = configurationCaller;
         Headers = new()
         {
             new() { Text = i18n.T("Menu.Name"), Value = nameof(MenuItemResponse.Name) },
+            new() { Text = i18n.T("Code"), Value = nameof(MenuItemResponse.Code) },
             new() { Text = i18n.T("Icon"), Value = nameof(MenuItemResponse.Icon), Sortable = false },
+            new() { Text = i18n.T("Url"), Value = nameof(MenuItemResponse.Url), Sortable = false },
             new() { Text = i18n.T("Sort"), Value = nameof(MenuItemResponse.Sort) },
             new() { Text = i18n.T("Describe"), Value = nameof(MenuItemResponse.Describe), Sortable = false },
             new() { Text = i18n.T("State"), Value = nameof(MenuItemResponse.Disabled) },
+            new() { Text = i18n.T("ParentMenu"), Value = nameof(MenuItemResponse.ParentName) },
             new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
         };
     }
 
+    public async Task GetAllMenus()
+    {
+        Lodding = true;
+        var result = await ConfigurationCaller.GetAllAsync();
+        if (result.Success)
+        {
+            Datas = result.Data ?? new();
+        }
+        Lodding = false;
+    }
+
     public async Task QueryPageDatasAsync()
     {
-        GlobalConfig.Lodding = true;
-        var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize);
+        Lodding = true;
+        var result = await ConfigurationCaller.GetItemsAsync(PageIndex, PageSize, Search);
         if (result.Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
             Datas = pageData.Items.ToList();
-            Datas.Add(new MenuItemResponse()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Code = "9527",
-                Describe = "test",
-                Icon = "mdi-trending-up",
-                Url = "/menu/list",
-                Sort = 1
-            });
-            OpenErrorMessage("查询成功！");
         }
-        GlobalConfig.Lodding = false;
+        Lodding = false;
     }
 
     public void OpenMenuForm(MenuItemResponse? item = null)
@@ -88,31 +93,34 @@ public class MenuPage : ComponentPageBase
 
     public async Task AddOrUpdateAsync()
     {
-        GlobalConfig.Lodding = true;
+        Lodding = true;
         var result = default(ApiResultResponseBase);
+        CurrentData.ParentName = Datas.FirstOrDefault(d => d.Id == CurrentData.ParentId)?.Name;
         if (CurrentData.Id == Guid.Empty)
         {
-            CurrentData.Code = "123";
-            CurrentData.Url = "";
-            CurrentData.ParentName = "234";
-            CurrentData.ParentId = Guid.NewGuid();
-            result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Code, CurrentData.Name, CurrentData.Sort, CurrentData.ParentId, CurrentData.ParentName)
+            result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Name, CurrentData.Code, CurrentData.Url, CurrentData.Sort, CurrentData.Disabled)
             {
                 Describe = CurrentData.Describe,
-                Url = CurrentData.Url,
                 Icon = CurrentData.Icon,
+                ParentName = CurrentData.ParentName,
+                ParentId = CurrentData.ParentId,
             });
+
+            await CheckApiResult(result, I18n.T("Added menu successfully"), result.Message);
         }
         else
         {
-            result = await ConfigurationCaller.EditAsync(new EditMenuRequest(CurrentData.Id, CurrentData.Name, CurrentData.Sort, CurrentData.ParentId, CurrentData.ParentName)
+            result = await ConfigurationCaller.EditAsync(new EditMenuRequest(CurrentData.Id, CurrentData.Name, CurrentData.Url, CurrentData.Sort, CurrentData.Disabled)
             {
                 Describe = CurrentData.Describe,
-                Url = CurrentData.Url,
                 Icon = CurrentData.Icon,
+                ParentName = CurrentData.ParentName,
+                ParentId = CurrentData.ParentId,
             });
+
+            await CheckApiResult(result, I18n.T("Edit menu successfully"), result.Message);
         }
-        GlobalConfig.Lodding = false;
+        Lodding = false;
     }
 
     public void OpenDeleteMenuDialog(MenuItemResponse item)
@@ -123,24 +131,41 @@ public class MenuPage : ComponentPageBase
 
     async Task DeleteMenuAsync(bool confirm)
     {
-        if (confirm) await DeleteAsync();
+        if (confirm)
+        {
+            Lodding = true;
+            var result = await ConfigurationCaller.AnyChildAsync(CurrentData.Id);
+            if (result.Data)
+            {
+                OpenDeleteConfirmDialog(DeleteAsync,$"{I18n.T("Menu")}{CurrentData.Name}{I18n.T("has submenus, do you still want to delete?")}");
+            }
+            else
+            {
+                await DeleteAsync(confirm);
+            }
+            Lodding = false;
+        }        
     }
 
-    public async Task DeleteAsync()
+    public async Task DeleteAsync(bool confirm)
     {
-        GlobalConfig.Lodding = true;
-        var result = await ConfigurationCaller.DeleteAsync(CurrentData.Id);
-
-        if (result.Success is false)
+        if(confirm)
         {
-            OpenErrorDialog(result.Message);
+            Lodding = true;
+            var result = await ConfigurationCaller.DeleteAsync(CurrentData.Id);
+            await CheckApiResult(result, I18n.T("Delete menu successfully"), result.Message);
+            Lodding = false;
         }
+    }
+
+    async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
+    {
+        if (result.Success is false) OpenErrorDialog(errorMessage);
         else
         {
-
+            OpenSuccessMessage(successMessage);
             await QueryPageDatasAsync();
         }
-        GlobalConfig.Lodding = false;
     }
 }
 

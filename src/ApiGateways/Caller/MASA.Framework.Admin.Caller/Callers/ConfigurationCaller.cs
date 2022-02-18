@@ -10,14 +10,31 @@ public class ConfigurationCaller : HttpClientCallerBase
         BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 
-    public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize)
+    public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize,string? name = null)
     {
-        var paramters = new Dictionary<string, string>
+        var paramters = new Dictionary<string, string?>
         {
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
+            ["name"] = name
         };
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(ConfigurationRouting.MenuList, paramters);
+        var url = QueryHelpers.AddQueryString(ConfigurationRouting.MenuList, paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(url);
+    }
+
+    public async Task<ApiResultResponse<List<MenuItemResponse>>> GetAllAsync()
+    {
+        return await CallerProvider.GetAsync<ApiResultResponse<List<MenuItemResponse>>>(ConfigurationRouting.AllMenus);
+    }
+
+    public async Task<ApiResultResponse<bool>> AnyChildAsync(Guid menuId)
+    {
+        var paramters = new Dictionary<string, string?>
+        {
+            ["menuId"] = menuId.ToString(),
+        };
+        var url = QueryHelpers.AddQueryString(ConfigurationRouting.AnyChild, paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<bool>>(url);
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(AddMenuRequest request)

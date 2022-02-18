@@ -67,5 +67,12 @@
   "Role.Name": "角色名称",
   "CreationTime": "创建时间",
   "Role.Number": "角色分配数量上限",
-  "Operation confirmation" : "操作确认"
+  "Operation confirmation": "操作确认",
+  "Parent Menu": "父级菜单",
+  "Url": "路由",
+  "Added menu successfully": "添加菜单成功",
+  "Edit menu successfully": "编辑菜单成功",
+  "Delete menu successfully": "删除菜单成功",
+  "has submenus, do you still want to delete?": "存在子菜单，是否仍要删除？",
+  "ParentMenu": "父级菜单"
 }

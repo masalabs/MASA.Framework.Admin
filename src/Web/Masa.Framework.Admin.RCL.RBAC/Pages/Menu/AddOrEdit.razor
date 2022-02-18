@@ -2,13 +2,16 @@
 
 <MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">@(MenuPage.CurrentData.Id == Guid.Empty ? T("Add Menu"):T("Edit Menu"))</span>
+        <span class="text-h6">@(MenuPage.IsAdd ? T("Add Menu"):T("Edit Menu"))</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
     <MForm Model=MenuPage.CurrentData EnableDataAnnotationsValidation>
         <MTextField @bind-Value="MenuPage.CurrentData.Name" Class="mb-6" Label="@T("Menu.Name")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="MenuPage.CurrentData.Code" Disabled="@(!MenuPage.IsAdd)" Class="mb-6" Label="@T("Code")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="MenuPage.CurrentData.Icon" Class="mb-6" Label="@T("Icon")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="MenuPage.CurrentData.Url" Class="mb-6" Label="@T("Url")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="MenuPage.CurrentData.Sort" Class="mb-6" Label="@T("Sort")" HideDetails="@("auto")" Outlined />
+        <MAutocomplete @bind-Value="MenuPage.CurrentData.ParentId" Clearable Items="@MenuPage.Datas"Label="@T("Parent Menu")" ItemText="m => m.Name" ItemValue="m => m.Id" Outlined />
         <MRadioGroup @bind-Value="MenuPage.CurrentData.Disabled" Row Class="mb-6">
             <MRadio Label="@T("Enable")" Value="false" />
             <MRadio Label="@T("Disabled")" Value="true" />

@@ -5,6 +5,8 @@ public class MenuService : CustomServiceBase
     public MenuService(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.MenuList, GetItemsAsync);
+        App.MapGet(Routing.AllMenus, GetAllAsync);
+        App.MapGet(Routing.AnyChild, AnyChildAsync);
         App.MapPost(Routing.OperateMenu, CreateAsync);
         App.MapPut(Routing.OperateMenu, EditAsync);
         App.MapDelete(Routing.OperateMenu, DeleteAsync);
@@ -17,6 +19,23 @@ public class MenuService : CustomServiceBase
         [FromQuery] string name = "")
     {
         var query = new MenuQuery.ListQuery(pageIndex, pageSize, name);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponse<List<MenuItemResponse>>> GetAllAsync(
+        [FromServices] IEventBus eventBus)
+    {
+        var query = new MenuQuery.AllQuery();
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponse<bool>> AnyChildAsync(
+        [FromServices] IEventBus eventBus,
+        [FromQuery] Guid menuId)
+    {
+        var query = new MenuQuery.AnyChildQuery(menuId);
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }

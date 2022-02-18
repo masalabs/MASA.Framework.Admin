@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Application.Menu;
+namespace MASA.Framework.Admin.Configuration.Application.Menu;
 
 public class QueryHandler
 {
@@ -41,5 +41,32 @@ public class QueryHandler
                 Disabled = menu.State == State.Disabled,
                 CreationTime = menu.CreationTime
             }));
+    }
+
+    [EventHandler]
+    public async Task GetAllAsync(MenuQuery.AllQuery query)
+    {
+        var menus = await _repository.GetListAsync();
+        query.Result = menus.Select(menu => new MenuItemResponse()
+        {
+            Id = menu.Id,
+            Code = menu.Code,
+            Name = menu.Name,
+            Describe = menu.Describe,
+            Icon = menu.Icon,
+            Url = menu.Url,
+            ParentId = menu.ParentId,
+            ParentName = menu.ParentName,
+            Sort = menu.Sort,
+            Disabled = menu.State == State.Disabled,
+            CreationTime = menu.CreationTime
+        }).ToList();
+    }
+
+    [EventHandler]
+    public async Task AnyChildAsync(MenuQuery.AnyChildQuery query)
+    {
+        var anyChild = await _repository.GetCountAsync(m => m.ParentId == query.menuId);
+        query.Result = anyChild > 0;
     }
 }

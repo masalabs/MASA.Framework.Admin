@@ -1,53 +1,52 @@
-﻿using MASA.Framework.Admin.Contracts.Base.Enum;
+using MASA.Framework.Admin.Contracts.Base.Enum;
 
 namespace MASA.Framework.Admin.Configuration.Domain.Aggregate;
 
 public class Menu : AuditAggregateRoot<Guid, Guid>
 {
-    public string Code { get; private set; } = default!;
+    public string Code { get; private set; }
 
-    public string Name { get; private set; } = default!;
+    public string Name { get;  set; } 
 
-    public string? Describe { get; set; } = default!;
+    public string? Describe { get; set; } 
 
-    public string Icon { get; set; } = default!;
+    public string? Icon { get; set; } 
 
-    public Guid? ParentId { get; private set; }
+    public Guid? ParentId { get; set; }
 
-    public string ParentName { get; private set; } = default!;
+    public string? ParentName { get; set; }
 
-    public string Url { get; set; } = default!;
+    public string Url { get; set; }
 
-    public int Sort { get; private set; }
+    public int Sort { get; set; }
 
     public State State { get; private set; }
 
     private Menu()
     {
-        State = State.Enable;
-        Describe = String.Empty;
-        Icon = String.Empty;
+        Name = String.Empty;
+        Code = String.Empty;
         Url = String.Empty;
     }
 
-    public Menu(Guid creator, string code, string name, int sort, Guid? parentId, string? parentName) : this()
+    public Menu(Guid creator, string name,string code,string url, int sort, bool disabled)
     {
         Creator = creator;
-        Modifier = creator;
-        Code = code;
+        Modifier = creator;    
         Name = name;
-        ParentId = parentId;
-        ParentName = parentName ?? string.Empty;
+        Code = code;
+        Url = url;
         Sort = sort;
+        State = disabled ? State.Disabled : State.Enable;
     }
 
-    public void Update(Guid creator, string name, int sort, Guid? parentId, string? parentName)
+    public void Update(Guid creator, string name, string url, int sort, bool disabled)
     {
         Modifier = creator;
         ModificationTime = DateTime.Now;
         Name = name;
-        ParentId = parentId;
-        ParentName = parentName ?? string.Empty;
+        Url = url;
         Sort = sort;
+        State = disabled ? State.Disabled : State.Enable;
     }
 }

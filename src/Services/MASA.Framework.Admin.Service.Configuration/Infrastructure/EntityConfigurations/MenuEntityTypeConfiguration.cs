@@ -12,10 +12,10 @@ public class MenuEntityTypeConfiguration
 
         builder.Property(c => c.Code).HasColumnName("code").HasMaxLength(20).IsRequired();
         builder.Property(c => c.Name).HasColumnName("name").HasMaxLength(30).IsRequired();
-        builder.Property(c => c.Describe).HasColumnName("describe").IsRequired();
-        builder.Property(c => c.Icon).HasColumnName("icon").HasMaxLength(100).IsRequired();
+        builder.Property(c => c.Describe).HasColumnName("describe");
+        builder.Property(c => c.Icon).HasColumnName("icon").HasMaxLength(100);
         builder.Property(c => c.ParentId).HasColumnName("parent_id");
-        builder.Property(c => c.ParentName).HasColumnName("parent_name").HasMaxLength(200).IsRequired();
+        builder.Property(c => c.ParentName).HasColumnName("parent_name").HasMaxLength(200);
         builder.Property(c => c.Url).HasColumnName("url").HasMaxLength(200).IsRequired();
         builder.Property(c => c.Sort).HasColumnName("sort").IsRequired();
         builder.Property(c => c.State).HasColumnName("state").IsRequired();

@@ -42,11 +42,17 @@
             {
                 case nameof(MenuItemResponse.Name):
                     <div class="hover-pointer d-flex my-2" @onclick="()=> MenuPage.OpenMenuForm(context.Item)">
-                        <span>@context.Item.Name</span>
+                        <span class="blue--text">@context.Item.Name</span>
                     </div>
+                    break;
+                case nameof(MenuItemResponse.Code):
+                    @context.Item.Code
                     break;
                 case (nameof(MenuItemResponse.Icon)):
                     <MIcon Left Small Color="primary">@context.Item.Icon</MIcon>
+                    break;
+                case nameof(MenuItemResponse.Url):
+                    @context.Item.Url
                     break;
                 case nameof(MenuItemResponse.Sort):
                     @context.Item.Sort
@@ -56,6 +62,11 @@
                     break;
                 case nameof(MenuItemResponse.Disabled):
                     @(context.Item.Disabled?T("Disabled"):T("Enable"))
+                    break;
+                case nameof(MenuItemResponse.ParentName):
+                    <div class="hover-pointer d-flex my-2" @onclick="()=> MenuPage.OpenMenuForm(MenuPage.Datas.FirstOrDefault(m => m.Id == context.Item.ParentId))">
+                        <span class="green--text">@context.Item.ParentName</span>
+                    </div>
                     break;
                 case "Action":
                     <MButton Color="primary" @onclick="() => MenuPage.OpenMenuForm(context.Item)">

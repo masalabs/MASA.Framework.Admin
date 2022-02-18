@@ -49,6 +49,8 @@
         }
         else Show = false;
 
+        base.StateHasChanged();
+
         if (WhenConfirm.HasDelegate)
         {
             await WhenConfirm.InvokeAsync(confirm);

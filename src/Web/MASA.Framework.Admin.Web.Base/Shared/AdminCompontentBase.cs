@@ -42,16 +42,22 @@ public abstract class ComponentPageBase
 
     public I18n I18n { get; }
 
+    public bool Lodding
+    {
+        get => GlobalConfig.Lodding;
+        set => GlobalConfig.Lodding = value;
+    }
+
     public ComponentPageBase(GlobalConfig globalConfig, I18n i18n)
     {
         GlobalConfig = globalConfig;
         I18n = i18n;
     }
 
-    public void OpenDeleteConfirmDialog(Func<bool, Task> confirmFunc)
+    public void OpenDeleteConfirmDialog(Func<bool, Task> confirmFunc,string? messgae = null)
     {
         EventCallback<bool> callback = EventCallback.Factory.Create(Component, confirmFunc);
-        GlobalConfig.OpenConfirmDialog(I18n.T("Operation confirmation"), I18n.T("Are you sure you need to delete?"), callback);
+        GlobalConfig.OpenConfirmDialog(I18n.T("Operation confirmation"), messgae ?? I18n.T("Are you sure you need to delete?"), callback);
     }
 
     public void OpenErrorDialog(string message)

@@ -1,29 +1,31 @@
-﻿namespace MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
+namespace MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
 
 public class AddMenuRequest
 {
-    public string Code { get; }
+    public string Code { get; private set; }
 
-    public string Name { get; }
+    public string Name { get; set; }
 
     public string? Describe { get; set; }
 
     public string? Icon { get; set; }
 
-    public Guid? ParentId { get; }
+    public Guid? ParentId { get; set; }
 
-    public string ParentName { get; }
+    public string? ParentName { get; set; }
 
-    public string? Url { get; set; }
+    public string Url { get; set; }
 
-    public int Sort { get; }
+    public int Sort { get; set; }
 
-    public AddMenuRequest(string code, string name, int sort, Guid? parentId, string? parentName)
+    public bool Disabled { get; set; }
+
+    public AddMenuRequest(string name, string code,string url, int sort,bool disabled)
     {
         Code = code;
         Name = name;
-        ParentId = parentId;
-        ParentName = parentName ?? string.Empty;
         Sort = sort;
+        Disabled = disabled;
+        Url = url;
     }
 }

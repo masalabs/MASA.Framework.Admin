@@ -13,21 +13,23 @@ namespace MASA.Framework.Admin.Web.Pages.Home
         [Inject]
         public NavigationManager NavigationManager { get; set; } = default!;
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
-                var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
-                if (token == null)
-                {
-                    NavigationManager.NavigateTo("/pages/authentication/Login-v2", true);
-                }
-                else
-                {
-                    await MainLayout.StartSignalR(token.Value);
+                //var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
+                //if (token == null)
+                //{
+                //    NavigationManager.NavigateTo("/pages/authentication/Login-v2", true);
+                //}
+                //else
+                //{
+                //    await MainLayout.StartSignalR(token.Value);
 
-                    NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
-                }
+                //    NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
+                //}
+
+                NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
             }
         }
     }

@@ -3,58 +3,69 @@
 @inject GlobalConfig GlobalConfig
 @implements IDisposable
 
-<CascadingValue Value="this">
-    <AuthorizeView>
-        <NotAuthorized>
-                <MApp>
-                    <div style="height:100%;margin:0;padding:0;">
-                        <MASA.Framework.Admin.Web.Pages.Authentication.Login_v2></MASA.Framework.Admin.Web.Pages.Authentication.Login_v2>
-                    </div>
-                </MApp>
-        </NotAuthorized>
-        <Authorized>
+<AuthorizeView>
+    <NotAuthorized>
             <MApp>
-                <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ?"mx-6":"mx-6 rounded-b-4")}")">
-                    <Favorite />
-                    <MSpacer />
-                    <Search />
-                    <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>
-                    <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3" OnClick="()=> _showSetting = true">mdi-cog</MIcon>
-                    <Language />
-                    <Login />
-                </MAppBar>
-
-                <Navigation />
-
-                <MMain Class="fill-lighten-1" Style="padding-top:60px">
-                    @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
-                    {
-                         <div class="pa-6 max-width">
-                            <Breadcrumb></Breadcrumb>
-                            @Body
-                         </div>
-                    }
-                    else if (GlobalConfig.PageMode == PageModes.PageTab)
-                    {
-                         <PageTabs>
-                            @Body
-                         </PageTabs>
-                    }
-                    else
-                    {
-                         <div class="pa-6 max-width">
-                            @Body
-                         </div>
-                    }
-                </MMain>
-
-                <Settings @bind-Show=_showSetting />
-
-                <MSnackbar Top Color="deep-purple accent-4" @bind-Value="_show" Timeout=10000>@_msg</MSnackbar>
+                <div style="height:100%;margin:0;padding:0;">
+                    <MASA.Framework.Admin.Web.Pages.Authentication.Login_v2></MASA.Framework.Admin.Web.Pages.Authentication.Login_v2>
+                </div>
             </MApp>
-        </Authorized>
-    </AuthorizeView>
-</CascadingValue>
+    </NotAuthorized>
+    <Authorized>
+        <MApp>
+            <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ?"mx-6":"mx-6 rounded-b-4")}")">
+                <Favorite />
+                <MSpacer />
+                <Search />
+                <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>
+                <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3" OnClick="()=> _showSetting = true">mdi-cog</MIcon>
+                <Language />
+                <Login />
+            </MAppBar>
+
+            <Navigation />
+
+            <MMain Class="fill-lighten-1" Style="padding-top:60px">
+                @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
+                {
+                     <div class="pa-6 max-width">
+                        <Breadcrumb></Breadcrumb>
+                        @Body
+                     </div>
+                }
+                else if (GlobalConfig.PageMode == PageModes.PageTab)
+                {
+                     <PageTabs>
+                        @Body
+                     </PageTabs>
+                }
+                else
+                {
+                     <div class="pa-6 max-width">
+                        @Body
+                     </div>
+                }
+            </MMain>
+
+            <Settings @bind-Show=_showSetting />
+
+            <MOverlay ZIndex=999 @bind-Value="_show">
+                <MSnackbar Vertical Top Color="deep-purple accent-4" @bind-Value="_show" Timeout=-1>
+                    <ChildContent>
+                        @_msg
+                    </ChildContent>
+                    <ActionContent>
+                        <MButton Dark
+                                 Text
+                                 OnClick="GoToLogout">
+                            确定
+                        </MButton>
+                    </ActionContent>
+                </MSnackbar>
+            </MOverlay>
+        </MApp>
+    </Authorized>
+</AuthorizeView>
 
 
 @code {

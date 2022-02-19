@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1862421399" />
+      <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1862421399" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,10 +28,16 @@
       <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1737730544" />
       <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1737730544" />
       <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1737730544" />
+      <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1737730544" />
+      <PackageReference Include="MASA.Contrib.Configuration" Version="0.0.1737730544" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Application\Permissions\Queries" />
     </ItemGroup>
 
 </Project>

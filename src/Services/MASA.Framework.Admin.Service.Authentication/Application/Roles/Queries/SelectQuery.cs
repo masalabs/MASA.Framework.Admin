@@ -2,6 +2,6 @@ namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;
 
 public record SelectQuery : Query<List<RoleItemResponse>>
 {
-    public override List<RoleItemResponse> Result { get; set; } = new List<RoleItemResponse>();
+    public override List<RoleItemResponse> Result { get; set; } = new();
 }
 

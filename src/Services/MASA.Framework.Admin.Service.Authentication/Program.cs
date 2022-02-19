@@ -1,11 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
-builder.AddMasaConfiguration(
-    null,
-    assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
+using MASA.Contrib.Data.Contracts.EF;
+using MASA.Utils.Exceptions.Extensions;
+
+var builder = WebApplication
+    .CreateBuilder(args)
+    .AddMasaConfiguration(
+        null,
+        assemblies: typeof(DbConnectionOption).Assembly);
 
 var app = builder.Services.AddFluentValidation(options =>
     {
-        options.RegisterValidatorsFromAssemblyContaining<PermissionService>();
+        options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
     })
     .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
     .AddEndpointsApiExplorer()
@@ -25,19 +29,19 @@ var app = builder.Services.AddFluentValidation(options =>
             {
                 var serviceProvider = builder.Services.BuildServiceProvider()!;
                 var option = serviceProvider
-                    .GetRequiredService<IOptions<MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions>>();
+                    .GetRequiredService<IOptions<DbConnectionOption>>();
                 dbOptions.UseSqlServer(option.Value.DbConn);
+                dbOptions.UseSoftDelete(builder.Services);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<AuthenticationDbContext>()
             .UseRepository<AuthenticationDbContext>();
     })
     .AddServices(builder);
-
 app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {
 });
-app.UseGlobalExceptionMiddleware()
+app.UseMasaExceptionHandling()
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

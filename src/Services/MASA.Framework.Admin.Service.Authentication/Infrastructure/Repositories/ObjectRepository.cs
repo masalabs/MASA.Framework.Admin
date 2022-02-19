@@ -1,32 +1,15 @@
 ﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Repositories;
 
-public class ObjectRepository :
-    Repository<AuthenticationDbContext, Domain.Aggregate.ObjectAggregate.Object>,
-    IObjectRepository
+public class PermissionRepository :
+    Repository<AuthenticationDbContext, Permission>,
+    IPermissionRepository
 {
-    public ObjectRepository(AuthenticationDbContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
+    public PermissionRepository(AuthenticationDbContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
     {
     }
 
-    public Task<bool> ExistAsync(string code)
+    public Task<bool> AnyAsync(Expression<Func<Permission, bool>> condition)
     {
-        return _context.Set<Domain.Aggregate.ObjectAggregate.Object>().AnyAsync(obj => obj.Code == code);
-    }
-
-    public async Task<Domain.Aggregate.ObjectAggregate.Object?> FindAsync(Guid id)
-    {
-        return await _context.Set<Domain.Aggregate.ObjectAggregate.Object>()
-            .Include(obj => obj.Permissions)
-            .Where(obj => obj.Id == id)
-            .FirstOrDefaultAsync();
-    }
-
-    public async new Task<IEnumerable<Domain.Aggregate.ObjectAggregate.Object>> GetListAsync(
-        Expression<Func<Domain.Aggregate.ObjectAggregate.Object, bool>> predicate,
-        CancellationToken cancellationToken = default(CancellationToken))
-    {
-        return await _context.Set<Domain.Aggregate.ObjectAggregate.Object>()
-            .Include(obj => obj.Permissions)
-            .ToListAsync(cancellationToken);
+        return _context.Set<Permission>().AnyAsync(condition);
     }
 }

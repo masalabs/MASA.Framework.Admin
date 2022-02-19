@@ -4,7 +4,7 @@
 @inject GlobalConfig GlobalConfig
 @inherits ProCompontentBase
 
-<PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
+<PPageHeader Title="@T("Search")" ShowFiltersByDefault OnSearch="() => FetchList()">
     <LeftActions>
         <MButton Color="primary" OnClick="AddAsync"><MIcon Left>mdi-plus</MIcon>@T("Add")</MButton>
     </LeftActions>
@@ -40,9 +40,9 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            <PAction Color="primary" Label="编辑" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
-            <PAction Color="primary" Label="值列表" Text OnClick="() => DetailList(context.Item)" Icon="mdi-pencli"></PAction>
-            <PAction Color="error" Label="删除" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
+            <PAction Color="primary" Label="@T("Edit")" Text OnClick="() => UpdateAsync(context.Item)" Icon="mdi-pencil"> </PAction>
+            <PAction Color="primary" Label="@T("Value List")" Text OnClick="() => DetailList(context.Item)" Icon="mdi-pencli"></PAction>
+            <PAction Color="error" Label="@T("Delete")" Text OnClick="() => DelAsync(context.Item)" Icon="mdi-delete"></PAction>
         }
         else
         {
@@ -56,7 +56,7 @@
 <FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
     <MRow>
         <MCol Cols="12">
-            <MTextField Label="名称"
+            <MTextField Label="@T("Name")"
                         Dense Outlined
                         @bind-Value="_dataModal.Data.Name">
                 <PrependInnerContent>
@@ -66,7 +66,7 @@
         </MCol>
 
         <MCol Cols="12">
-            <MTextField Label="类型"
+            <MTextField Label="@T("Type")"
                         Dense Outlined
                         @bind-Value="_dataModal.Data.Type">
                 <PrependInnerContent>
@@ -76,7 +76,7 @@
         </MCol>
 
         <MCol Cols="12">
-            <MTextField Label="描述"
+            <MTextField Label="@T("Describe")"
                         Dense Outlined
                         @bind-Value="_dataModal.Data.Description">
                 <PrependInnerContent>
@@ -86,7 +86,7 @@
         </MCol>
 
         <MCol Cols="12">
-            <MSwitch Label="开关" @bind-Value="_dataModal.Data.Enable" />
+            <MSwitch Label="@T("Switch")" @bind-Value="_dataModal.Data.Enable" />
         </MCol>
     </MRow>
 </FormModal>

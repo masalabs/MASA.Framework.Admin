@@ -1,5 +1,6 @@
 ﻿@page "/management-admin/simple-example"
 @using MASA.Framework.Admin.Contracts.Dictionary.Dic.ViewModel
+@inject GlobalConfig GlobalConfig
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">

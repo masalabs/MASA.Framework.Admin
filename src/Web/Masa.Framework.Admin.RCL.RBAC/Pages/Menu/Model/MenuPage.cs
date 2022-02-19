@@ -96,7 +96,7 @@ public class MenuPage : ComponentPageBase
         Lodding = true;
         var result = default(ApiResultResponseBase);
         CurrentData.ParentName = Datas.FirstOrDefault(d => d.Id == CurrentData.ParentId)?.Name;
-        if (CurrentData.Id == Guid.Empty)
+        if (IsAdd)
         {
             result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Name, CurrentData.Code, CurrentData.Url, CurrentData.Sort, CurrentData.Disabled)
             {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
 
 public class CommandHandler
 {
@@ -10,7 +10,7 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task AddObject(ObjectCommand.AddCommand command)
+    public async Task AddObjectAsync(ObjectCommand.AddCommand command)
     {
         if (await _repository.ExistAsync(command.Request.Code))
             throw new UserFriendlyException("duplicate resource");
@@ -26,7 +26,7 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task EditObject(ObjectCommand.EditCommand command)
+    public async Task EditObjectAsync(ObjectCommand.EditCommand command)
     {
         var objectItem = await _repository.FindAsync(command.Request.ObjectId);
         if (objectItem == null)
@@ -34,6 +34,13 @@ public class CommandHandler
 
         objectItem.Update(command.Request.Name);
         await _repository.UpdateAsync(objectItem);
+        await _repository.UnitOfWork.SaveChangesAsync();
+    }
+
+    [EventHandler]
+    public async Task DeleteObjectAsync(ObjectCommand.DeleteCommand command)
+    {
+        await _repository.RemoveAsync(o => o.Id == command.Request.ObjectId);
         await _repository.UnitOfWork.SaveChangesAsync();
     }
 }

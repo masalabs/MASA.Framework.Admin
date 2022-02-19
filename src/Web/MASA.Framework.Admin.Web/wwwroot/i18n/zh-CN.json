@@ -74,5 +74,8 @@
   "Edit menu successfully": "编辑菜单成功",
   "Delete menu successfully": "删除菜单成功",
   "has submenus, do you still want to delete?": "存在子菜单，是否仍要删除？",
-  "ParentMenu": "父级菜单"
+  "ParentMenu": "父级菜单",
+  "Added object successfully": "添加资源成功",
+  "Edit object successfully": "编辑资源成功",
+  "Delete object successfully": "删除资源成功"
 }

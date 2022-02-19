@@ -12,14 +12,14 @@ public class ConfigurationCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(int pageIndex, int pageSize,string? name = null)
     {
-        var paramters = new Dictionary<string, string?>
+        var paramters = new Dictionary<string, string>
         {
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
-            ["name"] = name
+            ["name"] = name ?? ""
         };
-        var url = QueryHelpers.AddQueryString(ConfigurationRouting.MenuList, paramters);
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(url);
+
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>>(ConfigurationRouting.MenuList,paramters);
     }
 
     public async Task<ApiResultResponse<List<MenuItemResponse>>> GetAllAsync()

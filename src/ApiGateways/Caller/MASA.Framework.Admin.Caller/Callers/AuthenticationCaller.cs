@@ -12,6 +12,11 @@ public class AuthenticationCaller : HttpClientCallerBase
         BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
     }
 
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
+
     #region Object
 
     public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize,
@@ -36,7 +41,7 @@ public class AuthenticationCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponseBase> EditObjectAsync(EditObjectRequest request)
     {
-        return await CallerProvider.PostAsync<EditObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
+        return await CallerProvider.PutAsync<EditObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
     }
 
     public async Task<ApiResultResponseBase> DeleteObjectAsync(DeleteObjectRequest request)

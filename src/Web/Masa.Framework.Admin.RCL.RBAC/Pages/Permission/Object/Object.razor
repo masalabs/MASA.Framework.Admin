@@ -24,12 +24,12 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm()">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=> ObjectPage.OpenObjectForm()">
                     @T("Add Object")
                 </MButton>
                 @if(ObjectPage.SelectDatas.Count()>0)
                 {
-                    <MButton Color="error" MinWidth=80 Height=32 Class="ml-4 rounded-pill" OnClick="()=>OpenBatchDeleteObjectDialog()">
+                    <MButton Color="error" MinWidth=80 Height=32 Class="ml-4 rounded-pill" OnClick="()=>ObjectPage.OpenBatchDeleteObjectDialog()">
                         @T("Batch Delete")
                     </MButton>
                 }
@@ -38,7 +38,7 @@
     </MCardText>
 </MCard>
 
-<MDataTable ShowSelect @bind-Value=ObjectPage.SelectDatas HideDefaultFooter Headers="ObjectPage.Headers" TItem="ObjectItemResponse" Items="ObjectPage.Datas" ItemKey="o => o.Code">
+<MDataTable ShowSelect @bind-Value=ObjectPage.SelectDatas HideDefaultFooter Headers="ObjectPage.Headers" TItem="ObjectItemResponse" Items="ObjectPage.Datas" ItemKey="o => o.Code" class="table-header-fill table-border-solid">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>
@@ -47,7 +47,7 @@
         @switch (context.Header.Value)
         {
             case nameof(ObjectItemResponse.Name):
-                <div class="hover-pointer d-flex my-2" @onclick="()=> OpenObjectForm(context.Item)">
+                <div class="hover-pointer d-flex my-2" @onclick="()=> ObjectPage.OpenObjectForm(context.Item)">
                     <span>@context.Item.Name</span>
                 </div>
                 break;
@@ -55,14 +55,14 @@
                  <span>@context.Item.Code</span>
                 break;
             case nameof(ObjectItemResponse.State):
-                 <span>@context.Item.State.ToString()</span>
+                 <span>@T(context.Item.State.ToString())</span>
                 break;
             case nameof(ObjectItemResponse.ObjectType):
-                 <span>@context.Item.ObjectType.ToString()</span>
+                 <span>@T(context.Item.ObjectType.ToString())</span>
                 break;
             case "Action":
-                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">@T("Edit")</MButton>
-                <MButton Color="error" Class="ml-4" OnClick="()=> OpenDeleteObjectDialog(context.Item)">@T("Delete")</MButton>
+                <MButton Color="primary" OnClick="()=> ObjectPage.OpenObjectForm(context.Item)">@T("Edit")</MButton>
+                <MButton Color="error" Class="ml-4" OnClick="()=> ObjectPage.OpenDeleteObjectDialog(context.Item)">@T("Delete")</MButton>
                 break;
             default:
                 @context.Value
@@ -71,17 +71,9 @@
     </ItemColContent>
 </MDataTable>
 
-<AddOrEdit @bind-Visible=_openObjectForm />
-@*<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@ObjectPage.Message @bind-Show="ObjectPage.Error" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteObjectAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmBatchDelete" WhenConfirm="BatchDeleteObjectAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=ObjectPage.Lodding />*@
+<AddOrEdit @bind-Visible=ObjectPage.IsOpenObjectForm />
 
 @code{
-    public bool _openObjectForm;
-    public bool _confirmDelete;
-    public bool _confirmBatchDelete;
-
     [Inject]
     public ObjectPage ObjectPage { get; set; } = default!;
 
@@ -89,32 +81,5 @@
     {
         RegisterPage(ObjectPage);
         await ObjectPage.QueryPageDatasAsync();
-    }
-
-    public void OpenObjectForm(ObjectItemResponse? objectItem = null)
-    {
-        _openObjectForm = true;
-        ObjectPage.CurrentData = objectItem ?? new();
-    }
-
-    void OpenDeleteObjectDialog(ObjectItemResponse item)
-    {
-        ObjectPage.CurrentData = item;
-        _confirmDelete = true;
-    }
-
-    async Task DeleteObjectAsync(bool confirm)
-    {
-        if (confirm) await ObjectPage.DeleteAsync();
-    }
-
-    void OpenBatchDeleteObjectDialog()
-    {
-        _confirmBatchDelete = true;
-    }
-
-    async Task BatchDeleteObjectAsync(bool confirm)
-    {
-        if (confirm) await ObjectPage.DeleteAsync();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
+namespace MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
 
 public class AddObjectRequest
 {
@@ -9,11 +9,6 @@ public class AddObjectRequest
     public ObjectType ObjectType { get; set; }
 
     public List<ObjectItemRequest> ObjectItems { get; set; } = new();
-
-    public AddObjectRequest()
-    {
-
-    }
 
     public AddObjectRequest(
         string code,

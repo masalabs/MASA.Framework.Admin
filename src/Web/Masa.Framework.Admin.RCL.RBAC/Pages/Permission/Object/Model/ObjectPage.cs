@@ -12,8 +12,6 @@ public class ObjectPage : ComponentPageBase
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
-    public int ObjectType { get; set; } = -1;
-
     public string? _search;
     public string? Search
     {
@@ -40,94 +38,113 @@ public class ObjectPage : ComponentPageBase
 
     public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
 
-    public bool Lodding { get; set; }
-
-    public bool Error { get; set; }
-
-    public string? Message { get; set; }
-
     public long CurrentCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
     public List<DataTableHeader<ObjectItemResponse>> Headers { get; set; }
 
+    public bool IsOpenObjectForm { get; set; }
+
+    public int ObjectType { get; set; } = -1;
+
+    public bool IsAdd => CurrentData.Id == Guid.Empty;
+
     public ObjectPage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         Headers = new()
         {
-            new() { Text = T("Object.Name"), Value = nameof(ObjectItemResponse.Name) },
-            new() { Text = T("Code"), Value = nameof(ObjectItemResponse.Code), Sortable = false },
-            new() { Text = T("State"), Value = nameof(ObjectItemResponse.State) },
-            new() { Text = T("Type"), Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
-            new() { Text = T("Action"), Value = "Action", Sortable = false }
-        };
-
-        string T(string key)
-        {
-            return i18n.T(key) ?? key;
-        }
+            new() { Text = i18n.T("Object.Name"), Value = nameof(ObjectItemResponse.Name) },
+            new() { Text = i18n.T("Code"), Value = nameof(ObjectItemResponse.Code), Sortable = false },
+            new() { Text = i18n.T("State"), Value = nameof(ObjectItemResponse.State) },
+            new() { Text = i18n.T("Type"), Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
+            new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
+        }; 
     }
 
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
         var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize, ObjectType, Search);
-        Error = !result.Success;
-        Message = result.Message;
         if (result.Success)
         {
             var pageData = result.Data!;
             CurrentCount = pageData.Count;
             Datas = pageData.Items.ToList();
-            Datas.Add(new ObjectItemResponse()
-            {
-                Id = Guid.NewGuid(),
-                Code = "9527",
-                Name = "Test"
-            });
         }
         Lodding = false;
+    }
+
+    public void OpenObjectForm(ObjectItemResponse? item = null)
+    {
+        CurrentData = item ?? new();
+        IsOpenObjectForm = true;
     }
 
     public async Task AddOrUpdateAsync()
     {
         Lodding = true;
         var result = default(ApiResultResponseBase);
-        if (CurrentData.Id != Guid.Empty)
+        if (IsAdd)
         {
-            var input = new AddObjectRequest
-            {
-                Name = CurrentData.Name,
-                Code = CurrentData.Code,
-                ObjectType = CurrentData.ObjectType,
-            };
-            result = await AuthenticationCaller.AddObjectAsync(input);
+            var request = new AddObjectRequest(CurrentData.Code, CurrentData.Name, CurrentData.ObjectType);
+            result = await AuthenticationCaller.AddObjectAsync(request);
+
+            await CheckApiResult(result, I18n.T("Added object successfully"), result.Message);
         }
         else
         {
-            var input = new EditObjectRequest
-            {
-                Name = CurrentData.Name,
-                ObjectId = CurrentData.Id,
-            };
-            result = await AuthenticationCaller.EditObjectAsync(input);
+            var request = new EditObjectRequest(CurrentData.Id, CurrentData.Name);
+            result = await AuthenticationCaller.EditObjectAsync(request);
+
+            await CheckApiResult(result, I18n.T("Edit object successfully"), result.Message);
         }
-        Error = !result.Success;
-        Message = result.Message;
         Lodding = false;
     }
 
-    public async Task DeleteAsync()
+    public void OpenDeleteObjectDialog(ObjectItemResponse item)
     {
-        Lodding = true;
-        var result = await AuthenticationCaller.DeleteObjectAsync(new DeleteObjectRequest
+        CurrentData = item;
+        OpenDeleteConfirmDialog(DeleteAsync);
+    }
+
+    public async Task DeleteAsync(bool confirm)
+    {
+        if (confirm)
         {
-            ObjectId = CurrentData.Id,
-        });
-        Error = !result.Success;
-        Message = result.Message;
-        Lodding = false;
+            Lodding = true;
+            var request = new DeleteObjectRequest { ObjectId = CurrentData.Id };
+            var result = await AuthenticationCaller.DeleteObjectAsync(request);
+            await CheckApiResult(result, I18n.T("Delete object successfully"), result.Message);
+            Lodding = false;
+        }
+    }
+
+    public void OpenBatchDeleteObjectDialog()
+    {
+        OpenDeleteConfirmDialog(BatchDeleteAsync);
+    }
+
+    public async Task BatchDeleteAsync(bool confirm)
+    {
+        if (confirm)
+        {
+            Lodding = true;
+            var request = new DeleteObjectRequest { ObjectId = CurrentData.Id };
+            var result = await AuthenticationCaller.DeleteObjectAsync(request);
+            await CheckApiResult(result, I18n.T("Delete object successfully"), result.Message);
+            Lodding = false;
+        }
+    }
+
+    async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
+    {
+        if (result.Success is false) OpenErrorDialog(errorMessage);
+        else
+        {
+            OpenSuccessMessage(successMessage);
+            await QueryPageDatasAsync();
+        }
     }
 }

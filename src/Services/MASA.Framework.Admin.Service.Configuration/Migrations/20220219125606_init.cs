@@ -23,8 +23,10 @@ namespace MASA.Framework.Admin.Configuration.Migrations
                     State = table.Column<int>(type: "int", nullable: false),
                     TimesSent = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,10 +41,10 @@ namespace MASA.Framework.Admin.Configuration.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    describe = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    icon = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    describe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    icon = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     parent_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    parent_name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    parent_name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     url = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     sort = table.Column<int>(type: "int", nullable: false),
                     state = table.Column<int>(type: "int", nullable: false),

@@ -1,4 +1,7 @@
+using MASA.Utils.Exceptions.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddLogging();
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
@@ -36,7 +39,7 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<ConfigurationDbContext>((context, services) =>
 {
 });
-app.UseGlobalExceptionMiddleware()
+app.UseMasaExceptionHandling()
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

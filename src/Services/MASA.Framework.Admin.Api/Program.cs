@@ -8,6 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddLogging();
 // Add services to the container.
 builder.Services.AddDaprClient();
 builder.Services.AddControllers(
@@ -86,7 +87,7 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false,
         ValidateAudience = false,
         // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-        // ½«clockskewÉèÖÃÎª0£¬Ê¹ÁîÅÆÇ¡ºÃÔÚÁîÅÆµ½ÆÚÊ±¼äµ½ÆÚ(¶ø²»ÊÇ5·ÖÖÓºó)
+        // å°†clockskewè®¾ç½®ä¸º0ï¼Œä½¿ä»¤ç‰Œæ°å¥½åœ¨ä»¤ç‰Œåˆ°æœŸæ—¶é—´åˆ°æœŸ(è€Œä¸æ˜¯5åˆ†é’Ÿå)
         ClockSkew = TimeSpan.Zero
     };
 

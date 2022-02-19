@@ -5,7 +5,7 @@ public class PermissionEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
-        builder.ToTable("roles", AuthenticationDbContext.DEFAULT_SCHEMA);
+        builder.ToTable("permission", AuthenticationDbContext.DEFAULT_SCHEMA);
 
         builder.HasKey(permission => permission.Id);
         builder.Property(permission => permission.Id).HasColumnName("id").IsRequired();

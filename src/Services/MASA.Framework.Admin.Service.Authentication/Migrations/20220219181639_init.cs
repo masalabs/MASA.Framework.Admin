@@ -13,8 +13,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 name: "authentication");
 
             migrationBuilder.CreateTable(
-                name: "integration_event_log",
-                schema: "authentication",
+                name: "IntegrationEventLog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -23,24 +22,31 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                     State = table.Column<int>(type: "int", nullable: false),
                     TimesSent = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_integration_event_log", x => x.Id);
+                    table.PrimaryKey("PK_IntegrationEventLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "resources",
+                name: "permission",
                 schema: "authentication",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ObjectType = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    object_type = table.Column<int>(type: "int", nullable: false),
-                    state = table.Column<int>(type: "int", nullable: false),
+                    resource = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    scope = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    action = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    code = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    enable = table.Column<bool>(type: "bit", nullable: false),
+                    parent_permission_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    permission_type = table.Column<int>(type: "int", nullable: false),
                     is_deleted = table.Column<bool>(type: "bit", nullable: false),
                     creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     creation_time = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -49,7 +55,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_resources", x => x.id);
+                    table.PrimaryKey("PK_permission", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +67,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                     name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     describe = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     number = table.Column<int>(type: "int", nullable: false),
-                    state = table.Column<int>(type: "int", nullable: false),
+                    enable = table.Column<bool>(type: "bit", nullable: false),
                     is_deleted = table.Column<bool>(type: "bit", nullable: false),
                     creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     creation_time = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -74,44 +80,20 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "permissions",
-                schema: "authentication",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    action = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    state = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    permission_type = table.Column<int>(type: "int", nullable: false),
-                    ObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_permissions", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_permissions_resources_ObjectId",
-                        column: x => x.ObjectId,
-                        principalSchema: "authentication",
-                        principalTable: "resources",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "role_items",
                 schema: "authentication",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    children_role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    parent_role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_role_items", x => x.id);
                     table.ForeignKey(
-                        name: "FK_role_items_roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_role_items_roles_parent_role_id",
+                        column: x => x.parent_role_id,
                         principalSchema: "authentication",
                         principalTable: "roles",
                         principalColumn: "id",
@@ -127,14 +109,14 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                     permissions_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     permission_type = table.Column<int>(type: "int", nullable: false),
                     permission_effect = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_role_permission", x => x.id);
                     table.ForeignKey(
-                        name: "FK_role_permission_roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_role_permission_roles_role_id",
+                        column: x => x.role_id,
                         principalSchema: "authentication",
                         principalTable: "roles",
                         principalColumn: "id",
@@ -142,32 +124,30 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_permissions_ObjectId",
-                schema: "authentication",
-                table: "permissions",
-                column: "ObjectId");
+                name: "IX_IntegrationEventLog_State_TimesSent",
+                table: "IntegrationEventLog",
+                columns: new[] { "State", "TimesSent" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_role_items_RoleId",
+                name: "IX_role_items_parent_role_id",
                 schema: "authentication",
                 table: "role_items",
-                column: "RoleId");
+                column: "parent_role_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_role_permission_RoleId",
+                name: "IX_role_permission_role_id",
                 schema: "authentication",
                 table: "role_permission",
-                column: "RoleId");
+                column: "role_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "integration_event_log",
-                schema: "authentication");
+                name: "IntegrationEventLog");
 
             migrationBuilder.DropTable(
-                name: "permissions",
+                name: "permission",
                 schema: "authentication");
 
             migrationBuilder.DropTable(
@@ -176,10 +156,6 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
             migrationBuilder.DropTable(
                 name: "role_permission",
-                schema: "authentication");
-
-            migrationBuilder.DropTable(
-                name: "resources",
                 schema: "authentication");
 
             migrationBuilder.DropTable(

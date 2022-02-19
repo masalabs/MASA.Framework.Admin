@@ -14,5 +14,6 @@ public class AuthenticationDbContext : IntegrationEventLogContext
         modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleItemEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RolePermissionEntityTypeConfiguration());
+        base.OnModelCreatingExecuting(modelBuilder);
     }
 }

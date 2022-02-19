@@ -6,7 +6,6 @@ var builder = WebApplication
     .AddMasaConfiguration(
         null,
         assemblies: typeof(DbConnectionOption).Assembly);
-
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();

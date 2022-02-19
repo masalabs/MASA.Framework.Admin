@@ -20,7 +20,7 @@ public class RoleEntityTypeConfiguration
         builder.Property(role => role.Modifier).HasColumnName("modifier").IsRequired();
         builder.Property(role => role.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
-        builder.HasMany(role => role.Permissions).WithOne(p => p.Role).HasForeignKey(rolePermission => rolePermission.RoleId);
-        builder.HasMany(role => role.RoleItems).WithOne(p => p.Role).HasForeignKey(item => item.ParentRoleId);
+        builder.HasMany(role => role.Permissions).WithOne(rolePermission => rolePermission.Role).HasForeignKey("role_id");
+        builder.HasMany(role => role.RoleItems).WithOne(roleItem => roleItem.Role).HasForeignKey(roleItem => roleItem.ParentRoleId);
     }
 }

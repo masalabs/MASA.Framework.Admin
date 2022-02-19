@@ -4,12 +4,17 @@ public class RoleItem : Entity<Guid>
 {
     public Guid ParentRoleId { get; private set; }
 
-    public Guid RoleId { get; private set; }
+    public Guid RoleId { get; set; }
 
     public Role Role { get; private set; }
 
-    public RoleItem(Guid childrenRoleId)
+    public RoleItem()
     {
-        RoleId = childrenRoleId;
+
+    }
+
+    public RoleItem(Guid roleId) : this()
+    {
+        RoleId = roleId;
     }
 }

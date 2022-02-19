@@ -1,7 +1,12 @@
+using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr.Processor;
+using MASA.Utils.Exceptions.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
+
+builder.Services.AddLogging();
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<UserServices>();
@@ -33,10 +38,13 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddServices(builder);
 
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var process = serviceProvider.GetService<ILogger<InfiniteLoopProcessor>>();
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
 });
-app.UseGlobalExceptionMiddleware()
+app.UseMasaExceptionHandling()
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

@@ -1,8 +1,8 @@
 [
   {
     "Id": 100,
-    "Title": "Blog Frontend",
-    "Icon": "mdi-trending-up",
+    "Title": "Blogs",
+    "Icon": "mdi-post",
     "Children": [
       {
         "Id": 101,
@@ -14,8 +14,8 @@
   },
   {
     "Id": 200,
-    "Title": "Blog Backend",
-    "Icon": "mdi-trending-up",
+    "Title": "Blog Admin",
+    "Icon": "mdi-post",
     "Children": [
       {
         "Id": 201,
@@ -37,7 +37,7 @@
       },
       {
         "Id": 204,
-        "Title": "advertising",
+        "Title": "Advertising",
         "Icon": "mdi-circle",
         "Href": "blog-admin/advertising-picture"
       }

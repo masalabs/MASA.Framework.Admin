@@ -71,6 +71,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Components\Actions\Actions.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
     <ProjectReference Include="..\..\Extensions\MASA.Framework.Extensions.Tools\MASA.Framework.Extensions.Tools.csproj" />
     <ProjectReference Include="..\..\Services\MASA.Framework.Admin.Service.Blogs\MASA.Framework.Admin.Service.Blogs.csproj" />

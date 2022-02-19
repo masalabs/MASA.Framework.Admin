@@ -33,7 +33,7 @@ public partial class Article : ProCompontentBase
         new DataTableHeader<BlogInfoListViewModel>()
         { Text = "发布时间", Value = nameof(BlogInfoListViewModel.ReleaseTime), Sortable = false },
         new DataTableHeader<BlogInfoListViewModel>()
-        { Text = "操作", Value = "actions", Width = 200, Sortable = false }
+        { Text = "操作", Value = "actions", Sortable = false }
     };
 
     private List<BlogTypeCondensedViewModel> BlogTypes = new();

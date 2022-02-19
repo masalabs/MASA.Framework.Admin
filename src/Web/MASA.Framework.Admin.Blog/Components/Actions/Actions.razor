@@ -1,0 +1,61 @@
+﻿@namespace MASA.Framework.Admin.Blog.Components
+
+<CascadingValue Value="this">
+    @ChildContent
+
+    <div class="d-flex align-items-center">
+        @foreach (var btn in DisplayItems)
+        {
+            if (btn.ShowTooltip)
+            {
+                <MTooltip Top>
+                    <ActivatorContent>
+                        @{
+                            var attrs = context.Attrs
+                                .Concat(btn.Attributes)
+                                .ToDictionary(kv => kv.Key, kv => kv.Value);
+                        }
+                        <MButton @attributes="@context.Attrs"
+                                 Icon
+                                 Color="@btn.Color"
+                                 Loading="btn.Loading"
+                                 OnClick="() => OnClickProxy(btn)">
+                            <MIcon>@btn.Icon</MIcon>
+                        </MButton>
+                    </ActivatorContent>
+                    <ChildContent>
+                        @btn.Label
+                    </ChildContent>
+                </MTooltip>
+            }
+            else
+            {
+                <MButton Color="@btn.Color"
+                         Loading="btn.Loading"
+                         OnClick="() => OnClickProxy(btn)"
+                         @attributes="@btn.Attributes">
+                    @btn.Label
+                </MButton>
+            }
+        }
+
+        @if (ShowMenu)
+        {
+            <MMenu OpenOnHover>
+                <ActivatorContent>
+                    <MIcon Color="primary" @attributes="@context.Attrs">mdi-dots-vertical</MIcon>
+                </ActivatorContent>
+                <ChildContent>
+                    <MList Dense MinWidth="80">
+                        @foreach (var btn in MenuItems)
+                        {
+                            <MListItem OnClick="() => OnClickProxy(btn)">
+                                <MListItemTitle>@btn.Label</MListItemTitle>
+                            </MListItem>
+                        }
+                    </MList>
+                </ChildContent>
+            </MMenu>
+        }
+    </div>
+</CascadingValue>

@@ -74,16 +74,25 @@
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
-            <PAction Visible="@(context.Item.State == StateTypes.Reviewed)"
-                     Color="error" Label="下架" Type=ActionTypes.Label Text
-                     OnClick="() => ShowWithdrawModal(context.Item)">
-            </PAction>
-            <PAction Color="primary" Label="查看"
-                     OnClick="() => HrefDetailPage(context.Item.Id)" Text Icon="mdi-eye">
-            </PAction>
-            <PAction Visible="@(context.Item.State == StateTypes.ToBeReviewed)"
-                     Color="primary" Label="审核" OnClick="() => AuditArticleAsync(context.Item)" Text Icon="mdi-pencil">
-            </PAction>
+            <Actions>
+                <Action Color="primary" 
+                        Icon="mdi-eye-outline"
+                        Label="查看"
+                        OnClick="() => HrefDetailPage(context.Item.Id)">
+                </Action>
+                <Action Visible="@(context.Item.State == StateTypes.Reviewed)"
+                        Color="error" 
+                        Icon="mdi-book-off-outline"
+                        Label="下架"
+                        OnClick="() => ShowWithdrawModal(context.Item)">
+                </Action>
+                <Action Visible="@(context.Item.State == StateTypes.ToBeReviewed)"
+                        Color="primary" 
+                        Icon="mdi-book-arrow-down-outline"
+                        Label="审核" 
+                        OnClick="() => AuditArticleAsync(context.Item)">
+                </Action>
+            </Actions>
         }
         else if (context.Header.Value == nameof(BlogInfoListViewModel.State))
         {

@@ -17,7 +17,7 @@ public partial class Category : ProCompontentBase
         new()
         { Text = "创建时间", Value = nameof(BlogTypePagingViewModel.CreationTime), Sortable = false },
         new()
-        { Text = "操作", Value = "actions", Width = 300, Sortable = false }
+        { Text = "操作", Value = "actions", Sortable = false }
     };
 
     private DataModal<BlogTypePagingViewModel> _dataModal = new();

@@ -52,6 +52,11 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
         private async Task FetchList(int pageIndex = 1, int pageSize = 10)
         {
+            if (!Guid.TryParse(Id, out _))
+            {
+                return;
+            }
+
             _options.PageIndex = pageIndex;
             _options.PageSize = pageSize;
             _options.DicId = Guid.Parse(Id);
@@ -77,6 +82,12 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
 
         private async Task Save()
         {
+            if (!Guid.TryParse(Id, out _))
+            {
+                Message("跳转参数有误", AlertTypes.Warning);
+                return;
+            }
+
             if (!_dataModal.HasValue)
             {
                 await ManagementCaller.DicValueService.CreateAsync(new AddDicValueModel
@@ -87,7 +98,7 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
                     Sort = _dataModal.Data.Sort,
                     Value = _dataModal.Data.Value,
                     DicId = Guid.Parse(Id)
-            });
+                });
 
                 Message("新增成功", AlertTypes.Success);
             }
@@ -96,6 +107,7 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
                 await ManagementCaller.DicValueService.UpdateAsync(new UpdateDicValueModel
                 {
                     Id = _dataModal.Data.Id,
+                    DicId = Guid.Parse(Id),
                     Description = _dataModal.Data.Description,
                     Enable = _dataModal.Data.Enable,
                     Lable = _dataModal.Data.Lable,
@@ -137,6 +149,8 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
                        await ManagementCaller.DicValueService.DeleteAsync(model.Id);
 
                        Message("删除成功", AlertTypes.Success);
+
+                       await FetchList();
 
                        StateHasChanged();
                    }, AlertTypes.Warning);

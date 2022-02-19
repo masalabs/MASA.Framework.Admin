@@ -1,6 +1,6 @@
-﻿namespace MASA.Framework.Admin.Services.BackgroundJobs.Application.Commands
+﻿namespace MASA.Framework.Admin.Services.BackgroundJobs.ViewModel
 {
-    public record JobUpdateCommand: Command
+    public class JobViewModel
     {
         public Guid Id { get; set; }
 
@@ -10,8 +10,12 @@
 
         public string? Args { get; set; }
 
+        public short TryCount { get; set; }
+
         public bool Enable { get; set; }
 
         public int PeriodSeconds { get; set; }
+
+        public DateTime CreateTime { get; set; }
     }
 }

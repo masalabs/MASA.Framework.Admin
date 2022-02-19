@@ -13,7 +13,7 @@
 
         public short TryCount { get; set; }
 
-        public bool IsStop { get; set; }
+        public bool Enable { get; set; }
 
         public int PeriodSeconds { get; set; }
 
@@ -31,18 +31,5 @@
         public DateTimeOffset CreateTime { get; set; } = DateTimeOffset.Now;
 
         public DateTimeOffset UpdateTime { get; set; } = DateTimeOffset.Now;
-
-        public List<JobLog> Logs { get; set; }
-
-        public Job()
-        {
-            Logs = new List<JobLog>();
-        }
-
-        public void InsertLog(JobLog log)
-        {
-            if(!Logs.Any(x => x.Id == log.Id))
-                Logs.Add(log);
-        }
     }
 }

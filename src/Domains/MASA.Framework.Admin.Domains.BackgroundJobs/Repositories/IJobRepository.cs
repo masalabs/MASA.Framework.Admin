@@ -13,5 +13,7 @@
         Task<List<Job>> List();
 
         Task<List<JobLog>> LogList(Guid jobId);
+
+
     }
 }

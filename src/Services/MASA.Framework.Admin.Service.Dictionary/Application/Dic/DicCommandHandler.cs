@@ -39,6 +39,17 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
         }
 
         /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [EventHandler(1, FailureLevels.Ignore, enableRetry: false, isCancel: true)]
+        public async Task CancelAddAsync(AddDicCommand command)
+        {
+            // await _dicRepository.DeleteAsync(command.Dic.Id);
+        }
+
+        /// <summary>
         /// TODO 缓存报错,处理后再解决
         /// </summary>
         /// <param name="command"></param>
@@ -70,16 +81,7 @@ namespace MASA.Framework.Admin.Service.Dictionary.Application.Dic
             //}
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        [EventHandler(2, FailureLevels.Ignore, enableRetry: false, isCancel: true)]
-        public async Task CancelAddAsync(AddDicCommand command)
-        {
-            // await _dicRepository.DeleteAsync(command.Dic.Id);
-        }
+
 
         [EventHandler]
         public async Task UpdateAsync(UpdateDicCommand command)

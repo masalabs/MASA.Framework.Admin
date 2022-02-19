@@ -28,27 +28,6 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jobs",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    JobName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobArgs = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TryCount = table.Column<short>(type: "smallint", nullable: false),
-                    IsStop = table.Column<bool>(type: "bit", nullable: false),
-                    PeriodSeconds = table.Column<int>(type: "int", nullable: false),
-                    NextTryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastTryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Jobs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "JobLogs",
                 columns: table => new
                 {
@@ -61,18 +40,28 @@ namespace MASA.Framework.Admin.Services.BackgroundJobs.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_JobLogs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_JobLogs_Jobs_JobId",
-                        column: x => x.JobId,
-                        principalTable: "Jobs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_JobLogs_JobId",
-                table: "JobLogs",
-                column: "JobId");
+            migrationBuilder.CreateTable(
+                name: "Jobs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    JobName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobArgs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TryCount = table.Column<short>(type: "smallint", nullable: false),
+                    Enable = table.Column<bool>(type: "bit", nullable: false),
+                    PeriodSeconds = table.Column<int>(type: "int", nullable: false),
+                    NextTryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastTryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

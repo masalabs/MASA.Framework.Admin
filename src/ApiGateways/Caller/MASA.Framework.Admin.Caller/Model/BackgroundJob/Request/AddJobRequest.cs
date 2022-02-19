@@ -1,9 +1,7 @@
-﻿namespace MASA.Framework.Admin.Services.BackgroundJobs.Application.Commands
+﻿namespace MASA.Framework.Admin.Caller.Model.BackgroundJob.Request
 {
-    public record JobUpdateCommand: Command
+    public class AddJobRequest
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string Method { get; set; }

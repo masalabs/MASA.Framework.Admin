@@ -49,8 +49,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructures.FileStoring.Minio", "src\Infrastructures\MASA.Framework.Admin.Infrastructures.FileStoring.Minio\MASA.Framework.Admin.Infrastructures.FileStoring.Minio.csproj", "{6FB54BC8-0B94-4755-98D9-A053B72B798B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{706F1C5F-D11F-4837-B95F-CEB5A9718D7E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Domains.BackgroundJobs", "src\Domains\MASA.Framework.Admin.Domains.BackgroundJobs\MASA.Framework.Admin.Domains.BackgroundJobs.csproj", "{ECB2A117-2F48-422F-91A2-9B3D9916AEE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{2E649BCE-AB7F-427A-A5DE-E27E2E90F1FD}"

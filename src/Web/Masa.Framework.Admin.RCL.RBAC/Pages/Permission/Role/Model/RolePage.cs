@@ -39,54 +39,50 @@ public class RolePage : ComponentPageBase
         }
     }
 
-    public int PageIndex { get; set; } = 1;
+    public int _pageIndex = 1;
+    public int PageIndex
+    {
+        get { return _pageIndex; }
+        set
+        {
+            _pageIndex = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
-    public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
+    public int PageCount { get; set; }
 
-    public bool Lodding { get; set; }
-
-    public bool Error { get; set; }
-
-    public string? Message { get; set; }
-
-    public long CurrentCount { get; set; }
+    public long TotalCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
     public List<DataTableHeader<RoleItemResponse>> Headers { get; set; }
 
-    public bool IsAdd => CurrentData.Id != Guid.Empty;
+     public bool IsOpenRoleForm { get; set; }
 
     public RolePage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         Headers = new()
         {
-            new() { Text = T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
-            new() { Text = T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
-            new() { Text = T("State"), Value = nameof(RoleItemResponse.State) },
-            new() { Text = T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
-            new() { Text = T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
-            new() { Text = T("Action"), Value = "Action", Sortable = false }
+            new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
+            new() { Text = i18n.T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
+            new() { Text = i18n.T("State"), Value = nameof(RoleItemResponse.State) },
+            new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
+            new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
+            new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
         };
-
-        string T(string key)
-        {
-            return i18n.T(key) ?? key;
-        }
     }
 
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
         var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, State, Search);
-        Error = !result.Success;
-        Message = result.Message;
         if (result.Success)
         {
             var pageData = result.Data!;
-            CurrentCount = pageData.Count;
-            Datas = pageData.Items.ToList();
+            PageCount = (int)pageData.Count;
+            TotalCount = pageData.TotalPages;
             Datas.Add(new RoleItemResponse
             {
                 Id = Guid.NewGuid(),
@@ -96,57 +92,84 @@ public class RolePage : ComponentPageBase
                 CreationTime = DateTime.Now,
                 State = MASA.Framework.Admin.Contracts.Base.Enum.State.Enable,
             });
-        }
+        }        
         Lodding = false;
     }
 
-    public async Task AddOrUpdateAsync()
+    public void OpenObjectForm()
     {
-        Lodding = true;
-        var result = default(ApiResultResponseBase);
-        if (CurrentData.Id != Guid.Empty)
-        {
-            result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
-            {
-                Name = CurrentData.Name,
-                Number = CurrentData.Number,
-                Describe = CurrentData.Describe,
-            });
-        }
-        else
-        {
-            result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
-            {
-                RuleId = CurrentData.Id,
-                Name = CurrentData.Name,
-                Describe = CurrentData.Describe,
-            });
-        }
-        Error = result.Success;
-        Message = result.Message;
-        Lodding = false;
+        CurrentData = new();
+        IsOpenRoleForm = true;
     }
 
-    public async Task DeleteAsync()
+    public async Task<bool> AddAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
+        var result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
+        {
+            Name = CurrentData.Name,
+            Number = CurrentData.Number,
+            Describe = CurrentData.Describe,
+        });
+        await CheckApiResult(result, I18n.T("Added Role successfully"), result.Message);
+        Lodding = false;
+
+        return result.Success;
+    }
+
+    public async Task<bool> UpdateAsync()
+    {
+        Lodding = true;
+        var result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
         {
             RuleId = CurrentData.Id,
+            Name = CurrentData.Name,
+            Describe = CurrentData.Describe,
         });
-        Error = result.Success;
-        Message = result.Message;
+        await CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
         Lodding = false;
+
+        return result.Success;
     }
 
-    public async Task QueryAuthorizeItemsAsync()
+    public void OpenDeleteRoleDialog(RoleItemResponse item)
     {
-        Lodding = true;
-        var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
-        Error = !result.Success;
-        Message = result.Message;
-        Lodding = false;
-        AuthorizeDatas = result.Data ?? new();
+        CurrentData = item;
+        OpenDeleteConfirmDialog(DeleteAsync);
+    }
+
+    public async Task DeleteAsync(bool confirm)
+    {
+        if(confirm)
+        {
+            Lodding = true;
+            var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
+            {
+                RuleId = CurrentData.Id,
+            });           
+            await CheckApiResult(result, I18n.T("Delete role successfully"), result.Message);
+            Lodding = false;
+        }
+    }
+
+    //public async Task QueryAuthorizeItemsAsync()
+    //{
+    //    Lodding = true;
+    //    var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
+    //    Error = !result.Success;
+    //    Message = result.Message;
+    //    Lodding = false;
+    //    AuthorizeDatas = result.Data ?? new();
+    //}
+
+    async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
+    {
+        if (result.Success is false) OpenErrorDialog(errorMessage);
+        else
+        {
+            OpenSuccessMessage(successMessage);
+            await QueryPageDatasAsync();
+        }
     }
 }
 

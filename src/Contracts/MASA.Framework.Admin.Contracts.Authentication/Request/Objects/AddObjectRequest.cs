@@ -6,6 +6,8 @@ public class AddObjectRequest
 
     public string Name { get; set; }
 
+    public State State { get; set; }
+
     public ObjectType ObjectType { get; set; }
 
     public List<ObjectItemRequest> ObjectItems { get; set; } = new();
@@ -13,10 +15,12 @@ public class AddObjectRequest
     public AddObjectRequest(
         string code,
         string name,
+        State state,
         ObjectType objectType)
     {
         Code = code;
         Name = name;
+        State = state;
         ObjectType = objectType;
     }
 }

@@ -77,5 +77,11 @@
   "ParentMenu": "父级菜单",
   "Added object successfully": "添加资源成功",
   "Edit object successfully": "编辑资源成功",
-  "Delete object successfully": "删除资源成功"
+  "Delete object successfully": "删除资源成功",
+  "Code already exists, cannot be added repeatedly": "Code已存在,不能重复添加",
+  "Warning": "警告",
+  "ObjectType": "资源类型",
+  "Added Role successfully": "添加角色成功",
+  "Edit Role successfully": "编辑角色成功",
+  "Delete role successfully": "删除角色成功"
 }

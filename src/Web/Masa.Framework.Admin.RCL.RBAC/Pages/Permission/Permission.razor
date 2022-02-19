@@ -18,10 +18,6 @@
                 <MIcon Size=16 Color="@(tab=="Role"?"sample-green":"fill")">mdi-circle</MIcon>
                 <span class="ml-2 text-btn @(tab=="Role"?"neutral--text":"")">@T("Role")</span>
             </MTab>
-            <MTab Class="ml-2" Value="@("Authorize")">
-                <MIcon Size=16 Color="@(tab=="Authorize"?"sample-green":"fill")">mdi-circle</MIcon>
-                <span class="ml-2 text-btn @(tab=="Authorize"?"neutral--text":"")">@T("Authorize")</span>
-            </MTab>
         </MTabs>
         <MTabsItems @bind-Value="tab" Class="mt-4">
             <MTabItem Value="@("Object")">
@@ -30,10 +26,6 @@
 
             <MTabItem Value="@("Role")">
                <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Role.Role />
-            </MTabItem>
-
-            <MTabItem Value="@("Authorize")">
-                <Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Authorize.Authorize />
             </MTabItem>
         </MTabsItems>
     </MCardText>

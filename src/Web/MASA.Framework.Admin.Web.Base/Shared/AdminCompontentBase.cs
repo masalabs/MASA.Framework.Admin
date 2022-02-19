@@ -65,6 +65,11 @@ public abstract class ComponentPageBase
         GlobalConfig.OpenConfirmDialog(I18n.T("Error"), message, default);
     }
 
+    public void OpenWarningDialog(string message)
+    {
+        GlobalConfig.OpenConfirmDialog(I18n.T("Warning"), message, default);
+    }
+
     public void OpenInformationMessage(string message)
     {
         GlobalConfig.OpenMessage(message, MessageType.Information);

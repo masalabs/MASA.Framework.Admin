@@ -14,3 +14,5 @@ global using Microsoft.AspNetCore.Components;
 global using MASA.Framework.Admin.Web.Base.Global;
 global using MASA.Framework.Admin.Web.Base.Shared;
 global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
+global using MASA.Framework.Admin.Contracts.Authentication.Enum;
+global using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;

@@ -22,17 +22,30 @@ public class AuthenticationCaller : HttpClientCallerBase
     public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize,
         int type = -1, string? name = null)
     {
-        var paramters = new Dictionary<string, string>
+        var paramters = new Dictionary<string, string?>
         {
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
             ["type"] = type.ToString(),
-            ["name"] = name ?? "",
+            ["name"] = name,
         };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.ObjectList, paramters);
 
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(AuthenticationRouting.ObjectList,
-            paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(url);
     }
+
+    public async Task<ApiResultResponse<bool>> ContainsObjectAsync(Guid objectId,string code)
+    {
+        var paramters = new Dictionary<string, string?>
+        {
+            ["objectId"] = objectId.ToString(),
+            ["code"] = code,
+        };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.ContainsObject, paramters);
+
+        return await CallerProvider.GetAsync<ApiResultResponse<bool>>(url);
+    }
+
 
     public async Task<ApiResultResponseBase> AddObjectAsync(AddObjectRequest request)
     {
@@ -47,6 +60,11 @@ public class AuthenticationCaller : HttpClientCallerBase
     public async Task<ApiResultResponseBase> DeleteObjectAsync(DeleteObjectRequest request)
     {
         return await CallerProvider.DeleteAsync<DeleteObjectRequest, ApiResultResponseBase>(AuthenticationRouting.OperateObject, request);
+    }
+
+    public async Task<ApiResultResponseBase> BatchDeleteObjectAsync(BatchDeleteObjectRequest request)
+    {
+        return await CallerProvider.DeleteAsync<BatchDeleteObjectRequest, ApiResultResponseBase>(AuthenticationRouting.BatchDeleteObject, request);
     }
 
 

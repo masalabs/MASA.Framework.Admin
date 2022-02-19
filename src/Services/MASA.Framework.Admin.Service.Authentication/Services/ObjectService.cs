@@ -5,9 +5,11 @@ public class ObjectService : CustomServiceBase
     public ObjectService(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.ObjectList, GetItemsAsync);
+        App.MapGet(Routing.ContainsObject, ContainsAsync);
         App.MapPost(Routing.OperateObject, AddAsync);
         App.MapPut(Routing.OperateObject, EditAsync);
         App.MapDelete(Routing.OperateObject, DeleteAsync);
+        App.MapDelete(Routing.BatchDeleteObject, BatchDeleteAsync);
     }
 
     /// <summary>
@@ -31,10 +33,20 @@ public class ObjectService : CustomServiceBase
         return Success(query.Result);
     }
 
-    public async Task<ApiResultResponseBase> AddAsync(
+    public async Task<ApiResultResponse<bool>> ContainsAsync(
         [FromServices] IEventBus eventBus,
-        [FromHeader(Name = "creator-id")] Guid creatorId,
-        [FromBody] AddObjectRequest request)
+        [FromQuery] Guid objectId,
+        [FromQuery] string code)
+    {
+        var query = new ObjectQueries.ContainsQuery(objectId,code);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponseBase> AddAsync(
+         [FromServices] IEventBus eventBus,
+         [FromHeader(Name = "creator-id")] Guid creatorId,
+         [FromBody] AddObjectRequest request)
     {
         await eventBus.PublishAsync(new ObjectCommand.AddCommand(request)
         {
@@ -61,6 +73,18 @@ public class ObjectService : CustomServiceBase
     [FromBody] DeleteObjectRequest request)
     {
         await eventBus.PublishAsync(new ObjectCommand.DeleteCommand(request)
+        {
+            Creator = creatorId
+        });
+        return Success();
+    }
+
+    public async Task<ApiResultResponseBase> BatchDeleteAsync(
+    [FromServices] IEventBus eventBus,
+    [FromHeader(Name = "creator-id")] Guid creatorId,
+    [FromBody] BatchDeleteObjectRequest request)
+    {
+        await eventBus.PublishAsync(new ObjectCommand.BatchDeleteCommand(request)
         {
             Creator = creatorId
         });

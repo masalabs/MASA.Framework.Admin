@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
 
 public class QueryHandler
 {
@@ -14,7 +14,7 @@ public class QueryHandler
     {
         Expression<Func<Domain.Aggregate.ObjectAggregate.Object, bool>> condition = obj => true;
         if (!string.IsNullOrEmpty(query.Name))
-            condition = condition.And(obj => obj.Name.Contains(query.Name));
+            condition = condition.And(obj => obj.Name.Contains(query.Name) || obj.Code.Contains(query.Name));
 
         if (query.Type != -1)
             condition = condition.And(obj => obj.ObjectType == (ObjectType)query.Type);
@@ -22,7 +22,12 @@ public class QueryHandler
         var objectItems = await _repository.GetPaginatedListAsync(condition, new PaginatedOptions()
         {
             Page = query.PageIndex,
-            PageSize = query.PageSize
+            PageSize = query.PageSize,
+            Sorting = new Dictionary<string, bool>
+            {
+                [nameof(Domain.Aggregate.ObjectAggregate.Object.ModificationTime)] = true,
+                [nameof(Domain.Aggregate.ObjectAggregate.Object.CreationTime)] = true,
+            }
         });
         query.Result = new PaginatedItemResponse<ObjectItemResponse>(query, objectItems.Total, objectItems.TotalPages,
             objectItems.Result.Select(obj => new ObjectItemResponse()
@@ -51,5 +56,12 @@ public class QueryHandler
             permission.ObjectCode = obj.Code;
             permission.ObjectIdentifies = permission.ObjectIdentifies;
         }
+    }
+
+    [EventHandler(Order = 3)]
+    public async Task ContainsAsync(ObjectQueries.ContainsQuery query)
+    {
+        var contains = await _repository.GetCountAsync(o => o.Id != query.ObjectId && o.Code == query.ObjectCode);
+        query.Result = contains > 0;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate;
+namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate;
 
 public class Object : AuditAggregateRoot<Guid, Guid>
 {
@@ -18,20 +18,25 @@ public class Object : AuditAggregateRoot<Guid, Guid>
     {
         _permissionItems = new();
         State = State.Enable;
+        Code = "";
+        Name = "";
     }
 
-    public Object(Guid creator, string code, string name, ObjectType objectType) : this()
+    public Object(Guid creator, string code, string name, State state,ObjectType objectType) : this()
     {
         Creator = creator;
         Modifier = creator;
         Code = code;
         Name = name;
+        State = state;
         ObjectType = objectType;
     }
 
-    public void Update(string name)
+    public void Update(string name, State state)
     {
         this.Name = name;
+        this.State = state;
+        this.ModificationTime = DateTime.Now;
     }
 
     public void AddPermission(string name, string objectIdentifies, string action, PermissionType permissionType)

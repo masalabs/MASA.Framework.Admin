@@ -1,14 +1,14 @@
 ﻿@inherits AdminCompontentBase
 
-<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
+<MNavigationDrawer Stateless Touchless Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">@(ObjectPage.CurrentData.Id==Guid.Empty?T("Add Object"):T("Edit Object"))</span>
+        <span class="text-h6">@(Page.CurrentData.Id==Guid.Empty?T("Add Object"):T("Edit Object"))</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=ObjectPage.CurrentData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="ObjectPage.CurrentData.Name" Class="mb-6" Label="@T("Object.Name")" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="ObjectPage.CurrentData.Code" Class="mb-6" Label="@T("Code")" HideDetails="@("auto")" Outlined />
-        <MRadioGroup @bind-Value="ObjectPage.CurrentData.State"Row Class="mb-6">
+    <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
+        <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Object.Name")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="Page.CurrentData.Code" Disabled="@(!Page.IsAdd)" Class="mb-6" Label="@T("Code")" HideDetails="@("auto")" Outlined />
+        <MRadioGroup @bind-Value="Page.CurrentData.State"Row Class="mb-6">
             <LabelContent>
                 <div class="text-btn">@T("State")：</div>
             </LabelContent>
@@ -17,7 +17,7 @@
                 <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
             </ChildContent>
         </MRadioGroup>
-        <MRadioGroup @bind-Value="ObjectPage.CurrentData.ObjectType" Row Class="mb-6">
+        <MRadioGroup @bind-Value="Page.CurrentData.ObjectType" Disabled="@(!Page.IsAdd)" Row Class="mb-6">
             <LabelContent>
                 <div class="text-btn">@T("Type")：</div>
             </LabelContent>
@@ -35,7 +35,7 @@
 
 @code {
     [Inject]
-    public ObjectPage ObjectPage { get; set; } = default!;
+    public ObjectPage Page { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }
@@ -59,8 +59,8 @@
     {
         if (context.Validate())
         {
-            await ObjectPage.AddOrUpdateAsync();
-            await UpdateVisible(false);
+            var success = await Page.AddOrUpdateAsync();
+            if(success) await UpdateVisible(false);
         }
     }
 }

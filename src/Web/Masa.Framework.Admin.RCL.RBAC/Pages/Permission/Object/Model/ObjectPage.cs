@@ -1,12 +1,10 @@
-using MASA.Framework.Admin.Contracts.Authentication.Request.Objects;
-
 namespace Masa.Framework.Admin.RCL.RBAC;
 
 public class ObjectPage : ComponentPageBase
 {
     public List<ObjectItemResponse> Datas { get; set; } = new();
 
-    public IEnumerable<ObjectItemResponse> SelectDatas { get; set; }=new List<ObjectItemResponse>();
+    public IEnumerable<ObjectItemResponse> SelectDatas { get; set; } = new List<ObjectItemResponse>();
 
     public ObjectItemResponse CurrentData { get; set; } = new();
 
@@ -23,7 +21,16 @@ public class ObjectPage : ComponentPageBase
         }
     }
 
-    public int PageIndex { get; set; } = 1;
+    public int _pageIndex = 1;
+    public int PageIndex
+    {
+        get { return _pageIndex; }
+        set
+        {
+            _pageIndex = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
     public int _pageSize = 10;
     public int PageSize
@@ -36,9 +43,9 @@ public class ObjectPage : ComponentPageBase
         }
     }
 
-    public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
+    public int PageCount { get; set; }
 
-    public long CurrentCount { get; set; }
+    public long TotalCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
@@ -46,7 +53,22 @@ public class ObjectPage : ComponentPageBase
 
     public bool IsOpenObjectForm { get; set; }
 
-    public int ObjectType { get; set; } = -1;
+    public ObjectType? _objectTypeEnum;
+    public ObjectType? ObjectTypeEnum
+    {
+        get { return _objectTypeEnum; }
+        set
+        {
+            _objectTypeEnum = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
+
+    public List<(ObjectType,string)> ObjectTypeSelect => new List<(ObjectType, string)>
+    {
+        (ObjectType.Menu,I18n.T( ObjectType.Menu.ToString())),
+        (ObjectType.Operate,I18n.T( ObjectType.Operate.ToString()))
+    };
 
     public bool IsAdd => CurrentData.Id == Guid.Empty;
 
@@ -60,17 +82,18 @@ public class ObjectPage : ComponentPageBase
             new() { Text = i18n.T("State"), Value = nameof(ObjectItemResponse.State) },
             new() { Text = i18n.T("Type"), Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
             new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
-        }; 
+        };
     }
 
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize, ObjectType, Search);
+        var result = await AuthenticationCaller.GetObjectItemsAsync(PageIndex, PageSize, ObjectTypeEnum is null ? -1 : Convert.ToInt32(ObjectTypeEnum), Search);
         if (result.Success)
         {
             var pageData = result.Data!;
-            CurrentCount = pageData.Count;
+            PageCount = (int)pageData.Count;
+            TotalCount = pageData.TotalPages;
             Datas = pageData.Items.ToList();
         }
         Lodding = false;
@@ -78,34 +101,48 @@ public class ObjectPage : ComponentPageBase
 
     public void OpenObjectForm(ObjectItemResponse? item = null)
     {
-        CurrentData = item ?? new();
+        CurrentData = item?.Copy() ?? new();
         IsOpenObjectForm = true;
     }
 
-    public async Task AddOrUpdateAsync()
+    public async Task<bool> AddOrUpdateAsync()
     {
         Lodding = true;
+        if(await CheckCodeAsync())
+        {
+            OpenWarningDialog(I18n.T("Code already exists, cannot be added repeatedly"));
+            Lodding = false;
+            return false;
+        }
         var result = default(ApiResultResponseBase);
         if (IsAdd)
         {
-            var request = new AddObjectRequest(CurrentData.Code, CurrentData.Name, CurrentData.ObjectType);
+            var request = new AddObjectRequest(CurrentData.Code, CurrentData.Name,CurrentData.State, CurrentData.ObjectType);
             result = await AuthenticationCaller.AddObjectAsync(request);
 
             await CheckApiResult(result, I18n.T("Added object successfully"), result.Message);
         }
         else
         {
-            var request = new EditObjectRequest(CurrentData.Id, CurrentData.Name);
+            var request = new EditObjectRequest(CurrentData.Id, CurrentData.Name, CurrentData.State);
             result = await AuthenticationCaller.EditObjectAsync(request);
 
             await CheckApiResult(result, I18n.T("Edit object successfully"), result.Message);
         }
         Lodding = false;
+
+        return result.Success;
+
+        async Task<bool> CheckCodeAsync()
+        {
+            var result = await AuthenticationCaller.ContainsObjectAsync(CurrentData.Id,CurrentData.Code);
+            return result.Success && result.Data;
+        }
     }
 
     public void OpenDeleteObjectDialog(ObjectItemResponse item)
     {
-        CurrentData = item;
+        CurrentData = item.Copy();
         OpenDeleteConfirmDialog(DeleteAsync);
     }
 
@@ -131,9 +168,10 @@ public class ObjectPage : ComponentPageBase
         if (confirm)
         {
             Lodding = true;
-            var request = new DeleteObjectRequest { ObjectId = CurrentData.Id };
-            var result = await AuthenticationCaller.DeleteObjectAsync(request);
+            var request = new BatchDeleteObjectRequest(SelectDatas.Select(o => o.Id).ToList());
+            var result = await AuthenticationCaller.BatchDeleteObjectAsync(request);
             await CheckApiResult(result, I18n.T("Delete object successfully"), result.Message);
+            SelectDatas = new List<ObjectItemResponse>();
             Lodding = false;
         }
     }

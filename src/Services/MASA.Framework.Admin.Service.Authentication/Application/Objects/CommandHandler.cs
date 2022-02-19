@@ -16,7 +16,7 @@ public class CommandHandler
             throw new UserFriendlyException("duplicate resource");
 
         var objectItem = new Domain.Aggregate.ObjectAggregate.Object(command.Creator, command.Request.Code, command.Request.Name,
-            command.Request.ObjectType);
+            command.Request.State, command.Request.ObjectType);
         command.Request.ObjectItems.ForEach(permission =>
         {
             objectItem.AddPermission(permission.Name, permission.ObjectIdentifies, permission.Action, permission.PermissionType);
@@ -32,7 +32,7 @@ public class CommandHandler
         if (objectItem == null)
             throw new UserFriendlyException("The current object does not exist", Code.NOT_FIND_ERROR);
 
-        objectItem.Update(command.Request.Name);
+        objectItem.Update(command.Request.Name, command.Request.State);
         await _repository.UpdateAsync(objectItem);
         await _repository.UnitOfWork.SaveChangesAsync();
     }
@@ -41,6 +41,14 @@ public class CommandHandler
     public async Task DeleteObjectAsync(ObjectCommand.DeleteCommand command)
     {
         await _repository.RemoveAsync(o => o.Id == command.Request.ObjectId);
+        await _repository.UnitOfWork.SaveChangesAsync();
+    }
+
+
+    [EventHandler]
+    public async Task BatchDeleteAsync(ObjectCommand.BatchDeleteCommand command)
+    {
+        await _repository.RemoveAsync(o => command.Request.ObjectIds.Contains(o.Id));
         await _repository.UnitOfWork.SaveChangesAsync();
     }
 }

@@ -5,34 +5,34 @@
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
                 <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
-                <MSelect @bind-Value="RolePage.PageSize"
+                <MSelect @bind-Value="Page.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
                          Class="mx-6"
                          HideDetails="@("auto")"
                          Outlined
-                         Items="@RolePage.PageSizes"
+                         Items="@Page.PageSizes"
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
                 <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MTextField @bind-Value="RolePage.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
+                <MTextField @bind-Value="Page.Search" Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>OpenObjectForm()">
-                    @(RolePage.CurrentData.Id==Guid.Empty?T("Add Role"):T("Edit Role"))
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>Page.OpenObjectForm()">
+                    @T("Add Role")
                 </MButton>
             </MCol>
         </MRow>
     </MCardText>
 </MCard>
 
-<MDataTable HideDefaultFooter Headers="RolePage.Headers" TItem="RoleItemResponse" Items="RolePage.Datas" Class="table-header-fill table-border-solid">
+<MDataTable HideDefaultFooter Headers="Page.Headers" TItem="RoleItemResponse" Items="Page.Datas" Class="table-header-fill table-border-solid">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>
@@ -41,7 +41,7 @@
         @switch (context.Header.Value)
         {
             case nameof(RoleItemResponse.Name):
-                <div class="hover-pointer d-flex my-2" @onclick="()=> OpenObjectForm(context.Item)">
+                <div class="hover-pointer d-flex my-2"> @*@onclick="()=> OpenObjectForm(context.Item)"*@
                     <span>@context.Item.Name</span>
                 </div>
                 break;
@@ -58,8 +58,7 @@
                  <span>@context.Item.Describe</span>
                 break;
             case "Action":
-                <MButton Color="primary" OnClick="()=> OpenObjectForm(context.Item)">Edit</MButton>
-                <MButton Color="error" OnClick="()=> OpenDeleteRoleDialog(context.Item)">Delete</MButton>
+                <MButton Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">Delete</MButton>
                 break;
             default:
                 @context.Value
@@ -68,39 +67,15 @@
     </ItemColContent>
 </MDataTable>
 
-<AddOrEdit @bind-Visible=_openRoleForm />
-@*<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Error")" Message=@RolePage.Message @bind-Show="RolePage.Error" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.ConfirmDialog Title="@T("Information")" ConfirmMode Message=@T("Are you sure you need to delete?") @bind-Show="_confirmDelete" WhenConfirm="DeleteRoleAsync" />
-<Masa.Framework.Admin.RCL.RBAC.Shared.MLodding Lodding=RolePage.Lodding />*@
-
+<Add @bind-Visible=Page.IsOpenRoleForm />
 
 @code{
-    public bool _openRoleForm;
-    public bool _confirmDelete;
-
     [Inject]
-    public RolePage RolePage { get; set; } = default!;
+    public RolePage Page { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        RegisterPage(RolePage);
-        await RolePage.QueryPageDatasAsync();
-    }
-
-    public void OpenObjectForm(RoleItemResponse? item = null)
-    {
-        _openRoleForm = true;
-        RolePage.CurrentData = item ?? new();
-    }
-
-     void OpenDeleteRoleDialog(RoleItemResponse item)
-    {
-        RolePage.CurrentData = item;
-        _confirmDelete = true;
-    }
-
-    async Task DeleteRoleAsync(bool confirm)
-    {
-        if (confirm) await RolePage.DeleteAsync();
+        RegisterPage(Page);
+        await Page.QueryPageDatasAsync();
     }
 }

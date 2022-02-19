@@ -1,12 +1,14 @@
-﻿<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
+﻿@inherits AdminCompontentBase
+
+<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">@(RolePage.IsAdd ? "Add Role":"Edit Role")</span>
+        <span class="text-h6">@T("Add Role")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
 
     <MForm Model=RolePage.CurrentData EnableDataAnnotationsValidation>
         <MTextField @bind-Value="RolePage.CurrentData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="Number" HideDetails="@("auto")" Outlined />      
+        <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="Number" HideDetails="@("auto")" Outlined />
         <MTextarea @bind-Value="RolePage.CurrentData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
@@ -40,9 +42,9 @@
     private async Task AddOrUpdateAsync(EditContext context)
     {
         if (context.Validate())
-        {            
-            await RolePage.AddOrUpdateAsync();
-            await UpdateVisible(false);
+        {
+            var success = await RolePage.AddAsync();
+            if(success) await UpdateVisible(false);
         }
     }
 }

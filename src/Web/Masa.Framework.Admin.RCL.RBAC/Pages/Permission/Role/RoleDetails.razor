@@ -1,12 +1,15 @@
-﻿<MCard>
+﻿@page "/role/details`"
+@inherits AdminCompontentBase
+
+<MCard>
     <MCardText>
         <div class="d-flex block-center mt-3">
             <MAvatar Size="120">
                 <MImage Src="" />
             </MAvatar>
             <div Class="ml-6">
-                <h5 class="mb-6">@RolePage.CurrentData.Name</h5>
-                <span>@RolePage.CurrentData.Describe</span>
+                <h5 class="mb-6">@Page.CurrentData.Name</h5>
+                <span>@Page.CurrentData.Describe</span>
             </div>
         </div>
     </MCardText>
@@ -116,7 +119,7 @@
         </MRow>
 
         <MRow>
-            @foreach(var authorizeItem in RolePage.AuthorizeDatas)
+            @foreach(var authorizeItem in Page.AuthorizeDatas)
             {
                 <MCol Md=6 Sm=12 Class="d-flex">
                     <p></p>       
@@ -129,20 +132,11 @@
 </MCard>
 
 @code {
-    public RolePage? _rolePage;
-
-    [Parameter]
-    public RolePage RolePage
-    {
-        get => _rolePage ?? throw new Exception("Please set parameter RolePage");
-        set
-        {
-            _rolePage = value;
-        }
-    }
+    [Inject]
+    public RolePage Page { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-       await RolePage.QueryAuthorizeItemsAsync();
+       //await Page.QueryAuthorizeItemsAsync();
     }
 }

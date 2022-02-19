@@ -4,7 +4,7 @@
 
 MASA.BuildingBlock 最新可用版本：0.0.1868620703
 
-MASA.Contrib 最新可用版本：0.0.1868725556
+MASA.Contrib 最新可用版本：0.0.1868814049
 
 MASA.Utils 最新可用版本：0.0.1862421399
 

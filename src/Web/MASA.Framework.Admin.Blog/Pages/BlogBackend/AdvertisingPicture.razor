@@ -49,7 +49,7 @@
         }
         else
         {
-            <GenericColumnRender BoolRender="@(v => v ? "开启" : "关闭")" Value="@context.Value" ChippedEnum></GenericColumnRender>
+            <DefaultGenericColumnRender BoolRender="@(v => v ? "开启" : "关闭")" Value="@context.Value" ChippedEnum></DefaultGenericColumnRender>
         }
     </ItemColContent>
 </DefaultDataTable>

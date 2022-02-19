@@ -82,13 +82,13 @@
                 </Action>
                 <Action Visible="@(context.Item.State == StateTypes.Reviewed)"
                         Color="error" 
-                        Icon="mdi-book-off-outline"
+                        Icon="mdi-book-arrow-down-outline"
                         Label="下架"
                         OnClick="() => ShowWithdrawModal(context.Item)">
                 </Action>
                 <Action Visible="@(context.Item.State == StateTypes.ToBeReviewed)"
                         Color="primary" 
-                        Icon="mdi-book-arrow-down-outline"
+                        Icon="mdi-account-eye-outline"
                         Label="审核" 
                         OnClick="() => AuditArticleAsync(context.Item)">
                 </Action>

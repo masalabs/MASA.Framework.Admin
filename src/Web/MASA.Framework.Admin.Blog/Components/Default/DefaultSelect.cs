@@ -10,5 +10,8 @@ public partial class DefaultSelect<TItem, TItemValue, TValue> : MSelect<TItem, T
         HideDetails = true;
         Outlined = true;
         Clearable = true;
+
+        // TODO: not work, bug of MSelect
+        MenuProps = (props) => props.OffsetY = true; 
     }
 }

@@ -1,3 +1,7 @@
+
+using MASA.Utils.Caller.Core;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,7 +25,14 @@ builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 Assembly[] assemblies = { typeof(UserCaller).Assembly };
 builder.Services.AddCaller(assemblies);
 builder.Services.AddRBAC();
-//builder.AddMasaConfiguration(null, assemblies: assemblies);
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

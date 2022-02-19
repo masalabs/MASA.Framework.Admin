@@ -24,7 +24,7 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         public NavigationManager NavigationManager { get; set; } = default!;
 
         [Inject]
-        public UserCaller UserCaller { get; set; } = default!;
+        public MASA.Framework.Admin.Caller.UserCallers.UserCaller UserCaller { get; set; } = default!;
 
 
         private async Task LoginAsync()

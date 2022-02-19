@@ -16,7 +16,6 @@ builder.Services.AddMasaBlazor(builder =>
         }
     );
 });
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

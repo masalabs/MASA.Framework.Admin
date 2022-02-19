@@ -10,5 +10,6 @@ public partial class DefaultDateTimePicker<TValue>: PDateTimePicker<TValue>
         Dense = true;
         HideDetails = true;
         Outlined = true;
+        DefaultSelectedValue = DateTime.Now;
     }
 }

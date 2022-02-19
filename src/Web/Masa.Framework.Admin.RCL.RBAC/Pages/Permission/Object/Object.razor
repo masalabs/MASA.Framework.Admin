@@ -50,7 +50,7 @@
     </MCardText>
 </MCard>
 
-<MDataTable ShowSelect @bind-Value=Page.SelectDatas HideDefaultFooter Headers="Page.Headers" TItem="ObjectItemResponse" Items="Page.Datas" ItemKey="o => o.Code" class="table-header-fill table-border-solid">
+<MDataTable ShowSelect @bind-Value=Page.SelectDatas HideDefaultFooter Headers="Page.Headers" TItem="ObjectItemResponse" Items="Page.Datas" ItemsPerPage="Page.PageSize" ItemKey="o => o.Code" class="table-header-fill table-border-solid">
     <HeaderColContent Context="header">
         <span class="text-body neutral-lighten-1--text">@header.Text</span>
     </HeaderColContent>

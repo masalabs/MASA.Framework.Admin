@@ -92,8 +92,8 @@ public class ObjectPage : ComponentPageBase
         if (result.Success)
         {
             var pageData = result.Data!;
-            PageCount = (int)pageData.Count;
-            TotalCount = pageData.TotalPages;
+            PageCount = (int)pageData.TotalPages;
+            TotalCount = pageData.Count;
             Datas = pageData.Items.ToList();
         }
         Lodding = false;

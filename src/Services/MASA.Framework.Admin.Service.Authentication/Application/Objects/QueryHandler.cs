@@ -29,7 +29,7 @@ public class QueryHandler
                 [nameof(Domain.Aggregate.ObjectAggregate.Object.CreationTime)] = true,
             }
         });
-        query.Result = new PaginatedItemResponse<ObjectItemResponse>(query, objectItems.Total, objectItems.TotalPages,
+        query.Result = new PaginatedItemResponse<ObjectItemResponse>(query, objectItems.TotalPages, objectItems.Total,
             objectItems.Result.Select(obj => new ObjectItemResponse()
             {
                 Id = obj.Id,

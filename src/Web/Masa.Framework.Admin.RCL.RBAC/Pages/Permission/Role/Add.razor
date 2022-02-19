@@ -1,25 +1,34 @@
 ﻿@inherits AdminCompontentBase
 
-<MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
+<MNavigationDrawer Stateless Touchless Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
         <span class="text-h6">@T("Add Role")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
 
-    <MForm Model=RolePage.CurrentData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="RolePage.CurrentData.Name" Class="mb-6" Label="Name" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="Number" HideDetails="@("auto")" Outlined />
-        <MTextarea @bind-Value="RolePage.CurrentData.Describe" Class="mb-6" Label="Contact" HideDetails="@("auto")" Outlined />
+    <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
+        <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="Page.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
+        <MRadioGroup @bind-Value="Page.CurrentData.State" Label="@T("State")" Row Class="mb-6">
+            <LabelContent>
+                <div class="text-btn">@T("State")：</div>
+            </LabelContent>
+            <ChildContent>
+                <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
+                <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
+            </ChildContent>
+        </MRadioGroup>
+        <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
         <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddOrUpdateAsync(context)"> Confirm </MButton>
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddOrUpdateAsync(context)">@T("Confirm")</MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
 
 @code {
     [Inject]
-    public RolePage RolePage { get; set; } = default!;
+    public RolePage Page { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }
@@ -43,7 +52,7 @@
     {
         if (context.Validate())
         {
-            var success = await RolePage.AddAsync();
+            var success = await Page.AddAsync();
             if(success) await UpdateVisible(false);
         }
     }

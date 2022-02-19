@@ -2,9 +2,9 @@ namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggre
 
 public class Role : AuditAggregateRoot<Guid, Guid>
 {
-    public string Name { get; private set; } = default!;
+    public string Name { get; private set; }
 
-    public string Describe { get; set; } = default!;
+    public string? Describe { get; set; }
 
     public int Number { get; private set; }
 
@@ -20,18 +20,19 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     private Role()
     {
-        Describe = string.Empty;
+        Name = string.Empty;
         permissions = new();
         roleItems = new();
     }
 
-    public Role(Guid creator, string name, int number = -1) : this()
+    public Role(Guid creator, string name,int number, State state,string? describe) : this()
     {
         Creator = creator;
         Modifier = creator;
         Name = name;
         Number = number;
-        State = State.Enable;
+        State = state;
+        Describe = describe;
     }
 
     public void SetInheritedRole(List<Guid>? ids)
@@ -42,11 +43,13 @@ public class Role : AuditAggregateRoot<Guid, Guid>
             this.roleItems.AddRange(ids.Select(id => new RoleItem(id)));
     }
 
-    public void Update(Guid creator, string name, string describe)
+    public void Update(Guid creator, string name, string? describe, int number, State state)
     {
         Modifier = creator;
         ModificationTime = DateTime.Now;
         Name = name;
+        Number = number;
+        State = state;
         Describe = describe;
     }
 }

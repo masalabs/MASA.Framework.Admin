@@ -14,8 +14,6 @@ public class RolePage : ComponentPageBase
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
-    public int State { get; set; } = -1;
-
     public string? _search;
 
     public string? Search
@@ -60,6 +58,23 @@ public class RolePage : ComponentPageBase
 
      public bool IsOpenRoleForm { get; set; }
 
+    public State? _stateEnum;
+    public State? StateEnum
+    {
+        get { return _stateEnum; }
+        set
+        {
+            _stateEnum = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
+
+    public List<(State, string)> StateSelect => new List<(State, string)>
+    {
+        (State.Enable,I18n.T( State.Enable.ToString())),
+        (State.Disabled,I18n.T( State.Disabled.ToString()))
+    };
+
     public RolePage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
@@ -77,21 +92,13 @@ public class RolePage : ComponentPageBase
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, State, Search);
+        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, StateEnum is null ? -1 : Convert.ToInt32(StateEnum), Search);
         if (result.Success)
         {
             var pageData = result.Data!;
-            PageCount = (int)pageData.Count;
-            TotalCount = pageData.TotalPages;
-            Datas.Add(new RoleItemResponse
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Describe = "Test",
-                Number = 100,
-                CreationTime = DateTime.Now,
-                State = MASA.Framework.Admin.Contracts.Base.Enum.State.Enable,
-            });
+            PageCount = (int)pageData.TotalPages;
+            TotalCount = pageData.Count;
+            Datas = pageData.Items.ToList();
         }        
         Lodding = false;
     }
@@ -105,12 +112,8 @@ public class RolePage : ComponentPageBase
     public async Task<bool> AddAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
-        {
-            Name = CurrentData.Name,
-            Number = CurrentData.Number,
-            Describe = CurrentData.Describe,
-        });
+        var request = new AddRoleRequest(CurrentData.Name, CurrentData.Describe, CurrentData.Number,CurrentData.State);
+        var result = await AuthenticationCaller.AddRoleAsync(request);
         await CheckApiResult(result, I18n.T("Added Role successfully"), result.Message);
         Lodding = false;
 
@@ -120,12 +123,8 @@ public class RolePage : ComponentPageBase
     public async Task<bool> UpdateAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
-        {
-            RuleId = CurrentData.Id,
-            Name = CurrentData.Name,
-            Describe = CurrentData.Describe,
-        });
+        var request = new EditRoleRequest(CurrentData.Id, CurrentData.Name, CurrentData.Number, CurrentData.Describe, CurrentData.State);
+        var result = await AuthenticationCaller.EditRoleAsync(request);
         await CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
         Lodding = false;
 

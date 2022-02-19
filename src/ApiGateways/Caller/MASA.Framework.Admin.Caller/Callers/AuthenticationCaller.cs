@@ -80,15 +80,16 @@ public class AuthenticationCaller : HttpClientCallerBase
     public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>> GetRoleItemsAsync(int pageIndex, int pageSize,
         int state = -1, string? name = null)
     {
-        var paramters = new Dictionary<string, string>
+        var paramters = new Dictionary<string, string?>
         {
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
             ["state"] = state.ToString(),
-            ["name"] = name ?? "",
+            ["name"] = name ,
         };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleList, paramters);
 
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>>(AuthenticationRouting.RoleList, paramters);
+        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>>(url);
     }
 
     public async Task<ApiResultResponseBase> AddRoleAsync(AddRoleRequest request)
@@ -98,7 +99,7 @@ public class AuthenticationCaller : HttpClientCallerBase
 
     public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
     {
-        return await CallerProvider.PostAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
+        return await CallerProvider.PutAsync<EditRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
 
     public async Task<ApiResultResponse<List<RoleItemResponse>>> SelectRoleAsync()
@@ -120,7 +121,6 @@ public class AuthenticationCaller : HttpClientCallerBase
     {
         return await CallerProvider.DeleteAsync<DeleteRoleRequest, ApiResultResponseBase>(AuthenticationRouting.OperateRole, request);
     }
-
 
     #endregion
 

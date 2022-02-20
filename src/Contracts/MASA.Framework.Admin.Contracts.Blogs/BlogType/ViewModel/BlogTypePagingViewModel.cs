@@ -16,11 +16,6 @@
         /// <summary>
         /// CreationTime
         /// </summary>
-        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
-
-        /// <summary>
-        /// LastModificationTime
-        /// </summary>
-        public DateTime LastModificationTime { get; set; } = DateTime.UtcNow;
+        public DateTime CreationTime { get; set; }
     }
 }

@@ -55,10 +55,7 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
         public async Task BlogArticleUserAsync(BlogArticleUserQuery query)
         {
             var blogArticle = await _blogArticleRepository.GetBlogArticleByUser(query.Options);
-            blogArticle.Data.ForEach(x =>
-            {
-                x.Content = RemoveHTML(x.Content);
-            });
+            blogArticle.Data.ForEach(x => { x.Content = RemoveHTML(x.Content); });
             query.Result = blogArticle;
         }
 
@@ -75,8 +72,8 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
             {
                 matchQuery.Add(
                     mu => mu.Match(m => m.Field(fd => fd.Title).Query(query.Options.KeyWords)) ||
-                    mu.Match(m => m.Field(fd => fd.Content).Query(query.Options.KeyWords))
-                    );
+                          mu.Match(m => m.Field(fd => fd.Content).Query(query.Options.KeyWords))
+                );
             }
 
             if (query.Options.TypeId.HasValue && !query.Options.TypeId.Equals(Guid.Empty))
@@ -84,26 +81,27 @@ namespace MASA.Framework.Admin.Service.Blogs.Application.BlogInfos
                 matchQuery.Add(mu => mu.Term("typeId.keyword", query.Options.TypeId.Value.ToString()));
             }
 
-            var searchResponse = await _elasticClient.SearchAsync<BlogInfo>(w => w
-                .Index(_defaultIndex)
-                .From(query.Options.PageIndex <= 1 ? 0 : (query.Options.PageIndex - 1) * query.Options.PageSize)
-                .Size(query.Options.PageSize)
-                .Query(q => q.Bool(b => b.Must(matchQuery)))
-                .Sort(s => s.Descending(x => x.ApprovedCount).Descending(y => y.CreationTime)));
+            var searchResponse = await _elasticClient.SearchAsync<BlogInfo>(
+                w => w
+                     .Index(_defaultIndex)
+                     .From(query.Options.PageIndex <= 1 ? 0 : (query.Options.PageIndex - 1) * query.Options.PageSize)
+                     .Size(query.Options.PageSize)
+                     .Query(q => q.Bool(b => b.Must(matchQuery)))
+                     .Sort(s => s.Descending(x => x.ApprovedCount).Descending(y => y.CreationTime)
+                     ));
 
-            var data = searchResponse.Documents.Select(d => new BlogInfoHomeListViewModel()
-            {
-                Content = RemoveHTML(d.Content),
-                Title = d.Title,
-                TypeId = d.TypeId,
-                CreationTime = d.CreationTime,
-                ApprovedCount = d.ApprovedCount,
-                CommentCount = d.CommentCount,
-                Id = d.Id,
-                ReleaseTime = d.ReleaseTime,
-                Visits = d.Visits,
-                CreatorUserId = d.CreatorUserId
-            }).ToList();
+            var data = searchResponse.Documents.Select(
+                d => new BlogInfoHomeListViewModel(
+                    d.Id,
+                    d.Title,
+                    d.TypeId,
+                    RemoveHTML(d.Content),
+                    d.CreationTime,
+                    d.ReleaseTime,
+                    d.ApprovedCount,
+                    d.CommentCount,
+                    d.Visits,
+                    d.CreatorUserId)).ToList();
 
             query.Result = new()
             {

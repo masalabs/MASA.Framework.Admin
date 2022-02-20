@@ -92,19 +92,14 @@
                 {
                     Id = type.Id,
                     CreationTime = type.CreationTime,
-                    TypeName = type.TypeName,
-                    LastModificationTime = type.LastModificationTime
+                    TypeName = type.TypeName
                 }).PagingAsync(options.PageIndex, options.PageSize);
         }
 
         public Task<List<BlogTypeCondensedViewModel>> GetCondensedListAsync()
         {
             return _blogDbContext.BlogTypes.OrderBy(b => b.TypeName)
-                .Select(b => new BlogTypeCondensedViewModel
-                {
-                    Id = b.Id,
-                    Name = b.TypeName
-                }).ToListAsync();
+                .Select(b => new BlogTypeCondensedViewModel(b.Id, b.TypeName)).ToListAsync();
         }
     }
 }

@@ -91,12 +91,8 @@
                           on x.BlogLabelId equals y.Id
                           where x.BlogInfoId == blogId
                           orderby x.CreationTime ascending
-                          select new BlogLabelRelationsViewModel
-                          { 
-                              RelationId = x.Id,
-                              LabelId = y.Id,
-                              LabelName = y.LabelName
-                          }).ToListAsync();
+                          select new BlogLabelRelationsViewModel(x.Id, y.Id, y.LabelName))
+                .ToListAsync();
         }
     }
 }

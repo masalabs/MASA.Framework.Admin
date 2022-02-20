@@ -1,7 +1,7 @@
 ﻿using MASA.Framework.Admin.Contracts.Blogs.BlogReport.Options;
 using MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+namespace MASA.Framework.Admin.Blog.Pages.BlogAdmin;
 
 public partial class Report : ProCompontentBase
 {

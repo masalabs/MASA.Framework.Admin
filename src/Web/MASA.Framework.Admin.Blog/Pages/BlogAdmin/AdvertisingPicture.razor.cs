@@ -1,6 +1,6 @@
 using MASA.Framework.Admin.Caller;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+namespace MASA.Framework.Admin.Blog.Pages.BlogAdmin;
 
 public partial class AdvertisingPicture : ProCompontentBase
 {

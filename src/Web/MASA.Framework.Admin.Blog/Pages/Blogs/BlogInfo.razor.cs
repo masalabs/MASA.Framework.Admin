@@ -2,7 +2,7 @@
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 using Microsoft.JSInterop;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
+namespace MASA.Framework.Admin.Blog.Pages.Blogs
 {
     public partial class BlogInfo : BlogFrontComponentBase
     {

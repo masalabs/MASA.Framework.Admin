@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Blog.Pages.BlogBackend.Components
+﻿namespace MASA.Framework.Admin.Blog.Pages.BlogAdmin.Components
 {
     public partial class WithdrawModal
     {

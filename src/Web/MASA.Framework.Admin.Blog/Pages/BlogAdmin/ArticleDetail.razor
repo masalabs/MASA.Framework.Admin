@@ -78,9 +78,9 @@
            Model="_createBlogReportModel">
     <MRow>
         <MCol Cols="12">
-            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="标题" Clearable Readonly
-                        @bind-Value="_createBlogReportModel.Title" />
+            <DefaultTextField TValue="string"
+                              Label="标题" Readonly
+                              @bind-Value="_createBlogReportModel.Title" />
         </MCol>
         <MCol Cols="12">
             <MRadioGroup @bind-Value="_createBlogReportModel.Reason" Row TValue=ReasonTypes>
@@ -96,14 +96,13 @@
             </MRadioGroup>
         </MCol>
         <MCol Cols="12">
-            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="链接" Readonly
-                        @bind-Value="_createBlogReportModel.Connect" />
+            <DefaultTextField TValue="string"
+                              Label="链接" Readonly
+                              @bind-Value="_createBlogReportModel.Connect" />
         </MCol>
         <MCol Cols="12">
-            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="详细信息" Clearable
-                        @bind-Value="_createBlogReportModel.Detail" />
+            <DefaultTextarea Label="详细信息"
+                             @bind-Value="_createBlogReportModel.Detail" />
         </MCol>
     </MRow>
 </FormModal>

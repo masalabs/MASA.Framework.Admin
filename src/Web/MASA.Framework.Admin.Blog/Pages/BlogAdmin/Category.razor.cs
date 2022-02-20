@@ -1,7 +1,7 @@
 ﻿using MASA.Framework.Admin.Caller;
 using MASA.Framework.Data.Mapping;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend;
+namespace MASA.Framework.Admin.Blog.Pages.BlogAdmin;
 
 public partial class Category : ProCompontentBase
 {

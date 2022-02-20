@@ -1,7 +1,7 @@
 ﻿using MASA.Framework.Data.Mapping;
 using Microsoft.JSInterop;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
+namespace MASA.Framework.Admin.Blog.Pages.BlogAdmin
 {
     public partial class ArticleDetail
     {

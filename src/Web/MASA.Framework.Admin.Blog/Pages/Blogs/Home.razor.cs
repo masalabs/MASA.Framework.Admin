@@ -4,7 +4,7 @@ using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 using MASA.Framework.Extensions.Tools;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
+namespace MASA.Framework.Admin.Blog.Pages.Blogs
 {
     public partial class Home : BlogFrontComponentBase, IDisposable
     {

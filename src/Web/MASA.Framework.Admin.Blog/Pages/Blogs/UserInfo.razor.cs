@@ -3,7 +3,7 @@ using MASA.Framework.Admin.Blog.Shared;
 using MASA.Framework.Admin.Caller;
 using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums;
 
-namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
+namespace MASA.Framework.Admin.Blog.Pages.Blogs
 {
     public partial class UserInfo : BlogFrontComponentBase
     {

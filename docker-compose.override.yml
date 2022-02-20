@@ -3,12 +3,15 @@ version: '3.4'
 services:
 
   redis:
-    image: redis:alpine
     ports:
-       - "6379:6379"
+       - "6380:6379"
+
+  zipkin:
+    container_name: zipkin
+    ports:
+      - 9412:9411
 
   masa.admin.database:
-     image: mcr.microsoft.com/mssql/server:2019-latest
      ports:
        - "1433:1433"
      environment:
@@ -24,6 +27,8 @@ services:
       - "9091:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - zipkin
 
   masa.admin.services.user.dapr:
     image: "daprio/daprd:1.5.1"

@@ -38,6 +38,7 @@ public partial class List
     private async Task LoadData()
     {
         var dataRes = await UserCaller.GetListAsync(_userPage.PageIndex, _userPage.PageSize, _userPage.Account ?? "", _userPage.State);
+
         if (dataRes.Success && dataRes.Data != null)
         {
             _userPage.UserPageData = dataRes.Data.Items.ToList();

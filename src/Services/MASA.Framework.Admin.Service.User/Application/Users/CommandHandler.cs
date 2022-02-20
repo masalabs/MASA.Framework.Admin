@@ -23,7 +23,7 @@ public class CommandHandler
     [EventHandler]
     public async Task CreateAsync(UserCommand.CreateCommand createCommand)
     {
-        var user = new Domain.Aggregate.User(
+        var user = new Domain.Aggregates.User(
             createCommand.Creator,
             createCommand.UserCreateRequest.Account,
             createCommand.UserCreateRequest.Pwd)

@@ -14,3 +14,4 @@ global using AuthenticationRouting = MASA.Framework.Admin.Contracts.Authenticati
 global using ConfigurationRouting = MASA.Framework.Admin.Contracts.Configuration.Routing;
 global using UserRouting = MASA.Framework.Admin.Contracts.User.Routing;
 global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
+global using MASA.Framework.Admin.Contracts.Base.Const;

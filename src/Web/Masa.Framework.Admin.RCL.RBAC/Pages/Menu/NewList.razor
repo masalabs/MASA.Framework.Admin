@@ -1,0 +1,140 @@
+﻿@page "/menu/newList"
+@inherits AdminCompontentBase
+
+<MRow>
+    <MCol>
+        
+    </MCol>
+    <MCol>
+        <MRow>
+            <MCol>
+
+            </MCol>
+            <MCol>
+
+            </MCol>
+        </MRow>
+        <MRow>
+            <MCol>
+
+            </MCol>
+            <MCol>
+
+            </MCol>
+        </MRow>
+        <MRow>
+            <MCol>
+
+            </MCol>
+            <MCol>
+
+            </MCol>
+        </MRow>
+    </MCol>
+</MRow>
+
+<MCard Class="mt-6">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
+                <MSelect @bind-Value="MenuPage.PageSize"
+                         Color="primary"
+                         Style="max-width:120px;"
+                         Dense
+                         Class="mx-6"
+                         HideDetails="@("auto")"
+                         Outlined
+                         Items="@MenuPage.PageSizes"
+                         ItemText="u => u.ToString()"
+                         ItemValue="u => u">
+                </MSelect>
+                <span class="text-btn">@T("Entries")</span>
+            </MCol>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <MTextField @bind-Value=MenuPage.Search Color="primary" Class="rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="() => MenuPage.OpenMenuForm()">
+                    @T("Add Menu")
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardText>
+
+    <MDataTable Headers="MenuPage.Headers" Items="MenuPage.Datas" TItem="MenuItemResponse" ItemsPerPage="MenuPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+        <HeaderColContent Context="header">
+            <span class="text-subtitle">@header.Text</span>
+        </HeaderColContent>
+        <ItemColContent>
+            @switch (context.Header.Value)
+            {
+                case nameof(MenuItemResponse.Name):
+                    <div class="hover-pointer d-flex my-2" @onclick="()=> MenuPage.OpenMenuForm(context.Item)">
+                        <span class="blue--text">@context.Item.Name</span>
+                    </div>
+                    break;
+                case nameof(MenuItemResponse.Code):
+                    @context.Item.Code
+                    break;
+                case (nameof(MenuItemResponse.Icon)):
+                    <MIcon Left Small Color="primary">@context.Item.Icon</MIcon>
+                    break;
+                case nameof(MenuItemResponse.Url):
+                    @context.Item.Url
+                    break;
+                case nameof(MenuItemResponse.Sort):
+                    @context.Item.Sort
+                    break;
+                case (nameof(MenuItemResponse.Describe)):
+                    @context.Item.Describe
+                    break;
+                case nameof(MenuItemResponse.Disabled):
+                    @(context.Item.Disabled?T("Disabled"):T("Enable"))
+                    break;
+                case nameof(MenuItemResponse.ParentName):
+                    <div class="hover-pointer d-flex my-2" @onclick="()=> MenuPage.OpenMenuForm(MenuPage.Datas.FirstOrDefault(m => m.Id == context.Item.ParentId))">
+                        <span class="green--text">@context.Item.ParentName</span>
+                    </div>
+                    break;
+                case "Action":
+                    <MButton Color="primary" @onclick="() => MenuPage.OpenMenuForm(context.Item)">
+                        @T("Edit")
+                    </MButton>
+                    <MButton Color="error" OnClick="() => MenuPage.OpenDeleteMenuDialog(context.Item)">
+                        @T("Delete")
+                    </MButton>
+                    break;
+                default:
+                    @context.Value
+                    break;
+            }
+        </ItemColContent>
+    </MDataTable>
+
+    <MCardText>
+        <div class="d-flex">
+            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">@T("Show") @((MenuPage.PageIndex-1)*MenuPage.PageSize+1) to @(MenuPage.PageIndex*MenuPage.PageSize) of @MenuPage.CurrentCount @T("Entries")</div>
+            @if (MenuPage.PageCount > 0)
+            {
+                <MPagination @bind-Value="MenuPage.PageIndex" Color="primary" Circle Length=@MenuPage.PageCount></MPagination>
+            }
+        </div>
+    </MCardText>
+</MCard>
+
+<AddOrEdit @bind-Visible=MenuPage.IsOpenMenuForm></AddOrEdit>
+
+@code {
+
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        RegisterPage(MenuPage);
+        await MenuPage.QueryPageDatasAsync();
+    }
+}

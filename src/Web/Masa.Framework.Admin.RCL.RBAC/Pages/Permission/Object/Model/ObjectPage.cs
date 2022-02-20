@@ -99,6 +99,20 @@ public class ObjectPage : ComponentPageBase
         Lodding = false;
     }
 
+    public async Task<List<ObjectItemResponse>> QueryAllAsync()
+    {
+        var result = await AuthenticationCaller.GetAllAsync();
+        if (result.Success)
+        {
+            return result.Data ?? new();
+        }
+        else
+        {
+            OpenErrorMessage(result.Message);
+            return new();
+        }
+    }
+
     public void OpenObjectForm(ObjectItemResponse? item = null)
     {
         CurrentData = item?.Copy() ?? new();

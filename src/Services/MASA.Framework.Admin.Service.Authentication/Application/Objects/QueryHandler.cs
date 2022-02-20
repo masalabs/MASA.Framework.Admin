@@ -40,6 +40,20 @@ public class QueryHandler
             }));
     }
 
+    [EventHandler]
+    public async Task GetListAsync(ObjectQueries.AllQuery query)
+    {
+        var objectItems = await _repository.GetListAsync();
+        query.Result = objectItems.Select(obj => new ObjectItemResponse()
+        {
+            Id = obj.Id,
+            Code = obj.Code,
+            Name = obj.Name,
+            State = obj.State,
+            ObjectType = obj.ObjectType
+        }).ToList();
+    }
+
     [EventHandler(Order = 2)]
     public async Task GetDetailAsync(RoleQuery.DetailQuery query)
     {

@@ -1,4 +1,6 @@
 ﻿@page "/role/details"
+@page "/role/details/{id}"
+@using Masa.Framework.Admin.RCL.RBAC.Pages.Permission.Authorize
 @inherits AdminCompontentBase
 @inject NavigationManager NavigationManager
 
@@ -6,11 +8,10 @@
     <MCardText>
         <div class="d-flex block-center mt-3">
             <MAvatar Size="120">
-                @*<MIcon></MIcon>*@
-                12
+                <MIcon Size=90>mdi-account</MIcon>
             </MAvatar>
             <div Class="ml-6">
-                <h5 class="mb-6">@RolePage.CurrentData.Name</h5>
+                <h5 class="mb-6">@Page.Detail.Name</h5>
                 <span>@T("A role is a logical collection. You can authorize a role to perform certain operations, and then grant the role to a user, who will inherit all the permissions in the role.")</span>
             </div>
         </div>
@@ -18,93 +19,193 @@
 </MCard>
 
 <MCard Class="mt-4">
+    <MForm Model=Page.Detail EnableDataAnnotationsValidation>
+        <MCardText>
+            <div class="block-between">
+                <span class="text-btn neutral-lighten-1--text">@T("Basic Information")</span>
+                <span class="hover-pointer" style="color:blue" @onclick="async () => await Page.UpdateRoleInfoAsync(context)">@T("Save")</span>
+            </div>
+        </MCardText>
+
+        <MDivider />
+
+        <MCardText>
+            <MRow>
+                <MCol>
+                    <MTextField @bind-Value="Page.Detail.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
+                </MCol>
+                <MCol>
+                    <MTextField @bind-Value="Page.Detail.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
+                </MCol>
+            </MRow>
+            <MRow>
+                <MCol>
+                    <MRadioGroup @bind-Value="Page.Detail.State" Label="@T("State")" Row Class="mb-6">
+                        <LabelContent>
+                            <div class="text-btn">@T("State")：</div>
+                        </LabelContent>
+                        <ChildContent>
+                            <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
+                            <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
+                        </ChildContent>
+                    </MRadioGroup>
+                </MCol>
+                <MCol>
+                    <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                </MCol>
+            </MRow>
+        </MCardText>
+    </MForm>
+</MCard>
+
+<MCard Class="mt-4">
     <MCardText>
         <div class="block-between">
-            <span class="text-btn neutral-lighten-1--text">@T("Basic Information")</span>
-            <span class="hover-pointer" style="color:blue">@T("Save")</span>
+            <span class="text-btn neutral-lighten-1--text">@T("Inherited Role")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddChildRoleDialog = true">@T("Add Role")</span>
         </div>
     </MCardText>
 
     <MDivider />
 
     <MCardText>
-        <MRow>
-            <MCol>
-                <MTextField @bind-Value="RolePage.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
-            </MCol>
-            <MCol>
-                <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
-            </MCol>
-        </MRow>
-        <MRow>
-            <MCol>
-                <MRadioGroup @bind-Value="RolePage.CurrentData.State" Label="@T("State")" Row Class="mb-6">
-                    <LabelContent>
-                        <div class="text-btn">@T("State")：</div>
-                    </LabelContent>
-                    <ChildContent>
-                        <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
-                        <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
-                    </ChildContent>
-                </MRadioGroup>
-            </MCol>
-            <MCol>
-                <MTextarea @bind-Value="RolePage.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
-            </MCol>
-        </MRow>
+        <MDataTable Items="Page.Detail.ChildrenRoles" TItem="KeyValuePair<Guid, string>" ItemsPerPage=100 HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(RoleDetailResponse.Name):
+                        @("")
+                        break;
+                    case (nameof(RoleDetailResponse.CreationTime)):
+                        @("")
+                        break;
+                    case (nameof(RoleDetailResponse.Describe)):
+                        @("")
+                        break;
+                    case "Action":
+                        <MButton Color="error">
+                            @T("Delete")
+                        </MButton>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
     </MCardText>
 </MCard>
 
 <MCard Class="mt-4">
     <MCardText>
         <div class="block-between">
-            <span class="text-btn neutral-lighten-1--text">@T("Authorized user")</span>
-            <span class="hover-pointer" style="color:blue">@T("Add authorization")</span>
+            <span class="text-btn neutral-lighten-1--text">@T("Authorized User")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddUserRoleDialog = true">@T("Add Authorization")</span>
         </div>
     </MCardText>
 
     <MDivider />
 
     <MCardText>
-
+        <MDataTable Items="Page.Detail.ChildrenRoles" TItem="KeyValuePair<Guid, string>" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(UserDetailResponse.Account):
+                        @("")
+                        break;
+                    case (nameof(UserDetailResponse.Name)):
+                        @("")
+                        break;
+                    case (nameof(UserDetailResponse.CreationTime)):
+                        @("")
+                        break;
+                    case "Action":
+                        <MButton Color="error">
+                            @T("Delete")
+                        </MButton>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
     </MCardText>
 </MCard>
 
-
-<MCard Class="mt-4">
+<MCard Class="my-4">
     <MCardText>
         <div class="block-between">
             <span class="text-btn neutral-lighten-1--text">@T("Authorized Rules")</span>
-            <span class="hover-pointer" style="color:blue">@T("Add authorization")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddAuthorizeDialog = true">@T("Add Authorization")</span>
         </div>
     </MCardText>
 
     <MDivider />
 
     <MCardText>
-        @foreach (var authorizeItem in RolePage.AuthorizeDatas)
+        @foreach (var permission in Page.Detail.Permissions)
         {
-            <MCol Md=6 Sm=12 Class="d-flex">
-                <p></p>
+            <MCol Md=4 Style="background-color:rgb(248 249 251)">
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("object")</span>
+                    <span class="text-caption">@(ObjectDatas.FirstOrDefault(o =>o.Code == permission.ObjectCode)?.Name)</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("ObjectIdentifies")</span>
+                    <span class="text-caption">@permission.ObjectIdentifies</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("Action")</span>
+                    <span class="text-caption">@permission.InheritanceRoleSource</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("PermissionName")</span>
+                    <span class="text-caption">@permission.PermissionName</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("PermissionType")</span>
+                    <span class="text-caption">@permission.PermissionType</span>
+                </div>
+                <MButton>
+                    @T("Cancel Authorization")
+                </MButton>
             </MCol>
         }
     </MCardText>
 </MCard>
 
+<AddUserRoleDialog @bind-Visible=Page.OpenAddUserRoleDialog />
+<AddAuthorize @bind-Visible=Page.OpenAddAuthorizeDialog />
+<AddChildRoleDialog @bind-Visible=Page.OpenAddChildRoleDialog />
+
 @code {
     [Inject]
-    public RolePage RolePage { get; set; } = default!;
+    public RoleDetailsPage Page { get; set; } = default!;
+
+    [Inject]
+    public ObjectPage ObjectPage { get; set; } = default!;
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    public List<ObjectItemResponse> ObjectDatas { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Page.QueryRoleById(Id);
+        ObjectDatas = await ObjectPage.QueryAllAsync();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender)
-        {
-            if (RolePage.CurrentData.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
-        }
+        if (Id is null && Page.Detail.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
     }
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await Page.QueryAuthorizeItemsAsync();
-    //}
 }

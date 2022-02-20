@@ -44,9 +44,9 @@ public class RoleService : CustomServiceBase
 
     public async Task<ApiResultResponse<RoleDetailResponse>> GetAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] Guid id)
+        [FromQuery] Guid roleId)
     {
-        var query = new RoleQuery.DetailQuery(id);
+        var query = new RoleQuery.DetailQuery(roleId);
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }

@@ -87,8 +87,18 @@
   "The current role already exists": "已存在此角色",
   "Basic Information": "基本信息",
   "A role is a logical collection. You can authorize a role to perform certain operations, and then grant the role to a user, who will inherit all the permissions in the role.": "角色是一个逻辑集合，你可以授权一个角色某些操作权限，然后将角色授予给用户，该用户将会继承这个角色中的所有权限",
-  "Authorized user": "已授权用户",
-  "Add authorization": "添加授权",
+  "Authorized User": "已授权用户",
+  "Add Authorization": "添加授权",
   "Authorized Rules": "已授权规则",
-  "Save": "保存"
+  "Save": "保存",
+  "Character information query failed!": "角色信息查询失败!",
+  "Add User": "添加用户",
+  "All": "全部",
+  "Add Authoize": "添加授权",
+  "PermissionType": "权限类型",
+  "Private": "私有",
+  "Public": "公有",
+  "PermissionName": "权限名称",
+  "Inherited Role": "已继承的角色",
+  "Cancel Authorization": "取消授权"
 }

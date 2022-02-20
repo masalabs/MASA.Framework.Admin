@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<PermissionPage>();
             services.AddScoped<ObjectPage>();
             services.AddScoped<RolePage>();
+            services.AddScoped<RoleDetailsPage>();
 
             return services;
         }

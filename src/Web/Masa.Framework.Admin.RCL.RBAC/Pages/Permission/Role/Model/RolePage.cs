@@ -8,10 +8,6 @@ public class RolePage : ComponentPageBase
 
     public RoleItemResponse CurrentData { get; set; } = new();
 
-    public List<AuthorizeItemResponse> AuthorizeDatas { get; set; } = new();
-
-    public AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
-
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
     public string? _search;
@@ -167,7 +163,7 @@ public class RolePage : ComponentPageBase
     public void NavigateToRoleDetails(RoleItemResponse item)
     {
         CurrentData = item.Copy();
-        NavigationManager.NavigateTo("/role/details");
+        NavigationManager.NavigateTo($"/role/details/{CurrentData.Id}");
     }
 
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)

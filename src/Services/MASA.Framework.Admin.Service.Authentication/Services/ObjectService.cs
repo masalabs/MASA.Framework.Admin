@@ -5,6 +5,7 @@ public class ObjectService : CustomServiceBase
     public ObjectService(IServiceCollection services) : base(services)
     {
         App.MapGet(Routing.ObjectList, GetItemsAsync);
+        App.MapGet(Routing.ObjectAll, GetAllAsync);
         App.MapGet(Routing.ContainsObject, ContainsAsync);
         App.MapPost(Routing.OperateObject, AddAsync);
         App.MapPut(Routing.OperateObject, EditAsync);
@@ -29,6 +30,13 @@ public class ObjectService : CustomServiceBase
         [FromQuery] string name = "")
     {
         var query = new ObjectQueries.ListQuery(pageIndex, pageSize, type, name);
+        await eventBus.PublishAsync(query);
+        return Success(query.Result);
+    }
+
+    public async Task<ApiResultResponse<List<ObjectItemResponse>>> GetAllAsync([FromServices] IEventBus eventBus)
+    {
+        var query = new ObjectQueries.AllQuery();
         await eventBus.PublishAsync(query);
         return Success(query.Result);
     }

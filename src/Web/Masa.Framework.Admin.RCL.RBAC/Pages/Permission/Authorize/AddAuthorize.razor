@@ -2,39 +2,53 @@
 
 <MNavigationDrawer Stateless Touchless Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">@T("Add Role")</span>
+        <span class="text-h6">@T("Add Authoize")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
     </div>
 
-    <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
-        <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="Page.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
-        <MRadioGroup @bind-Value="Page.CurrentData.State" Label="@T("State")" Row Class="mb-6">
-            <LabelContent>
-                <div class="text-btn">@T("State")：</div>
-            </LabelContent>
-            <ChildContent>
-                <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
-                <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
-            </ChildContent>
-        </MRadioGroup>
-        <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+    <MForm Model=AuthoriedData EnableDataAnnotationsValidation>
+        <MAutocomplete @bind-Value="AuthoriedData.ObjectCode" Clearable Items="@ObjectDatas" Label="@T("Object")" ItemText="m => m.Name" ItemValue="m => m.Code" Outlined />
+        <MTextField @bind-Value="AuthoriedData.ObjectIdentifies" Class="mb-6" Label="@T("ObjectIdentifies")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="AuthoriedData.InheritanceRoleSource" Class="mb-6" Label="@T("Action")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="AuthoriedData.PermissionName" Class="mb-6" Label="@T("PermissionName")" HideDetails="@("auto")" Outlined />
+        <MSelect @bind-Value="AuthoriedData.PermissionType"
+                    Color="primary"
+                    HideDetails="@("auto")"
+                    Outlined
+                    Items="@PermissionTypeSelect"
+                    ItemText="p => T(p.Item2)"
+                    ItemValue="p => p.Item1"
+                    Label="@T("PermissionType")">
+        </MSelect>
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddOrUpdateAsync(context)">@T("Confirm")</MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await UpdateVisible(false)">@T("Confirm")</MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
 
 @code {
     [Inject]
-    public RolePage Page { get; set; } = default!;
+    public RoleDetailsPage RoleDetailPage { get; set; } = default!;
+
+    [Inject]
+    public ObjectPage ObjectPage { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }
 
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
+
+    public AuthorizeItemResponse AuthoriedData { get; set; } = new();
+
+    public List<ObjectItemResponse> ObjectDatas { get; set; } = new();
+
+    public List<(PermissionType,string)> PermissionTypeSelect => new List<(PermissionType, string)>
+    {
+        (PermissionType.Private,I18n.T( PermissionType.Private.ToString())),
+        (PermissionType.Public,I18n.T( PermissionType.Public.ToString()))
+    };
 
     private async Task UpdateVisible(bool visible)
     {
@@ -47,13 +61,21 @@
             Visible = visible;
         }
     }
+    //private async Task AddOrUpdateAsync(EditContext context)
+    //{
+    //    if (context.Validate())
+    //    {
+    //        var success = await Page.AddAsync();
+    //        if(success) await UpdateVisible(false);
+    //    }
+    //}
 
-    private async Task AddOrUpdateAsync(EditContext context)
+    protected override async Task OnParametersSetAsync()
     {
-        if (context.Validate())
+        if(Visible is true)
         {
-            var success = await Page.AddAsync();
-            if(success) await UpdateVisible(false);
+            AuthoriedData = new();
+            ObjectDatas = await ObjectPage.QueryAllAsync();
         }
     }
 }

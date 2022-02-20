@@ -34,6 +34,11 @@ public class AuthenticationCaller : HttpClientCallerBase
         return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>>(url);
     }
 
+    public async Task<ApiResultResponse<List<ObjectItemResponse>>> GetAllAsync()
+    {
+        return await CallerProvider.GetAsync<ApiResultResponse<List<ObjectItemResponse>>>(AuthenticationRouting.ObjectAll);
+    }
+
     public async Task<ApiResultResponse<bool>> ContainsObjectAsync(Guid objectId,string code)
     {
         var paramters = new Dictionary<string, string?>
@@ -115,6 +120,16 @@ public class AuthenticationCaller : HttpClientCallerBase
         };
         var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleListByIds, queryArguments);
         return await CallerProvider.GetAsync<ApiResultResponse<List<RoleItemResponse>>>(url);
+    }
+
+    public async Task<ApiResultResponse<RoleDetailResponse>> GetRoleByIdAsync(Guid roleId)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+           ["roleId"]=roleId.ToString()
+        };
+        var url = QueryHelpers.AddQueryString(AuthenticationRouting.RoleDetail, queryArguments);
+        return await CallerProvider.GetAsync<ApiResultResponse<RoleDetailResponse>>(url);
     }
 
     public async Task<ApiResultResponseBase> DeleteRoleAsync(DeleteRoleRequest request)

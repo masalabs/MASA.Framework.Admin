@@ -10,7 +10,7 @@ public class RoleItem : Entity<Guid>
 
     public RoleItem()
     {
-
+        Id = Guid.NewGuid();
     }
 
     public RoleItem(Guid roleId) : this()

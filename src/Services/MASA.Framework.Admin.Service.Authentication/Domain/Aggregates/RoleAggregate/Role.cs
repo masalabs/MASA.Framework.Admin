@@ -20,6 +20,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     private Role()
     {
+        Id = Guid.NewGuid();
         Describe = string.Empty;
         permissions = new();
         roleItems = new();

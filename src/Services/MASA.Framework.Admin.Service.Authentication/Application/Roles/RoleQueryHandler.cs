@@ -3,14 +3,16 @@ namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 public class RoleQueryHandler
 {
     private readonly IRoleRepository _repository;
+    private readonly DbContext _dbContext;
 
-    public RoleQueryHandler(IRoleRepository repository)
+    public RoleQueryHandler(IRoleRepository repository, AuthenticationDbContext dbContext)
     {
         _repository = repository;
+        _dbContext = dbContext;
     }
 
     [EventHandler]
-    public async Task GetListAsync(RoleQuery.RoleListQuery query)
+    public async Task GetListAsync(RoleListQuery query)
     {
         Expression<Func<Role, bool>> condition = rule => true;
         if (!string.IsNullOrEmpty(query.Name))
@@ -23,7 +25,7 @@ public class RoleQueryHandler
 
         var roles = await _repository.GetPaginatedListAsync(
             condition,
-            new PaginatedOptions()
+            new PaginatedOptions
             {
                 Page = query.PageIndex,
                 PageSize = query.PageSize
@@ -31,7 +33,7 @@ public class RoleQueryHandler
 
         query.Result = new PaginatedItemResponse<RoleItemResponse>(query.PageIndex, query.PageSize, roles.Total, roles.TotalPages,
             roles.Result.Select(role
-                => new RoleItemResponse()
+                => new RoleItemResponse
                 {
                     Id = role.Id,
                     Name = role.Name,
@@ -43,19 +45,13 @@ public class RoleQueryHandler
     }
 
     [EventHandler(Order = 1)]
-    public async Task GetDetailAsync(RoleQuery.RoleDetailQuery query)
+    public async Task GetDetailAsync(RoleDetailQuery query)
     {
-        var role = await GetPermissionListByLoopAsync(query.RoleId);
+        var role = await _repository.FindAsync(query.RoleId);
+        if (role == null)
+            throw new UserFriendlyException("The current role does not exist");
 
-        List<AuthorizeItemResponse> permissions = role.Permissions.Select(permission => new AuthorizeItemResponse()
-        {
-            Id = permission.Id,
-            InheritanceRoleSource = permission.RoleName,
-            PermissionId = permission.PermissionId,
-            PermissionEffect = permission.PermissionEffect,
-            PermissionType = permission.PermissionType,
-        }).ToList();
-        query.Result = new RoleDetailResponse
+        query.Result = new RoleDetailResponse()
         {
             Id = role.Id,
             Name = role.Name,
@@ -63,14 +59,67 @@ public class RoleQueryHandler
             Number = role.Number,
             Enable = role.Enable,
             CreationTime = role.CreationTime,
-            ChildrenRoles = role.ChildrenRoles.Select(childrenGuid => new KeyValuePair<Guid, string>(childrenGuid,
-                role.Permissions.Where(permission => permission.RoleId == childrenGuid).Select(permission => permission.RoleName)
-                    .FirstOrDefault() ??
-                string.Empty)).ToList(),
-            Permissions = permissions
+            ChildrenRoles = role.RoleItems.Select(roleItem => new KeyValuePair<Guid, string>(roleItem.RoleId, roleItem.Role.Name)).ToList(),
         };
-
+        // List<AuthorizeItemResponse> permissions = role.Permissions.Select(permission => new AuthorizeItemResponse
+        // {
+        //     Id = permission.Id,
+        //     InheritanceRoleSource = permission.RoleName,
+        //     PermissionId = permission.PermissionId,
+        //     PermissionEffect = permission.PermissionEffect,
+        //     PermissionType = permission.PermissionType,
+        // }).ToList();
+        // query.Result = new RoleDetailResponse
+        // {
+        //     Id = role.Id,
+        //     Name = role.Name,
+        //     Describe = role.Describe,
+        //     Number = role.Number,
+        //     Enable = role.Enable,
+        //     CreationTime = role.CreationTime,
+        //     ChildrenRoles = role.ChildrenRoles.Select(childrenGuid => new KeyValuePair<Guid, string>(childrenGuid,
+        //         role.Permissions.Where(permission => permission.RoleId == childrenGuid).Select(permission => permission.RoleName)
+        //             .FirstOrDefault() ??
+        //         string.Empty)).ToList(),
+        //     Permissions = permissions
+        // };
     }
+
+    /// <summary>
+    /// Get the current role's own permission permissions (excluding inherited permissions)
+    /// </summary>
+    /// <param name="query"></param>
+    [EventHandler]
+    public Task GetPermissionAsync(RolePermissionQuery query)
+    {
+        query.Result =
+            (from rolePermission in _dbContext.Set<RolePermission>().Include(rolePermission => rolePermission.Role)
+                where rolePermission.Role.Id == query.RoleId
+                join permission in _dbContext.Set<Permission>()
+                    on rolePermission.PermissionsId equals permission.Id
+                    into temp
+                from newPermissions in temp.DefaultIfEmpty()
+                select new AuthorizeItemResponse
+                {
+                    Id = rolePermission.Id,
+                    PermissionId = newPermissions.Id,
+                    PermissionName = newPermissions.Name,
+                    ObjectType = newPermissions.ObjectType,
+                    Resource = newPermissions.Resource,
+                    Scope = newPermissions.Scope,
+                    InheritanceRoleSource = rolePermission.Role.Name,
+                    PermissionType = newPermissions.PermissionType,
+                    PermissionEffect = rolePermission.PermissionEffect
+                }).ToList();
+        return Task.CompletedTask;
+    }
+
+
+
+
+
+
+
 
     private async Task<RoleDetailDto> GetPermissionListByLoopAsync(Guid roleId)
     {
@@ -135,7 +184,7 @@ public class RoleQueryHandler
                     }
                     else
                     {
-                        permissions.Add(new AuthorizeItemDto()
+                        permissions.Add(new AuthorizeItemDto
                         {
                             Id = authorizeItem.Id,
                             RoleId = authorizeItem.RoleId,
@@ -163,7 +212,7 @@ public class RoleQueryHandler
         if (role == null)
             throw new UserFriendlyException("the role does not exist");
 
-        var list = new RoleDetailDto()
+        var list = new RoleDetailDto
         {
             Id = role.Id,
             Name = role.Name,
@@ -172,7 +221,7 @@ public class RoleQueryHandler
             Enable = role.Enable,
             CreationTime = role.CreationTime,
             ChildrenRoles = role.RoleItems.Select(roleItem => roleItem.ParentRoleId).ToList(),
-            Permissions = role.Permissions.Select(permission => new AuthorizeItemDto()
+            Permissions = role.Permissions.Select(permission => new AuthorizeItemDto
             {
                 Id = permission.Id,
                 RoleId = permission.Role.Id,
@@ -214,7 +263,7 @@ public class RoleQueryHandler
     }
 
     [EventHandler]
-    public async Task GetSelectAsync(RoleQuery.SelectQuery query)
+    public async Task GetSelectAsync(SelectQuery query)
     {
         query.Result = (await _repository.GetListAsync((r) => r.Enable)).Select(role => new RoleItemResponse
         {

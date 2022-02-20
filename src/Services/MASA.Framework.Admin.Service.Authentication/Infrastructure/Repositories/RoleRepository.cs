@@ -6,11 +6,6 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
     {
     }
 
-    public async Task<bool> ExistAsync(string name)
-    {
-        return await _context.Set<Role>().AnyAsync(role => role.Name == name);
-    }
-
     public async Task<Role?> FindAsync(Guid id)
     {
         return await _context.Set<Role>()

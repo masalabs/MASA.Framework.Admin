@@ -20,6 +20,7 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
 
     private Permission()
     {
+        Id = Guid.NewGuid();
         CreationTime = DateTime.UtcNow;
         ModificationTime = DateTime.UtcNow;
         Enable = true;

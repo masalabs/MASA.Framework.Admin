@@ -5,6 +5,9 @@ namespace MASA.Framework.Admin.Service.Authentication.Services
         public PermissionService(IServiceCollection services) : base(services)
         {
             App.MapGet(Routing.PermissionList, GetItemsAsync);
+            App.MapGet(Routing.OperatePermission, GetDetailAsync);
+            App.MapPost(Routing.OperatePermission, AddAsync);
+            App.MapPut(Routing.OperatePermission, EditAsync);
         }
 
         private async Task<PaginatedItemResponse<PermissionItemResponse>> GetItemsAsync(
@@ -26,6 +29,20 @@ namespace MASA.Framework.Admin.Service.Authentication.Services
             var query = new PermissionDetailQuery(id);
             await eventBus.PublishAsync(query);
             return query.Result;
+        }
+
+        public async Task AddAsync(
+            [FromServices]IEventBus eventBus,
+            [FromBody]AddPermissionCommand command)
+        {
+            await eventBus.PublishAsync(command);
+        }
+
+        public async Task EditAsync(
+            [FromServices]IEventBus eventBus,
+            [FromBody]EditPermissionCommand command)
+        {
+            await eventBus.PublishAsync(command);
         }
     }
 }

@@ -8,8 +8,7 @@ public class PermissionDetailQueryValidator : AbstractValidator<PermissionDetail
             .NotNull().WithMessage($"Parameter error");
 
         RuleFor(query => query.PermissionId)
-            .NotEqual(Guid.Empty)
-            .WithMessage("Please select a permission id");
+            .NotEqual(Guid.Empty).WithMessage("Please select a permission id");
     }
 
 }

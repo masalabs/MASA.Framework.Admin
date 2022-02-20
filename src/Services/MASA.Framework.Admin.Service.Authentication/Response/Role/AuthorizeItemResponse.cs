@@ -12,9 +12,9 @@ public class AuthorizeItemResponse
 
     public ObjectType ObjectType { get; set; }
 
-    public string ObjectCode { get; set; } = default!;
+    public string Resource { get; set; } = default!;
 
-    public string ObjectIdentifies { get; set; } = default!;
+    public string Scope { get; set; } = default!;
 
     /// <summary>
     /// The name of the role to which the license was granted

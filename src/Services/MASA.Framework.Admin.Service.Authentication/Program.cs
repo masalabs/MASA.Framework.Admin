@@ -1,11 +1,20 @@
-using MASA.Contrib.Data.Contracts.EF;
-using MASA.Utils.Exceptions.Extensions;
-
 var builder = WebApplication
     .CreateBuilder(args)
     .AddMasaConfiguration(
-        null,
+        configurationBuilder =>
+        {
+            configurationBuilder.UseMasaOptions(options =>
+            {
+                options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings", "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
+            });
+        },
         assemblies: typeof(DbConnectionOption).Assembly);
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var redisOptions = serviceProvider.GetService<IOptions<RedisConfigurationOptions>>();
+builder.Services
+    .AddMasaRedisCache(redisOptions.Value)
+    .AddMasaMemoryCache();
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
@@ -26,7 +35,6 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<AuthenticationDbContext>(dbOptions =>
             {
-                var serviceProvider = builder.Services.BuildServiceProvider()!;
                 var option = serviceProvider
                     .GetRequiredService<IOptions<DbConnectionOption>>();
                 dbOptions.UseSqlServer(option.Value.DbConn);

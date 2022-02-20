@@ -10,6 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.0.1862421399" />
+      <PackageReference Include="MASA.Utils.Caching.Redis" Version="0.0.1862421399" />
       <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1862421399" />
       <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1862421399" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">

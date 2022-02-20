@@ -20,7 +20,18 @@ public class PermissionDomainService : DomainService
                 roleId.Value,
                 (int)permissionType,
                 (int)permissionEffect!.Value);
-            await EventBus.PublishAsync(command);
+            await EventBus.Enqueue(command);
+            await EventBus.Enqueue(new AddRolePermissionDomainEvent(
+                roleId.Value,
+                (int)permission.ObjectType,
+                permission.Name,
+                permission.Resource,
+                permission.Scope,
+                permission.Action,
+                permission.Id,
+                (int)permissionType,
+                (int)permissionEffect.Value));
+            await EventBus.PublishQueueAsync();
         }
     }
 }

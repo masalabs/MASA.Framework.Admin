@@ -10,10 +10,9 @@ public class RolePermission : Entity<Guid>
 
     public Role Role { get; private set; }
 
-
     public RolePermission()
     {
-
+        Id = Guid.NewGuid();
     }
 
     public RolePermission(Guid permissionsId, PermissionType permissionType, PermissionEffect permissionEffect) : this()

@@ -2,16 +2,18 @@
 @inherits AdminCompontentBase
 
 <MRow>
-    <MCol Md=3>
+    <MCol Md=2>
         <MList Nav Dense Class="pa-0">
             @foreach (var nav in Page.MenuNavs)
             {
-                @RenderMenuNavs(nav)
-                ;
+                @RenderMenuNavs((nav,SetCurentData))
             }
         </MList>
+        <MButton Color="primary" Class="mt-6" OnClick="()=> AddDefaultMenu()">
+            @T("Add Menu")
+        </MButton>
     </MCol>
-    <MCol Md=9>
+    <MCol Md=10>
         <MRow>
             <MCol>
 
@@ -50,61 +52,86 @@
         await Page.GetAllMenus();
     }
 
-    private RenderFragment<string> ChatMessageDisplay = message => __builder =>
-    {
-        <div class="chat-message">
-            <span class="author"></span>
-            <span class="text"></span>
-        </div>
-    };
 
-    private static RenderFragment<MenuNav> RenderMenuNavs = nav => __builder =>
+    public async Task AddDefaultMenu(MenuItemResponse? menu = null)
     {
-        if (nav.Children is null)
-        {
-            if (nav.Icon is null)
+        Random rd = new Random();
+        int i = rd.Next(10000, 100000);
+        Page.CurrentData = new MenuItemResponse
             {
-                <MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
-                    <MListItem Ripple=false ActiveClass="fill-lighten-1" Link Href="@nav.Href">
-                        <ItemContent>
-                            <MListItemContent>
-                                <div class="text-truncate white-space:nowrap @(context.Active?"text-subtitle2":"text-btn neutral-lighten-2--text")">nav.Name</div>
-                            </MListItemContent>
-                        </ItemContent>
-                    </MListItem>
-                </MBorder>
-            }
-            else
-            {
-                <MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
-                    <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1" Href="@nav.Href">
-                        <ItemContent>
-                            <MListItemIcon>
-                                <MIcon Color="@(context.Active?"primary":"neutral-lighten-2")" Size=20>@nav.Icon</MIcon>
-                            </MListItemIcon>
-                            <MListItemContent>
-                                <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap @(context.Active?"text-subtitle":"text-body neutral-lighten-2--text")">@nav.Name</div>
-                            </MListItemContent>
-                        </ItemContent>
-                    </MListItem>
-                </MBorder>
-            }
-        }
-        else
-        {
-            <MListGroup Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText" AppendIcon="M8.33398 10.3335L12.5007 14.5002L16.6673 10.3335H8.33398Z">
-                <ActivatorContent>
-                    <MListItemContent>
-                        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@nav.Name</div>
-                    </MListItemContent>
-                </ActivatorContent>
-                <ChildContent>
-                    @foreach (var navChild in nav.Children)
-                    {
-                        @RenderMenuNavs(navChild);
-                    }
-                </ChildContent>
-            </MListGroup>
-        }
-    };
+                Code = i.ToString(),
+                Name = "default",
+                Url = "",
+                Sort = 1,
+                ParentName = menu?.ParentName,
+                ParentId = menu?.ParentId,
+            };
+        await Page.AddOrUpdateAsync();
+        await Page.GetAllMenus();
+    }
+
+    void SetCurentData(Guid id)
+    {
+        Page.CurrentData = Page.AllDatas.First(m => m.Id == id);
+    }
+
+
+    private static RenderFragment<(MenuNav, Action<Guid>)> RenderMenuNavs = input => __builder =>
+       {
+           var nav = input.Item1;
+           var action = input.Item2;           
+
+           if (nav.Children is null)
+           {
+               if (nav.Icon is null || nav.Icon == "")
+               {
+                   <MListItem Class="ml-2" Ripple=false ActiveClass="fill-lighten-1" Link>
+                       <ItemContent>
+                           <MListItemContent>
+                               <div class="text-truncate white-space:nowrap @(context.Active?"text-subtitle2":"text-btn neutral-lighten-2--text")">@nav.Name</div>
+                           </MListItemContent>
+                       </ItemContent>
+                   </MListItem>
+               }
+               else
+               {
+                   <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1">
+                       <ItemContent>
+                           <MListItemIcon>
+                               <MIcon Color="@(context.Active?"primary":"neutral-lighten-2")" Size=20>@nav.Icon</MIcon>
+                           </MListItemIcon>
+                           <MListItemContent>
+                               <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap @(context.Active?"text-subtitle":"text-body neutral-lighten-2--text")">@nav.Name</div>
+                           </MListItemContent>
+                       </ItemContent>
+                   </MListItem>
+               }
+           }
+           else
+           {
+               <MListGroup Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText" AppendIcon="M8.33398 10.3335L12.5007 14.5002L16.6673 10.3335H8.33398Z">
+                   <ActivatorContent>
+                       <MListItemContent>
+                           <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@nav.Name</div>
+                       </MListItemContent>
+                   </ActivatorContent>
+                   <ChildContent>
+                       @foreach (var navChild in nav.Children)
+                       {
+                           if (navChild.Children is not null)
+                           {
+                               <div class="ml-16">
+                                   @RenderMenuNavs((navChild,action))
+                               </div>
+                           }
+                           else
+                           {
+                               @RenderMenuNavs((navChild,action))
+                           }
+
+                       }
+                   </ChildContent>
+               </MListGroup>
+           }
+       };
 }

@@ -8,115 +8,110 @@
     <MCol Cols="2"></MCol>
     <MCol Cols="7" Class="ml-6">
         <MCard Class="mx-auto mt-5">
-            <MTabsItems>
-                <MTabItem>
-                    <MCard Flat>
-                        <MRow>
-                            <MCol Cols="10">
-                                <MCardText><h5>@_blogInfo.Title</h5></MCardText>
-                            </MCol>
-                            <MSpacer></MSpacer>
-                            <MCol Cols="2" Class="mt-5">
-                                <MButton Color="primary" OnClick="ToReport">举报</MButton>
-                            </MCol>
-                        </MRow>
-                    </MCard>
-                </MTabItem>
-            </MTabsItems>
+            <MCardTitle>
+                <h4>@_blogInfo.Title</h4>
+                <MSpacer />
+                <MButton Color="primary" Text OnClick="ToReport">举报</MButton>
+            </MCardTitle>
 
-            <MDivider></MDivider>
+            <MDivider />
 
-            @if (Ad.Any())
-            {
-                <MWindow ShowArrows Class="mx-auto mt-2 mb-2 ml-5 mr-5">
-                    <ChildContent>
-                        @foreach (var item in Ad.FindAll(ad => ad.Type == BlogAdvertisingPicturesTypes.Details))
-                        {
-                            <MWindowItem>
-                                <MCard Color="grey" Height="100">
-                                    <MImage Height="100" Width="@("100%")" Src="@item.Pic"></MImage>
-                                </MCard>
-                            </MWindowItem>
-                        }
-                    </ChildContent>
-                </MWindow>
-            }
+            <MCardText>
+                @if (Ad.Any())
+                {
+                    <MWindow ShowArrows Class="mx-auto mt-2 mb-2 ml-5 mr-5">
+                        <ChildContent>
+                            @foreach (var item in Ad.FindAll(ad => ad.Type == BlogAdvertisingPicturesTypes.Details))
+                            {
+                                <MWindowItem>
+                                    <MCard Color="grey" Height="100">
+                                        <MImage Height="100" Width="@("100%")" Src="@item.Pic"></MImage>
+                                    </MCard>
+                                </MWindowItem>
+                            }
+                        </ChildContent>
+                    </MWindow>
+                }
 
-            <MCard>
-                <MCardText>@((MarkupString)_blogInfo.Content)</MCardText>
-                <MCardActions>
-                    <p>
-                        <MIcon>mdi-comment-processing</MIcon> <span>@_blogInfo.CommentCount</span>
-                        <MButton Icon OnClick="ToApprove">
-                            <MIcon>mdi-thumb-up</MIcon>
-                        </MButton>
-                        <span>@_blogInfo.ApprovedCount</span>
-                        <MIcon>mdi-eye</MIcon> <span>@_blogInfo.Visits</span>
-                    </p>
-                </MCardActions>
-            </MCard>
-            <MDivider></MDivider>
+                @((MarkupString)_blogInfo.Content)
+            </MCardText>
+
+            <MCardActions>
+                <MSpacer />
+                <span class="d-flex align-items-center mr-4">
+                    <MIcon Class="mr-1">mdi-comment-processing</MIcon>
+                    <span>@_blogInfo.CommentCount</span>
+                </span>
+                <span class="d-flex align-items-center mr-4">
+                    <MButton Class="mr-1" Color="@(_blogInfo.IsApproved ? "red" : "")" Icon OnClick="ToApprove">
+                        <MIcon>mdi-thumb-up</MIcon>
+                    </MButton>
+                    <span>@_blogInfo.ApprovedCount</span>
+                </span>
+                <span class="d-flex align-items-center mr-4">
+                    <MIcon Class="mr-1">mdi-eye</MIcon>
+                    <span>@_blogInfo.Visits</span>
+                </span>
+            </MCardActions>
         </MCard>
 
         @if (_blogCommentInfoList.TotalCount > 0)
         {
             <MCard Class="mx-auto mt-3">
                 <MCardTitle>评论列表</MCardTitle>
-                @foreach (var comment in _blogCommentInfoList.Data)
-                {
-                    <MListItem TwoLine>
-                        <MListItemContent>
-                            <MListItemTitle>@comment.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
-                            <MListItemSubtitle>@comment.CommentContent</MListItemSubtitle>
-                        </MListItemContent>
-                    </MListItem>
-                    @if (comment.ReplyInfo is not null && comment.ReplyInfo.CreationTime > DateTime.MinValue)
-                    {
-                        <MExpansionPanels @bind-Values="_panel" Disabled>
-                            <MExpansionPanel @key="comment.Id">
-                                <MExpansionPanelHeader>
-                                    回复
-                                </MExpansionPanelHeader>
-                                <MExpansionPanelContent>
+                <MCardText>
+                    <MList Dense>
+                        @foreach (var comment in _blogCommentInfoList.Data)
+                        {
+                            <MListItem TwoLine>
+                                <MListItemContent>
+                                    <MListItemTitle>@comment.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
+                                    <MListItemSubtitle>@comment.CommentContent</MListItemSubtitle>
+                                </MListItemContent>
+                            </MListItem>
+                            @if (comment.ReplyInfo is not null && comment.ReplyInfo.CreationTime > DateTime.MinValue)
+                            {
+                                <MListItem TwoLine Class="pl-8" Style="margin-top:-16px">
+                                    <MListItemContent>
+                                        <MListItemTitle>@comment.ReplyInfo.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
+                                        <MListItemSubtitle>@comment.ReplyInfo.CommentContent</MListItemSubtitle>
+                                    </MListItemContent>
+                                </MListItem>
+                            }
+                            else
+                            {
+                                <MExpansionPanels Flat>
+                                    <MExpansionPanel @key="comment.Id">
+                                        <MExpansionPanelHeader>
+                                            回复
+                                        </MExpansionPanelHeader>
+                                        <MExpansionPanelContent>
+                                            <MRow Dense>
+                                                <MCol Cols=12>
+                                                    <DefaultTextarea Autofocus Placeholder="请输入回复内容..."
+                                                         @bind-Value="_reportComment">
+                                                    </DefaultTextarea>
+                                                </MCol>
+                                                <MCol Cols=12 Class="d-flex">
+                                                    <MSpacer />
+                                                    <MButton Color="primary"
+                                                 Small
+                                                 Text
+                                                 Loading="_reportCommentLoading"
+                                                 OnClick="() => ToReportComment(comment.Id)">
+                                                        确定
+                                                    </MButton>
+                                                </MCol>
+                                            </MRow>
+                                        </MExpansionPanelContent>
+                                    </MExpansionPanel>
+                                </MExpansionPanels>
+                            }
 
-                                    <MListItem TwoLine>
-                                        <MListItemContent>
-                                            <MListItemTitle>@comment.ReplyInfo.CreationTime.ToString("yyyy-MM-dd HH:mm")</MListItemTitle>
-                                            <MListItemSubtitle>@comment.ReplyInfo.CommentContent</MListItemSubtitle>
-                                        </MListItemContent>
-                                    </MListItem>
-                                </MExpansionPanelContent>
-                            </MExpansionPanel>
-                        </MExpansionPanels>
-                    }
-                    else
-                    {
-                        <MExpansionPanels>
-                            <MExpansionPanel @key="comment.Id">
-                                <MExpansionPanelHeader>
-                                    回复
-                                </MExpansionPanelHeader>
-                                <MExpansionPanelContent>
-                                    <MCard>
-                                        <MCardTitle>发表回复</MCardTitle>
-                                        <MCardText>
-                                            <MCol Cols="12">
-                                                <MTextarea @bind-Value="_reportComment">
-                                                </MTextarea>
-                                            </MCol>
-                                        </MCardText>
-                                        <MCardActions>
-                                            <MSpacer></MSpacer>
-                                            <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment(comment.Id)">发表回复</MButton>
-                                        </MCardActions>
-                                    </MCard>
-                                </MExpansionPanelContent>
-                            </MExpansionPanel>
-                        </MExpansionPanels>
-                    }
-
-                    <MDivider></MDivider>
-                }
+                            <MDivider></MDivider>
+                        }
+                    </MList>
+                </MCardText>
                 <div class="text-center">
                     <MContainer>
                         <MRow Justify="JustifyTypes.Center">
@@ -134,14 +129,15 @@
         <MCard Class="mx-auto mt-3">
             <MCardTitle>发表评论</MCardTitle>
             <MCardText>
-                <MCol Cols="12">
-                    <MTextarea @bind-Value="_reportComment">
-                    </MTextarea>
-                </MCol>
+                <DefaultTextarea @bind-Value="_reportComment"
+                                 Placeholder="请输入回复内容...">
+                </DefaultTextarea>
             </MCardText>
-            <MCardActions>
+            <MCardActions Style="padding:0 24px 16px 24px">
                 <MSpacer></MSpacer>
-                <MButton Color="primary" Loading="_reportCommentLoading" OnClick="async()=>await ToReportComment()">发表评论</MButton>
+                <MButton Color="primary"
+                         Loading="_reportCommentLoading"
+                         OnClick="() => ToReportComment()">发表评论</MButton>
             </MCardActions>
         </MCard>
     </MCol>

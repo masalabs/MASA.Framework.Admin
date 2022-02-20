@@ -81,6 +81,12 @@ namespace MASA.Framework.Admin.Blog.Pages.Blogs
         /// </summary>
         private async Task ToReportComment(Guid? replayId = null)
         {
+            if (string.IsNullOrWhiteSpace(_reportComment))
+            {
+                await PopupService.MessageAsync("回复内容不能为空", AlertTypes.Warning);
+                return;
+            }
+
             _reportCommentLoading = true;
             await BlogCaller.CommentsService.CreateAsync(new AddCommentModel()
             {
@@ -108,6 +114,7 @@ namespace MASA.Framework.Admin.Blog.Pages.Blogs
                 IsApproved = !_blogInfo.IsApproved,
                 UserId = CurrentUserId
             });
+
             await GetAsync();
         }
 

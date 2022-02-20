@@ -2,9 +2,13 @@ namespace Masa.Framework.Admin.RCL.RBAC;
 
 public class MenuPage : ComponentPageBase
 {
+    public List<MenuItemResponse> AllDatas { get; set; } = new();
+
     public List<MenuItemResponse> Datas { get; set; } = new();
 
     public MenuItemResponse CurrentData { get; set; } = new();
+
+    public List<MenuNav> MenuNavs { get; set; } = new();
 
     private ConfigurationCaller ConfigurationCaller { get; set; }
 
@@ -61,17 +65,6 @@ public class MenuPage : ComponentPageBase
         };
     }
 
-    public async Task GetAllMenus()
-    {
-        Lodding = true;
-        var result = await ConfigurationCaller.GetAllAsync();
-        if (result.Success)
-        {
-            Datas = result.Data ?? new();
-        }
-        Lodding = false;
-    }
-
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
@@ -87,7 +80,7 @@ public class MenuPage : ComponentPageBase
 
     public void OpenMenuForm(MenuItemResponse? item = null)
     {
-        CurrentData = item ?? new();
+        CurrentData = item?.Copy() ?? new();
         IsOpenMenuForm = true;
     }
 
@@ -125,7 +118,7 @@ public class MenuPage : ComponentPageBase
 
     public void OpenDeleteMenuDialog(MenuItemResponse item)
     {
-        CurrentData = item;
+        CurrentData = item.Copy();
         OpenDeleteConfirmDialog(DeleteMenuAsync);
     }
 
@@ -167,5 +160,100 @@ public class MenuPage : ComponentPageBase
             await QueryPageDatasAsync();
         }
     }
+
+    public async Task GetAllMenus()
+    {
+        await GetAllDatas();
+        MenuNavs = GetMenus(AllDatas);
+    }
+
+    public async Task GetAllDatas()
+    {
+        Lodding = true;
+        var result = await ConfigurationCaller.GetAllAsync();
+        if (result.Success)
+        {
+            AllDatas = result.Data ?? new();
+        }
+        Lodding = false;
+    }
+
+    List<MenuNav> GetMenus(List<MenuItemResponse> menus)
+    {
+        var navs = new List<MenuNav>();
+        var menuNavs = menus.Select(m => new MenuNav(m.Id, m.ParentId, m.Url, m.Icon, m.Name, m.Sort)).OrderBy(m => m.Sort).ToList();   
+        navs.AddRange(menuNavs.Where(m => m.ParentId is null));
+        foreach(var nav in navs)
+        {
+            BindChild(nav);
+        }
+
+        return navs;
+
+        void BindChild(MenuNav nav)
+        {
+            var childs = menuNavs.Where(n => n.ParentId == nav.Id).ToArray();
+            if(childs.Count() > 0)
+            {
+                nav.Children = childs;
+                foreach(var child in childs)
+                {
+                    BindChild(child);
+                }
+            }
+        }
+    }
+
+    public List<MenuItemResponse> GetMenuSelect()
+    {
+        var childMenus = new List<MenuItemResponse>();
+        if (IsAdd) return AllDatas;
+        else
+        {
+            AddChildMenu(CurrentData);
+            return AllDatas.Where(m => m.Id != CurrentData.Id && childMenus.All(cm => cm.Id != m.Id)).ToList();
+        }
+
+        void AddChildMenu(MenuItemResponse menu)
+        {
+            var childs = AllDatas.Where(m => m.ParentId == menu.Id).ToList();
+            if(childs.Count>0)
+            {
+                childMenus.AddRange(childs);
+                foreach (var child in childs)
+                {
+                    AddChildMenu(child);
+                }
+            }          
+        }
+    }
 }
 
+
+public class MenuNav
+{
+    public Guid Id { get; set; }
+
+    public Guid? ParentId { get; set; }
+
+    public string? Href { get; set; }
+
+    public string? Icon { get; set; }
+
+    public string Name { get; set; }
+
+    public int Sort { get; set; }
+
+    public MenuNav[]? Children { get; set; }
+
+    public MenuNav(Guid id, Guid? parentId, string? href, string? icon, string name, int sort, MenuNav[]? children = null)
+    {
+        Id = id;
+        ParentId = parentId;
+        Href = href;
+        Icon = icon;
+        Name = name;
+        Sort = sort;
+        Children = children;
+    }
+}

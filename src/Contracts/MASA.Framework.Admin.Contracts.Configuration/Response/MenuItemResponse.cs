@@ -27,4 +27,6 @@ public class MenuItemResponse
     public bool Disabled { get; set; }
 
     public DateTimeOffset CreationTime { get; set; }
+
+    public MenuItemResponse Copy() => (MenuItemResponse)MemberwiseClone();
 }

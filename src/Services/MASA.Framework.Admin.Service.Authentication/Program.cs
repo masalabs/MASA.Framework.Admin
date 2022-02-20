@@ -5,7 +5,8 @@ var builder = WebApplication
         {
             configurationBuilder.UseMasaOptions(options =>
             {
-                options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings", "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
+                options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings",
+                    "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
             });
         },
         assemblies: typeof(DbConnectionOption).Assembly);
@@ -32,7 +33,7 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddDomainEventBus(options =>
     {
-        options.UseEventBus()
+        options.UseEventBus(typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly)
             .UseUoW<AuthenticationDbContext>(dbOptions =>
             {
                 var option = serviceProvider
@@ -48,7 +49,18 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {
 });
-app.UseMasaExceptionHandling()
+app.UseMasaExceptionHandling(opt =>
+    {
+        opt.CustomExceptionHandler = exception =>
+        {
+            Exception friendlyException = exception;
+            if (exception is ValidationException validationException)
+            {
+                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+            }
+            return (friendlyException, false);
+        };
+    })
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

@@ -31,6 +31,7 @@ public class PermissionsCommandHandler
             command.Action,
             command.PermissionType);
         await _repository.AddAsync(permission);
+        await _repository.UnitOfWork.SaveChangesAsync();
         await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType);
     }
 

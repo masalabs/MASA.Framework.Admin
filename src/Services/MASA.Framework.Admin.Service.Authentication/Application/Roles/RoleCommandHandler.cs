@@ -60,6 +60,7 @@ public class RoleCommandHandler
             throw new UserFriendlyException("The current role does not exist");
 
         role.AddRolePermission(command.Creator, command.PermissionId);
+        await _repository.UpdateAsync(role);
     }
 
     [EventHandler]
@@ -70,5 +71,6 @@ public class RoleCommandHandler
             throw new UserFriendlyException("The current role does not exist");
 
         role.DeleteRolePermission(command.Creator, command.PermissionId);
+        await _repository.UpdateAsync(role);
     }
 }

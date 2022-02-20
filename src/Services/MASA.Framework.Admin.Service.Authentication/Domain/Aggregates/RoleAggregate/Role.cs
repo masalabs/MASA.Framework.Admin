@@ -12,18 +12,18 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     private readonly List<RolePermission> permissions;
 
-    public IReadOnlyCollection<RolePermission> Permissions => permissions;
+    public virtual IReadOnlyCollection<RolePermission> Permissions => permissions;
 
     private readonly List<RoleItem> roleItems;
 
-    public IReadOnlyCollection<RoleItem> RoleItems => roleItems;
+    public virtual IReadOnlyCollection<RoleItem> RoleItems => roleItems;
 
-    private Role()
+    public Role()
     {
         Id = Guid.NewGuid();
         Describe = string.Empty;
-        permissions = new();
-        roleItems = new();
+        permissions = new List<RolePermission>();
+        roleItems = new List<RoleItem>();
     }
 
     public Role(Guid @operator, string name, int number = -1) : this()

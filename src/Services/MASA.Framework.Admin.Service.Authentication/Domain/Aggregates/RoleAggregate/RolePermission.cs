@@ -4,6 +4,8 @@ public class RolePermission : Entity<Guid>
 {
     public Guid PermissionsId { get; private set; }
 
+    public Guid RoleId { get; set; }
+
     public Role Role { get; private set; }
 
     public RolePermission()

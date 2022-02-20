@@ -28,13 +28,14 @@
       <PackageReference Include="MASA.Contrib.DDD.Domain.Repository.EF" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1869587016" />
-      <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1869587016" />
+<!--      <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1869587016" />-->
       <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.Configuration" Version="0.0.1869587016" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\Contribs\feature\eventbus\src\Dispatcher\MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF\MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF.csproj" />
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
       <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
     </ItemGroup>

@@ -8,7 +8,7 @@ public class PermissionListQueryValidator : AbstractValidator<PermissionListQuer
             .NotNull().WithMessage($"Parameter error");
 
         RuleFor(query => query.State)
-            .Must(state => state != -1 && state != 0 && state != 1)
+            .Must(state => state == -1 || state == 0 || state == 1)
             .WithMessage("Unsupported state type");
     }
 

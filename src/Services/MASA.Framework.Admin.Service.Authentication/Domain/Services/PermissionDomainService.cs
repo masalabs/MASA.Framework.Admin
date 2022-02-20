@@ -17,8 +17,8 @@ public class PermissionDomainService : DomainService
                 permission.Modifier,
                 permission.Id,
                 roleId.Value);
-            await EventBus.Enqueue(command);
-            await EventBus.Enqueue(new AddRolePermissionDomainEvent(
+            await EventBus.PublishAsync(command);
+            await EventBus.PublishAsync(new AddRolePermissionDomainEvent(
                 roleId.Value,
                 (int)permission.ObjectType,
                 permission.Name,
@@ -27,7 +27,6 @@ public class PermissionDomainService : DomainService
                 permission.Action,
                 permission.Id,
                 (int)permissionType));
-            await EventBus.PublishQueueAsync();
         }
     }
 }

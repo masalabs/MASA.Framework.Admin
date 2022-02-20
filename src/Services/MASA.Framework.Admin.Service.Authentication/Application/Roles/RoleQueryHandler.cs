@@ -110,7 +110,9 @@ public class RoleQueryHandler
     private async Task<List<AuthorizeItemResponse>> GetPermissionAsync(Guid roleId)
     {
         var allChildrenRoleIdList = await GetRoleListLoop(roleId);
+
         var permissions = await (from rolePermission in _dbContext.Set<RolePermission>()
+                    .Include(rolePermission=>rolePermission.Role)
                     .Where(rolePermission => allChildrenRoleIdList.Contains(rolePermission.Role.Id))
                 join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
                     into temp
@@ -127,7 +129,6 @@ public class RoleQueryHandler
                     InheritanceRoleSource = rolePermission.Role.Name,
                     PermissionType = newPermissions.PermissionType
                 })
-            .DistinctBy(permission => permission.PermissionId)
             .ToListAsync();
         return permissions.Where(permission
                 => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public) ||
@@ -155,9 +156,9 @@ public class RoleQueryHandler
         foreach (var childrenRoleId in query.Result.ChildrenRoleIds)
         {
             var childrenRoleIdList = await GetRoleListLoop(childrenRoleId);
-            roleIdList.Add(childrenRoleId);
             roleIdList.AddRange(childrenRoleIdList);
         }
+        roleIdList.Add(roleId);
         return roleIdList;
     }
 

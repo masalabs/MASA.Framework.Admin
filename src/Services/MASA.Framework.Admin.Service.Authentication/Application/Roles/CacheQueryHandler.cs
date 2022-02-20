@@ -21,7 +21,8 @@ public class CacheQueryHandler
         {
             var roleBaseQuery = new RoleBaseQuery(query.RoleId);
             await _eventBus.PublishAsync(roleBaseQuery);
-            await _cacheClient.SetAsync(string.Format(CacheConst.Cache.Role, query.RoleId), query.Result);
+            await _cacheClient.SetAsync(string.Format(CacheConst.Cache.Role, query.RoleId), roleBaseQuery.Result);
+            query.Result = roleBaseQuery.Result;
         }
     }
 }

@@ -11,7 +11,7 @@
     </LeftActions>
     <Filters Context="filter">
         <MRow Dense>
-            <MCol Cols="12" Sm="6">
+            <MCol Cols="12">
                 <DefaultSelect Label="类型"
                                Items="Enum<BlogAdvertisingPicturesTypes>.GetEnumObjectList<BlogAdvertisingPicturesTypes>()"
                                ItemText="item => item.Name"
@@ -48,7 +48,7 @@
                         Icon="mdi-pencil-outline"
                         Label="编辑"
                         OnClick="() => Modify(context.Item)"></Action>
-                <Action Color="error" 
+                <Action Color="error"
                         DisableAutoLoading
                         Icon="mdi-delete-outline"
                         Label="删除"
@@ -70,12 +70,14 @@
            OnOk="CreateOrUpdateAsync">
     <MRow>
         <MCol Cols="12">
-            <DefaultTextField TValue="string" HideDetails="@("auto")"
-                        Label="标题" @bind-Value="_dataModal.Data.Title" />
+            <DefaultTextField TValue="string"
+                              Label="标题"
+                              @bind-Value="_dataModal.Data.Title" />
         </MCol>
         <MCol Cols="12">
-            <DefaultTextField TValue="string" HideDetails="@("auto")"
-                        Label="图片地址" @bind-Value="_dataModal.Data.Pic" />
+            <DefaultTextField TValue="string"
+                              Label="图片地址"
+                              @bind-Value="_dataModal.Data.Pic" />
         </MCol>
         <MCol Cols="12">
             <DefaultAutoComplete Label="类型"
@@ -85,16 +87,17 @@
                                  @bind-Value="_dataModal.Data.Type"
                                  TItem="EnumObject<BlogAdvertisingPicturesTypes>"
                                  TValue="BlogAdvertisingPicturesTypes"
-                                 TItemValue="BlogAdvertisingPicturesTypes"
-                                 HideDetails="@("auto")">
+                                 TItemValue="BlogAdvertisingPicturesTypes">
             </DefaultAutoComplete>
         </MCol>
         <MCol Cols="12">
-            <DefaultTextField TValue="int" HideDetails="@("auto")"
-                        Label="排序值" @bind-Value="_dataModal.Data.Sort" />
+            <DefaultTextField TValue="int"
+                              Label="排序值"
+                              @bind-Value="_dataModal.Data.Sort" />
         </MCol>
         <MCol Cols="12">
-            <MSwitch Label="是否启用" @bind-Value="_dataModal.Data.Status"></MSwitch>
+            <DefaultSwitch Label="是否启用"
+                           @bind-Value="_dataModal.Data.Status" />
         </MCol>
     </MRow>
 </FormModal>

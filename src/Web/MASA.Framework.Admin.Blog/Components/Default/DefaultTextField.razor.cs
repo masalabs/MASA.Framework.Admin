@@ -6,7 +6,7 @@ public partial class DefaultTextField<TValue> : MTextField<TValue>
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         Dense = true;
-        HideDetails = true;
+        HideDetails = "auto";
         Outlined = true;
         Clearable = true;
 

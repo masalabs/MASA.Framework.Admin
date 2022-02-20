@@ -52,13 +52,12 @@
 <FormModal Visible="@_dataModal.Visible" Width="600" Title="@_dialogTitle" OnCancel="() => _dataModal.Hide()" OnOk="Save" Model="_dataModal.Data">
     <MRow>
         <MCol Cols="12">
-            <MTextField Label="名称"
-                        Dense Outlined
-                        @bind-Value="_dataModal.Data.TypeName">
+            <DefaultTextField Label="名称"
+                              @bind-Value="_dataModal.Data.TypeName">
                 <PrependInnerContent>
                     <lable class="red--text">*</lable>
                 </PrependInnerContent>
-            </MTextField>
+            </DefaultTextField>
         </MCol>
     </MRow>
 </FormModal>

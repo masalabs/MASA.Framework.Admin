@@ -10,7 +10,7 @@ public partial class DefaultDateTimePicker<TValue>: PDateTimePicker<TValue>
         Clearable = true;
         Dense = true;
         DefaultSelectedValue = DateTime.UtcNow;
-        HideDetails = true;
+        HideDetails = "auto";
         Outlined = true;
 
         Format = "yyyy-MM-dd HH:mm:ss";

@@ -5,7 +5,7 @@ public partial class DefaultSelect<TItem, TItemValue, TValue> : MSelect<TItem, T
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         Dense = true;
-        HideDetails = true;
+        HideDetails = "auto";
         Outlined = true;
         Clearable = true;
         MenuProps = (props) => props.OffsetY = true;

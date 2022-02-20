@@ -10,16 +10,17 @@
         /// <summary>
         /// 类型名称
         /// </summary>
+        [Required]
         public string TypeName { get; set; }
 
         /// <summary>
         /// CreationTime
         /// </summary>
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// LastModificationTime
         /// </summary>
-        public DateTime LastModificationTime { get; set; } = DateTime.Now;
+        public DateTime LastModificationTime { get; set; } = DateTime.UtcNow;
     }
 }

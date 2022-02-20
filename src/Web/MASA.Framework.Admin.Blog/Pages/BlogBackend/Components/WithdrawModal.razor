@@ -19,8 +19,9 @@
             </MRadioGroup>
         </MCol>
         <MCol Cols="12">
-            <MTextarea Label="原因详情" Dense Outlined @bind-Value="Data.ReasonDetail">
-            </MTextarea>
+            <DefaultTextField Label="原因详情"
+                              @bind-Value="Data.ReasonDetail">
+            </DefaultTextField>
         </MCol>
     </MRow>
 </FormModal>

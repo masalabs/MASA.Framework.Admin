@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Blog",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Blogs", "src\Contracts\MASA.Framework.Admin.Contracts.Blogs\MASA.Framework.Admin.Contracts.Blogs.csproj", "{260FDB73-B558-40A0-9327-743B83A84148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Extensions.Tools", "src\Extensions\MASA.Framework.Extensions.Tools\MASA.Framework.Extensions.Tools.csproj", "{B50A83D1-76DC-49E3-92E4-F6074A9ADE60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Extensions.Tools", "src\Extensions\MASA.Framework.Extensions.Tools\MASA.Framework.Extensions.Tools.csproj", "{B50A83D1-76DC-49E3-92E4-F6074A9ADE60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,16 +7,19 @@ namespace MASA.Framework.Admin.Contracts.Blogs
         /// <summary>
         /// 图片地址
         /// </summary>
+        [Required]
         public string Title { get; set; }
 
         /// <summary>
         /// 图片地址
         /// </summary>
+        [Required]
         public string Pic { get; set; }
 
         /// <summary>
         /// 类型：1 首页 2首页右下 3详情 4详情右下
         /// </summary>
+        [NonDefault]
         public BlogAdvertisingPicturesTypes Type { get; set; }
 
         /// <summary>

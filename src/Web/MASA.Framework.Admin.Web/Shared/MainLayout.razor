@@ -27,27 +27,42 @@
 
             <MMain Class="fill-lighten-1" Style="padding-top:60px">
                 @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
-                        {
-                            <div class="pa-6 max-width">
-                                <Breadcrumb></Breadcrumb>
-                                @Body
-                            </div>
-                        }
-                        else if (GlobalConfig.PageMode == PageModes.PageTab)
-                        {
-                            <PageTabs>
-                                @Body
-                            </PageTabs>
-                        }
-                        else
-                        {
-                            <div class="pa-6 max-width">
-                                @Body
-                            </div>
-                        }
+                {
+                     <div class="pa-6 max-width">
+                        <Breadcrumb></Breadcrumb>
+                        @Body
+                     </div>
+                }
+                else if (GlobalConfig.PageMode == PageModes.PageTab)
+                {
+                     <PageTabs>
+                        @Body
+                     </PageTabs>
+                }
+                else
+                {
+                     <div class="pa-6 max-width">
+                        @Body
+                     </div>
+                }
             </MMain>
 
             <Settings @bind-Show=_showSetting />
+
+            <MOverlay ZIndex=999 @bind-Value="_show">
+                <MSnackbar Vertical Top Color="deep-purple accent-4" @bind-Value="_show" Timeout=-1>
+                    <ChildContent>
+                        @_msg
+                    </ChildContent>
+                    <ActionContent>
+                        <MButton Color="red"
+                                 Text
+                                 OnClick="GoToLogout">
+                            确定
+                        </MButton>
+                    </ActionContent>
+                </MSnackbar>
+            </MOverlay>
         </MApp>
     </Authorized>
 </AuthorizeView>

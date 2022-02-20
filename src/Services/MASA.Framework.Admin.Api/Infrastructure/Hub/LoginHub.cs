@@ -36,9 +36,9 @@ namespace MASA.Framework.Admin.Service.Infrastructure.Api.Hub
 
                 if (onlineUser != null && !string.IsNullOrWhiteSpace(onlineUser.ConnectionId))
                 {
-                    string message = $"当前登录的账号已在其他客户端登录，您的登录已被注销。{onlineUser.ConnectionId}";
+                    string message = $"当前登录的账号已在其他客户端登录，您的登录已被注销。";
                     //send message to client
-                    await Clients.Client(onlineUser.ConnectionId).SendAsync("Logout", onlineUser.ConnectionId, message);
+                    await Clients.Client(onlineUser.ConnectionId).SendAsync("Logout", message);
                 }
 
                 if (onlineUser == null)

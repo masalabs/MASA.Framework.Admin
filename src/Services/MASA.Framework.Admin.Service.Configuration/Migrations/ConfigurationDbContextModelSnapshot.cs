@@ -46,8 +46,10 @@ namespace MASA.Framework.Admin.Configuration.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -60,7 +62,11 @@ namespace MASA.Framework.Admin.Configuration.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("integration_event_log", "configuration");
+                    b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
+
+                    b.HasIndex(new[] { "State", "TimesSent", "ModificationTime" }, "index_state_timessent_modificationtime");
+
+                    b.ToTable("IntegrationEventLog", (string)null);
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Configuration.Domain.Aggregate.Menu", b =>

@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220212091224_init")]
+    [Migration("20220220010719_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -44,6 +44,15 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -55,7 +64,11 @@ namespace MASA.Framework.Admin.Service.User.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("integration_event_log", "user");
+                    b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
+
+                    b.HasIndex(new[] { "State", "TimesSent", "ModificationTime" }, "index_state_timessent_modificationtime");
+
+                    b.ToTable("IntegrationEventLog", (string)null);
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>

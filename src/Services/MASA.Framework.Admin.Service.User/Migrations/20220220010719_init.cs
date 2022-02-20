@@ -13,8 +13,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 name: "user");
 
             migrationBuilder.CreateTable(
-                name: "integration_event_log",
-                schema: "user",
+                name: "IntegrationEventLog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -23,12 +22,14 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     State = table.Column<int>(type: "int", nullable: false),
                     TimesSent = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_integration_event_log", x => x.Id);
+                    table.PrimaryKey("PK_IntegrationEventLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +81,16 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "index_state_modificationtime",
+                table: "IntegrationEventLog",
+                columns: new[] { "State", "ModificationTime" });
+
+            migrationBuilder.CreateIndex(
+                name: "index_state_timessent_modificationtime",
+                table: "IntegrationEventLog",
+                columns: new[] { "State", "TimesSent", "ModificationTime" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_roles_UserId",
                 schema: "user",
                 table: "user_roles",
@@ -89,8 +100,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "integration_event_log",
-                schema: "user");
+                name: "IntegrationEventLog");
 
             migrationBuilder.DropTable(
                 name: "user_roles",

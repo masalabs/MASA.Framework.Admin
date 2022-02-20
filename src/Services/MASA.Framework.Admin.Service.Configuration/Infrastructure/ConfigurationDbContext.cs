@@ -11,7 +11,7 @@ public class ConfigurationDbContext : IntegrationEventLogContext
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new IntegrationEventLogEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new MenuEntityTypeConfiguration());
+        base.OnModelCreatingExecuting(modelBuilder);
     }
 }

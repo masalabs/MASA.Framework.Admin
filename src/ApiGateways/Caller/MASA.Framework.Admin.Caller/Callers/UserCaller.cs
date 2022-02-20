@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Contracts.User.Request;
+
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class UserCaller : HttpClientCallerBase
@@ -25,8 +27,19 @@ public class UserCaller : HttpClientCallerBase
             { "account", pageIndex.ToString() },
             { "state", state.ToString() }
         };
-        var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserList, queryArguments);
-        return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
+        try
+        {
+            var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserList, queryArguments);
+            return await CallerProvider.GetAsync<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>>(url);
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<PaginatedItemResponse<UserItemResponse>>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
     }
 
     public async Task<ApiResultResponse<List<UserRoleResponse>>> GetUserRolesAsync(Guid userId)
@@ -35,28 +48,84 @@ public class UserCaller : HttpClientCallerBase
         {
             { "userId", userId.ToString() }
         };
-        var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserRole, queryArguments);
-        return await CallerProvider.GetAsync<ApiResultResponse<List<UserRoleResponse>>>(url);
+        try
+        {
+            var url = QueryHelpers.AddQueryString(Contracts.User.Routing.UserRole, queryArguments);
+            return await CallerProvider.GetAsync<ApiResultResponse<List<UserRoleResponse>>>(url);
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<List<UserRoleResponse>>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
     }
 
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
         var url = UserRouting.UserDetail.Replace($"{{{nameof(id)}}}", id);
-        return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(url);
+        try
+        {
+            return await CallerProvider.GetAsync<ApiResultResponse<UserDetailResponse>>(url);
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<UserDetailResponse>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
+
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(CreateUserRequest userCreateRequest)
     {
-        return await CallerProvider.PostAsync<CreateUserRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+        try
+        {
+            return await CallerProvider.PostAsync<CreateUserRequest, ApiResultResponseBase>(UserRouting.OperateUser, userCreateRequest);
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<ApiResultResponseBase>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
     }
 
     public async Task<ApiResultResponseBase> CreateRoleAsync(CreateUserRoleRequest createUserRoleRequest)
     {
-        return await CallerProvider.PostAsync<CreateUserRoleRequest, ApiResultResponseBase>(UserRouting.UserRole, createUserRoleRequest);
+        try
+        {
+            return await CallerProvider.PostAsync<CreateUserRoleRequest, ApiResultResponseBase>(UserRouting.UserRole, createUserRoleRequest);
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<ApiResultResponseBase>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
-        return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(UserRouting.OperateUser, new { id });
+        try
+        {
+            return await CallerProvider.DeleteAsync<object, ApiResultResponseBase>(UserRouting.OperateUser, new { id });
+        }
+        catch (Exception)
+        {
+            return new ApiResultResponse<ApiResultResponseBase>(null)
+            {
+                Success = false,
+                Code = Code.SYSTEM_ERROR
+            };
+        }
     }
 }

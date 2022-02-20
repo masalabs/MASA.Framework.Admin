@@ -23,7 +23,7 @@
                     <MImage Src="/img/avatar/1.svg">
                     </MImage>
                 </MAvatar>
-                <h5 class="mt-2 mb-12">Welcome to MASA.Blazor.Pro! 👋</h5>
+                <h5 class="mt-2 mb-12">Welcome to MASA.Framework.Admin! 👋</h5>
 
                 <MTextField TValue="string"
                             Rules="_requiredRules"
@@ -52,8 +52,8 @@
                 <MButton Class="mt-11 rounded-4 text-btn white--text" Loading="_loading" Disabled="_loading" OnClick="LoginAsync" Height=46 Width=340 Color="primary">Login</MButton>
 
                 <div class="my-6">
-                    <span class="text-btn">New on our platform? &nbsp;</span>
-                    <span class="primary--text hover-pointer">Create an account</span>@*@onclick="@(()=>Navigation.NavigateTo(Navigation.BaseUri+CreateAccountRoute))"*@
+                    @*<span class="text-btn">New on our platform? &nbsp;</span>
+                    <span class="primary--text hover-pointer">Create an account</span>@onclick="@(()=>Navigation.NavigateTo(Navigation.BaseUri+CreateAccountRoute))"*@
                 </div>
                 <div class="d-flex block-center">
                     <div style="height:0.5px;width:152px;" class="neutral-lighten-5"></div>

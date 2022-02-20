@@ -4,12 +4,12 @@ services:
 
   redis:
     ports:
-       - "6379:6379"
+       - "6380:6379"
 
   zipkin:
     container_name: zipkin
     ports:
-      - 9411:9411
+      - 9412:9411
 
   masa.admin.database:
      ports:

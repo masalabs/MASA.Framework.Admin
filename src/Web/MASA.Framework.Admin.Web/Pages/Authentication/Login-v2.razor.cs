@@ -17,8 +17,6 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
 {
     public partial class Login_v2
     {
-        private HubConnection _hubConnection = default!;
-        private readonly string _hubName = "login";
         private bool _show;
         private string _account = "";
         private string _password = "";
@@ -33,6 +31,9 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
 
         [Inject]
         public NavigationManager NavigationManager { get; set; } = default!;
+
+        [Inject]
+        public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
 
         [Inject]
         public UserCaller UserCaller { get; set; } = default!;
@@ -51,42 +52,10 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
             }
             else if (tokenInfo.Code == 0)
             {
-                try
-                {
-                    //string huburl = NavigationManager.BaseUri.TrimEnd('/') + $"/{_hubName}";
-                    //_hubConnection = new HubConnectionBuilder()
-                    //    .WithUrl("http://localhost:5041/login", options =>
-                    //    {
-                    //        options.AccessTokenProvider = () => Task.FromResult<string?>(tokenInfo.Result);
-                    //    })
-                    //    .WithAutomaticReconnect()
-                    //    .Build();
-
-                    //_hubConnection.On<string, string>("Logout", Logout);
-
-                    //await _hubConnection.StartAsync();
-
-                    //await App.StartSignalR(tokenInfo.Result);
-
-                    _loading = false;
-
-                    NavigationManager.NavigateTo($"/Account/Login?token={tokenInfo.Result}", true);
-                }
-                catch (Exception)
-                {
-                    _loading = false;
-                    throw;
-                }
-                finally
-                {
-                    _loading = false;
-                }
+                _loading = false;
+                await ProtectedLocalStorage.SetAsync("IsLogined", true);
+                NavigationManager.NavigateTo($"/Account/Login?token={tokenInfo.Result}", true);
             }
-        }
-
-        private void Logout(string name, string msg)
-        {
-
         }
 
         private async Task<LoginViewModel?> GetToken()

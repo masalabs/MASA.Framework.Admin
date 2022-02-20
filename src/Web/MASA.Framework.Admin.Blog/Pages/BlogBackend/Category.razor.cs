@@ -75,19 +75,15 @@ public partial class Category : ProCompontentBase
     /// <returns></returns>
     public async Task DelAsync(BlogTypePagingViewModel model)
     {
-        Confirm(
-               title: "删除文章类型",
-               content: $"您确认要文章类型（{model.TypeName}）吗？",
-               onOk: async () =>
-               {
-                   Guid[] ids = { model.Id };
-                   await BlogCaller.BlogTypeService.RemoveAsync(ids);
+        var confirm = await PopupService.ConfirmAsync("删除文章类型", $"您确认要文章类型（{model.TypeName}）吗？");
+        if (confirm)
+        {
+            Guid[] ids = { model.Id };
 
-                   Message("删除成功", AlertTypes.Success);
+            await BlogCaller.BlogTypeService.RemoveAsync(ids);
 
-               }, AlertTypes.Warning);
-
-        StateHasChanged();
+            await PopupService.MessageAsync("删除成功", AlertTypes.Success);
+        }
     }
 
     private async Task Save()
@@ -101,7 +97,7 @@ public partial class Category : ProCompontentBase
 
             await BlogCaller.BlogTypeService.CreateAsync(_createBlogTypeModel);
 
-            Message("新增成功", AlertTypes.Success);
+            await PopupService.MessageAsync("新增成功", AlertTypes.Success);
         }
         else
         {
@@ -110,7 +106,7 @@ public partial class Category : ProCompontentBase
 
             await BlogCaller.BlogTypeService.UpdateAsync(_updateBlogTypeModel);
 
-            Message("更新成功", AlertTypes.Success);
+            await PopupService.MessageAsync("更新成功", AlertTypes.Success);
         }
 
         _dataModal.Hide();

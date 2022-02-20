@@ -2,14 +2,20 @@
 
 public partial class DefaultDateTimePicker<TValue>: PDateTimePicker<TValue>
 {
+    [CascadingParameter(Name = "TimeZoneOffset")]
+    public TimeSpan Offset { get; set; }
+
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
-
         Clearable = true;
         Dense = true;
+        DefaultSelectedValue = DateTime.UtcNow;
         HideDetails = true;
         Outlined = true;
-        DefaultSelectedValue = DateTime.Now;
+
+        Format = "yyyy-MM-dd HH:mm:ss";
+        TimeZoneOffset = Offset;
+
+        await base.SetParametersAsync(parameters);
     }
 }

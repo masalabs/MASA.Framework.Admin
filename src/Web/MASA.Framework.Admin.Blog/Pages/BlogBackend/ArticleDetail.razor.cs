@@ -55,7 +55,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
 
             await BlogCaller.ArticleService.UpdateAsync(_updateBlogInfoModel);
 
-            Message("审核成功", AlertTypes.Success);
+            await PopupService.MessageAsync("审核成功", AlertTypes.Success);
 
             HrefArticlePage();
         }
@@ -88,7 +88,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
             await BlogCaller.ReportService.CreateAsync(_createBlogReportModel);
             _showWrite = false;
 
-            Message("举报成功", AlertTypes.Success);
+            await PopupService.MessageAsync("举报成功", AlertTypes.Success);
         }
     }
 }

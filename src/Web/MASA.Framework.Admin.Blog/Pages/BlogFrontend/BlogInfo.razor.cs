@@ -90,7 +90,7 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
                 CreatorUserId = CurrentUserId,
                 ReplyId = replayId ?? Guid.Empty
             });
-            Message("评论发表成功", AlertTypes.Success);
+            await PopupService.MessageAsync("评论发表成功", AlertTypes.Success);
             _reportCommentLoading = false;
             _reportComment = String.Empty;
             await GetCommentList();

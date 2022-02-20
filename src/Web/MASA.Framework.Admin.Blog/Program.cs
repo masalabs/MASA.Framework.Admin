@@ -25,6 +25,8 @@ builder.Services.AddMasaBlazor(builder =>
         }
     );
 });
+builder.Services.AddMasaBlazorExperimentalComponents();
+
 builder.Services.AddGlobalForServer();
 
 builder.Services.AddCaller(typeof(BlogCaller).Assembly);

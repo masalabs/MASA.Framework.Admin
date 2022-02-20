@@ -8,12 +8,12 @@
             {
                 if (context.Exception is UserFriendlyException)
                 {
-                    component.Message(context.Exception.Message, AlertTypes.Error);
+                    _ = component.PopupService.MessageAsync(context.Exception);
                 }
                 else
                 {
                     //component.NavigateTo("Error", true);
-                    component.Message(context.Exception.Message, AlertTypes.Error);
+                    _ = component.PopupService.MessageAsync(context.Exception);
                 }
 
                 context.ExceptionHandled = true;

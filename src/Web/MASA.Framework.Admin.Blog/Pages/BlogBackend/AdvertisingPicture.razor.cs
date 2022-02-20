@@ -11,7 +11,7 @@ public partial class AdvertisingPicture : ProCompontentBase
     private GetBlogAdvertisingPicturesOption _options = new();
     private int _totalCount = 0;
     private bool _loading = true;
-    private List<BlogAdvertisingPicturesListViewModel> _tableData;
+    private List<BlogAdvertisingPicturesListViewModel> _tableData = new();
 
     private readonly List<DataTableHeader<BlogAdvertisingPicturesListViewModel>> _headers = new()
     {
@@ -114,21 +114,15 @@ public partial class AdvertisingPicture : ProCompontentBase
 
     public async Task RemoveAsync(BlogAdvertisingPicturesListViewModel model)
     {
-        Confirm(
-            title: "删除操作",
-            content: $"您确认要删除（{model.Title}）吗？",
-            onOk: async () =>
-            {
-                await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
+        var confirm = await PopupService.ConfirmAsync("删除操作", $"您确认要删除（{model.Title}）吗？");
+        if (confirm)
+        {
+            await BlogCaller.AdvertisingPicturesService.RemoveAsync(new Guid[] { model.Id });
 
-                await FetchList();
+            await FetchList();
 
-                Message("删除成功", AlertTypes.Success);
-
-            }, AlertTypes.Warning);
-
-        StateHasChanged();
-
+            await PopupService.MessageAsync("删除成功", AlertTypes.Success);
+        }
     }
 
     #endregion

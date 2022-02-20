@@ -4,14 +4,12 @@ public partial class DefaultSelect<TItem, TItemValue, TValue> : MSelect<TItem, T
 {
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
-
         Dense = true;
         HideDetails = true;
         Outlined = true;
         Clearable = true;
+        MenuProps = (props) => props.OffsetY = true;
 
-        // TODO: not work, bug of MSelect
-        MenuProps = (props) => props.OffsetY = true; 
+        await base.SetParametersAsync(parameters);
     }
 }

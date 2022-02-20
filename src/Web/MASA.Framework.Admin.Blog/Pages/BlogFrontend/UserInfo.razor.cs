@@ -84,19 +84,14 @@ namespace MASA.Framework.Admin.Blog.Pages.BlogFrontend
 
         private async Task ToDelete(BlogInfoListViewModel blog)
         {
-            Confirm(
-               title: "删除文章类型",
-               content: $"您确认要删除文章：<<{blog.Title}>>吗？",
-               onOk: async () =>
-               {
-                   Guid[] ids = { blog.Id };
-                   await BlogCaller.ArticleService.RemoveAsync(ids);
+            var confirm = await PopupService.ConfirmAsync("删除文章类型", $"您确认要删除文章：<<{blog.Title}>>吗？");
+            if (confirm)
+            {
+                Guid[] ids = { blog.Id };
+                await BlogCaller.ArticleService.RemoveAsync(ids);
 
-                   Message("删除成功", AlertTypes.Success);
-
-               }, AlertTypes.Warning);
-
-            StateHasChanged();
+                await PopupService.MessageAsync("删除成功", AlertTypes.Success);
+            }
         }
 
         public async Task SubmitBlog()

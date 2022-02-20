@@ -91,7 +91,7 @@ public partial class Article : ProCompontentBase
 
         await BlogCaller.ArticleService.UpdateAsync(_updateBlogInfoModel);
 
-        Message("审核成功", AlertTypes.Success);
+        await PopupService.MessageAsync("审核成功", AlertTypes.Success);
 
         await FetchList();
         StateHasChanged();

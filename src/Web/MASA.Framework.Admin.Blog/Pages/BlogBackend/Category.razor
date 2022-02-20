@@ -1,4 +1,5 @@
 ﻿@page "/blog-admin/category"
+@using Action = MASA.Blazor.Experimental.Components.Action;
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
@@ -32,11 +33,12 @@
             <Actions>
                 <Action Color="primary" 
                         Icon="mdi-pencil-outline"
-                        Label="编辑" 
+                        Label="编辑"
                         OnClick="() => UpdateAsync(context.Item)"/>
                 <Action Color="error" 
+                        DisableAutoLoading
                         Icon="mdi-delete-outline"
-                        Label="删除" 
+                        Label="删除"
                         OnClick="() => DelAsync(context.Item)"/>
             </Actions>
         }

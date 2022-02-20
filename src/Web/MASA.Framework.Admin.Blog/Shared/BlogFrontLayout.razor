@@ -29,23 +29,7 @@
         </CascadingValue>
     </MMain>
 
-    <PConfirm @bind-Visible="_confirm.Visible"
-              Title="@_confirm.Title"
-              Type="@_confirm.Type"
-              Icon="@_confirm.Icon"
-              IconColor="@_confirm.IconColor"
-              OkText="@_confirm.OkText"
-              CancelText="@_confirm.CancelText"
-              OkColor="@_confirm.OkColor"
-              CancelColor="@_confirm.CancelColor"
-              OnOk="_confirm.OnOk"
-              OnCancel="_confirm.OnCancel">
-        @_confirm.Content
-    </PConfirm>
-
-    <Message @bind-Value="_message.Visible" Timeout="_message.Timeout" Type="_message.Type">
-        @_message.Content
-    </Message>
+    <MasaPopupProvider />
 </MApp>
 
 <FormModal Visible="@_emailDataModal.Visible" Width="600" Title="测试发送邮箱" OnCancel="() => _emailDataModal.Hide()" OnOk="SendEmail" Model="_emailDataModal.Data">

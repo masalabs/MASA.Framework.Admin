@@ -1,0 +1,27 @@
+﻿@using Microsoft.JSInterop
+@inherits LayoutComponentBase
+
+<CascadingValue Value="@TimeZoneOffset" Name="@("TimeZoneOffset")">
+    @Body
+</CascadingValue>
+
+@code {
+
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
+
+    private TimeSpan TimeZoneOffset { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            var offsetInMinutes = await JsRuntime.InvokeAsync<int>("app.getTimezoneOffset");
+            TimeZoneOffset = TimeSpan.FromMinutes(-offsetInMinutes);
+            StateHasChanged();
+        }
+    }
+
+}

@@ -2,6 +2,7 @@
 @namespace MASA.Framework.Admin.Blog.Pages.BlogBackend
 @using MASA.Framework.Admin.Contracts.Blogs.BlogAdvertisingPictures.Enums
 @using Microsoft.AspNetCore.Components
+@using Action = MASA.Blazor.Experimental.Components.Action;
 @inherits ProCompontentBase
 
 <PPageHeader Title="搜索" ShowFiltersByDefault OnSearch="() => FetchList()">
@@ -43,8 +44,15 @@
         else if (context.Header.Value == "Actions")
         {
             <Actions>
-                <Action Color="primary" Label="编辑" Text OnClick="() => Modify(context.Item)" Icon="mdi-pencil-outline"></Action>
-                <Action Color="error" Label="删除" Text OnClick="() => RemoveAsync(context.Item)" Icon="mdi-delete-outline"></Action>
+                <Action Color="primary"
+                        Icon="mdi-pencil-outline"
+                        Label="编辑"
+                        OnClick="() => Modify(context.Item)"></Action>
+                <Action Color="error" 
+                        DisableAutoLoading
+                        Icon="mdi-delete-outline"
+                        Label="删除"
+                        OnClick="() => RemoveAsync(context.Item)"></Action>
             </Actions>
         }
         else
@@ -62,27 +70,28 @@
            OnOk="CreateOrUpdateAsync">
     <MRow>
         <MCol Cols="12">
-            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="标题" @bind-Value="_dataModal.Data.Title" Clearable />
+            <DefaultTextField TValue="string" HideDetails="@("auto")"
+                        Label="标题" @bind-Value="_dataModal.Data.Title" />
         </MCol>
         <MCol Cols="12">
-            <MTextField TValue="string" Dense Outlined HideDetails="@("auto")"
-                        Label="图片地址" @bind-Value="_dataModal.Data.Pic" Clearable />
+            <DefaultTextField TValue="string" HideDetails="@("auto")"
+                        Label="图片地址" @bind-Value="_dataModal.Data.Pic" />
         </MCol>
         <MCol Cols="12">
-            <MAutocomplete Label="类型"
-                           Items="Enum<BlogAdvertisingPicturesTypes>.GetEnumObjectList<BlogAdvertisingPicturesTypes>()"
-                           ItemText="item => item.Name"
-                           ItemValue="item => item.Value"
-                           @bind-Value="_dataModal.Data.Type"
-                           TItem="EnumObject<BlogAdvertisingPicturesTypes>"
-                           TValue="BlogAdvertisingPicturesTypes"
-                           TItemValue="BlogAdvertisingPicturesTypes">
-            </MAutocomplete>
+            <DefaultAutoComplete Label="类型"
+                                 Items="Enum<BlogAdvertisingPicturesTypes>.GetEnumObjectList<BlogAdvertisingPicturesTypes>()"
+                                 ItemText="item => item.Name"
+                                 ItemValue="item => item.Value"
+                                 @bind-Value="_dataModal.Data.Type"
+                                 TItem="EnumObject<BlogAdvertisingPicturesTypes>"
+                                 TValue="BlogAdvertisingPicturesTypes"
+                                 TItemValue="BlogAdvertisingPicturesTypes"
+                                 HideDetails="@("auto")">
+            </DefaultAutoComplete>
         </MCol>
         <MCol Cols="12">
-            <MTextField TValue="int" Dense Outlined HideDetails="@("auto")"
-                        Label="排序值" @bind-Value="_dataModal.Data.Sort" Clearable />
+            <DefaultTextField TValue="int" HideDetails="@("auto")"
+                        Label="排序值" @bind-Value="_dataModal.Data.Sort" />
         </MCol>
         <MCol Cols="12">
             <MSwitch Label="是否启用" @bind-Value="_dataModal.Data.Status"></MSwitch>

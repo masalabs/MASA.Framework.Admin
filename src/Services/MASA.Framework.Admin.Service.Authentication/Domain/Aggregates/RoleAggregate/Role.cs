@@ -51,7 +51,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         Describe = describe ?? string.Empty;
     }
 
-    public void AddRolePermission(Guid @operator, Guid permissionsId)
+    public void  AddRolePermission(Guid @operator, Guid permissionsId)
     {
         var permission = permissions.FirstOrDefault(permission => permission.PermissionsId == permissionsId);
         if (permission != null)

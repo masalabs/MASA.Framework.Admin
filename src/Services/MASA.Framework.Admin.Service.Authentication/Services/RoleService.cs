@@ -12,6 +12,15 @@ public class RoleService : ServiceBase
         App.MapPut(Routing.OperateRole, EditAsync);
         App.MapDelete(Routing.OperateRole, DeleteAsync);
         App.MapDelete(Routing.RolePermission, DeleteRolePermissionAsync);
+
+        App.MapGet("/api/permission/addrolepermission", TestAsync);
+    }
+
+    private async Task TestAsync([FromServices] IEventBus eventBus)
+    {
+        AddRolePermissionDomainCommand command =
+            new AddRolePermissionDomainCommand(Guid.NewGuid(), Guid.NewGuid(), Guid.Parse("7A7551F2-2E65-4859-B4C3-5E30B315B559"));
+        await eventBus.PublishAsync(command);
     }
 
     private async Task<PaginatedItemResponse<RoleItemResponse>> GetItemsAsync(
@@ -73,8 +82,8 @@ public class RoleService : ServiceBase
     }
 
     public async Task DeleteRolePermissionAsync(
-        [FromServices]IEventBus eventBus,
-        [FromBody]DeleteRolePermissionCommand command)
+        [FromServices] IEventBus eventBus,
+        [FromBody] DeleteRolePermissionCommand command)
     {
         await eventBus.PublishAsync(command);
     }

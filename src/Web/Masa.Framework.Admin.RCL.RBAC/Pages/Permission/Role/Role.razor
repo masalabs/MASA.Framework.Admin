@@ -52,7 +52,7 @@
         @switch (context.Header.Value)
         {
             case nameof(RoleItemResponse.Name):
-                <div class="hover-pointer d-flex my-2"> @*@onclick="()=> OpenObjectForm(context.Item)"*@
+                <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToRoleDetails(context.Item)">
                     <span style="color:blue">@context.Item.Name</span>
                 </div>
                 break;

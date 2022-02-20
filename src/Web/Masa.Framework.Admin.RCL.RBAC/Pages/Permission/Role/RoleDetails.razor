@@ -1,142 +1,110 @@
-﻿@page "/role/details`"
+﻿@page "/role/details"
 @inherits AdminCompontentBase
+@inject NavigationManager NavigationManager
 
 <MCard>
     <MCardText>
         <div class="d-flex block-center mt-3">
             <MAvatar Size="120">
-                <MImage Src="" />
+                @*<MIcon></MIcon>*@
+                12
             </MAvatar>
             <div Class="ml-6">
-                <h5 class="mb-6">@Page.CurrentData.Name</h5>
-                <span>@Page.CurrentData.Describe</span>
+                <h5 class="mb-6">@RolePage.CurrentData.Name</h5>
+                <span>@T("A role is a logical collection. You can authorize a role to perform certain operations, and then grant the role to a user, who will inherit all the permissions in the role.")</span>
             </div>
         </div>
     </MCardText>
 </MCard>
 
-<MCard>
+<MCard Class="mt-4">
+    <MCardText>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Basic Information")</span>
+            <span class="hover-pointer" style="color:blue">@T("Save")</span>
+        </div>
+    </MCardText>
+
+    <MDivider />
+
     <MCardText>
         <MRow>
-            <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">已授权用户</span>               
+            <MCol>
+                <MTextField @bind-Value="RolePage.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
             </MCol>
-            <MCol Md=6 Sm=12 Class="d-flex block-center">
-                授权
+            <MCol>
+                <MTextField @bind-Value="RolePage.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
+            </MCol>
+        </MRow>
+        <MRow>
+            <MCol>
+                <MRadioGroup @bind-Value="RolePage.CurrentData.State" Label="@T("State")" Row Class="mb-6">
+                    <LabelContent>
+                        <div class="text-btn">@T("State")：</div>
+                    </LabelContent>
+                    <ChildContent>
+                        <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
+                        <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
+                    </ChildContent>
+                </MRadioGroup>
+            </MCol>
+            <MCol>
+                <MTextarea @bind-Value="RolePage.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
             </MCol>
         </MRow>
     </MCardText>
+</MCard>
 
-    @*<MDataTable ShowSelect Headers="_headers" Items="_userPage.GetPageDatas()" TItem="UserDto" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
-        <HeaderColContent Context="header">
-            <span class="text-subtitle">@header.Text</span>
-        </HeaderColContent>
-        <ItemColContent>
-            @switch (context.Header.Value)
-            {
-                case nameof(UserDto.UserName):
-                    <div class="hover-pointer d-flex my-2" @onclick="()=>NavigateToDetails(context.Item.Id)">
-                        @if (string.IsNullOrEmpty(context.Item.HeadImg))
-                        {
-                            string color = context.Item.Color;
+<MCard Class="mt-4">
+    <MCardText>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Authorized user")</span>
+            <span class="hover-pointer" style="color:blue">@T("Add authorization")</span>
+        </div>
+    </MCardText>
 
-                            <MAvatar Size=48 Color="@($"{color}-lighten-5")" Class="mt-1">
-                                <span class="@($"{color}--text")">@context.Item.SampleName</span>
-                            </MAvatar>
-                        }
-                        else
-                        {
-                            <MAvatar Size=48 Class="mt-1">
-                                <MImage Contain Src="@context.Item.HeadImg"></MImage>
-                            </MAvatar>
-                        }
-                        <div class="ml-4">
-                            <div class="text-subtitle">@context.Item.FullName</div>
-                            <div class="text-caption mt-1">@@@context.Item.UserName</div>
-                        </div>
-                    </div>
-                    break;
-                case (nameof(UserDto.Email)):
-                    <span>@context.Item.Email</span>
-                    break;
-                case nameof(UserDto.Role):
-                    var arr = _roleIconMap[context.Item.Role!].Split(",");
-                    <MIcon Left Small Class="@($"{arr[1]}--text")">@arr[0]</MIcon>
-                    @context.Item.Role
-                    break;
-                case (nameof(UserDto.Plan)):
-                    @context.Item.Plan
-                    break;
-                case nameof(UserDto.Status):
-                    string statusColor = context.Item.Color;
-                    <MChip Color="@($"{statusColor}-lighten-5")" TextColor="@(statusColor)" Ripple="false">
-                        <span>@context.Item.Status</span>
-                    </MChip>
-                    break;
-                case "Action":
-                    <MMenu Right Bottom>
-                        <ActivatorContent Context="activatorContext">
-                            <MButton Icon @attributes="@activatorContext.Attrs">
-                                <MIcon XSmall>fas fa-ellipsis-v</MIcon>
-                            </MButton>
-                        </ActivatorContent>
-                        <ChildContent>
-                            <MList>
-                                <MListItem OnClick="()=>NavigateToDetails(context.Item.Id)">
-                                    <MIcon Small>fas fa-user-tie</MIcon>
-                                    <MListItemTitle Class="ml-2"> Details </MListItemTitle>
-                                </MListItem>
-                                <MListItem OnClick="()=>NavigateToEdit(context.Item.Id)">
-                                    <MIcon Small>far fa-edit</MIcon>
-                                    <MListItemTitle Class="ml-2"> Edit </MListItemTitle>
-                                </MListItem>
-                                <MListItem OnClick="()=>_userPage.UserDatas.RemoveAt(_userPage.UserDatas.FindIndex(u=>u.Id==context.Item.Id))">
-                                    <MIcon Small>far fa-trash-alt</MIcon>
-                                    <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
-                                </MListItem>
-                            </MList>
-                        </ChildContent>
-                    </MMenu>
-                    break;
-                default:
-                    @context.Value
-                    break;
-            }
-        </ItemColContent>
-    </MDataTable>*@
+    <MDivider />
+
+    <MCardText>
+
+    </MCardText>
 </MCard>
 
 
-<MCard>
+<MCard Class="mt-4">
     <MCardText>
-        <MRow>
-            <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">已授权规则</span>               
-            </MCol>
-            <MCol Md=6 Sm=12 Class="d-flex block-center">
-                添加授权
-            </MCol>
-        </MRow>
-
-        <MRow>
-            @foreach(var authorizeItem in Page.AuthorizeDatas)
-            {
-                <MCol Md=6 Sm=12 Class="d-flex">
-                    <p></p>       
-                </MCol>
-            }
-        </MRow>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Authorized Rules")</span>
+            <span class="hover-pointer" style="color:blue">@T("Add authorization")</span>
+        </div>
     </MCardText>
 
-    
+    <MDivider />
+
+    <MCardText>
+        @foreach (var authorizeItem in RolePage.AuthorizeDatas)
+        {
+            <MCol Md=6 Sm=12 Class="d-flex">
+                <p></p>
+            </MCol>
+        }
+    </MCardText>
 </MCard>
 
 @code {
     [Inject]
-    public RolePage Page { get; set; } = default!;
+    public RolePage RolePage { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnAfterRender(bool firstRender)
     {
-       //await Page.QueryAuthorizeItemsAsync();
+        if (firstRender)
+        {
+            if (RolePage.CurrentData.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
+        }
     }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await Page.QueryAuthorizeItemsAsync();
+    //}
 }

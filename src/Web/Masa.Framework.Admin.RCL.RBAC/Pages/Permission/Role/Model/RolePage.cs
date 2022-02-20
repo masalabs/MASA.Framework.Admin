@@ -75,9 +75,12 @@ public class RolePage : ComponentPageBase
         (State.Disabled,I18n.T( State.Disabled.ToString()))
     };
 
-    public RolePage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
+    public NavigationManager NavigationManager { get; set; }
+
+    public RolePage(AuthenticationCaller authenticationCaller,NavigationManager navigationManager, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
+        NavigationManager = navigationManager;
         Headers = new()
         {
             new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
@@ -114,7 +117,7 @@ public class RolePage : ComponentPageBase
         Lodding = true;
         var request = new AddRoleRequest(CurrentData.Name, CurrentData.Describe, CurrentData.Number,CurrentData.State);
         var result = await AuthenticationCaller.AddRoleAsync(request);
-        await CheckApiResult(result, I18n.T("Added Role successfully"), result.Message);
+        await CheckApiResult(result, I18n.T("Added Role successfully"), I18n.T(result.Message));
         Lodding = false;
 
         return result.Success;
@@ -160,6 +163,12 @@ public class RolePage : ComponentPageBase
     //    Lodding = false;
     //    AuthorizeDatas = result.Data ?? new();
     //}
+
+    public void NavigateToRoleDetails(RoleItemResponse item)
+    {
+        CurrentData = item.Copy();
+        NavigationManager.NavigateTo("/role/details");
+    }
 
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
     {

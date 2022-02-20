@@ -83,5 +83,12 @@
   "ObjectType": "资源类型",
   "Added Role successfully": "添加角色成功",
   "Edit Role successfully": "编辑角色成功",
-  "Delete role successfully": "删除角色成功"
+  "Delete role successfully": "删除角色成功",
+  "The current role already exists": "已存在此角色",
+  "Basic Information": "基本信息",
+  "A role is a logical collection. You can authorize a role to perform certain operations, and then grant the role to a user, who will inherit all the permissions in the role.": "角色是一个逻辑集合，你可以授权一个角色某些操作权限，然后将角色授予给用户，该用户将会继承这个角色中的所有权限",
+  "Authorized user": "已授权用户",
+  "Add authorization": "添加授权",
+  "Authorized Rules": "已授权规则",
+  "Save": "保存"
 }

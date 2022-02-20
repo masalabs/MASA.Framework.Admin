@@ -19,4 +19,6 @@ public class RoleItemResponse
     public State State { get; set; } = State.Enable;
 
     public DateTimeOffset CreationTime { get; set; }
+
+    public RoleItemResponse Copy() => (RoleItemResponse)MemberwiseClone();
 }

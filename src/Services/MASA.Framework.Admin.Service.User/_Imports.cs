@@ -37,3 +37,8 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using UserCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands;
 global using UserQuery = MASA.Framework.Admin.Service.User.Application.Users.Queres;
+global using MASA.Framework.Admin.Contracts.User.Const;
+global using OpenTelemetry.Metrics;
+global using OpenTelemetry.Resources;
+global using OpenTelemetry.Trace;
+global using System.Diagnostics;

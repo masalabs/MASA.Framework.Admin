@@ -1,5 +1,6 @@
-using MASA.Framework.Admin.Contracts.Authentication.Old.Request.Objects;
-using MASA.Framework.Admin.Contracts.Authentication.Old.Response;
+using MASA.Framework.Sdks.Authentication.Callers;
+using MASA.Framework.Sdks.Authentication.Request.Authentication.Objects;
+using MASA.Framework.Sdks.Authentication.Response.Authentication.Objects;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
@@ -60,7 +61,7 @@ public class ObjectPage : ComponentPageBase
         {
             new() { Text = T("Object.Name"), Value = nameof(ObjectItemResponse.Name) },
             new() { Text = T("Code"), Value = nameof(ObjectItemResponse.Code), Sortable = false },
-            new() { Text = T("State"), Value = nameof(ObjectItemResponse.State) },
+            new() { Text = T("State"), Value = nameof(ObjectItemResponse.Enable) },
             new() { Text = T("Type"), Value = nameof(ObjectItemResponse.ObjectType), Sortable = false },
             new() { Text = T("Action"), Value = "Action", Sortable = false }
         };
@@ -95,7 +96,7 @@ public class ObjectPage : ComponentPageBase
     public async Task AddOrUpdateAsync()
     {
         Lodding = true;
-        var result = default(ApiResultResponseBase);
+        var result = default(MASA.Framework.Sdks.Authentication.Response.Base.ApiResultResponseBase);
         if (CurrentData.Id != Guid.Empty)
         {
             var input = new AddObjectRequest

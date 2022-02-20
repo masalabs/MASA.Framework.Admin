@@ -10,6 +10,7 @@ public class AuthenticationDbContext : IntegrationEventLogContext
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new ObjectEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PermissionEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleItemEntityTypeConfiguration());

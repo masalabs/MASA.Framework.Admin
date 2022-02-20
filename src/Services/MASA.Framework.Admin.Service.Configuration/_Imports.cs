@@ -35,3 +35,4 @@ global using MASA.Framework.Admin.Contracts.Base.Enum;
 global using MASA.Contrib.Configuration;
 global using MASA.Framework.Admin.Configuration.Services;
 global using Microsoft.Extensions.Options;
+global using MASA.Utils.Exceptions.Extensions;

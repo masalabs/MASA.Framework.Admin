@@ -1,17 +1,11 @@
-namespace MASA.Framework.Sdks.Authentication.Response;
+namespace MASA.Framework.Sdks.Authentication.Response.Base;
 
-public class ApiResultResponse<TEntity>
+public class ApiResultResponse<TEntity> : ApiResultResponseBase
 {
-    public bool Success { get; }
-
-    public string Message { get; }
-
     public TEntity? Data { get; }
 
-    private ApiResultResponse(bool success, string message, TEntity? data)
+    private ApiResultResponse(bool success, string message, TEntity? data) : base(success, message)
     {
-        Success = success;
-        Message = message;
         Data = data;
     }
 

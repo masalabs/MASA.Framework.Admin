@@ -39,6 +39,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\MASA.Framework.Admin.Infrastructure.Utils.csproj" />
+      <ProjectReference Include="..\MASA.Framework.Admin.Api\MASA.Framework.Admin.Api.csproj" />
     </ItemGroup>
 
 </Project>

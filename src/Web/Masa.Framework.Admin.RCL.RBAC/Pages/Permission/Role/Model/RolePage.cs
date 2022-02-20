@@ -1,5 +1,7 @@
-using MASA.Framework.Admin.Contracts.Authentication.Old.Request.Roles;
-using MASA.Framework.Admin.Contracts.Authentication.Old.Response;
+using MASA.Framework.Sdks.Authentication.Callers;
+using MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
+using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
+using AuthorizeItemResponse = MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 
@@ -9,9 +11,9 @@ public class RolePage : ComponentPageBase
 
     public RoleItemResponse CurrentData { get; set; } = new();
 
-    public List<AuthorizeItemResponse> AuthorizeDatas { get; set; } = new();
+    public List<AuthorizeItemResponse.AuthorizeItemResponse> AuthorizeDatas { get; set; } = new();
 
-    public AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
+    public AuthorizeItemResponse.AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
@@ -65,7 +67,7 @@ public class RolePage : ComponentPageBase
         {
             new() { Text = T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
             new() { Text = T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
-            new() { Text = T("State"), Value = nameof(RoleItemResponse.State) },
+            new() { Text = T("State"), Value = nameof(RoleItemResponse.Enable) },
             new() { Text = T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
             new() { Text = T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
             new() { Text = T("Action"), Value = "Action", Sortable = false }
@@ -95,7 +97,7 @@ public class RolePage : ComponentPageBase
                 Describe = "Test",
                 Number = 100,
                 CreationTime = DateTime.Now,
-                State = MASA.Framework.Admin.Contracts.Base.Enum.State.Enable,
+                Enable = true,
             });
         }
         Lodding = false;
@@ -104,7 +106,7 @@ public class RolePage : ComponentPageBase
     public async Task AddOrUpdateAsync()
     {
         Lodding = true;
-        var result = default(ApiResultResponseBase);
+        var result = default(MASA.Framework.Sdks.Authentication.Response.Base.ApiResultResponseBase);
         if (CurrentData.Id != Guid.Empty)
         {
             result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
@@ -118,7 +120,7 @@ public class RolePage : ComponentPageBase
         {
             result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
             {
-                RuleId = CurrentData.Id,
+                RoleId = CurrentData.Id,
                 Name = CurrentData.Name,
                 Describe = CurrentData.Describe,
             });
@@ -133,7 +135,7 @@ public class RolePage : ComponentPageBase
         Lodding = true;
         var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
         {
-            RuleId = CurrentData.Id,
+            RoleId = CurrentData.Id,
         });
         Error = result.Success;
         Message = result.Message;
@@ -143,11 +145,11 @@ public class RolePage : ComponentPageBase
     public async Task QueryAuthorizeItemsAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
+        var result = await AuthenticationCaller.GetRoleDetailAsync(CurrentData.Id);
         Error = !result.Success;
         Message = result.Message;
         Lodding = false;
-        AuthorizeDatas = result.Data ?? new();
+        AuthorizeDatas = result.Data.Permissions ?? new();
     }
 }
 

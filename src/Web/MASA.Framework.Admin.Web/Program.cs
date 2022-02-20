@@ -1,7 +1,3 @@
-
-using MASA.Utils.Caller.Core;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,7 +17,7 @@ builder.Services.AddGlobalForServer();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
-Assembly[] assemblies = { typeof(UserCaller).Assembly };
+Assembly[] assemblies = { typeof(UserCaller).Assembly, typeof(AuthenticationCaller).Assembly };
 builder.Services.AddCaller(assemblies);
 builder.Services.AddRBAC();
 

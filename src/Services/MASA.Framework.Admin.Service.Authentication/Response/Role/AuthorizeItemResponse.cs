@@ -6,11 +6,14 @@ public class AuthorizeItemResponse
     /// Primary key id of Role and Permission relationship table
     /// </summary>
     public Guid Id { get; set; }
+
     public Guid PermissionId { get; set; }
 
     public string PermissionName { get; set; } = default!;
 
     public ObjectType ObjectType { get; set; }
+
+    public string ObjectTypeName => ObjectType == ObjectType.Menu ? "menu" : "operator";
 
     public string Resource { get; set; } = default!;
 
@@ -22,4 +25,6 @@ public class AuthorizeItemResponse
     public string InheritanceRoleSource { get; set; } = default!;
 
     public PermissionType PermissionType { get; set; }
+
+    public string PermissionTypeName => PermissionType == PermissionType.Private ? "Private" : "Public";
 }

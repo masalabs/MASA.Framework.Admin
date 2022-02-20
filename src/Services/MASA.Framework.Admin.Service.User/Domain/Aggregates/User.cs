@@ -1,3 +1,6 @@
+using MASA.Framework.Admin.Infrastructure.Utils;
+using MASA.Framework.Admin.Service.Api.Infrastructure.Utils;
+
 namespace MASA.Framework.Admin.Service.User.Domain.Aggregates;
 
 public class User : AuditAggregateRoot<Guid, Guid>
@@ -28,6 +31,7 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     private User()
     {
+        Id = Guid.NewGuid();
         State = State.Enable;
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
@@ -37,8 +41,8 @@ public class User : AuditAggregateRoot<Guid, Guid>
     public User(Guid? creator, string account, string password) : this()
     {
         Account = account;
-        Salt = "123456";
-        Password = password;
+        Salt = RandomUtils.GenerateSpecifiedString(6);
+        Password = SHA1Utils.Encrypt($"{password}{Salt}");
         Creator = creator ?? Id;
         Modifier = Creator;
         userRoles = new();

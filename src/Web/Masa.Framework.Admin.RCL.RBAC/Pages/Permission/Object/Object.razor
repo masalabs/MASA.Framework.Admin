@@ -1,4 +1,4 @@
-﻿@using MASA.Framework.Admin.Contracts.Authentication.Old.Response
+﻿@using MASA.Framework.Sdks.Authentication.Response.Authentication.Objects
 @inherits AdminCompontentBase
 
 <MCard Class="mt-2">
@@ -55,8 +55,8 @@
             case nameof(ObjectItemResponse.Code):
                  <span>@context.Item.Code</span>
                 break;
-            case nameof(ObjectItemResponse.State):
-                 <span>@context.Item.State.ToString()</span>
+            case nameof(ObjectItemResponse.Enable):
+                 <span>@context.Item.Enable.ToString()</span>
                 break;
             case nameof(ObjectItemResponse.ObjectType):
                  <span>@context.Item.ObjectType.ToString()</span>

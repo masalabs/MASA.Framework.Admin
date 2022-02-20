@@ -18,4 +18,8 @@
 	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.User\MASA.Framework.Admin.Contracts.User.csproj" />
 	  <ProjectReference Include="..\..\..\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Callers\AuthenticationCaller.cs" />
+	</ItemGroup>
 </Project>

@@ -32,6 +32,20 @@ public class Routing
 
     #endregion
 
+    #region Object
+
+    public static string ObjectList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.OBJECT_SERVICE);
+
+    public static string ObjectAll = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE,"all");
+
+    public static string ContainsObject = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "contains");
+
+    public static string OperateObject = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.OBJECT_SERVICE);
+
+    public static string BatchDeleteObject = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "batchDelete");
+
+    #endregion
+
     #region IntegrationEvent
 
     public static readonly string RolePermission = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.INTEGRATION_EVENT_SERVICE);

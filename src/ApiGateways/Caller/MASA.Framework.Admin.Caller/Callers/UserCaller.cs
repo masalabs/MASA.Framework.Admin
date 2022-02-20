@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Contracts.User.Request;
-
 namespace MASA.Framework.Admin.Caller.Callers;
 
 public class UserCaller : HttpClientCallerBase

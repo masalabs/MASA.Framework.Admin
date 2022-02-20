@@ -1,4 +1,4 @@
-﻿@using MASA.Framework.Admin.Contracts.Authentication.Old.Response
+﻿@using MASA.Framework.Sdks.Authentication.Response.Authentication.Role
 @inherits AdminCompontentBase
 
 <MCard Class="mt-2">
@@ -49,8 +49,8 @@
             case nameof(RoleItemResponse.Number):
                  <span>@context.Item.Number</span>
                 break;
-            case nameof(RoleItemResponse.State):
-                 <span>@T(context.Item.State.ToString())</span>
+            case nameof(RoleItemResponse.Enable):
+                 <span>@T(context.Item.Enable.ToString())</span>
                 break;
             case nameof(RoleItemResponse.CreationTime):
                 <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>

@@ -1,10 +1,3 @@
-
-using MASA.Framework.Admin.Contracts.User.Const;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
-using System.Diagnostics;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
@@ -80,7 +73,18 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
 });
-app.UseMasaExceptionHandling()
+app.UseMasaExceptionHandling(opt =>
+    {
+        opt.CustomExceptionHandler = exception =>
+        {
+            Exception friendlyException = exception;
+            if (exception is ValidationException validationException)
+            {
+                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+            }
+            return (friendlyException, false);
+        };
+    })
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

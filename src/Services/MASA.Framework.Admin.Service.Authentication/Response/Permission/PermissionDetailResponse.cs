@@ -6,6 +6,8 @@ public class PermissionDetailResponse
 
     public ObjectType ObjectType { get; set; }
 
+    public string ObjectTypeName => ObjectType == ObjectType.Menu ? "menu" : "operator";
+
     public string Name { get; set; } = default!;
 
     public string Resource { get; set; } = default!;
@@ -15,4 +17,6 @@ public class PermissionDetailResponse
     public string Action { get; set; } = default!;
 
     public PermissionType PermissionType { get; set; }
+
+    public string PermissionTypeName => PermissionType == PermissionType.Private ? "Private" : "Public";
 }

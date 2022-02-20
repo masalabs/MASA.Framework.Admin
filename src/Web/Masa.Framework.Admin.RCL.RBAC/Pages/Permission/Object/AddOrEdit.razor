@@ -9,7 +9,7 @@
     <MForm Model=ObjectPage.CurrentData EnableDataAnnotationsValidation>
         <MTextField @bind-Value="ObjectPage.CurrentData.Name" Class="mb-6" Label="@T("Object.Name")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="ObjectPage.CurrentData.Code" Class="mb-6" Label="@T("Code")" HideDetails="@("auto")" Outlined />
-        <MRadioGroup @bind-Value="ObjectPage.CurrentData.State"Row Class="mb-6">
+        <MRadioGroup @bind-Value="ObjectPage.CurrentData.Enable"Row Class="mb-6">
             <LabelContent>
                 <div class="text-btn">@T("State")：</div>
             </LabelContent>

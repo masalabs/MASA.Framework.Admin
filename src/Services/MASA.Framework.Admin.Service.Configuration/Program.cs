@@ -1,5 +1,3 @@
-using MASA.Utils.Exceptions.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 builder.AddMasaConfiguration(
@@ -39,7 +37,18 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<ConfigurationDbContext>((context, services) =>
 {
 });
-app.UseMasaExceptionHandling()
+app.UseMasaExceptionHandling(opt =>
+    {
+        opt.CustomExceptionHandler = exception =>
+        {
+            Exception friendlyException = exception;
+            if (exception is ValidationException validationException)
+            {
+                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+            }
+            return (friendlyException, false);
+        };
+    })
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

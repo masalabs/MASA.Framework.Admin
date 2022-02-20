@@ -1,3 +1,5 @@
+using MASA.Utils.Development.Dapr.AspNetCore;
+
 var builder = WebApplication
     .CreateBuilder(args)
     .AddMasaConfiguration(
@@ -9,13 +11,18 @@ var builder = WebApplication
                     "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
             });
         },
-        assemblies: typeof(DbConnectionOption).Assembly);
+        assemblies: typeof(AppConfigOption).Assembly);
 
 var serviceProvider = builder.Services.BuildServiceProvider();
 var redisOptions = serviceProvider.GetService<IOptions<RedisConfigurationOptions>>();
 builder.Services
     .AddMasaRedisCache(redisOptions.Value)
     .AddMasaMemoryCache();
+
+var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();
+if (appConfigOption.Value.EnableDapr)
+    builder.Services.AddDapr();
+
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
@@ -37,7 +44,7 @@ var app = builder.Services.AddFluentValidation(options =>
             .UseUoW<AuthenticationDbContext>(dbOptions =>
             {
                 var option = serviceProvider
-                    .GetRequiredService<IOptions<DbConnectionOption>>();
+                    .GetRequiredService<IOptions<AppConfigOption>>();
                 dbOptions.UseSqlServer(option.Value.DbConn);
                 dbOptions.UseSoftDelete(builder.Services);
             })

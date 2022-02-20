@@ -1,8 +1,10 @@
 ﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Options;
 
-public class DbConnectionOption : MasaConfigurationOptions
+public class AppConfigOption : MasaConfigurationOptions
 {
     public string DbConn { get; set; } = default!;
+
+    public bool EnableDapr { get; set; }
 
     public override string? ParentSection { get; init; } = "Appsettings";
 

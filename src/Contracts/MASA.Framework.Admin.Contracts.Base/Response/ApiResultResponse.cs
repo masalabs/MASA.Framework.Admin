@@ -2,6 +2,8 @@ namespace MASA.Framework.Admin.Contracts.Base.Response;
 
 public class ApiResultResponse<TEntity> : ApiResultResponseBase
 {
+    public TEntity? Data { get; set; }
+
     private ApiResultResponse() : base(Const.Code.SUCCESS, "")
     {
     }
@@ -10,6 +12,4 @@ public class ApiResultResponse<TEntity> : ApiResultResponseBase
     {
         Data = data;
     }
-
-    public TEntity? Data { get; set; }
 }

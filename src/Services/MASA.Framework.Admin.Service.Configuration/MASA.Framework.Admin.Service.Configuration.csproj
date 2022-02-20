@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1862421399" />
-    <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1862421399" />
+    <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1872423660" />
+    <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1872423660" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

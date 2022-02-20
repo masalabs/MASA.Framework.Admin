@@ -34,7 +34,7 @@
       <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1869587016" />
       <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1869587016" />
-      <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1862421399" />
+      <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1872423660" />
     </ItemGroup>
 
     <ItemGroup>

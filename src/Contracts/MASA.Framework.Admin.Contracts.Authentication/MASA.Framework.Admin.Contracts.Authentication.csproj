@@ -7,36 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Old\**" />
+    <EmbeddedResource Remove="Old\**" />
+    <None Remove="Old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1869587016" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Old\Response\RoleItemResponse.cs" />
-    <Compile Remove="Old\Request\Roles\AddRoleRequest.cs" />
-    <Compile Remove="Old\Request\Roles\DeleteRoleRequest.cs" />
-    <Compile Remove="Old\Request\Roles\EditRoleRequest.cs" />
-    <Compile Remove="Old\Response\AuthorizeItemResponse.cs" />
-    <Compile Remove="Old\Response\RoleDetailResponse.cs" />
-    <Compile Remove="Old\Response\PermissionDetailResponse.cs" />
-    <Compile Remove="Old\Response\PermissionItemResponse.cs" />
-    <Compile Remove="Old\Response\ObjectItemResponse.cs" />
-    <Compile Remove="Old\Request\Objects\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Old\Request\Roles" />
-    <Folder Include="Old\Response" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Old\Request\Objects\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Old\Request\Objects\**" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿@using MASA.Framework.Admin.Contracts.Authentication.Old.Enum
-@inherits AdminCompontentBase
+﻿@inherits AdminCompontentBase
 
 <MNavigationDrawer Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
     <div class="block-between mb-12">
@@ -23,8 +22,8 @@
                 <div class="text-btn">@T("Type")：</div>
             </LabelContent>
             <ChildContent>
-                <MRadio Label="@T(ObjectType.Menu.ToString())" Value="ObjectType.Menu" />
-                <MRadio Label="@T(ObjectType.Operate.ToString())" Value="ObjectType.Operate" />
+                <MRadio Label="Menu" Value="1" />
+                <MRadio Label="Operate" Value="2" />
             </ChildContent>
         </MRadioGroup>
         <div style="bottom:48px;right:24px;position:absolute">

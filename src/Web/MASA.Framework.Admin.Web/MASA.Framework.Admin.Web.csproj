@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
 	<WarningsAsErrors>
 		$(WarningsAsErrors);CS8605
 	</WarningsAsErrors>
@@ -24,7 +23,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Logging\MASA.Framework.Admin.Contracts.Logging.csproj" />
     <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj" />
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.PageviewStatistics\MASA.Framework.Admin.Contracts.PageviewStatistics.csproj" />
   </ItemGroup>
 
   <ItemGroup>

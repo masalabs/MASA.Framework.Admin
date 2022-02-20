@@ -1,0 +1,80 @@
+﻿@page "/dashboard"
+
+<MRow>
+    <MCol Cols="6">
+        <MCard Height=200>
+            <MCardText>
+                @if (_visitPageDayStatistics != null)
+                {
+                    <MRow>
+                        <MSpacer></MSpacer>
+                        <MCol Cols="3">浏览量(PV)</MCol>
+                        <MCol Cols="3">访客数(UV)</MCol>
+                        <MCol Cols="3">IP数</MCol>
+                    </MRow>
+                    @if (TodayStatistics != null)
+                    {
+                        <MRow>
+                            <MCol Cols="3">今日</MCol>
+                            <MCol Cols="3">@TodayStatistics.PV</MCol>
+                            <MCol Cols="3">@TodayStatistics.UV</MCol>
+                            <MCol Cols="3">@TodayStatistics.IPCount</MCol>
+                        </MRow>
+                    }
+                    @if (YesterdayStatistics != null)
+                    {
+                        <MRow>
+                            <MCol Cols="3">昨日</MCol>
+                            <MCol Cols="3">@YesterdayStatistics.PV</MCol>
+                            <MCol Cols="3">@YesterdayStatistics.UV</MCol>
+                            <MCol Cols="3">@YesterdayStatistics.IPCount</MCol>
+                        </MRow>
+                    }
+                }
+            </MCardText>
+        </MCard>
+    </MCol>
+    <MCol Cols="6">
+        <MCard Height=200>
+            <MCardText>
+                当前在线用户数：100
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
+<MRow>
+    <MCol Cols="6">
+        <MCard>
+            <MCardText>
+                <div style="position: absolute;margin-left: 70px;display: inline-block;z-index:1000;">
+                    <MButtonGroup Value="_current" ValueChanged="HandleOnChangeAsync" Color="primary" Mandatory>
+                        <MButton Value="@("PV")" Small>
+                            浏览量(PV)
+                        </MButton>
+                        <MButton Value="@("UV")" Small>
+                            访客数(UV)
+                        </MButton>
+                    </MButtonGroup>
+                </div>
+                <div class="d-flex align-center justify-center">
+                    <MECharts Option="_option">
+                    </MECharts>
+                </div>
+            </MCardText>
+        </MCard>
+    </MCol>
+    <MCol Cols="6">
+        <MCard Height="456">
+            <MCardText>
+                @if (_operationLogs != null)
+                {
+                    <MDataTable Headers="_headers"
+                            Items="_operationLogs"
+                            ItemsPerPage="5"></MDataTable>
+                }
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
+
+

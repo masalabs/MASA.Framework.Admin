@@ -1,4 +1,5 @@
 
+using MASA.Framework.Admin.Web.Services;
 using MASA.Utils.Caller.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -19,6 +20,11 @@ builder.Services.AddMasaBlazor(builder =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 
+builder.Services.AddTransient<IOperationLogService, DefaultOperationLogService>();
+builder.Services.AddHttpClient<DefaultOperationLogService>("Logging", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:5011");
+});
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;

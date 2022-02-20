@@ -1,5 +1,3 @@
-﻿using MASA.Framework.Admin.Service.Authentication.Infrastructure.Const;
-
 namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class RoleCommandHandler
@@ -61,8 +59,7 @@ public class RoleCommandHandler
         if (role == null)
             throw new UserFriendlyException("The current role does not exist");
 
-        role.AddRolePermission(command.Creator, command.PermissionId, (PermissionType)command.PermissionType,
-            (PermissionEffect)command.PermissionEffect);
+        role.AddRolePermission(command.Creator, command.PermissionId);
     }
 
     [EventHandler]

@@ -12,7 +12,5 @@ public class RolePermissionEntityTypeConfiguration
         builder.Property(rolePermission => rolePermission.Id).HasColumnName("id").IsRequired();
 
         builder.Property(rolePermission => rolePermission.PermissionsId).HasColumnName("permissions_id").IsRequired();
-        builder.Property(rolePermission => rolePermission.PermissionType).HasColumnName("permission_type").IsRequired();
-        builder.Property(rolePermission => rolePermission.PermissionEffect).HasColumnName("permission_effect").IsRequired();
     }
 }

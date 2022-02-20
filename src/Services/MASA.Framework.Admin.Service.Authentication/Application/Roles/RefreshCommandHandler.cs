@@ -1,20 +1,18 @@
-﻿using MASA.Framework.Admin.Service.Authentication.Infrastructure.Cache;
-
-namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class RefreshCommandHandler
 {
     private readonly IRoleRepository _repository;
-    private readonly IDistributedCacheClient _distributedCacheClient;
+    private readonly IDistributedCacheClient _cacheClient;
     private readonly IEventBus _eventBus;
 
     public RefreshCommandHandler(
         IRoleRepository repository,
-        IDistributedCacheClient distributedCacheClient,
+        IDistributedCacheClient cacheClient,
         IEventBus eventBus)
     {
         _repository = repository;
-        _distributedCacheClient = distributedCacheClient;
+        _cacheClient = cacheClient;
         _eventBus = eventBus;
     }
 
@@ -24,14 +22,9 @@ public class RefreshCommandHandler
         var role = await _repository.FindAsync(command.RoleId);
         ArgumentNullException.ThrowIfNull(role, nameof(role));
 
-        await _distributedCacheClient.SetAsync(string.Format(CacheConst.Cache.Role, command.RoleId), new RoleInfo()
-        {
-            Name = role.Name,
-            Describe = role.Describe,
-            Number = role.Number,
-            Enable = role.Enable,
-            ChildrenRoleIds = role.RoleItems.Select(roleItem => roleItem.RoleId).ToList()
-        });
+        var query = new RoleBaseQuery(command.RoleId);
+        await _eventBus.PublishAsync(query);
+        await _cacheClient.SetAsync(string.Format(CacheConst.Cache.Role, command.RoleId), query.Result);
     }
 
     [EventHandler]
@@ -39,6 +32,6 @@ public class RefreshCommandHandler
     {
         var query = new RolePermissionQuery(command.RoleId);
         await _eventBus.PublishAsync(query);
-        await _distributedCacheClient.SetAsync(string.Format(CacheConst.Cache.RolePermission, command.RoleId), query.Result);
+        await _cacheClient.SetAsync(string.Format(CacheConst.Cache.RolePermission, command.RoleId), query.Result);
     }
 }

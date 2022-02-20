@@ -4,10 +4,6 @@ public class RolePermission : Entity<Guid>
 {
     public Guid PermissionsId { get; private set; }
 
-    public PermissionType PermissionType { get; private set; }
-
-    public PermissionEffect PermissionEffect { get; private set; }
-
     public Role Role { get; private set; }
 
     public RolePermission()
@@ -15,15 +11,8 @@ public class RolePermission : Entity<Guid>
         Id = Guid.NewGuid();
     }
 
-    public RolePermission(Guid permissionsId, PermissionType permissionType, PermissionEffect permissionEffect) : this()
+    public RolePermission(Guid permissionsId) : this()
     {
         PermissionsId = permissionsId;
-        PermissionType = permissionType;
-        PermissionEffect = permissionEffect;
-    }
-
-    public void ChangeEffect(PermissionEffect permissionEffect)
-    {
-        PermissionEffect = permissionEffect;
     }
 }

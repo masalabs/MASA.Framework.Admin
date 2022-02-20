@@ -4,11 +4,13 @@ public class RoleQueryHandler
 {
     private readonly IRoleRepository _repository;
     private readonly DbContext _dbContext;
+    private readonly IEventBus _eventBus;
 
-    public RoleQueryHandler(IRoleRepository repository, AuthenticationDbContext dbContext)
+    public RoleQueryHandler(IRoleRepository repository, AuthenticationDbContext dbContext, IEventBus eventBus)
     {
         _repository = repository;
         _dbContext = dbContext;
+        _eventBus = eventBus;
     }
 
     [EventHandler]
@@ -44,45 +46,19 @@ public class RoleQueryHandler
                 }));
     }
 
-    [EventHandler(Order = 1)]
-    public async Task GetDetailAsync(RoleDetailQuery query)
+    [EventHandler]
+    public async Task GetRoleBaseAsync(RoleBaseQuery query)
     {
         var role = await _repository.FindAsync(query.RoleId);
-        if (role == null)
-            throw new UserFriendlyException("The current role does not exist");
-
-        query.Result = new RoleDetailResponse()
+        ArgumentNullException.ThrowIfNull(role, nameof(role));
+        query.Result = new RoleInfo()
         {
-            Id = role.Id,
             Name = role.Name,
             Describe = role.Describe,
             Number = role.Number,
             Enable = role.Enable,
-            CreationTime = role.CreationTime,
-            ChildrenRoles = role.RoleItems.Select(roleItem => new KeyValuePair<Guid, string>(roleItem.RoleId, roleItem.Role.Name)).ToList(),
+            ChildrenRoleIds = role.RoleItems.Select(roleItem => roleItem.RoleId).ToList()
         };
-        // List<AuthorizeItemResponse> permissions = role.Permissions.Select(permission => new AuthorizeItemResponse
-        // {
-        //     Id = permission.Id,
-        //     InheritanceRoleSource = permission.RoleName,
-        //     PermissionId = permission.PermissionId,
-        //     PermissionEffect = permission.PermissionEffect,
-        //     PermissionType = permission.PermissionType,
-        // }).ToList();
-        // query.Result = new RoleDetailResponse
-        // {
-        //     Id = role.Id,
-        //     Name = role.Name,
-        //     Describe = role.Describe,
-        //     Number = role.Number,
-        //     Enable = role.Enable,
-        //     CreationTime = role.CreationTime,
-        //     ChildrenRoles = role.ChildrenRoles.Select(childrenGuid => new KeyValuePair<Guid, string>(childrenGuid,
-        //         role.Permissions.Where(permission => permission.RoleId == childrenGuid).Select(permission => permission.RoleName)
-        //             .FirstOrDefault() ??
-        //         string.Empty)).ToList(),
-        //     Permissions = permissions
-        // };
     }
 
     /// <summary>
@@ -109,110 +85,17 @@ public class RoleQueryHandler
                     Scope = newPermissions.Scope,
                     InheritanceRoleSource = rolePermission.Role.Name,
                     PermissionType = newPermissions.PermissionType,
-                    PermissionEffect = rolePermission.PermissionEffect
                 }).ToList();
         return Task.CompletedTask;
     }
 
-
-
-
-
-
-
-
-    private async Task<RoleDetailDto> GetPermissionListByLoopAsync(Guid roleId)
+    [EventHandler(Order = 1)]
+    public async Task GetDetailAsync(RoleDetailQuery query)
     {
-        var role = await GetDetailAsync(roleId);
-        if (role.ChildrenRoles.Any())
-        {
-            List<List<AuthorizeItemDto>> childrenRolePermissions = new();
-            foreach (var childrenRoleId in role.ChildrenRoles)
-            {
-                var childrenRole = await GetPermissionListByLoopAsync(childrenRoleId);
-                childrenRolePermissions.Add(childrenRole.Permissions);
-            }
-            var inheritPermissions =
-                await GetPermissionListAsync(role.Permissions, await GetInheritPermissionListAsync(childrenRolePermissions));
-            role.Permissions = inheritPermissions;
-        }
-        return role;
-    }
+        var role = await _repository.FindAsync(query.RoleId);
+        ArgumentNullException.ThrowIfNull(role, nameof(role));
 
-    /// <summary>
-    /// Get the last permission based on the current permission and the inherited permission set
-    /// </summary>
-    /// <param name="currentRolePermissions"></param>
-    /// <param name="inheritedPermissions"></param>
-    /// <returns></returns>
-    private Task<List<AuthorizeItemDto>> GetPermissionListAsync(
-        List<AuthorizeItemDto> currentRolePermissions,
-        List<AuthorizeItemDto> inheritedPermissions)
-    {
-        foreach (var inheritedPermission in inheritedPermissions)
-        {
-            if (currentRolePermissions.All(permission => permission.PermissionId != inheritedPermission.PermissionId))
-            {
-                currentRolePermissions.Add(inheritedPermission);
-            }
-        }
-        return Task.FromResult(inheritedPermissions);
-    }
-
-    /// <summary>
-    /// get inherited permissions
-    /// </summary>
-    /// <param name="childrenPermissions"></param>
-    /// <returns></returns>
-    /// <exception cref="UserFriendlyException"></exception>
-    private Task<List<AuthorizeItemDto>> GetInheritPermissionListAsync(List<List<AuthorizeItemDto>> childrenPermissions)
-    {
-        List<AuthorizeItemDto> permissions = new();
-        foreach (var authorizeItems in childrenPermissions)
-        {
-            foreach (var authorizeItem in authorizeItems)
-            {
-                if (authorizeItem.PermissionType == PermissionType.Public)
-                {
-                    var item = permissions.FirstOrDefault(permission => permission.PermissionId == authorizeItem.PermissionId);
-                    if (item != null)
-                    {
-                        if (item.PermissionEffect == PermissionEffect.Deny || authorizeItem.PermissionEffect == PermissionEffect.Deny)
-                        {
-                            item.PermissionEffect = PermissionEffect.Deny;
-                        }
-                    }
-                    else
-                    {
-                        permissions.Add(new AuthorizeItemDto
-                        {
-                            Id = authorizeItem.Id,
-                            RoleId = authorizeItem.RoleId,
-                            RoleName = authorizeItem.RoleName,
-                            PermissionId = authorizeItem.PermissionId,
-                            PermissionEffect = authorizeItem.PermissionEffect,
-                            PermissionType = authorizeItem.PermissionType
-                        });
-                    }
-                }
-                else if (authorizeItem.PermissionType == PermissionType.Private)
-                {
-                    //Private permissions are not inherited
-                }
-                else
-                    throw new UserFriendlyException("Unsupported license type");
-            }
-        }
-        return Task.FromResult(permissions);
-    }
-
-    private async Task<RoleDetailDto> GetDetailAsync(Guid roleId)
-    {
-        var role = await _repository.FindAsync(roleId);
-        if (role == null)
-            throw new UserFriendlyException("the role does not exist");
-
-        var list = new RoleDetailDto
+        query.Result = new RoleDetailResponse
         {
             Id = role.Id,
             Name = role.Name,
@@ -220,47 +103,202 @@ public class RoleQueryHandler
             Number = role.Number,
             Enable = role.Enable,
             CreationTime = role.CreationTime,
-            ChildrenRoles = role.RoleItems.Select(roleItem => roleItem.ParentRoleId).ToList(),
-            Permissions = role.Permissions.Select(permission => new AuthorizeItemDto
+            Permissions = await GetPermissionAsync(role.Id)
+        };
+    }
+
+    private async Task<List<AuthorizeItemResponse>> GetPermissionAsync(Guid roleId)
+    {
+        var allChildrenRoleIdList = await GetRoleListLoop(roleId);
+        var permissions = await (from rolePermission in _dbContext.Set<RolePermission>()
+                    .Where(rolePermission => allChildrenRoleIdList.Contains(rolePermission.Role.Id))
+                join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
+                    into temp
+                from newPermissions in temp.DefaultIfEmpty()
+                select new
+                {
+                    Id = rolePermission.Id,
+                    PermissionId = newPermissions.Id,
+                    PermissionName = newPermissions.Name,
+                    ObjectType = newPermissions.ObjectType,
+                    Resource = newPermissions.Resource,
+                    Scope = newPermissions.Scope,
+                    InheritanceRoleId = rolePermission.Role.Id,
+                    InheritanceRoleSource = rolePermission.Role.Name,
+                    PermissionType = newPermissions.PermissionType
+                })
+            .DistinctBy(permission => permission.PermissionId)
+            .ToListAsync();
+        return permissions.Where(permission
+                => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public) ||
+                (permission.InheritanceRoleId == roleId))
+            .Select(permission => new AuthorizeItemResponse()
             {
                 Id = permission.Id,
-                RoleId = permission.Role.Id,
-                RoleName = permission.Role.Name,
-                PermissionId = permission.PermissionsId,
-                PermissionType = permission.PermissionType,
-                PermissionEffect = permission.PermissionEffect
-            }).ToList()
-        };
-        return list;
+                PermissionId = permission.Id,
+                PermissionName = permission.PermissionName,
+                ObjectType = permission.ObjectType,
+                Resource = permission.Resource,
+                Scope = permission.Scope,
+                InheritanceRoleSource = permission.InheritanceRoleSource,
+                PermissionType = permission.PermissionType
+            }).ToList();
     }
 
-    private class RoleDetailDto : RoleItemResponse
+    private async Task<List<Guid>> GetRoleListLoop(Guid roleId)
     {
-        public List<Guid> ChildrenRoles { get; set; } = new();
+        var query = new RoleCacheDetailQuery(roleId);
+        await _eventBus.PublishAsync(query);
 
-        public List<AuthorizeItemDto> Permissions { get; set; } = new();
+        var roleIdList = new List<Guid>();
+
+        foreach (var childrenRoleId in query.Result.ChildrenRoleIds)
+        {
+            var childrenRoleIdList = await GetRoleListLoop(childrenRoleId);
+            roleIdList.Add(childrenRoleId);
+            roleIdList.AddRange(childrenRoleIdList);
+        }
+        return roleIdList;
     }
 
-    private class AuthorizeItemDto
-    {
-        /// <summary>
-        /// Primary key id of Role and Permission relationship table
-        /// </summary>
-        public Guid Id { get; set; }
 
-        public Guid RoleId { get; set; } = default!;
-
-        /// <summary>
-        /// The name of the role to which the license was granted
-        /// </summary>
-        public string RoleName { get; set; } = default!;
-
-        public Guid PermissionId { get; set; }
-
-        public PermissionType PermissionType { get; set; }
-
-        public PermissionEffect PermissionEffect { get; set; }
-    }
+    // private async Task<RoleDetailDto> GetPermissionListByLoopAsync(Guid roleId)
+    // {
+    //     var role = await GetDetailAsync(roleId);
+    //     if (role.ChildrenRoles.Any())
+    //     {
+    //         List<List<AuthorizeItemDto>> childrenRolePermissions = new();
+    //         foreach (var childrenRoleId in role.ChildrenRoles)
+    //         {
+    //             var childrenRole = await GetPermissionListByLoopAsync(childrenRoleId);
+    //             childrenRolePermissions.Add(childrenRole.Permissions);
+    //         }
+    //         var inheritPermissions =
+    //             await GetPermissionListAsync(role.Permissions, await GetInheritPermissionListAsync(childrenRolePermissions));
+    //         role.Permissions = inheritPermissions;
+    //     }
+    //     return role;
+    // }
+    //
+    // /// <summary>
+    // /// Get the last permission based on the current permission and the inherited permission set
+    // /// </summary>
+    // /// <param name="currentRolePermissions"></param>
+    // /// <param name="inheritedPermissions"></param>
+    // /// <returns></returns>
+    // private Task<List<AuthorizeItemDto>> GetPermissionListAsync(
+    //     List<AuthorizeItemDto> currentRolePermissions,
+    //     List<AuthorizeItemDto> inheritedPermissions)
+    // {
+    //     foreach (var inheritedPermission in inheritedPermissions)
+    //     {
+    //         if (currentRolePermissions.All(permission => permission.PermissionId != inheritedPermission.PermissionId))
+    //         {
+    //             currentRolePermissions.Add(inheritedPermission);
+    //         }
+    //     }
+    //     return Task.FromResult(inheritedPermissions);
+    // }
+    //
+    // /// <summary>
+    // /// get inherited permissions
+    // /// </summary>
+    // /// <param name="childrenPermissions"></param>
+    // /// <returns></returns>
+    // /// <exception cref="UserFriendlyException"></exception>
+    // private Task<List<AuthorizeItemDto>> GetInheritPermissionListAsync(List<List<AuthorizeItemDto>> childrenPermissions)
+    // {
+    //     List<AuthorizeItemDto> permissions = new();
+    //     foreach (var authorizeItems in childrenPermissions)
+    //     {
+    //         foreach (var authorizeItem in authorizeItems)
+    //         {
+    //             if (authorizeItem.PermissionType == PermissionType.Public)
+    //             {
+    //                 var item = permissions.FirstOrDefault(permission => permission.PermissionId == authorizeItem.PermissionId);
+    //                 if (item != null)
+    //                 {
+    //                     if (item.PermissionEffect == PermissionEffect.Deny || authorizeItem.PermissionEffect == PermissionEffect.Deny)
+    //                     {
+    //                         item.PermissionEffect = PermissionEffect.Deny;
+    //                     }
+    //                 }
+    //                 else
+    //                 {
+    //                     permissions.Add(new AuthorizeItemDto
+    //                     {
+    //                         Id = authorizeItem.Id,
+    //                         RoleId = authorizeItem.RoleId,
+    //                         RoleName = authorizeItem.RoleName,
+    //                         PermissionId = authorizeItem.PermissionId,
+    //                         PermissionEffect = authorizeItem.PermissionEffect,
+    //                         PermissionType = authorizeItem.PermissionType
+    //                     });
+    //                 }
+    //             }
+    //             else if (authorizeItem.PermissionType == PermissionType.Private)
+    //             {
+    //                 //Private permissions are not inherited
+    //             }
+    //             else
+    //                 throw new UserFriendlyException("Unsupported license type");
+    //         }
+    //     }
+    //     return Task.FromResult(permissions);
+    // }
+    //
+    // private async Task<RoleDetailDto> GetDetailAsync(Guid roleId)
+    // {
+    //     var role = await _repository.FindAsync(roleId);
+    //     if (role == null)
+    //         throw new UserFriendlyException("the role does not exist");
+    //
+    //     var list = new RoleDetailDto
+    //     {
+    //         Id = role.Id,
+    //         Name = role.Name,
+    //         Describe = role.Describe,
+    //         Number = role.Number,
+    //         Enable = role.Enable,
+    //         CreationTime = role.CreationTime,
+    //         ChildrenRoles = role.RoleItems.Select(roleItem => roleItem.ParentRoleId).ToList(),
+    //         Permissions = role.Permissions.Select(permission => new AuthorizeItemDto
+    //         {
+    //             Id = permission.Id,
+    //             RoleId = permission.Role.Id,
+    //             RoleName = permission.Role.Name,
+    //             PermissionId = permission.PermissionsId,
+    //             PermissionType = permission.PermissionType,
+    //         }).ToList()
+    //     };
+    //     return list;
+    // }
+    //
+    // private class RoleDetailDto : RoleItemResponse
+    // {
+    //     public List<Guid> ChildrenRoles { get; set; } = new();
+    //
+    //     public List<AuthorizeItemDto> Permissions { get; set; } = new();
+    // }
+    //
+    // private class AuthorizeItemDto
+    // {
+    //     /// <summary>
+    //     /// Primary key id of Role and Permission relationship table
+    //     /// </summary>
+    //     public Guid Id { get; set; }
+    //
+    //     public Guid RoleId { get; set; } = default!;
+    //
+    //     /// <summary>
+    //     /// The name of the role to which the license was granted
+    //     /// </summary>
+    //     public string RoleName { get; set; } = default!;
+    //
+    //     public Guid PermissionId { get; set; }
+    //
+    //     public PermissionType PermissionType { get; set; }
+    // }
 
     [EventHandler]
     public async Task GetSelectAsync(SelectQuery query)

@@ -55,3 +55,5 @@ global using MASA.Utils.Caching.Redis.Models;
 global using MASA.Utils.Exceptions.Extensions;
 global using MASA.Utils.Caching.Core.Interfaces;
 global using CacheConst = MASA.Framework.Admin.Service.Authentication.Infrastructure.Const;
+global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Cache;
+global using MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries.Cache;

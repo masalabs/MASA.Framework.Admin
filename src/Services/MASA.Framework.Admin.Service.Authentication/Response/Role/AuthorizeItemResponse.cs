@@ -22,6 +22,4 @@ public class AuthorizeItemResponse
     public string InheritanceRoleSource { get; set; } = default!;
 
     public PermissionType PermissionType { get; set; }
-
-    public PermissionEffect PermissionEffect { get; set; }
 }

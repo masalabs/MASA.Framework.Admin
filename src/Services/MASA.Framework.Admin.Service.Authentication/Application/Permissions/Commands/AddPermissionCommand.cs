@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
 
 public record AddPermissionCommand : CommandBase
 {
@@ -12,9 +12,7 @@ public record AddPermissionCommand : CommandBase
 
     public string Action { get; set; } = default!;
 
-    public PermissionType PermissionType { get; set; }
-
     public Guid? RoleId { get; set; }
 
-    public PermissionEffect? PermissionEffect { get; private set; }
+    public PermissionType PermissionType { get; set; }
 }

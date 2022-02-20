@@ -1,6 +1,6 @@
 ﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;
 
-public class RoleBaseQuery
+public record RoleBaseQuery(Guid RoleId) : Query<RoleInfo>
 {
-    
+    public override RoleInfo Result { get; set; }
 }

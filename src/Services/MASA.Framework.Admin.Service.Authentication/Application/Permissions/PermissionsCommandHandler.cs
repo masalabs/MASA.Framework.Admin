@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions;
 
 public class PermissionsCommandHandler
 {
@@ -31,7 +31,7 @@ public class PermissionsCommandHandler
             command.Action,
             command.PermissionType);
         await _repository.AddAsync(permission);
-        await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType, command.PermissionEffect);
+        await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType);
     }
 
     [EventHandler]

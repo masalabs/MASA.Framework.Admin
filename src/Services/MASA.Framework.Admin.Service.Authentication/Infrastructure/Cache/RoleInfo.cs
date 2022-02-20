@@ -10,5 +10,5 @@ public class RoleInfo
 
     public bool Enable { get; set; }
 
-    public List<Guid> ChildrenRoleIds { get; set; }
+    public List<Guid> ChildrenRoleIds { get; set; } = new();
 }

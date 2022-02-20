@@ -3,7 +3,5 @@
 public record AddRolePermissionDomainCommand(
         Guid Creator,
         Guid PermissionId,
-        Guid RoleId,
-        int PermissionType,
-        int PermissionEffect)
+        Guid RoleId)
     : DomainCommand;

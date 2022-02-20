@@ -38,9 +38,6 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddServices(builder);
 
-
-var serviceProvider = builder.Services.BuildServiceProvider();
-var process = serviceProvider.GetService<ILogger<InfiniteLoopProcessor>>();
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
 });

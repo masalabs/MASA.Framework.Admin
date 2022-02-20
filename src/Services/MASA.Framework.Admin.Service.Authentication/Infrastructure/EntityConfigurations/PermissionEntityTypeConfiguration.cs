@@ -10,6 +10,7 @@ public class PermissionEntityTypeConfiguration
         builder.HasKey(permission => permission.Id);
         builder.Property(permission => permission.Id).HasColumnName("id").IsRequired();
 
+        builder.Property(permission => permission.ObjectType).HasColumnName("object_type").IsRequired();
         builder.Property(permission => permission.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
         builder.Property(permission => permission.Resource).HasColumnName("resource").HasMaxLength(30).IsRequired();
         builder.Property(permission => permission.Scope).HasColumnName("scope").HasMaxLength(50).IsRequired();

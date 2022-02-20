@@ -8,8 +8,7 @@ public record AddRolePermissionIntegraionEvent(
     string Scope,
     string Action,
     Guid PermissionId,
-    int PermissionType,
-    int PermissionEffect) : IntegrationEvent
+    int PermissionType) : IntegrationEvent
 {
     public override string Topic { get; set; } = nameof(AddRolePermissionIntegraionEvent);
 }

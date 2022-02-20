@@ -8,8 +8,7 @@ public record AddRolePermissionDomainEvent(
         string Scope,
         string Action,
         Guid PermissionId,
-        int PermissionType,
-        int PermissionEffect)
+        int PermissionType)
     : AddRolePermissionIntegraionEvent(
         RoleId,
         ObjectType,
@@ -18,5 +17,4 @@ public record AddRolePermissionDomainEvent(
         Scope,
         Action,
         PermissionId,
-        PermissionType,
-        PermissionEffect), IDomainEvent;
+        PermissionType), IDomainEvent;

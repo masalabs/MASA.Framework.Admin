@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
 
 public class CommandHandler
 {

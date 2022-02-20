@@ -1,6 +1,6 @@
 namespace MASA.Framework.Admin.Service.User.Infrastructure.Repositories;
 
-public class UserRepository : Repository<UserDbContext, Domain.Aggregate.User>, IUserRepository
+public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User>, IUserRepository
 {
     UserDbContext _context;
 
@@ -9,9 +9,9 @@ public class UserRepository : Repository<UserDbContext, Domain.Aggregate.User>, 
         _context = context;
     }
 
-    public async Task<Domain.Aggregate.User?> GetByIdAsync(Guid Id)
+    public async Task<Domain.Aggregates.User?> GetByIdAsync(Guid Id)
     {
-        return await _context.Set<Domain.Aggregate.User>().Where(a => a.Id == Id)
+        return await _context.Set<Domain.Aggregates.User>().Where(a => a.Id == Id)
             .Include(b => b.UserRoles).SingleOrDefaultAsync();
     }
 }

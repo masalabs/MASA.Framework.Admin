@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.User.Infrastructure.Middleware;
+namespace MASA.Framework.Admin.Service.User.Infrastructure.Middlewares;
 
 public class ValidatorMiddleware<TEvent> : IMiddleware<TEvent>
     where TEvent : notnull, IEvent

@@ -8,7 +8,7 @@ namespace MASA.Framework.Admin.Caller.UserCallers
 
         public UserCaller(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            Name = nameof(UserCaller);
+            Name = nameof(UserCaller)+"1";
         }
 
         public async Task<LoginViewModel> Login(LoginModel loginModel)

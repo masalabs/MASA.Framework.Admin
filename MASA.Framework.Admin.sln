@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Infrastructure.Utils", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\MASA.Framework.Admin.Infrastructure.Utils.csproj", "{50A869ED-276E-42D8-ACE6-A68F4F2EB762}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Contrib.Dispatcher.IntegrationEvents.Dapr", "..\..\Contribs\feature\eventbus\src\Dispatcher\MASA.Contrib.Dispatcher.IntegrationEvents.Dapr\MASA.Contrib.Dispatcher.IntegrationEvents.Dapr.csproj", "{7C841FD1-9557-4025-BA25-FC87972A7689}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,14 @@ Global
 		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|x86.ActiveCfg = Release|Any CPU
 		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|x86.Build.0 = Release|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Debug|x86.Build.0 = Debug|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C841FD1-9557-4025-BA25-FC87972A7689}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

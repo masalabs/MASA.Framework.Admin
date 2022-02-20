@@ -1,5 +1,6 @@
 ﻿using MASA.Framework.Admin.Contracts.Blogs.BlogReport.Options;
 using MASA.Framework.Admin.Contracts.Blogs.BlogReport.ViewModel;
+using System.Linq.Expressions;
 
 namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
 {
@@ -19,22 +20,32 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
         /// <returns></returns>
         public async Task<PagingResult<BlogReportListViewModel>> GetListAsync(GetBlogReportOptions options)
         {
-            var query = from blogReport in _blogDbContext.BlogReports
-                join blogInfo in _blogDbContext.BlogInfoes on blogReport.BlogInfoId equals blogInfo.Id into leftBlogInfo
-                from blogInfo in leftBlogInfo.DefaultIfEmpty()
-                select new BlogReportListViewModel()
-                {
-                    Id = blogReport.Id,
-                    Title = blogReport.Title,
-                    BlogInfoId = blogInfo.Id,
-                    Detail = blogReport.Detail,
-                    Reason = blogReport.Reason,
-                    Connect = blogReport.Connect,
-                    CreationTime = blogInfo.CreationTime,
-                    Handled = blogReport.Handled
-                };
+            Expression<Func<BlogReportListViewModel, bool>> where = blogReport => true;
 
-            return await query.OrderByDescending(x => x.CreationTime)
+            where = where
+                .And(!string.IsNullOrEmpty(options.Title), model => model.Title.Contains(options.Title))
+                .And(options.ReaosnType.HasValue, model => model.Reason == options.ReaosnType)
+                .And(options.StartDate.HasValue, model => model.CreationTime >= options.StartDate)
+                .And(options.EndDate.HasValue, model => model.CreationTime < options.EndDate)
+                .And(options.Handled.HasValue, model => model.Handled == options.Handled);
+
+            var query = from blogReport in _blogDbContext.BlogReports
+                        join blogInfo in _blogDbContext.BlogInfoes on blogReport.BlogInfoId equals blogInfo.Id into leftBlogInfo
+                        from blogInfo in leftBlogInfo.DefaultIfEmpty()
+                        select new BlogReportListViewModel()
+                        {
+                            Id = blogReport.Id,
+                            Title = blogReport.Title,
+                            BlogInfoId = blogInfo.Id,
+                            Detail = blogReport.Detail,
+                            Reason = blogReport.Reason,
+                            Connect = blogReport.Connect,
+                            CreationTime = blogInfo.CreationTime,
+                            Handled = blogReport.Handled
+                        };
+
+            return await query.Where(where)
+                .OrderByDescending(x => x.CreationTime)
                 .PagingAsync(options.PageIndex, options.PageSize);
         }
 
@@ -73,9 +84,9 @@ namespace MASA.Framework.Admin.Service.Blogs.Infrastructure.Repositorys
             var reports = await _blogDbContext.BlogReports
                 .Where(b => b.Handled == false && b.BlogInfoId == id)
                 .ToListAsync();
-            
+
             reports.ForEach(r => r.Handled = true);
-            
+
             _blogDbContext.UpdateRange(reports);
 
             await _blogDbContext.SaveChangesAsync();

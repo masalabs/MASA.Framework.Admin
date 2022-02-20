@@ -16,8 +16,10 @@ public class RoleQueryHandler
         if (!string.IsNullOrEmpty(query.Name))
             condition = condition.And(role => role.Name.Contains(query.Name));
 
-        if (query.State != -1)
+        if (query.State == 1)
             condition = condition.And(role => role.Enable == true);
+        else if (query.State == 0)
+            condition = condition.And(role => role.Enable == false);
 
         var roles = await _repository.GetPaginatedListAsync(
             condition,

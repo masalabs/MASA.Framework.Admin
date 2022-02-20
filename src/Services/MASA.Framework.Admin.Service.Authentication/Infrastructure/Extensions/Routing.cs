@@ -31,4 +31,11 @@ public class Routing
     public static readonly string RoleSelect = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.ROLE_SERVICE, "select");
 
     #endregion
+
+    #region IntegrationEvent
+
+    public static readonly string RolePermission = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.INTEGRATION_EVENT_SERVICE);
+
+    #endregion
+
 }

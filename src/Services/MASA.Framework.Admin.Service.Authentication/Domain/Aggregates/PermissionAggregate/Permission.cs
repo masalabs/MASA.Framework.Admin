@@ -16,8 +16,6 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
 
     public bool Enable { get; private set; }
 
-    public Guid? ParentPermissionId { get; private set; }
-
     public PermissionType PermissionType { get; private set; }
 
     private Permission()
@@ -34,8 +32,7 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
         string resource,
         string scope,
         string action,
-        PermissionType permissionType,
-        Guid? parentPermissionId) : this()
+        PermissionType permissionType) : this()
     {
         Creator = @operator;
         CreationTime = DateTime.UtcNow;
@@ -48,15 +45,13 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
         Action = action;
         Code = $"{Resource}/{scope}/{Action}";
         PermissionType = permissionType;
-        ParentPermissionId = parentPermissionId;
     }
 
-    public void Update(Guid @operator, string name, PermissionType permissionType)
+    public void Update(Guid @operator, string name)
     {
         Modifier = @operator;
         ModificationTime = DateTime.UtcNow;
         Name = name;
-        PermissionType = permissionType;
     }
 
     public void ChangeState(Guid @operator, bool enable)

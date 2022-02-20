@@ -17,7 +17,6 @@ public class PermissionEntityTypeConfiguration
         builder.Property(permission => permission.Code).HasColumnName("code").HasMaxLength(400).IsRequired();
         builder.Property(permission => permission.Enable).HasColumnName("enable").IsRequired();
         builder.Property(permission => permission.PermissionType).HasColumnName("permission_type").IsRequired();
-        builder.Property(permission => permission.ParentPermissionId).HasColumnName("parent_permission_id").IsRequired();
 
         builder.Property(permission => permission.IsDeleted).HasColumnName("is_deleted").IsRequired();
         builder.Property(permission => permission.Creator).HasColumnName("creator").IsRequired();

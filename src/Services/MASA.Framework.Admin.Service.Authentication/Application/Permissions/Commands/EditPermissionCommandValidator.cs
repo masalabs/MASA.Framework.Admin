@@ -12,8 +12,5 @@ public class EditPermissionCommandValidator : AbstractValidator<EditPermissionCo
             .NotNull().WithMessage($"{nameof(EditPermissionCommand.Name)} name cannot be null")
             .MaximumLength(10).WithMessage($"{nameof(EditPermissionCommand.Name)} cannot exceed 10 characters")
             .MinimumLength(1).WithMessage($"{nameof(EditPermissionCommand.Name)} name cannot be empty");
-        RuleFor(command => command.PermissionType)
-            .IsInEnum()
-            .WithMessage("Unsupported grant type");
     }
 }

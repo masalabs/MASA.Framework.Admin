@@ -33,11 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
       <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Application\Permissions\Queries" />
     </ItemGroup>
 
 </Project>

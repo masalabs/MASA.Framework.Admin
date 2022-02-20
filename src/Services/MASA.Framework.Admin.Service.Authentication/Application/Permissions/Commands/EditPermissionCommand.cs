@@ -5,6 +5,4 @@ public record EditPermissionCommand : CommandBase
     public Guid PermissionId { get; set; }
 
     public string Name { get; set; } = default!;
-
-    public PermissionType PermissionType { get; set; }
 }

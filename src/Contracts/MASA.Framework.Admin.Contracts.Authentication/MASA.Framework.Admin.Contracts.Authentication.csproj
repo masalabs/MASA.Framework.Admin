@@ -10,4 +10,7 @@
     <ProjectReference Include="..\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1869587016" />
+  </ItemGroup>
 </Project>

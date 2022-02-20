@@ -7,4 +7,6 @@ public class UrlRule
     public const string PERMISSION_SERVICE = "permission";
 
     public const string ROLE_SERVICE = "role";
+
+    public const string INTEGRATION_EVENT_SERVICE = "integraion";
 }

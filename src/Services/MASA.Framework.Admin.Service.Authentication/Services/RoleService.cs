@@ -11,6 +11,7 @@ public class RoleService : ServiceBase
         App.MapPost(Routing.OperateRole, CreateAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
         App.MapDelete(Routing.OperateRole, DeleteAsync);
+        App.MapDelete(Routing.RolePermission, DeleteRolePermissionAsync);
     }
 
     private async Task<PaginatedItemResponse<RoleItemResponse>> GetItemsAsync(
@@ -33,7 +34,8 @@ public class RoleService : ServiceBase
     }
 
     private async Task<List<RoleItemResponse>> GetItemsByIdAsync(
-        [FromServices] IEventBus eventBus, [FromQuery] string roleIds)
+        [FromServices] IEventBus eventBus,
+        [FromQuery] string roleIds)
     {
         var query = new IdListQuery(JsonSerializer.Deserialize<List<Guid>>(roleIds) ?? new());
         await eventBus.PublishAsync(query);
@@ -66,6 +68,13 @@ public class RoleService : ServiceBase
     private async Task DeleteAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] DeleteRoleCommand command)
+    {
+        await eventBus.PublishAsync(command);
+    }
+
+    public async Task DeleteRolePermissionAsync(
+        [FromServices]IEventBus eventBus,
+        [FromBody]DeleteRolePermissionCommand command)
     {
         await eventBus.PublishAsync(command);
     }

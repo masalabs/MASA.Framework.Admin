@@ -40,4 +40,24 @@ public class RoleCommandHandler
 
         await _repository.RemoveAsync(role);
     }
+
+    [EventHandler]
+    public async Task AddRolePermissionAsync(AddRolePermissionDomainCommand command)
+    {
+        var role = await _repository.FindAsync(command.RoleId);
+        if (role == null)
+            throw new UserFriendlyException("The current role does not exist");
+
+        role.AddRolePermission(command.Creator,command.PermissionId, (PermissionType)command.PermissionType, (PermissionEffect)command.PermissionEffect);
+    }
+
+    [EventHandler]
+    public async Task DeleteRolePermissionAsync(DeleteRolePermissionCommand command)
+    {
+        var role = await _repository.FindAsync(command.RoleId);
+        if (role == null)
+            throw new UserFriendlyException("The current role does not exist");
+
+        role.DeleteRolePermission(command.Creator,command.PermissionId);
+    }
 }

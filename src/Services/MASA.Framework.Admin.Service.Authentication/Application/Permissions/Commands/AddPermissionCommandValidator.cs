@@ -22,5 +22,9 @@ public class AddPermissionCommandValidator : AbstractValidator<AddPermissionComm
         RuleFor(command => command.PermissionType)
             .IsInEnum()
             .WithMessage("Unsupported grant type");
+        RuleFor(command => command.PermissionEffect)
+            .IsInEnum()
+            .WithMessage("Unsupported PermissionEffect")
+            .When(command => command.RoleId != null);
     }
 }

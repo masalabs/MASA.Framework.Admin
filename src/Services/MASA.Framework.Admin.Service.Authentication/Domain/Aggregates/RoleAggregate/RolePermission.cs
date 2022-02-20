@@ -22,4 +22,9 @@ public class RolePermission : Entity<Guid>
         PermissionType = permissionType;
         PermissionEffect = permissionEffect;
     }
+
+    public void ChangeEffect(PermissionEffect permissionEffect)
+    {
+        PermissionEffect = permissionEffect;
+    }
 }

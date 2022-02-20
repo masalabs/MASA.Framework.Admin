@@ -47,6 +47,33 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         Modifier = @operator;
         ModificationTime = DateTime.UtcNow;
         Name = name;
-        Describe = describe;
+        Describe = describe ?? string.Empty;
+    }
+
+    public void AddRolePermission(Guid @operator, Guid permissionsId, PermissionType permissionType, PermissionEffect permissionEffect)
+    {
+        var permission = permissions.FirstOrDefault(permission => permission.PermissionsId == permissionsId);
+        if (permission == null)
+        {
+            permissions.Add(new RolePermission(permissionsId, permissionType, permissionEffect));
+        }
+        else
+        {
+            permission.ChangeEffect(permissionEffect);
+        }
+        Modifier = @operator;
+        ModificationTime = DateTime.UtcNow;
+    }
+
+    public void DeleteRolePermission(Guid @operator, Guid permissionsId)
+    {
+        var permission=permissions.FirstOrDefault(permission => permission.PermissionsId == permissionsId);
+        if (permission == null)
+            throw new UserFriendlyException("Cancel authorization failed, please confirm that the current role has this permission and the current permission is not inherited");
+
+        permissions.Remove(permission);
+
+        Modifier = @operator;
+        ModificationTime = DateTime.UtcNow;
     }
 }

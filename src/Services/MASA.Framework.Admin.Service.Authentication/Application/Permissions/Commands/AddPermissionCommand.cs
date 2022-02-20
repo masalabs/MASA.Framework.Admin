@@ -12,7 +12,9 @@ public record AddPermissionCommand : CommandBase
 
     public string Action { get; set; } = default!;
 
-    public Guid? ParentPermissionId { get; set; }
-
     public PermissionType PermissionType { get; set; }
+
+    public Guid? RoleId { get; set; }
+
+    public PermissionEffect? PermissionEffect { get; private set; }
 }

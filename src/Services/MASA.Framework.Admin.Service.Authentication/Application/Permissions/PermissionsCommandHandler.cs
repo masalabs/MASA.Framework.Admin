@@ -3,10 +3,12 @@
 public class PermissionsCommandHandler
 {
     private readonly IPermissionRepository _repository;
+    private readonly PermissionDomainService _domainService;
 
-    public PermissionsCommandHandler(IPermissionRepository repository)
+    public PermissionsCommandHandler(IPermissionRepository repository, PermissionDomainService domainService)
     {
         _repository = repository;
+        _domainService = domainService;
     }
 
     [EventHandler]
@@ -17,8 +19,7 @@ public class PermissionsCommandHandler
                 permission.Name == command.Name &&
                 permission.Resource == command.Resource &&
                 permission.Scope == command.Scope &&
-                permission.Action == command.Action &&
-                permission.ParentPermissionId == command.ParentPermissionId))
+                permission.Action == command.Action))
             throw new UserFriendlyException("The current permission already exists");
 
         var permission = new Permission(
@@ -28,9 +29,9 @@ public class PermissionsCommandHandler
             command.Resource,
             command.Scope,
             command.Action,
-            command.PermissionType,
-            command.ParentPermissionId);
+            command.PermissionType);
         await _repository.AddAsync(permission);
+        await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType, command.PermissionEffect);
     }
 
     [EventHandler]
@@ -40,7 +41,7 @@ public class PermissionsCommandHandler
         if (permission == null)
             throw new UserFriendlyException("The current permission does not exist");
 
-        permission.Update(command.Creator, command.Name, command.PermissionType);
+        permission.Update(command.Creator, command.Name);
         await _repository.UpdateAsync(permission);
     }
 

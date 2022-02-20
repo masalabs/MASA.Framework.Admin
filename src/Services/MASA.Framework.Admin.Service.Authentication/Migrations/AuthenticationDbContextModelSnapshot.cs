@@ -62,7 +62,9 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("State", "TimesSent");
+                    b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
+
+                    b.HasIndex(new[] { "State", "TimesSent", "ModificationTime" }, "index_state_timessent_modificationtime");
 
                     b.ToTable("IntegrationEventLog", (string)null);
                 });
@@ -118,11 +120,6 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
                     b.Property<int>("ObjectType")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("ParentPermissionId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("parent_permission_id");
 
                     b.Property<int>("PermissionType")
                         .HasColumnType("int")

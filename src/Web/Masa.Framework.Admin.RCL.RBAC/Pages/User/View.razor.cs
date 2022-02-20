@@ -1,3 +1,5 @@
+using MASA.Framework.Admin.Contracts.Authentication.Old.Response;
+
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class View

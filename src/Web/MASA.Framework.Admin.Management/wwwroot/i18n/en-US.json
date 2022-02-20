@@ -39,5 +39,19 @@
   "Describe": "Describe",
   "Switch": "Switch",
   "Value List": "Value List",
-  "Name": "Name"
+  "Name": "Name",
+  "Label": "Label",
+  "Value": "Value",
+  "CreateTime": "CreateTime",
+  "Action": "Action",
+  "Sort": "Sort",
+  "Log List": "Log List",
+  "Method": "Method",
+  "Execution Cycle": "Execution Cycle",
+  "Parameter": "Parameter",
+  "Number Of Executions": "Number Of Executions",
+  "Mission Name": "Mission Name",
+  "Mission Result": "Mission Result",
+  "Execution Time": "Execution Time",
+  "BackgroundJobs Management": "Timed Task Management"
 }

@@ -40,5 +40,19 @@
   "Describe": "描述",
   "Switch": "开关",
   "Value List": "值列表",
-  "Name": "名称"
+  "Name": "名称",
+  "Label": "标签",
+  "Value": "值",
+  "CreateTime": "创建时间",
+  "Action": "操作",
+  "Sort": "排序",
+  "Log List": "日志列表",
+  "Method": "方法",
+  "Execution Cycle": "执行周期",
+  "Parameter": "参数",
+  "Number Of Executions": "执行次数",
+  "Mission Name": "任务名称",
+  "Mission Result": "任务结果",
+  "Execution Time": "执行时间",
+  "BackgroundJobs Management": "定时任务"
 }

@@ -15,23 +15,29 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         [Parameter]
         public string Id { get; set; }
 
-        private readonly List<DataTableHeader<DicValueViewModel>> _headers = new()
+        private List<DataTableHeader<DicValueViewModel>> _headers
         {
-            new()
-            { Text = "标签", Value = nameof(DicValueViewModel.Lable), Sortable = false },
-            new()
-            { Text = "数据值", Value = nameof(DicValueViewModel.Value), Sortable = false },
-            new()
-            { Text = "描述", Value = nameof(DicValueViewModel.Description), Sortable = false },
-            new()
-            { Text = "启用", Value = nameof(DicValueViewModel.Enable), Sortable = false },
-            new()
-            { Text = "创建时间", Value = nameof(DicValueViewModel.CreateTime), Sortable = false },
-            new()
-            { Text = "排序", Value = nameof(DicValueViewModel.Sort), Sortable = false },
-            new()
-            { Text = "操作", Value = "actions", Width = 300, Sortable = false }
-        };
+            get
+            {
+                return new()
+                {
+                    new()
+                    { Text = T("Label"), Value = nameof(DicValueViewModel.Lable), Sortable = false },
+                    new()
+                    { Text = T("Value"), Value = nameof(DicValueViewModel.Value), Sortable = false },
+                    new()
+                    { Text = T("Describe"), Value = nameof(DicValueViewModel.Description), Sortable = false },
+                    new()
+                    { Text = T("Switch"), Value = nameof(DicValueViewModel.Enable), Sortable = false },
+                    new()
+                    { Text = T("CreateTime"), Value = nameof(DicValueViewModel.CreateTime), Sortable = false },
+                    new()
+                    { Text = T("Sort"), Value = nameof(DicValueViewModel.Sort), Sortable = false },
+                    new()
+                    { Text = T("Action"), Value = "actions", Width = 300, Sortable = false }
+                };
+            }
+        }
 
         private DataModal<DicValueViewModel> _dataModal = new();
 

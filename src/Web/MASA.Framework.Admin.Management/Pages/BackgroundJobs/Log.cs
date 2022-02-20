@@ -10,15 +10,21 @@
         [Parameter]
         public string Id { get; set; }
 
-        private readonly List<DataTableHeader<JobLogViewModel>> _headers = new()
+        private List<DataTableHeader<JobLogViewModel>> _headers
         {
-            new()
-            { Text = "任务名称", Value = nameof(JobLogViewModel.JobName), Sortable = false },
-            new()
-            { Text = "任务结果", Value = nameof(JobLogViewModel.JobResult), Sortable = false },
-            new()
-            { Text = "执行时间", Value = nameof(JobLogViewModel.CreateTime), Sortable = false }
-        };
+            get
+            {
+                return new()
+                {
+                    new()
+                    { Text = T("Mission Name"), Value = nameof(JobLogViewModel.JobName), Sortable = false },
+                    new()
+                    { Text = T("Mission Result"), Value = nameof(JobLogViewModel.JobResult), Sortable = false },
+                    new()
+                    { Text = T("Execution Time"), Value = nameof(JobLogViewModel.CreateTime), Sortable = false }
+                };
+            }
+        }
 
         [Inject] protected ManagementCaller ManagementCaller { get; set; }
 

@@ -25,7 +25,7 @@
     "Children": [
       {
         "Id": 201,
-        "Title": "Home",
+        "Title": "List",
         "Icon": "mdi-circle",
         "Href": "/management-admin/job-list"
       }
@@ -38,7 +38,7 @@
     "Children": [
       {
         "Id": 201,
-        "Title": "Home",
+        "Title": "List",
         "Icon": "mdi-circle",
         "Href": "/management-admin/simple-example"
       }

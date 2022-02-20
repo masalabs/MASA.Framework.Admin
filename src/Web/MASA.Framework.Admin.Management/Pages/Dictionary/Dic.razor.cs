@@ -12,21 +12,27 @@ namespace MASA.Framework.Admin.Management.Pages.Dictionary
         private bool _loading = false;
         private List<DicViewModel> _tableData = new();
 
-        private readonly List<DataTableHeader<DicViewModel>> _headers = new()
+        private  List<DataTableHeader<DicViewModel>> _headers
         {
-            new()
-            { Text = "名称", Value = nameof(DicViewModel.Name), Sortable = false },
-            new()
-            { Text = "类型", Value = nameof(DicViewModel.Type), Sortable = false },
-            new()
-            { Text = "描述", Value = nameof(DicViewModel.Description), Sortable = false },
-            new()
-            { Text = "启用", Value = nameof(DicViewModel.Enable), Sortable = false },
-            new()
-            { Text = "创建时间", Value = nameof(DicViewModel.CreateTime), Sortable = false },
-            new()
-            { Text = "操作", Value = "actions", Width = 300, Sortable = false }
-        };
+            get
+            {
+                return new()
+                {
+                    new()
+                    { Text = T("Name"), Value = nameof(DicViewModel.Name), Sortable = false },
+                    new()
+                    { Text = T("Type"), Value = nameof(DicViewModel.Type), Sortable = false },
+                    new()
+                    { Text = T("Describe"), Value = nameof(DicViewModel.Description), Sortable = false },
+                    new()
+                    { Text = T("Switch"), Value = nameof(DicViewModel.Enable), Sortable = false },
+                    new()
+                    { Text = T("CreateTime"), Value = nameof(DicViewModel.CreateTime), Sortable = false },
+                    new()
+                    { Text = T("Action"), Value = "actions", Width = 300, Sortable = false }
+                };
+            }
+        }
 
         private DataModal<DicViewModel> _dataModal = new();
 

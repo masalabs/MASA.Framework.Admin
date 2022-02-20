@@ -7,25 +7,31 @@
         private bool _loading = false;
         private List<JobViewModel> _tableData = new();
 
-        private readonly List<DataTableHeader<JobViewModel>> _headers = new()
+        private List<DataTableHeader<JobViewModel>> _headers
         {
-            new()
-            { Text = "名称", Value = nameof(JobViewModel.Name), Sortable = false },
-            new()
-            { Text = "方法", Value = nameof(JobViewModel.Method), Sortable = false },
-            new()
-            { Text = "参数", Value = nameof(JobViewModel.Args), Sortable = false },
-            new()
-            { Text = "执行次数", Value = nameof(JobViewModel.TryCount), Sortable = false },
-            new()
-            { Text = "执行周期(秒)", Value = nameof(JobViewModel.PeriodSeconds), Sortable = false },
-            new()
-            { Text = "启用", Value = nameof(JobViewModel.Enable), Sortable = false },
-            new()
-            { Text = "创建时间", Value = nameof(JobViewModel.CreateTime), Sortable = false },
-            new()
-            { Text = "操作", Value = "actions", Width = 300, Sortable = false }
-        };
+            get
+            {
+                return new()
+                {
+                    new()
+                    { Text = T("Name"), Value = nameof(JobViewModel.Name), Sortable = false },
+                    new()
+                    { Text = T("Method"), Value = nameof(JobViewModel.Method), Sortable = false },
+                    new()
+                    { Text = T("Parameter"), Value = nameof(JobViewModel.Args), Sortable = false },
+                    new()
+                    { Text = T("Number Of Executions"), Value = nameof(JobViewModel.TryCount), Sortable = false },
+                    new()
+                    { Text = T("Execution Cycle"), Value = nameof(JobViewModel.PeriodSeconds), Sortable = false },
+                    new()
+                    { Text = T("Switch"), Value = nameof(JobViewModel.Enable), Sortable = false },
+                    new()
+                    { Text = T("CreateTime"), Value = nameof(JobViewModel.CreateTime), Sortable = false },
+                    new()
+                    { Text = T("Action"), Value = "actions", Width = 300, Sortable = false }
+                };
+            }
+        }
 
         private DataModal<JobViewModel> _dataModal = new();
 

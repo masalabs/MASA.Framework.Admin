@@ -84,8 +84,8 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    parent_role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    parent_role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,14 +106,14 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     permissions_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_role_permission", x => x.id);
                     table.ForeignKey(
-                        name: "FK_role_permission_roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_role_permission_roles_role_id",
+                        column: x => x.role_id,
                         principalSchema: "authentication",
                         principalTable: "roles",
                         principalColumn: "id",
@@ -137,10 +137,10 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 column: "parent_role_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_role_permission_RoleId",
+                name: "IX_role_permission_role_id",
                 schema: "authentication",
                 table: "role_permission",
-                column: "RoleId");
+                column: "role_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

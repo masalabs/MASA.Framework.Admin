@@ -10,7 +10,6 @@ public class RoleItemEntityTypeConfiguration
         builder.HasKey(roleItem => roleItem.Id);
         builder.Property(roleItem => roleItem.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(roleItem => roleItem.ParentRoleId).HasColumnName("parent_role_id").IsRequired();
         builder.Property(roleItem => roleItem.RoleId).HasColumnName("role_id").IsRequired();
     }
 }

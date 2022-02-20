@@ -201,17 +201,16 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("ParentRoleId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("parent_role_id");
-
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("role_id");
 
+                    b.Property<Guid>("parent_role_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentRoleId");
+                    b.HasIndex("parent_role_id");
 
                     b.ToTable("role_items", "authentication");
                 });
@@ -227,12 +226,12 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("permissions_id");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<Guid>("role_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("role_id");
 
                     b.ToTable("role_permission", "authentication");
                 });
@@ -241,7 +240,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 {
                     b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", "Role")
                         .WithMany("RoleItems")
-                        .HasForeignKey("ParentRoleId")
+                        .HasForeignKey("parent_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -252,7 +251,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                 {
                     b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", "Role")
                         .WithMany("Permissions")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

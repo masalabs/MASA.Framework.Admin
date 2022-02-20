@@ -1,4 +1,7 @@
 using System.Text.Json;
+using MASA.Framework.Admin.Contracts.Authentication.Old.Request.Objects;
+using MASA.Framework.Admin.Contracts.Authentication.Old.Request.Roles;
+using MASA.Framework.Admin.Contracts.Authentication.Old.Response;
 
 namespace MASA.Framework.Admin.Caller.Callers;
 

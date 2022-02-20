@@ -7,20 +7,20 @@ public class RoleEntityTypeConfiguration
     {
         builder.ToTable("roles", AuthenticationDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(role => role.Id);
+        builder.Property(role => role.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
-        builder.Property(c => c.Describe).HasColumnName("describe").IsRequired();
-        builder.Property(c => c.Number).HasColumnName("number").IsRequired();
-        builder.Property(c => c.State).HasColumnName("state").IsRequired();
-        builder.Property(c => c.IsDeleted).HasColumnName("is_deleted").IsRequired();
-        builder.Property(c => c.Creator).HasColumnName("creator").IsRequired();
-        builder.Property(c => c.CreationTime).HasColumnName("creation_time").IsRequired();
-        builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
-        builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
+        builder.Property(role => role.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
+        builder.Property(role => role.Describe).HasColumnName("describe").IsRequired();
+        builder.Property(role => role.Number).HasColumnName("number").IsRequired();
+        builder.Property(role => role.Enable).HasColumnName("enable").IsRequired();
+        builder.Property(role => role.IsDeleted).HasColumnName("is_deleted").IsRequired();
+        builder.Property(role => role.Creator).HasColumnName("creator").IsRequired();
+        builder.Property(role => role.CreationTime).HasColumnName("creation_time").IsRequired();
+        builder.Property(role => role.Modifier).HasColumnName("modifier").IsRequired();
+        builder.Property(role => role.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
-        builder.HasMany(express => express.Permissions).WithOne(p => p.Role);
-        builder.HasMany(express => express.RoleItems).WithOne(p => p.Role);
+        builder.HasMany(role => role.Permissions).WithOne(rolePermission => rolePermission.Role).HasForeignKey("role_id");
+        builder.HasMany(role => role.RoleItems).WithOne(roleItem => roleItem.Role).HasForeignKey(roleItem => roleItem.ParentRoleId);
     }
 }

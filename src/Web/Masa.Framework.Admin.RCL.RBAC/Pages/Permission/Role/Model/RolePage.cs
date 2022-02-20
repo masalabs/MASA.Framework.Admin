@@ -1,4 +1,5 @@
-using MASA.Framework.Admin.Contracts.Authentication.Request.Roles;
+using MASA.Framework.Admin.Contracts.Authentication.Old.Request.Roles;
+using MASA.Framework.Admin.Contracts.Authentication.Old.Response;
 
 namespace Masa.Framework.Admin.RCL.RBAC;
 

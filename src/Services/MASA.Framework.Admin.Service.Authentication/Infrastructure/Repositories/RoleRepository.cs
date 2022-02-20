@@ -6,11 +6,6 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
     {
     }
 
-    public async Task<bool> ExistAsync(string name)
-    {
-        return await _context.Set<Role>().AnyAsync(role => role.Name == name);
-    }
-
     public async Task<Role?> FindAsync(Guid id)
     {
         return await _context.Set<Role>()
@@ -20,9 +15,9 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
             .FirstOrDefaultAsync();
     }
 
-    public async new Task<IEnumerable<Role>> GetListAsync(
+    public new async Task<IEnumerable<Role>> GetListAsync(
         Expression<Func<Role, bool>> predicate,
-        CancellationToken cancellationToken = default(CancellationToken))
+        CancellationToken cancellationToken = default)
     {
         return await _context.Set<Role>()
             .Include(role => role.RoleItems)

@@ -14,7 +14,7 @@ public class CommandHandler
     {
         var user = await _userRepository.FindAsync(deleteCommand.UserId);
         if (user == null)
-            throw new UserFriendlyException("userid not found", Code.NOT_FIND_ERROR);
+            throw new UserFriendlyException("userid not found");
 
         await _userRepository.RemoveAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
@@ -23,7 +23,7 @@ public class CommandHandler
     [EventHandler]
     public async Task CreateAsync(UserCommand.CreateCommand createCommand)
     {
-        var user = new Domain.Aggregate.User(
+        var user = new Domain.Aggregates.User(
             createCommand.Creator,
             createCommand.UserCreateRequest.Account,
             createCommand.UserCreateRequest.Pwd)
@@ -41,7 +41,7 @@ public class CommandHandler
     {
         var user = await _userRepository.FindAsync(createUserRoleCommand.UserRoleCreateRequest.UserId);
         if (user == null)
-            throw new UserFriendlyException("userid not found", Code.NOT_FIND_ERROR);
+            throw new UserFriendlyException("userid not found");
         user.AddRole(createUserRoleCommand.UserRoleCreateRequest.RoleId);
         await _userRepository.UpdateAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();

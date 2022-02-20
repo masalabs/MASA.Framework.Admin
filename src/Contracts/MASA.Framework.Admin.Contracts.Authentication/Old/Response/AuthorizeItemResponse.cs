@@ -1,0 +1,29 @@
+﻿using MASA.Framework.Admin.Contracts.Authentication.Old.Enum;
+
+namespace MASA.Framework.Admin.Contracts.Authentication.Old.Response;
+
+public class AuthorizeItemResponse
+{
+    /// <summary>
+    /// Primary key id of Role and Permission relationship table
+    /// </summary>
+    public Guid Id { get; set; }
+    public Guid PermissionId { get; set; }
+
+    public string PermissionName { get; set; } = default!;
+
+    public ObjectType ObjectType { get; set; }
+
+    public string ObjectCode { get; set; } = default!;
+
+    public string ObjectIdentifies { get; set; } = default!;
+
+    /// <summary>
+    /// The name of the role to which the license was granted
+    /// </summary>
+    public string InheritanceRoleSource { get; set; } = default!;
+
+    public PermissionType PermissionType { get; set; }
+
+    public PermissionEffect PermissionEffect { get; set; }
+}

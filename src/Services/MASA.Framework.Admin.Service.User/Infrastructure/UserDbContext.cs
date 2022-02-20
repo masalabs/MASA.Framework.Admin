@@ -11,8 +11,8 @@ public class UserDbContext : IntegrationEventLogContext
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new IntegrationEventLogEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
+        base.OnModelCreatingExecuting(modelBuilder);
     }
 }

@@ -17,7 +17,7 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -42,6 +42,15 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -53,20 +62,30 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("integration_event_log", "authentication");
+                    b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
+
+                    b.HasIndex(new[] { "State", "TimesSent", "ModificationTime" }, "index_state_timessent_modificationtime");
+
+                    b.ToTable("IntegrationEventLog", (string)null);
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.Object", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate.Permission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("action");
+
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreationTime")
@@ -76,6 +95,10 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                     b.Property<Guid>("Creator")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("creator");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit")
+                        .HasColumnName("enable");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit")
@@ -96,57 +119,30 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnName("name");
 
                     b.Property<int>("ObjectType")
-                        .HasColumnType("int")
-                        .HasColumnName("object_type");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int")
-                        .HasColumnName("state");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("resources", "authentication");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.ObjectItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("action");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasColumnName("name");
-
-                    b.Property<Guid>("ObjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ObjectIdentifies")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("state");
+                        .HasColumnType("int");
 
                     b.Property<int>("PermissionType")
                         .HasColumnType("int")
                         .HasColumnName("permission_type");
 
+                    b.Property<string>("Resource")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("resource");
+
+                    b.Property<string>("Scope")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("scope");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ObjectId");
-
-                    b.ToTable("permissions", "authentication");
+                    b.ToTable("permission", "authentication");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.Role", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,6 +161,10 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("describe");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit")
+                        .HasColumnName("enable");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit")
@@ -188,37 +188,34 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("number");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int")
-                        .HasColumnName("state");
-
                     b.HasKey("Id");
 
                     b.ToTable("roles", "authentication");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.RoleItem", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.RoleItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("ChildrenRoleId")
+                    b.Property<Guid>("ParentRoleId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("children_role_id");
+                        .HasColumnName("parent_role_id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("role_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("ParentRoleId");
 
                     b.ToTable("role_items", "authentication");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.RolePermission", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.RolePermission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,55 +234,39 @@ namespace MASA.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("permissions_id");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<Guid>("role_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("role_id");
 
                     b.ToTable("role_permission", "authentication");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.ObjectItem", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.RoleItem", b =>
                 {
-                    b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.Object", "Object")
-                        .WithMany("Permissions")
-                        .HasForeignKey("ObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Object");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.RoleItem", b =>
-                {
-                    b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.Role", "Role")
+                    b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", "Role")
                         .WithMany("RoleItems")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("ParentRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.RolePermission", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.RolePermission", b =>
                 {
-                    b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.Role", "Role")
+                    b.HasOne("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", "Role")
                         .WithMany("Permissions")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.ObjectAggregate.Object", b =>
-                {
-                    b.Navigation("Permissions");
-                });
-
-            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregate.RoleAggregate.Role", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate.Role", b =>
                 {
                     b.Navigation("Permissions");
 

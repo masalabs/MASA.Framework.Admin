@@ -1,11 +1,23 @@
-var builder = WebApplication.CreateBuilder(args);
-builder.AddMasaConfiguration(
-    null,
-    assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
+var builder = WebApplication
+    .CreateBuilder(args)
+    .AddMasaConfiguration(
+        configurationBuilder =>
+        {
+            configurationBuilder.UseMasaOptions(options =>
+            {
+                options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings", "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
+            });
+        },
+        assemblies: typeof(DbConnectionOption).Assembly);
 
+var serviceProvider = builder.Services.BuildServiceProvider();
+var redisOptions = serviceProvider.GetService<IOptions<RedisConfigurationOptions>>();
+builder.Services
+    .AddMasaRedisCache(redisOptions.Value)
+    .AddMasaMemoryCache();
 var app = builder.Services.AddFluentValidation(options =>
     {
-        options.RegisterValidatorsFromAssemblyContaining<PermissionService>();
+        options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
     })
     .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
     .AddEndpointsApiExplorer()
@@ -23,21 +35,20 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<AuthenticationDbContext>(dbOptions =>
             {
-                var serviceProvider = builder.Services.BuildServiceProvider()!;
                 var option = serviceProvider
-                    .GetRequiredService<IOptions<MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions>>();
+                    .GetRequiredService<IOptions<DbConnectionOption>>();
                 dbOptions.UseSqlServer(option.Value.DbConn);
+                dbOptions.UseSoftDelete(builder.Services);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<AuthenticationDbContext>()
             .UseRepository<AuthenticationDbContext>();
     })
     .AddServices(builder);
-
 app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {
 });
-app.UseGlobalExceptionMiddleware()
+app.UseMasaExceptionHandling()
     .UseSwagger()
     .UseSwaggerUI(c =>
     {

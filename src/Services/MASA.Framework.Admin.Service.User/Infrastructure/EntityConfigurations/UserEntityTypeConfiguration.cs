@@ -1,8 +1,8 @@
 namespace MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations;
 
-public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggregate.User>
+public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggregates.User>
 {
-    public void Configure(EntityTypeBuilder<Domain.Aggregate.User> builder)
+    public void Configure(EntityTypeBuilder<Domain.Aggregates.User> builder)
     {
         builder.ToTable("users", UserDbContext.DEFAULT_SCHEMA);
 

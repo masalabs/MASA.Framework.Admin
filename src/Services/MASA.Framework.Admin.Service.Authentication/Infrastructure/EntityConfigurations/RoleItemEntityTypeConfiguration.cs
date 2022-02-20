@@ -7,9 +7,10 @@ public class RoleItemEntityTypeConfiguration
     {
         builder.ToTable("role_items", AuthenticationDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(roleItem => roleItem.Id);
+        builder.Property(roleItem => roleItem.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.ChildrenRoleId).HasColumnName("children_role_id").IsRequired();
+        builder.Property(roleItem => roleItem.ParentRoleId).HasColumnName("parent_role_id").IsRequired();
+        builder.Property(roleItem => roleItem.RoleId).HasColumnName("role_id").IsRequired();
     }
 }

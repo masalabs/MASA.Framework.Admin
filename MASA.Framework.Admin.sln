@@ -47,7 +47,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Web.Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Api", "src\Services\MASA.Framework.Admin.Api\MASA.Framework.Admin.Api.csproj", "{232DE9F3-0224-4C9F-BBCF-511C64925B03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Contracts.Login", "src\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj", "{FC203EFD-5C22-4B87-9E58-E6852B1F60F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Login", "src\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj", "{FC203EFD-5C22-4B87-9E58-E6852B1F60F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D112D319-D505-4D84-A7B9-B94208034F92}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructure.Configurations", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj", "{D3C28614-A595-456B-9790-BCF2C866FB78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructure.Utils", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\MASA.Framework.Admin.Infrastructure.Utils.csproj", "{50A869ED-276E-42D8-ACE6-A68F4F2EB762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +175,22 @@ Global
 		{FC203EFD-5C22-4B87-9E58-E6852B1F60F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC203EFD-5C22-4B87-9E58-E6852B1F60F9}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC203EFD-5C22-4B87-9E58-E6852B1F60F9}.Release|x86.Build.0 = Release|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3C28614-A595-456B-9790-BCF2C866FB78}.Release|x86.Build.0 = Release|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Debug|x86.Build.0 = Debug|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|x86.ActiveCfg = Release|Any CPU
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -192,6 +214,9 @@ Global
 		{AE66A1FB-26E3-47C0-8B9F-6879B0612B9F} = {F3986DD3-0372-4929-B72A-09D93196541E}
 		{232DE9F3-0224-4C9F-BBCF-511C64925B03} = {4A1D2DFA-D091-4CD2-B9CB-D7AAA795ABD9}
 		{FC203EFD-5C22-4B87-9E58-E6852B1F60F9} = {88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}
+		{D112D319-D505-4D84-A7B9-B94208034F92} = {92F40AFA-8416-40BE-9893-D35E1924C69D}
+		{D3C28614-A595-456B-9790-BCF2C866FB78} = {D112D319-D505-4D84-A7B9-B94208034F92}
+		{50A869ED-276E-42D8-ACE6-A68F4F2EB762} = {D112D319-D505-4D84-A7B9-B94208034F92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BA2BA-19E5-41FB-A92A-16A03DA229E4}

@@ -4,6 +4,8 @@ services:
 
   redis:
     image: redis:alpine
+    ports:
+       - "6379:6379"
 
   masa.admin.database:
      image: mcr.microsoft.com/mssql/server:2019-latest
@@ -41,8 +43,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
-      - "5141:80"
-      - "7141:443"
+      - "8082:80"
+      - "9092:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
@@ -64,8 +66,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
     ports:
-      - "5140:80"
-      - "7140:443"
+      - "8083:80"
+      - "9093:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 

@@ -3,7 +3,6 @@ global using BlazorComponent.I18n;
 global using Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel;
 global using MASA.Blazor;
 global using MASA.Framework.Admin.Caller.Callers;
-global using MASA.Framework.Admin.Contracts.Authentication.Response;
 global using MASA.Framework.Admin.Contracts.Base.Enum;
 global using MASA.Framework.Admin.Contracts.Base.Model;
 global using MASA.Framework.Admin.Contracts.Base.Response;

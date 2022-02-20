@@ -8,11 +8,11 @@ public class RolePermissionEntityTypeConfiguration
     {
         builder.ToTable("role_permission", AuthenticationDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(rolePermission => rolePermission.Id);
+        builder.Property(rolePermission => rolePermission.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.PermissionsId).HasColumnName("permissions_id").IsRequired();
-        builder.Property(c => c.PermissionType).HasColumnName("permission_type").IsRequired();
-        builder.Property(c => c.PermissionEffect).HasColumnName("permission_effect").IsRequired();
+        builder.Property(rolePermission => rolePermission.PermissionsId).HasColumnName("permissions_id").IsRequired();
+        builder.Property(rolePermission => rolePermission.PermissionType).HasColumnName("permission_type").IsRequired();
+        builder.Property(rolePermission => rolePermission.PermissionEffect).HasColumnName("permission_effect").IsRequired();
     }
 }

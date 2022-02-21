@@ -1,4 +1,5 @@
 using MASA.Contrib.Data.Contracts.EF;
+using MASA.Framework.Admin.Api;
 using MASA.Framework.Admin.Contracts.Login.Model;
 using MASA.Framework.Admin.Service.Infrastructure.Api.Hub;
 using MASA.Utils.Configuration.Json;
@@ -109,9 +110,13 @@ builder.Services.AddAuthentication(x =>
     };
 });
 builder.Services.AddSignalR();
-
 builder.Services.AddEventBus();
+
 var app = builder.Build();
+
+//init db
+await app.Initialize();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

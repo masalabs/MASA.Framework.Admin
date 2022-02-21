@@ -19,7 +19,7 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public string? Email { get; set; }
 
-    public State State { get; private set; }
+    public bool Enable { get; private set; }
 
     public DateTimeOffset LastLoginTime { get; private set; }
 
@@ -32,7 +32,7 @@ public class User : AuditAggregateRoot<Guid, Guid>
     private User()
     {
         Id = Guid.NewGuid();
-        State = State.Enable;
+        Enable = true;
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
         userRoles = new();

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Contracts.User.Response;
+namespace MASA.Framework.Sdks.Authentication.Response.Users;
 
 public class UserItemResponse
 {
@@ -18,3 +18,4 @@ public class UserItemResponse
 
     public DateTimeOffset LastLoginTime { get; set; }
 }
+

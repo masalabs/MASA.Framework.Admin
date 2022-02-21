@@ -14,7 +14,6 @@
   
   <ItemGroup>
     <Folder Include="Response\Configuration" />
-    <Folder Include="Response\User" />
   </ItemGroup>
   
   <ItemGroup>

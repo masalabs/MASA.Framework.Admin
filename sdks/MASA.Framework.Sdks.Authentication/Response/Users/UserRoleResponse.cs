@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Contracts.User.Response;
+namespace MASA.Framework.Sdks.Authentication.Response.Users;
 
 public class UserRoleResponse
 {

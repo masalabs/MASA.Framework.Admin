@@ -36,13 +36,28 @@ public class Routing
 
     public static string ObjectList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.OBJECT_SERVICE);
 
-    public static string ObjectAll = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE,"all");
+    public static string ObjectAll = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "all");
 
     public static string ContainsObject = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "contains");
 
     public static string OperateObject = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.OBJECT_SERVICE);
 
     public static string BatchDeleteObject = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.OBJECT_SERVICE, "batchDelete");
+
+    #endregion
+
+    #region User
+
+    public static string UserList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.USER_SERVICE);
+
+    public static string UserDetail = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "{id}");
+
+    /// <summary>
+    /// User additions, deletions and modifications use the same url
+    /// </summary>
+    public static string OperateUser = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_SERVICE);
+
+    public static string UserRole = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "role");
 
     #endregion
 }

@@ -10,18 +10,17 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task DeleteAsync(UserCommand.DeleteCommand deleteCommand)
+    public async Task DeleteAsync(DeleteCommand deleteCommand)
     {
         var user = await _userRepository.FindAsync(deleteCommand.UserId);
         if (user == null)
             throw new UserFriendlyException("userid not found");
 
         await _userRepository.RemoveAsync(user);
-        await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 
     [EventHandler]
-    public async Task CreateAsync(UserCommand.CreateCommand createCommand)
+    public async Task CreateAsync(CreateCommand createCommand)
     {
         var user = new Domain.Aggregates.User(
             createCommand.Creator,
@@ -33,17 +32,15 @@ public class CommandHandler
             Gender = true,
         };
         await _userRepository.AddAsync(user);
-        await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 
     [EventHandler]
-    public async Task CreateUserRoleAsync(UserCommand.CreateRoleCommand createUserRoleCommand)
+    public async Task CreateUserRoleAsync(CreateRoleCommand createUserRoleCommand)
     {
         var user = await _userRepository.FindAsync(createUserRoleCommand.UserRoleCreateRequest.UserId);
         if (user == null)
             throw new UserFriendlyException("userid not found");
         user.AddRole(createUserRoleCommand.UserRoleCreateRequest.RoleId);
         await _userRepository.UpdateAsync(user);
-        await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 }

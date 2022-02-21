@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace MASA.Framework.Admin.Service.User.Infrastructure;
 
 public class UserDbContext : IntegrationEventLogContext
@@ -11,8 +13,7 @@ public class UserDbContext : IntegrationEventLogContext
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
         base.OnModelCreatingExecuting(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

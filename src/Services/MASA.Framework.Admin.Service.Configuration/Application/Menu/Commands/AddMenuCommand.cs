@@ -1,10 +1,10 @@
-﻿namespace MASA.Framework.Admin.Configuration.Application.Menu.Commands;
+namespace MASA.Framework.Admin.Configuration.Application.Menu.Commands;
 
 public record AddMenuCommand : CommandBase
 {
-    public string Code { get; } = default!;
+    public string Code { get; set; } = default!;
 
-    public string Name { get; }= default!;
+    public string Name { get; set; } = default!;
 
     public string? Describe { get; set; }
 

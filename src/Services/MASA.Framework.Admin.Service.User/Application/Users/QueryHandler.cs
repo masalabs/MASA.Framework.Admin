@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.User.Application.Users.Queres;
-
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 
 public class QueryHandler
@@ -29,7 +27,7 @@ public class QueryHandler
             LastLoginTime = user.LastLoginTime,
             LastUpdateTime = user.LastUpdateTime,
             CreationTime = user.CreationTime,
-            State = (int)user.State
+            State = Convert.ToInt32(user.Enable)
         };
     }
 
@@ -54,7 +52,7 @@ public class QueryHandler
                 Account = user.Account,
                 Name = user.Name,
                 Email = user.Email,
-                State = (int)user.State,
+                State = Convert.ToInt32(user.Enable),
                 Cover = user.Cover,
                 Gender = user.Gender,
                 LastLoginTime = user.LastLoginTime

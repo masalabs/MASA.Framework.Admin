@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220220010719_init")]
+    [Migration("20220221040010_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.ToTable("IntegrationEventLog", (string)null);
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,6 +101,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("email");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit")
+                        .HasColumnName("enable");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit")
@@ -143,16 +147,12 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .HasColumnType("nvarchar(6)")
                         .HasColumnName("salt");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int")
-                        .HasColumnName("state");
-
                     b.HasKey("Id");
 
                     b.ToTable("users", "user");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.UserRole", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,9 +173,9 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.ToTable("user_roles", "user");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.UserRole", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserRole", b =>
                 {
-                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", "User")
+                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -184,7 +184,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregate.User", b =>
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
                     b.Navigation("UserRoles");
                 });

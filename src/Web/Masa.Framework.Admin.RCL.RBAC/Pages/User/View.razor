@@ -121,7 +121,7 @@
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
-                    <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail)" />
+                    <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail,new JsonSerializerOptions{WriteIndented = true})" />
                 </MCardText>
             </MCard>
         </MTabItem>

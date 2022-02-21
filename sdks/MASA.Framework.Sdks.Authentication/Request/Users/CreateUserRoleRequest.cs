@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Contracts.User.Request;
+namespace MASA.Framework.Sdks.Authentication.Request.Users;
 
 public class CreateUserRoleRequest
 {

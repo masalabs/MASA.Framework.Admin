@@ -5,11 +5,11 @@
 
 <AuthorizeView>
     <NotAuthorized>
-            <MApp>
-                <div style="height:100%;margin:0;padding:0;">
-                    <MASA.Framework.Admin.Web.Pages.Authentication.Login_v2></MASA.Framework.Admin.Web.Pages.Authentication.Login_v2>
-                </div>
-            </MApp>
+        <MApp>
+            <div style="height:100%;margin:0;padding:0;">
+                <MASA.Framework.Admin.Web.Pages.Authentication.Login_v2></MASA.Framework.Admin.Web.Pages.Authentication.Login_v2>
+            </div>
+        </MApp>
     </NotAuthorized>
     <Authorized>
         <MApp>
@@ -27,30 +27,30 @@
 
             <MMain Class="fill-lighten-1" Style="padding-top:60px">
                 @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
-                        {
-                            <div class="pa-6 max-width">
-                                <Breadcrumb></Breadcrumb>
-                                @Body
-                            </div>
-                        }
-                        else if (GlobalConfig.PageMode == PageModes.PageTab)
-                        {
-                            <PageTabs>
-                                @Body
-                            </PageTabs>
-                        }
-                        else
-                        {
-                            <div class="pa-6 max-width">
-                                @Body
-                            </div>
-                        }
+                {
+                    <div class="pa-6 max-width">
+                        <Breadcrumb></Breadcrumb>
+                        @Body
+                    </div>
+                }
+                else if (GlobalConfig.PageMode == PageModes.PageTab)
+                {
+                    <PageTabs>
+                        @Body
+                    </PageTabs>
+                }
+                else
+                {
+                    <div class="pa-6 max-width">
+                        @Body
+                    </div>
+                }
             </MMain>
 
             <Settings @bind-Show=_showSetting />
             <MLodding />
-    <MConfirmDialog />
-    <MMessage />
+            <MConfirmDialog />
+            <MMessage />
         </MApp>
     </Authorized>
 </AuthorizeView>

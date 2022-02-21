@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Internal.Const;
+namespace MASA.Framework.Sdks.Authentication.Internal.Const;
 
 public class UrlRule
 {
@@ -11,4 +11,6 @@ public class UrlRule
     public const string OBJECT_SERVICE = "object";
 
     public const string INTEGRATION_EVENT_SERVICE = "integraion";
+
+    public const string USER_SERVICE = "user";
 }

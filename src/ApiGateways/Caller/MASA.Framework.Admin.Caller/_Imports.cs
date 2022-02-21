@@ -1,14 +1,8 @@
-global using MASA.Framework.Admin.Caller.Infrastructure;
-global using MASA.Framework.Admin.Contracts.Base.Const;
 global using MASA.Framework.Admin.Contracts.Base.Response;
 global using MASA.Framework.Admin.Contracts.Configuration.Request.Menu;
 global using MASA.Framework.Admin.Contracts.Configuration.Response;
-global using MASA.Framework.Admin.Contracts.User.Request;
-global using MASA.Framework.Admin.Contracts.User.Response;
 global using MASA.Utils.Caller.HttpClient;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.Extensions.Configuration;
-global using Microsoft.Extensions.DependencyInjection;
 global using ConfigurationRouting = MASA.Framework.Admin.Contracts.Configuration.Routing;
-global using UserRouting = MASA.Framework.Admin.Contracts.User.Routing;

@@ -1,14 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
-    assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
+    assemblies: typeof(AppConfigOption).Assembly);
 
 builder.Services.AddLogging();
 
 builder.Services.AddOpenTelemetryTracing(options =>
     options
     .AddSource(TelemetryConstants.ServiceName)
-    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName: TelemetryConstants.ServiceName, serviceVersion: TelemetryConstants.ServiceVersion).AddTelemetrySdk())
+    .SetResourceBuilder(ResourceBuilder.CreateDefault()
+            .AddService(serviceName: TelemetryConstants.ServiceName, serviceVersion: TelemetryConstants.ServiceVersion).AddTelemetrySdk())
         .AddSqlClientInstrumentation(options =>
         {
             options.SetDbStatementForText = true;
@@ -20,6 +21,7 @@ builder.Services.AddOpenTelemetryTracing(options =>
                 && !req.Request.Path.ToUriComponent().Contains("swagger", StringComparison.OrdinalIgnoreCase);
         })
         .AddHttpClientInstrumentation()
+        .AddConsoleExporter()
         .AddZipkinExporter(o =>
         {
             o.Endpoint = new Uri("http://zipkin:9411/api/v2/spans");
@@ -61,7 +63,7 @@ var app = builder.Services.AddFluentValidation(options =>
             {
                 var serviceProvider = builder.Services.BuildServiceProvider()!;
                 var option = serviceProvider
-                    .GetRequiredService<IOptions<MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions>>();
+                    .GetRequiredService<IOptions<AppConfigOption>>();
                 dbOptions.UseSqlServer(option.Value.DbConn);
             })
             .UseDaprEventBus<IntegrationEventLogService>()

@@ -112,17 +112,16 @@ public class AuthenticationCaller : CallerBase
 
     public async Task<ApiResultResponse<bool>> ContainsObjectAsync(Guid objectId, string code)
     {
-        return (await ResultAsync(async () =>
+        return await ResultAsync(async () =>
         {
-            var paramters = new Dictionary<string, string?>
+            var paramters = new Dictionary<string, string>
             {
                 ["objectId"] = objectId.ToString(),
-                ["code"] = code,
+                ["code"] = code
             };
             return await CallerProvider.GetAsync<bool>(Routing.ContainsObject, paramters);
-        }));
+        });
     }
-
 
     public async Task<ApiResultResponseBase> AddObjectAsync(AddObjectRequest request)
     {
@@ -144,7 +143,7 @@ public class AuthenticationCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            await CallerProvider.DeleteAsync<DeleteObjectRequest>(Routing.OperateObject, request);
+            await CallerProvider.DeleteAsync(Routing.OperateObject, request);
         });
     }
 
@@ -158,5 +157,4 @@ public class AuthenticationCaller : CallerBase
     }
 
     #endregion
-
 }

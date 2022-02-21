@@ -1,5 +1,3 @@
-using MASA.Utils.Development.Dapr.AspNetCore;
-
 var builder = WebApplication
     .CreateBuilder(args)
     .AddMasaConfiguration(
@@ -8,15 +6,15 @@ var builder = WebApplication
             configurationBuilder.UseMasaOptions(options =>
             {
                 options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings",
-                    "RedisConfig"); //将PlatformOptions绑定映射到Local:Appsettings:Platforms节点
+                    "RedisConfig"); //Map the PlatformOptions binding to the Local:Appsettings:Platforms node
             });
         },
         assemblies: typeof(AppConfigOption).Assembly);
 
-var serviceProvider = builder.Services.BuildServiceProvider();
+var serviceProvider = builder.Services.BuildServiceProvider()!;
 var redisOptions = serviceProvider.GetService<IOptions<RedisConfigurationOptions>>();
 builder.Services
-    .AddMasaRedisCache(redisOptions.Value)
+    .AddMasaRedisCache(redisOptions!.Value)
     .AddMasaMemoryCache();
 
 var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();

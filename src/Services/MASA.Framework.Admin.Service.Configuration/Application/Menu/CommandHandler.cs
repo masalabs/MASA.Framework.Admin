@@ -10,45 +10,42 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task AddAsync(MenuCommand.AddCommand command)
+    public async Task AddAsync(MenuCommand.AddMenuCommand command)
     {
         var menu = new Domain.Aggregate.Menu(
             command.Creator,
-            command.Request.Name,
-            command.Request.Code,
-            command.Request.Url,
-            command.Request.Sort,
-            command.Request.Disabled)
-        {
-            Icon = command.Request.Icon,
-            Describe = command.Request.Describe,
-            ParentId = command.Request.ParentId,
-            ParentName = command.Request.ParentName,
-        };
+            command.Code,
+            command.Name,
+            command.Url,
+            command.Icon,
+            command.Describe,
+            command.ParentId,
+            command.Sort,
+            command.Disabled);
         await _repository.AddAsync(menu);
-        await _repository.UnitOfWork.SaveChangesAsync();
     }
 
     [EventHandler]
-    public async Task EditAsync(MenuCommand.EditCommand command)
+    public async Task EditAsync(MenuCommand.EditMenuCommand command)
     {
-        var menu = await _repository.FindAsync(command.Request.MenuId);
+        var menu = await _repository.FindAsync(command.MenuId);
         if (menu == null)
             throw new UserFriendlyException("the menu does not exist");
 
-        menu.Update(command.Creator, command.Request.Name,command.Request.Url, command.Request.Sort,command.Request.Disabled);
-        menu.Icon = command.Request.Icon;
-        menu.Describe = command.Request.Describe;
-        menu.ParentId = command.Request.ParentId;
-        menu.ParentName = command.Request.ParentName;
+        menu.Update(command.Creator,
+            command.Name, command.Url,
+            command.Icon,
+            command.Describe,
+            command.ParentId,
+            command.Sort,
+            command.Disabled);
+
         await _repository.UpdateAsync(menu);
-        await _repository.UnitOfWork.SaveChangesAsync();
     }
 
     [EventHandler]
-    public async Task DeleteAsync(MenuCommand.DeleteCommand command)
+    public async Task DeleteAsync(MenuCommand.DeleteMenuCommand command)
     {
-        await _repository.RemoveAsync(m => m.Id == command.request.MenuId);
-        await _repository.UnitOfWork.SaveChangesAsync();
+        await _repository.RemoveAsync(m => m.Id == command.MenuId);
     }
 }

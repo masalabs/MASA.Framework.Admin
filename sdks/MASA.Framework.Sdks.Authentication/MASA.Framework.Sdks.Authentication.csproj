@@ -13,10 +13,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Response\Configuration" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
   </ItemGroup>
   

@@ -1,3 +1,5 @@
+using MASA.Framework.Sdks.Authentication.Callers;
+using MASA.Framework.Sdks.Authentication.Request.Configuration.Menu;
 namespace Masa.Framework.Admin.RCL.RBAC;
 
 public class MenuPage : ComponentPageBase
@@ -94,16 +96,18 @@ public class MenuPage : ComponentPageBase
     public async Task AddOrUpdateAsync()
     {
         Lodding = true;
-        var result = default(ApiResultResponseBase);
+        var result = default(MASA.Framework.Sdks.Authentication.Response.Base.ApiResultResponseBase);
         CurrentData.ParentName = Datas.FirstOrDefault(d => d.Id == CurrentData.ParentId)?.Name;
         if (CurrentData.Id == Guid.Empty)
         {
-            result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Name, CurrentData.Code, CurrentData.Url, CurrentData.Sort, CurrentData.Disabled)
+            result = await ConfigurationCaller.CreateAsync(new AddMenuRequest(CurrentData.Name, CurrentData.Code)
             {
                 Describe = CurrentData.Describe,
                 Icon = CurrentData.Icon,
-                ParentName = CurrentData.ParentName,
                 ParentId = CurrentData.ParentId,
+                Url = CurrentData.Url,
+                Sort = CurrentData.Sort,
+                Disabled = CurrentData.Disabled
             });
 
             await CheckApiResult(result, I18n.T("Added menu successfully"), result.Message);
@@ -144,7 +148,7 @@ public class MenuPage : ComponentPageBase
                 await DeleteAsync(confirm);
             }
             Lodding = false;
-        }        
+        }
     }
 
     public async Task DeleteAsync(bool confirm)
@@ -158,7 +162,7 @@ public class MenuPage : ComponentPageBase
         }
     }
 
-    async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
+    async Task CheckApiResult(MASA.Framework.Sdks.Authentication.Response.Base.ApiResultResponseBase result, string successMessage, string errorMessage)
     {
         if (result.Success is false) OpenErrorDialog(errorMessage);
         else

@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.Authentication.Application.Objects.Commands;
-
 namespace MASA.Framework.Admin.Service.Authentication.Application.Objects;
 
 public class CommandHandler
@@ -41,7 +39,6 @@ public class CommandHandler
     {
         await _repository.RemoveAsync(o => o.Id == command.ObjectId);
     }
-
 
     [EventHandler]
     public async Task BatchDeleteAsync(BatchDeleteObjectCommand command)

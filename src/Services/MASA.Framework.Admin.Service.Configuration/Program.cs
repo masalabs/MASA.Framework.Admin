@@ -2,7 +2,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 builder.AddMasaConfiguration(
     null,
-    assemblies: typeof(MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions).Assembly);
+    assemblies: typeof(AppConfigOption).Assembly);
+
+var serviceProvider = builder.Services.BuildServiceProvider()!;
+var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();
+if (appConfigOption.Value.EnableDapr)
+    builder.Services.AddDapr();
+
 var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<MenuService>();
@@ -23,10 +29,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<ConfigurationDbContext>(dbOptions =>
             {
-                var serviceProvider = builder.Services.BuildServiceProvider()!;
-                var option = serviceProvider
-                    .GetRequiredService<IOptions<MASA.Framework.Admin.Contracts.Base.Extensions.Configurations.DbContextOptions>>();
-                dbOptions.UseSqlServer(option.Value.DbConn);
+                dbOptions.UseSqlServer(appConfigOption.Value.DbConn);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<ConfigurationDbContext>()

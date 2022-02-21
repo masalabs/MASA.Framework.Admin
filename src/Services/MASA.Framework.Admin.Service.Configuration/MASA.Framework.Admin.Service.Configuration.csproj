@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MASA.Utils.Development.Dapr.AspNetCore" Version="0.0.1872423660" />
     <PackageReference Include="MASA.Utils.Expressions" Version="0.0.1872423660" />
     <PackageReference Include="MASA.Utils.Exceptions" Version="0.0.1872423660" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
@@ -24,11 +25,13 @@
     <PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.0.1869587016" />
     <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.0.1869587016" />
     <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.0.1869587016" />
+    <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.0.1869587016" />
     <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.0.1869587016" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
   </ItemGroup>
 
 </Project>

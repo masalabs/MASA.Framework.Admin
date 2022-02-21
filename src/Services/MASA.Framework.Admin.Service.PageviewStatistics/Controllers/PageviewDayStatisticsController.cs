@@ -1,5 +1,4 @@
 ﻿using MASA.Framework.Admin.Contracts.PageviewStatistics;
-using MASA.Framework.Admin.Repositories;
 using MASA.Framework.Admin.Service.PageviewStatistics.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

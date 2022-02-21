@@ -1,6 +1,6 @@
 using Dapr;
 using MASA.Framework.Admin.Contracts.Logging;
-using MASA.Framework.Admin.Service.Logging.Infrastructure.Repositories;
+using MASA.Framework.Admin.Service.PageviewStatistics.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.PageviewStatistics.Controllers

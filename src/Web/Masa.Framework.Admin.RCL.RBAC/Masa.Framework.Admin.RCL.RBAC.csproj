@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\sdks\MASA.Framework.Sdks.Authentication\MASA.Framework.Sdks.Authentication.csproj" />
     <ProjectReference Include="..\..\ApiGateways\Caller\MASA.Framework.Admin.Caller\MASA.Framework.Admin.Caller.csproj" />
-    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Configuration\MASA.Framework.Admin.Contracts.Configuration.csproj" />
     <ProjectReference Include="..\MASA.Framework.Admin.Web.Base\MASA.Framework.Admin.Web.Base.csproj" />
   </ItemGroup>
 

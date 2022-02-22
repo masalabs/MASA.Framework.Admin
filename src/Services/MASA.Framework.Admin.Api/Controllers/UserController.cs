@@ -40,5 +40,13 @@ namespace MASA.Framework.Admin.Service.Login.Controllers
             var users = _memoryCache.Get<List<OnlineUserModel>>("online_user_id");
             return users?.Count ?? 0;
         }
+
+        [HttpGet]
+        public async Task<int> GetUserCount([FromServices] IUserRepository userRepository)
+        {
+            var count = await userRepository.GetUserCount();
+
+            return count;
+        }
     }
 }

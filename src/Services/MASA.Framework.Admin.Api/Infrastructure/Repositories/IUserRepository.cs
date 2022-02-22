@@ -7,5 +7,7 @@ namespace MASA.Framework.Admin.Service.Api.Infrastructure.Repositories
         Task<LoginViewModel> LoginAsync(LoginModel loginModel);
 
         Task<UserModel> GetUserAsync(int id);
+
+        Task<int> GetUserCount();
     }
 }

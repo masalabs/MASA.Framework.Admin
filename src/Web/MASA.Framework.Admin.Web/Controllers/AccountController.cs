@@ -36,9 +36,10 @@ namespace MASA.Framework.Admin.Web.Controllers
             var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
 
             var claims = new List<Claim>
-            {
-                 new Claim("UserId", userId),
-            };
+                {
+                     new Claim("UserId", userId),
+                     new Claim("Token",token)
+                };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties

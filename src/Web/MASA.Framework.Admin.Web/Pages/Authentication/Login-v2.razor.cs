@@ -1,13 +1,22 @@
+﻿using MASA.Framework.Admin.Caller.Callers;
+using MASA.Framework.Admin.Contracts.Order.Model;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.SignalR.Client;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.SignalR;
 using MASA.Framework.Admin.Caller.UserCallers;
 using MASA.Framework.Admin.Contracts.Login.Model;
-using Microsoft.AspNetCore.SignalR.Client;
+using MASA.Framework.Admin.Web.Shared;
 
 namespace MASA.Framework.Admin.Web.Pages.Authentication
 {
     public partial class Login_v2
     {
-        private HubConnection _hubConnection = default!;
-        private readonly string _hubName = "login";
         private bool _show;
         private string _account = "";
         private string _password = "";
@@ -24,48 +33,32 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         public NavigationManager NavigationManager { get; set; } = default!;
 
         [Inject]
-        public MASA.Framework.Admin.Caller.UserCallers.UserCaller UserCaller { get; set; } = default!;
+        public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
 
+        [Inject]
+        public UserCaller UserCaller { get; set; } = default!;
+
+        [CascadingParameter]
+        public MainLayout App { get; set; } = default!;
 
         private async Task LoginAsync()
         {
             _loading = true;
-            var token = await GetToken();
+            var tokenInfo = await GetToken();
 
-            if (!string.IsNullOrWhiteSpace(token))
+            if (tokenInfo == null || tokenInfo.Code == 1)
             {
-                try
-                {
-                    string huburl = NavigationManager.BaseUri.TrimEnd('/') + $"/{_hubName}";
-                    _hubConnection = new HubConnectionBuilder()
-                        .WithUrl("http://localhost:5041/login", options =>
-                        {
-                            options.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                        })
-                        .WithAutomaticReconnect()
-                        .Build();
-
-                    _hubConnection.On<string, string>("Logout", Logout);
-
-                    await _hubConnection.StartAsync();
-
-                    _loading = false;
-
-                    NavigationManager.NavigateTo($"/Account/Login?token={token}", true);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                _loading = false;
+            }
+            else if (tokenInfo.Code == 0)
+            {
+                _loading = false;
+                await ProtectedLocalStorage.SetAsync("IsLogined", true);
+                NavigationManager.NavigateTo($"/Account/Login?token={tokenInfo.Result}", true);
             }
         }
 
-        private void Logout(string name, string msg)
-        {
-
-        }
-
-        private async Task<string> GetToken()
+        private async Task<LoginViewModel?> GetToken()
         {
             if (!string.IsNullOrWhiteSpace(_account) && !string.IsNullOrWhiteSpace(_password))
             {
@@ -79,17 +72,19 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
                 {
                     _showErrorMessage = true;
                     _errorMessage = loginViewModel.Result;
-                    return "";
                 }
                 else
                 {
                     _showErrorMessage = false;
-                    return loginViewModel.Result;
                 }
+
+                return loginViewModel;
             }
             else
             {
-                return "";
+                _showErrorMessage = true;
+                _errorMessage = "请输入账号或密码";
+                return null;
             }
         }
     }

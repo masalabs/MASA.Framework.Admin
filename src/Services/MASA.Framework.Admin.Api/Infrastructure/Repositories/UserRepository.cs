@@ -35,7 +35,7 @@ namespace MASA.Framework.Admin.Service.Api.Infrastructure.Repositories
 
         public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
         {
-            LoginViewModel loginViewModel = new LoginViewModel();
+            var loginViewModel = new LoginViewModel();
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Account == loginModel.Account);
             if (user == null)
             {
@@ -65,6 +65,13 @@ namespace MASA.Framework.Admin.Service.Api.Infrastructure.Repositories
             }
 
             return loginViewModel;
+        }
+
+        public async Task<int> GetUserCount()
+        {
+            var count = await _dbContext.Users.CountAsync();
+
+            return count;
         }
     }
 }

@@ -66,5 +66,12 @@ namespace MASA.Framework.Admin.Service.Api.Infrastructure.Repositories
 
             return loginViewModel;
         }
+
+        public async Task<int> GetUserCount()
+        {
+            var count = await _dbContext.Users.CountAsync();
+
+            return count;
+        }
     }
 }

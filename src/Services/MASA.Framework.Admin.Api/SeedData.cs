@@ -1,4 +1,5 @@
-﻿using MASA.Framework.Admin.Service.Api.Infrastructure.Entities;
+﻿using MASA.BuildingBlocks.Data.UoW;
+using MASA.Framework.Admin.Service.Api.Infrastructure.Entities;
 using MASA.Framework.Admin.Service.Api.Infrastructure.Utils;
 
 namespace MASA.Framework.Admin.Api
@@ -29,7 +30,27 @@ namespace MASA.Framework.Admin.Api
                 State = 1
             });
 
+            for (int i = 0; i < 10; i++)
+            {
+                var account = $"admin{i}";
+                context.Add(new User
+                {
+                    Account = account,
+                    NickName = account,
+                    Password = SHA1Utils.Encrypt($"{account}123456"),
+                    CreationTime = DateTime.Now,
+                    ModificationTime = DateTime.Now,
+                    Creator = Guid.NewGuid(),
+                    Modifier = Guid.NewGuid(),
+                    Salt = "123456",
+                    State = 1
+                });
+            }
+
             context.SaveChanges();
+
+            var unitOfWork = services.GetRequiredService<IUnitOfWork>();
+            unitOfWork.CommitAsync().Wait();
         }
     }
 }

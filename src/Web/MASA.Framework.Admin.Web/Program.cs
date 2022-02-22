@@ -21,9 +21,17 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
 
 builder.Services.AddTransient<IOperationLogService, DefaultOperationLogService>();
-builder.Services.AddHttpClient<DefaultOperationLogService>("Logging", httpClient =>
+builder.Services.AddHttpClient("Logging", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:5011");
+});
+builder.Services.AddHttpClient("PageviewStatistics", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:5087");
+});
+builder.Services.AddHttpClient("User", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:5041");
 });
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {

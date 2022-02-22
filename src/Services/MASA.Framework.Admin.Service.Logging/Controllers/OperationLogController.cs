@@ -50,6 +50,7 @@ namespace MASA.Framework.Admin.Service.Logging.Controllers
                 CreateTime = log.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Description = log.Description,
                 //TODO:Username
+                Username="admin"
             });
 
             var result = new PageResult<OperationLogDto>(count, data);

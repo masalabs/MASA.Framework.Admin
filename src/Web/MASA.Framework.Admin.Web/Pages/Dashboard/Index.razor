@@ -1,76 +1,91 @@
-﻿@page "/dashboard"
+﻿@page "/dashboard/index"
 
 <MRow>
-    <MCol Cols="6">
-        <MCard Height=200>
-            <MCardText>
-                @if (_visitPageDayStatistics != null)
-                {
-                    <MRow>
-                        <MSpacer></MSpacer>
-                        <MCol Cols="3">浏览量(PV)</MCol>
-                        <MCol Cols="3">访客数(UV)</MCol>
-                        <MCol Cols="3">IP数</MCol>
-                    </MRow>
-                    @if (TodayStatistics != null)
-                    {
+    <MCol Md=8 Sm=12>
+        <MRow>
+            <MCol Md=9 Sm=12>
+                <MCard Height=200>
+                    <MCardText>
+                        @if (_pageviewDayStatistics != null)
+                        {
+                            <MRow>
+                                <MSpacer></MSpacer>
+                                <MCol>浏览量(PV)</MCol>
+                                <MCol>访客数(UV)</MCol>
+                                <MCol>IP数</MCol>
+                            </MRow>
+                            @if (TodayStatistics != null)
+                            {
+                                <MRow>
+                                    <MCol>今日</MCol>
+                                    <MCol>@TodayStatistics.PV</MCol>
+                                    <MCol>@TodayStatistics.UV</MCol>
+                                    <MCol>@TodayStatistics.IPCount</MCol>
+                                </MRow>
+                            }
+                            @if (YesterdayStatistics != null)
+                            {
+                                <MRow>
+                                    <MCol>昨日</MCol>
+                                    <MCol>@YesterdayStatistics.PV</MCol>
+                                    <MCol>@YesterdayStatistics.UV</MCol>
+                                    <MCol>@YesterdayStatistics.IPCount</MCol>
+                                </MRow>
+                            }
+                        }
+                    </MCardText>
+                </MCard>
+            </MCol>
+            <MCol Md=3 Sm=12>
+                <MCard Height=200>
+                    <MCardText>
                         <MRow>
-                            <MCol Cols="3">今日</MCol>
-                            <MCol Cols="3">@TodayStatistics.PV</MCol>
-                            <MCol Cols="3">@TodayStatistics.UV</MCol>
-                            <MCol Cols="3">@TodayStatistics.IPCount</MCol>
+                            <MCol>
+                                在线/离线用户
+                            </MCol>
                         </MRow>
-                    }
-                    @if (YesterdayStatistics != null)
-                    {
                         <MRow>
-                            <MCol Cols="3">昨日</MCol>
-                            <MCol Cols="3">@YesterdayStatistics.PV</MCol>
-                            <MCol Cols="3">@YesterdayStatistics.UV</MCol>
-                            <MCol Cols="3">@YesterdayStatistics.IPCount</MCol>
+                            <MCol>
+                                <MECharts Height=100 Width="@("100%")" Class="mt-1" Option=_onlineChart></MECharts>
+                            </MCol>
                         </MRow>
-                    }
-                }
-            </MCardText>
-        </MCard>
+                    </MCardText>
+                </MCard>
+            </MCol>
+        </MRow>
+        <MRow>
+            <MCol>
+                <MCard>
+                    <MCardText>
+                        <div style="position: absolute;margin-left: 70px;display: inline-block;z-index:1000;">
+                            <MButtonGroup Value="_current" ValueChanged="HandleOnChangeAsync" Color="primary" Mandatory>
+                                <MButton Value="@("PV")" Small>
+                                    浏览量(PV)
+                                </MButton>
+                                <MButton Value="@("UV")" Small>
+                                    访客数(UV)
+                                </MButton>
+                            </MButtonGroup>
+                        </div>
+                        <div class="d-flex align-center justify-center">
+                            <MECharts Option="_option" Height="560" Width="@("100%")">
+                            </MECharts>
+                        </div>
+                    </MCardText>
+                </MCard>
+            </MCol>
+        </MRow>
     </MCol>
-    <MCol Cols="6">
-        <MCard Height=200>
-            <MCardText>
-                当前在线用户数：100
-            </MCardText>
-        </MCard>
-    </MCol>
-</MRow>
-<MRow>
-    <MCol Cols="6">
-        <MCard>
-            <MCardText>
-                <div style="position: absolute;margin-left: 70px;display: inline-block;z-index:1000;">
-                    <MButtonGroup Value="_current" ValueChanged="HandleOnChangeAsync" Color="primary" Mandatory>
-                        <MButton Value="@("PV")" Small>
-                            浏览量(PV)
-                        </MButton>
-                        <MButton Value="@("UV")" Small>
-                            访客数(UV)
-                        </MButton>
-                    </MButtonGroup>
-                </div>
-                <div class="d-flex align-center justify-center">
-                    <MECharts Option="_option">
-                    </MECharts>
-                </div>
-            </MCardText>
-        </MCard>
-    </MCol>
-    <MCol Cols="6">
-        <MCard Height="456">
+    <MCol Md=4 Sm=12>
+        <MCard Class="max-height">
             <MCardText>
                 @if (_operationLogs != null)
                 {
                     <MDataTable Headers="_headers"
                             Items="_operationLogs"
-                            ItemsPerPage="5"></MDataTable>
+                            Class="table-border-none pt-2"
+                            HideDefaultFooter
+                            ItemsPerPage="20"></MDataTable>
                 }
             </MCardText>
         </MCard>

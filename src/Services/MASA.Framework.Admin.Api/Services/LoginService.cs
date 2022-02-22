@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Login.Model;
-using MASA.Utils.Caching.DistributedMemory;
-using MASA.Utils.Caching.DistributedMemory.Interfaces;
-using Microsoft.AspNetCore.Components;
+using MASA.Framework.Admin.Contracts.Login.Model;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MASA.Framework.Admin.Service.Api.Services
@@ -32,7 +29,7 @@ namespace MASA.Framework.Admin.Service.Api.Services
 
         public void AddOrUpdateOnlineUsers(List<OnlineUserModel> onlineUsers)
         {
-            _memoryCache.Set<List<OnlineUserModel>>($"{cacheKeyOnlineUserId}", onlineUsers);
+            _memoryCache.Set($"{cacheKeyOnlineUserId}", onlineUsers);
         }
     }
 }

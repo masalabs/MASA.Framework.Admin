@@ -1,9 +1,14 @@
+using MASA.Framework.Admin.Service.User.Infrastructure.Hub;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(AppConfigOption).Assembly);
 
+builder.Services.AddSignalR();
 builder.Services.AddLogging();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenTelemetryTracing(options =>
     options
@@ -75,6 +80,10 @@ var app = builder.Services.AddFluentValidation(options =>
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
 });
+
+//init db
+await app.Initialize();
+
 app.UseMasaExceptionHandling(opt =>
     {
         opt.CustomExceptionHandler = exception =>
@@ -92,5 +101,7 @@ app.UseMasaExceptionHandling(opt =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
     });
+
+app.MapHub<LoginHub>("/login");
 
 app.Run();

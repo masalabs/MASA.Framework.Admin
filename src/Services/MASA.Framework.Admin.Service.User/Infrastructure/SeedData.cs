@@ -1,8 +1,7 @@
-﻿using MASA.BuildingBlocks.Data.UoW;
-using MASA.Framework.Admin.Service.Api.Infrastructure.Entities;
-using MASA.Framework.Admin.Service.Api.Infrastructure.Utils;
+using MASA.Framework.Admin.Service.Infrastructure;
+using MASA.Utils.Security.Cryptography;
 
-namespace MASA.Framework.Admin.Api
+namespace MASA.Framework.Admin.Service.User.Infrastructure
 {
     public static class SeedData
     {

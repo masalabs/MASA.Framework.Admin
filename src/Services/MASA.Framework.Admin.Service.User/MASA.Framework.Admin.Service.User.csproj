@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MASA.Utils.Security.Cryptography" Version="0.0.1857786834" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

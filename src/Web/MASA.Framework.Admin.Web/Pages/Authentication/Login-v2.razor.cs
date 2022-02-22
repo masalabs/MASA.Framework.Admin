@@ -1,17 +1,7 @@
-﻿using MASA.Framework.Admin.Caller.Callers;
-using MASA.Framework.Admin.Contracts.Order.Model;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.SignalR.Client;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.SignalR;
 using MASA.Framework.Admin.Caller.UserCallers;
 using MASA.Framework.Admin.Contracts.Login.Model;
 using MASA.Framework.Admin.Web.Shared;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace MASA.Framework.Admin.Web.Pages.Authentication
 {
@@ -36,7 +26,7 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
 
         [Inject]
-        public UserCaller UserCaller { get; set; } = default!;
+        public Caller.UserCallers.UserCaller UserCaller { get; set; } = default!;
 
         [CascadingParameter]
         public MainLayout App { get; set; } = default!;

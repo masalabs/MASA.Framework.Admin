@@ -1,5 +1,5 @@
 using MASA.Framework.Admin.Infrastructure.Utils;
-using MASA.Framework.Admin.Service.Api.Infrastructure.Utils;
+using MASA.Utils.Security.Cryptography;
 
 namespace MASA.Framework.Admin.Service.User.Domain.Aggregates;
 

@@ -1,4 +1,4 @@
-﻿using MASA.Framework.Admin.Service.Api.Infrastructure.Entities;
+using MASA.Framework.Admin.Service.Api.Infrastructure.Entities;
 
 namespace MASA.Framework.Admin.Service.Infrastructure
 {

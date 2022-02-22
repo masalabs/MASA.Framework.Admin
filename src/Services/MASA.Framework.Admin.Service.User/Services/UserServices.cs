@@ -1,3 +1,6 @@
+using MASA.Framework.Admin.Contracts.Login.Model;
+using Microsoft.Extensions.Caching.Memory;
+
 namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
@@ -81,4 +84,42 @@ public class UserServices : ServiceBase
     {
         await eventBus.PublishAsync(new DeleteCommand(id));
     }
+
+    [HttpPost]
+    public async Task<LoginViewModel> Login([FromServices] IUserRepository userRepository, LoginModel model)
+    {
+        var result = await userRepository.LoginAsync(model);
+
+        return result;
+    }
+
+    [HttpGet]
+    public async Task<UserModel> GetUser([FromServices] IUserRepository userRepository, [FromBody] int id)
+    {
+        var result = await userRepository.GetUserAsync(id);
+
+        return result;
+    }
+
+    public async Task GetOnlineUserCount(
+       [FromServices] IEventBus eventBus, [FromServices] IMemoryCache _memoryCache,
+       [FromHeader(Name = "creator-id")] Guid creator)
+    {
+        await eventBus.PublishAsync(new CreateRoleCommand(userRoleCreateRequest)
+        {
+            Creator = creator
+        });
+
+        //var users = _memoryCache.Get<List<OnlineUserModel>>("online_user_id");
+        //return users?.Count ?? 0;
+    }
+
+    [HttpGet]
+    public async Task<int> GetUserCount([FromServices] IUserRepository userRepository)
+    {
+        var count = await userRepository.GetUserCount();
+
+        return count;
+    }
+
 }

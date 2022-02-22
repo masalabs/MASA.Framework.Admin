@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\**" />
+    <Content Remove="Application\**" />
+    <EmbeddedResource Remove="Application\**" />
+    <None Remove="Application\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MASA.BuildingBlocks.Dispatcher.Events" Version="0.0.1868620703" />
     <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.0.1869587016" />
     <PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.0.1869587016" />
@@ -33,12 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Users\Commands\" />
-    <Folder Include="Application\Users\Queries\" />
+    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Login\MASA.Framework.Admin.Contracts.Login.csproj" />
+    <Folder Include="Infrastructure\Entities\" />
   </ItemGroup>
 
 </Project>

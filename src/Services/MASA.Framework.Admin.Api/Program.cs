@@ -1,7 +1,6 @@
 using MASA.Contrib.Data.Contracts.EF;
 using MASA.Framework.Admin.Api;
 using MASA.Framework.Admin.Contracts.Login.Model;
-using MASA.Framework.Admin.Service.Infrastructure.Api.Hub;
 using MASA.Utils.Configuration.Json;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
@@ -30,7 +29,6 @@ foreach (var item in assembly)
 builder.Services.AddMemoryCache();
 
 var connectionString = AppSettings.Get("ConnectionString");
-builder.Services.AddTransient(typeof(IMiddleware<>), typeof(LogMiddleware<>));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
     .AddEndpointsApiExplorer()

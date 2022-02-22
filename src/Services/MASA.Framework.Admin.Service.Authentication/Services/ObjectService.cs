@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Service.Authentication.Application.Objects.Commands;
-
 namespace MASA.Framework.Admin.Service.Authentication.Services;
 
 public class ObjectService : ServiceBase

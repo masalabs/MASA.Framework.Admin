@@ -6,8 +6,6 @@ public class Routing
 
     public static readonly string AuthorizeList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.AUTHORIZE_SERVICE);
 
-    #endregion
-
     #region Permission
 
     public static readonly string PermissionList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.PERMISSION_SERVICE);
@@ -46,6 +44,8 @@ public class Routing
 
     #endregion
 
+    #endregion
+
     #region User
 
     public static string UserList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.USER_SERVICE);
@@ -58,6 +58,22 @@ public class Routing
     public static string OperateUser = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_SERVICE);
 
     public static string UserRole = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "role");
+
+    #endregion
+
+    #region Configuration
+
+    #region Menu
+
+    public static string MenuList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.MENU_SERVICE);
+
+    public static string AllMenus = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.MENU_SERVICE,"allMenus");
+
+    public static string AnyChild = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.MENU_SERVICE,"anyChild");
+
+    public static string OperateMenu = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.MENU_SERVICE);
+
+    #endregion
 
     #endregion
 }

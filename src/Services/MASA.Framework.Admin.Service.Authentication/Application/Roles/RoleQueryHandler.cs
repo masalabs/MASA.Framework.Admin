@@ -112,27 +112,30 @@ public class RoleQueryHandler
         var allChildrenRoleIdList = await GetRoleListLoop(roleId);
 
         var permissions = await (from rolePermission in _dbContext.Set<RolePermission>()
-                    .Include(rolePermission=>rolePermission.Role)
+                    .Include(rolePermission => rolePermission.Role)
                     .Where(rolePermission => allChildrenRoleIdList.Contains(rolePermission.Role.Id))
                 join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
                     into temp
                 from newPermissions in temp.DefaultIfEmpty()
                 select new
                 {
-                    Id = rolePermission.Id,
+                    rolePermission.Id,
                     PermissionId = newPermissions.Id,
                     PermissionName = newPermissions.Name,
-                    ObjectType = newPermissions.ObjectType,
-                    Resource = newPermissions.Resource,
-                    Scope = newPermissions.Scope,
+                    newPermissions.ObjectType,
+                    newPermissions.Resource,
+                    newPermissions.Scope,
                     InheritanceRoleId = rolePermission.Role.Id,
                     InheritanceRoleSource = rolePermission.Role.Name,
-                    PermissionType = newPermissions.PermissionType
+                    newPermissions.PermissionType,
+                    newPermissions.Enable,
+                    newPermissions.Action
                 })
             .ToListAsync();
         return permissions.Where(permission
-                => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public) ||
-                (permission.InheritanceRoleId == roleId))
+                => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public ||
+                    permission.InheritanceRoleId == roleId) &&
+                permission.Enable)
             .Select(permission => new AuthorizeItemResponse()
             {
                 Id = permission.Id,
@@ -141,6 +144,7 @@ public class RoleQueryHandler
                 ObjectType = permission.ObjectType,
                 Resource = permission.Resource,
                 Scope = permission.Scope,
+                Action = permission.Action,
                 InheritanceRoleSource = permission.InheritanceRoleSource,
                 PermissionType = permission.PermissionType
             }).ToList();

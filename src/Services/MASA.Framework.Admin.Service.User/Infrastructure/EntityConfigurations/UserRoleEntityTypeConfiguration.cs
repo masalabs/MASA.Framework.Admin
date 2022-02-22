@@ -6,10 +6,10 @@ public class UserRoleEntityTypeConfiguration : IEntityTypeConfiguration<UserRole
     {
         builder.ToTable("user_roles", UserDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(userRole => userRole.Id);
+        builder.Property(userRole => userRole.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.RoleId).HasColumnName("role_id").IsRequired();
+        builder.Property(userRole => userRole.RoleId).HasColumnName("role_id").IsRequired();
     }
 }
 

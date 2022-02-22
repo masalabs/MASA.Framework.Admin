@@ -94,7 +94,12 @@ namespace MASA.Framework.Admin.Configuration.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("describe");
 
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit")
+                        .HasColumnName("enable");
+
                     b.Property<string>("Icon")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("icon");
@@ -121,18 +126,9 @@ namespace MASA.Framework.Admin.Configuration.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("parent_id");
 
-                    b.Property<string>("ParentName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasColumnName("parent_name");
-
                     b.Property<int>("Sort")
                         .HasColumnType("int")
                         .HasColumnName("sort");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int")
-                        .HasColumnName("state");
 
                     b.Property<string>("Url")
                         .IsRequired()

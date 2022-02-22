@@ -6,27 +6,27 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
     {
         builder.ToTable("users", UserDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(user => user.Id);
+        builder.Property(user => user.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.Account).HasColumnName("account").HasMaxLength(20).IsRequired();
-        builder.Property(c => c.Name).HasColumnName("name").HasMaxLength(30);
-        builder.Property(c => c.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
-        builder.Property(c => c.Salt).HasColumnName("salt").HasMaxLength(6).IsRequired();
-        builder.Property(c => c.Gender).HasColumnName("gender").IsRequired();
-        builder.Property(c => c.Cover).HasColumnName("cover").HasMaxLength(200);
-        builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(100);
-        builder.Property(c => c.Enable).HasColumnName("enable").IsRequired();
-        builder.Property(c => c.LastLoginTime).HasColumnName("last_login_time");
-        builder.Property(c => c.LastUpdateTime).HasColumnName("last_update_time");
+        builder.Property(user => user.Account).HasColumnName("account").HasMaxLength(20).IsRequired();
+        builder.Property(user => user.Name).HasColumnName("name").HasMaxLength(30);
+        builder.Property(user => user.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
+        builder.Property(user => user.Salt).HasColumnName("salt").HasMaxLength(6).IsRequired();
+        builder.Property(user => user.Gender).HasColumnName("gender").IsRequired();
+        builder.Property(user => user.Cover).HasColumnName("cover").HasMaxLength(200);
+        builder.Property(user => user.Email).HasColumnName("email").HasMaxLength(100);
+        builder.Property(user => user.Enable).HasColumnName("enable").IsRequired();
+        builder.Property(user => user.LastLoginTime).HasColumnName("last_login_time");
+        builder.Property(user => user.LastUpdateTime).HasColumnName("last_update_time");
 
-        builder.Property(c => c.IsDeleted).HasColumnName("is_deleted").IsRequired();
-        builder.Property(c => c.Creator).HasColumnName("creator").IsRequired();
-        builder.Property(c => c.CreationTime).HasColumnName("creation_time").IsRequired();
-        builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
-        builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
+        builder.Property(user => user.IsDeleted).HasColumnName("is_deleted").IsRequired();
+        builder.Property(user => user.Creator).HasColumnName("creator").IsRequired();
+        builder.Property(user => user.CreationTime).HasColumnName("creation_time").IsRequired();
+        builder.Property(user => user.Modifier).HasColumnName("modifier").IsRequired();
+        builder.Property(user => user.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
-        builder.HasMany(c => c.UserRoles).WithOne(a => a.User);
+        builder.HasMany(user => user.UserRoles).WithOne(userRole => userRole.User);
     }
 }
 

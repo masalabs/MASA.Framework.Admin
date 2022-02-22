@@ -6,7 +6,7 @@ public class RoleItem : Entity<Guid>
 
     public Role Role { get; private set; }
 
-    public RoleItem()
+    private RoleItem()
     {
         Id = Guid.NewGuid();
     }

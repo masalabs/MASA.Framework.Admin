@@ -2,5 +2,5 @@
 
 public class BatchDeleteObjectRequest
 {
-    public List<Guid> ObjectIds { get; set; }
+    public List<Guid> ObjectIds { get; set; } = new();
 }

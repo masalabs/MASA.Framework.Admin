@@ -14,3 +14,6 @@ global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using System.Text.Json;
+global using MASA.Framework.Sdks.Authentication.Response.Configuration;
+global using MASA.Framework.Sdks.Authentication.Request.Configuration.Menu;
+global using MASA.Framework.Sdks.Authentication.Internal.Enum;

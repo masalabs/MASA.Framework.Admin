@@ -4,15 +4,15 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
 {
     public ObjectType ObjectType { get; private set; }
 
-    public string Name { get; private set; }
+    public string Name { get; private set; } = default!;
 
-    public string Resource { get; private set; }
+    public string Resource { get; private set; } = default!;
 
-    public string Scope { get; private set; }
+    public string Scope { get; private set; } = default!;
 
-    public string Action { get; private set; }
+    public string Action { get; private set; } = default!;
 
-    public string Code { get; private set; }
+    public string Code { get; private set; } = default!;
 
     public bool Enable { get; private set; }
 

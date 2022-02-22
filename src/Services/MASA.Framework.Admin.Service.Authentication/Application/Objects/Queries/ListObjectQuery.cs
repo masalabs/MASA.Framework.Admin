@@ -2,5 +2,5 @@
 
 public record ListObjectQuery(int PageIndex, int PageSize, int Type, string Name) : Query<PaginatedItemResponse<ObjectItemResponse>>
 {
-    public override PaginatedItemResponse<ObjectItemResponse> Result { get; set; }
+    public override PaginatedItemResponse<ObjectItemResponse> Result { get; set; } = default!;
 }

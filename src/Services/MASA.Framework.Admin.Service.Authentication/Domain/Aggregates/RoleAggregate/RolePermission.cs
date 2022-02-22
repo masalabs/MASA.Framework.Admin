@@ -6,7 +6,7 @@ public class RolePermission : Entity<Guid>
 
     public Role Role { get; private set; }
 
-    public RolePermission()
+    private RolePermission()
     {
     }
 

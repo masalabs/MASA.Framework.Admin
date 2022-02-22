@@ -12,5 +12,5 @@ public class ObjectItemResponse
 
     public int ObjectType { get; set; }
 
-    public string ObjectTypeName  { get; set; }
+    public string ObjectTypeName { get; set; } = default!;
 }

@@ -7,17 +7,17 @@ public class ObjectEntityTypeConfiguration
     {
         builder.ToTable("resources", AuthenticationDbContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("id").IsRequired();
+        builder.HasKey(obj => obj.Id);
+        builder.Property(obj => obj.Id).HasColumnName("id").IsRequired();
 
-        builder.Property(c => c.Code).HasColumnName("code").HasMaxLength(20).IsRequired();
-        builder.Property(c => c.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
-        builder.Property(c => c.ObjectType).HasColumnName("object_type").IsRequired();
-        builder.Property(c => c.Enable).HasColumnName("enable").IsRequired();
-        builder.Property(c => c.IsDeleted).HasColumnName("is_deleted").IsRequired();
-        builder.Property(c => c.Creator).HasColumnName("creator").IsRequired();
-        builder.Property(c => c.CreationTime).HasColumnName("creation_time").IsRequired();
-        builder.Property(c => c.Modifier).HasColumnName("modifier").IsRequired();
-        builder.Property(c => c.ModificationTime).HasColumnName("modifier_time").IsRequired();
+        builder.Property(obj => obj.Code).HasColumnName("code").HasMaxLength(20).IsRequired();
+        builder.Property(obj => obj.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
+        builder.Property(obj => obj.ObjectType).HasColumnName("object_type").IsRequired();
+        builder.Property(obj => obj.Enable).HasColumnName("enable").IsRequired();
+        builder.Property(obj => obj.IsDeleted).HasColumnName("is_deleted").IsRequired();
+        builder.Property(obj => obj.Creator).HasColumnName("creator").IsRequired();
+        builder.Property(obj => obj.CreationTime).HasColumnName("creation_time").IsRequired();
+        builder.Property(obj => obj.Modifier).HasColumnName("modifier").IsRequired();
+        builder.Property(obj => obj.ModificationTime).HasColumnName("modifier_time").IsRequired();
     }
 }

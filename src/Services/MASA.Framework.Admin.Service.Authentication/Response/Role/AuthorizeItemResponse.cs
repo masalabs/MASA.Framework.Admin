@@ -19,6 +19,8 @@ public class AuthorizeItemResponse
 
     public string Scope { get; set; } = default!;
 
+    public string Action { get; set; } = default!;
+
     /// <summary>
     /// The name of the role to which the license was granted
     /// </summary>

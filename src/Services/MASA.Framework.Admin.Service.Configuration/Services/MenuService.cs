@@ -1,6 +1,6 @@
 namespace MASA.Framework.Admin.Configuration.Services;
 
-public class MenuService : CustomServiceBase
+public class MenuService : ServiceBase
 {
     public MenuService(IServiceCollection services) : base(services)
     {
@@ -12,55 +12,52 @@ public class MenuService : CustomServiceBase
         App.MapDelete(Routing.OperateMenu, DeleteAsync);
     }
 
-    public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(
+    private async Task<PaginatedItemResponse<MenuItemResponse>> GetItemsAsync(
         [FromServices] IEventBus eventBus,
-        [FromQuery] int pageIndex = Config.DEFAULT_PAGE_INDEX,
-        [FromQuery] int pageSize = Config.DEFAULT_PAGE_SIZE,
+        [FromQuery] int pageIndex = QueryConfig.DEFAULT_PAGE_INDEX,
+        [FromQuery] int pageSize = QueryConfig.DEFAULT_PAGE_SIZE,
         [FromQuery] string name = "")
     {
-        var query = new MenuQuery.ListQuery(pageIndex, pageSize, name);
+        var query = new MenuQuery.ListMenuQuery(pageIndex, pageSize, name);
         await eventBus.PublishAsync(query);
-        return Success(query.Result);
+        return query.Result;
     }
 
-    public async Task<ApiResultResponse<List<MenuItemResponse>>> GetAllAsync(
+    private async Task<List<MenuItemResponse>> GetAllAsync(
         [FromServices] IEventBus eventBus)
     {
-        var query = new MenuQuery.AllQuery();
+        var query = new MenuQuery.AllMenuQuery();
         await eventBus.PublishAsync(query);
-        return Success(query.Result);
+        return query.Result;
     }
 
-    public async Task<ApiResultResponse<bool>> AnyChildAsync(
+    private async Task<bool> AnyChildAsync(
         [FromServices] IEventBus eventBus,
         [FromQuery] Guid menuId)
     {
-        var query = new MenuQuery.AnyChildQuery(menuId);
+        var query = new MenuQuery.AnyMenuChildQuery(menuId);
         await eventBus.PublishAsync(query);
-        return Success(query.Result);
+        return query.Result;
     }
 
-    public async Task<ApiResultResponseBase> CreateAsync(
+    private async Task CreateAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] AddMenuRequest request)
+        [FromBody] AddMenuCommand command)
     {
-        await eventBus.PublishAsync(new MenuCommand.AddCommand(request));
-        return Success();
+        await eventBus.PublishAsync(command);
     }
 
-    public async Task<ApiResultResponseBase> EditAsync(
+    private async Task EditAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] EditMenuRequest request)
+        [FromBody] EditMenuCommand command)
     {
-        await eventBus.PublishAsync(new MenuCommand.EditCommand(request));
-        return Success();
+        await eventBus.PublishAsync(command);
     }
 
-    public async Task<ApiResultResponseBase> DeleteAsync(
-    [FromServices] IEventBus eventBus,
-    [FromBody] DeleteMenuRequest request)
+    private async Task DeleteAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] DeleteMenuCommand command)
     {
-        await eventBus.PublishAsync(new MenuCommand.DeleteCommand(request));
-        return Success();
+        await eventBus.PublishAsync(command);
     }
 }

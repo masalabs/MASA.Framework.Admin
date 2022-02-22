@@ -2,9 +2,9 @@
 
 public class RoleInfo
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
-    public string Describe { get; set; }
+    public string Describe { get; set; } = default!;
 
     public int Number { get; set; }
 

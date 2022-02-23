@@ -1,0 +1,17 @@
+global using FluentValidation;
+global using FluentValidation.AspNetCore;
+global using MASA.BuildingBlocks.Dispatcher.Events;
+global using MASA.Contrib.Data.UoW.EF;
+global using MASA.Contrib.DDD.Domain;
+global using MASA.Contrib.DDD.Domain.Repository.EF;
+global using MASA.Contrib.Dispatcher.Events;
+global using MASA.Contrib.Dispatcher.IntegrationEvents.Dapr;
+global using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
+global using MASA.Contrib.Service.MinimalAPIs;
+global using MASA.Framework.Admin.Service.LogStatistics.Infrastructure;
+global using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Extensions;
+global using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Middlewares;
+global using MASA.Framework.Admin.Service.LogStatistics.Services;
+global using MASA.Utils.Exceptions.Extensions;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.OpenApi.Models;

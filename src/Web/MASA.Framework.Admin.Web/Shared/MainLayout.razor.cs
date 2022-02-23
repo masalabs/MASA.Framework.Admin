@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
-using static MASA.Blazor.Presets.Message;
 
 namespace MASA.Framework.Admin.Web.Shared
 {
@@ -18,6 +18,9 @@ namespace MASA.Framework.Admin.Web.Shared
 
         [Inject]
         public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
+
+        [Inject]
+        public IConfiguration Configuration { get; set; } = default!;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -39,9 +42,16 @@ namespace MASA.Framework.Admin.Web.Shared
         public async Task StartSignalR(string token)
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5041/login", options =>
+                .WithUrl($"{Configuration["ApiGateways:UserCaller"]}/hub/login", HttpTransportType.WebSockets | HttpTransportType.LongPolling
+                    , options =>
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    }
+                )
+                .ConfigureLogging(logging =>
                 {
-                    options.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    logging.SetMinimumLevel(LogLevel.Information);
+                    logging.AddConsole();
                 })
                 .WithAutomaticReconnect()
                 .Build();

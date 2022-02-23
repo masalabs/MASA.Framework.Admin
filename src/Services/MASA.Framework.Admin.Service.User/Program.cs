@@ -1,10 +1,13 @@
+using MASA.Framework.Admin.Service.User.Domain.Services;
 using MASA.Framework.Admin.Service.User.Infrastructure.Hub;
+using Microsoft.AspNetCore.Http.Connections;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(AppConfigOption).Assembly);
 
+builder.Services.AddScoped<LoginService>();
 builder.Services.AddSignalR();
 builder.Services.AddLogging();
 
@@ -26,7 +29,6 @@ builder.Services.AddOpenTelemetryTracing(options =>
                 && !req.Request.Path.ToUriComponent().Contains("swagger", StringComparison.OrdinalIgnoreCase);
         })
         .AddHttpClientInstrumentation()
-        .AddConsoleExporter()
         .AddZipkinExporter(o =>
         {
             o.Endpoint = new Uri("http://zipkin:9411/api/v2/spans");
@@ -79,10 +81,13 @@ var app = builder.Services.AddFluentValidation(options =>
 
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
+    if (context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Any())
+    {
+        return;
+    }
+    context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new MASA.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123"));
+    context.SaveChanges();
 });
-
-//init db
-await app.Initialize();
 
 app.UseMasaExceptionHandling(opt =>
     {
@@ -102,6 +107,13 @@ app.UseMasaExceptionHandling(opt =>
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
     });
 
-app.MapHub<LoginHub>("/login");
+app.UseRouting();
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapHub<LoginHub>("/hub/login",
+                    options => options.Transports =
+                        HttpTransportType.WebSockets |
+                        HttpTransportType.LongPolling);
+});
 
 app.Run();

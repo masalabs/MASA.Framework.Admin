@@ -8,7 +8,6 @@ public class UserDbContext : IntegrationEventLogContext
 
     public UserDbContext(MasaDbContextOptions<UserDbContext> options) : base(options)
     {
-
     }
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)

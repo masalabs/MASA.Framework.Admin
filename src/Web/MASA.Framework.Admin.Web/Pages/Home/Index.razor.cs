@@ -1,4 +1,4 @@
-﻿using MASA.Framework.Admin.Web.Shared;
+using MASA.Framework.Admin.Web.Shared;
 
 namespace MASA.Framework.Admin.Web.Pages.Home
 {
@@ -17,18 +17,6 @@ namespace MASA.Framework.Admin.Web.Pages.Home
         {
             if (firstRender)
             {
-                //var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
-                //if (token == null)
-                //{
-                //    NavigationManager.NavigateTo("/pages/authentication/Login-v2", true);
-                //}
-                //else
-                //{
-                //    await MainLayout.StartSignalR(token.Value);
-
-                //    NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
-                //}
-
                 NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
             }
         }

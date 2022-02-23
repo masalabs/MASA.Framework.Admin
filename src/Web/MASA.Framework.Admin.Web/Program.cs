@@ -1,7 +1,5 @@
 
 using MASA.Framework.Admin.Web.Services;
-using MASA.Utils.Caller.Core;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +25,6 @@ builder.Services.AddHttpClient("Logging", httpClient =>
 builder.Services.AddHttpClient("PageviewStatistics", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:5087");
-});
-builder.Services.AddHttpClient("User", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("http://localhost:5041");
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

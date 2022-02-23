@@ -85,5 +85,14 @@ public class UserCaller : CallerBase
             return response!;
         });
     }
+
+    public async Task<ApiResultResponse<string>> LoginAsync(string account, string password)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.PostAsync<UserLoginRequest, string>(Routing.UserLogin, new UserLoginRequest { Account = account, Password = password });
+            return response!;
+        });
+    }
 }
 

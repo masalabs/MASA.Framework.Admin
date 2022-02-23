@@ -1,6 +1,7 @@
-using MASA.Framework.Admin.Contracts.Login.Model;
-using MASA.Framework.Admin.Service.Api.Services;
+using MASA.Framework.Admin.Service.User.Domain.Services;
+using MASA.Framework.Admin.Service.User.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MASA.Framework.Admin.Service.User.Infrastructure.Hub;
@@ -23,8 +24,7 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
     public override async Task OnConnectedAsync()
     {
         var userIdClaim = Context.User?.Claims.FirstOrDefault(claim => claim.Type == "UserId");
-
-        if (!int.TryParse(userIdClaim?.Value, out int userId))
+        if (!Guid.TryParse(userIdClaim?.Value, out Guid userId))
         {
             //SignalR链接异常，没有传递sub参数
         }
@@ -41,12 +41,12 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
 
             if (onlineUser == null)
             {
-                UserModel userDTO = await UserRepository.GetUserAsync(userId);
+                var user = await UserRepository.GetByIdAsync(userId);
                 onlineUser = new OnlineUserModel
                 {
-                    UserId = userDTO.Id,
-                    NickName = userDTO.NickName,
-                    Account = userDTO.Account,
+                    UserId = user.Id,
+                    NickName = user.Name,
+                    Account = user.Account,
                 };
             }
             onlineUser.LoginTime = DateTime.Now;
@@ -67,7 +67,7 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
         var connectionId = Context.ConnectionId;
         var userIdClaim = Context.User?.Claims.FirstOrDefault(claim => claim.Type == "sub");
 
-        if (!int.TryParse(userIdClaim?.Value, out int userId))
+        if (!Guid.TryParse(userIdClaim?.Value, out Guid userId))
         {
             Console.WriteLine($"断开记录用户在线的 SignalR 连接：用户于 {DateTime.Now:yyyy-MM-dd HH: mm:ss} 非正常退出登录,connectionId={connectionId}");
         }

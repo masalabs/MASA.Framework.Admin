@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+using MASA.Framework.Admin.Contracts.Base.Enum;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MASA.Framework.Admin.Contracts.Logging
 {

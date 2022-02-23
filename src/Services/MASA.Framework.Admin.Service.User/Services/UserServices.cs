@@ -1,6 +1,3 @@
-using MASA.Framework.Admin.Contracts.Login.Model;
-using Microsoft.Extensions.Caching.Memory;
-
 namespace MASA.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
@@ -14,7 +11,9 @@ public class UserServices : ServiceBase
         App.MapGet(Routing.UserRole, GetUserRolesAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
-        App.MapDelete(Routing.OperateUser, DeleteAsync); ;
+        App.MapDelete(Routing.OperateUser, DeleteAsync);
+        App.MapPost(Routing.UserLogin, LoginAsync);
+        App.MapGet(Routing.UserStatistic, GetUserCountAsync);
     }
 
     public async Task<PaginatedItemResponse<UserItemResponse>> GetItemsAsync(
@@ -86,40 +85,21 @@ public class UserServices : ServiceBase
     }
 
     [HttpPost]
-    public async Task<LoginViewModel> Login([FromServices] IUserRepository userRepository, LoginModel model)
+    public async Task<string> LoginAsync([FromServices] IEventBus eventBus, [FromBody] UserLoginRequest userLoginRequest)
     {
-        var result = await userRepository.LoginAsync(model);
+        var loginCommand = new LoginCommand(userLoginRequest);
+        await eventBus.PublishAsync(loginCommand);
 
-        return result;
+        return loginCommand.Token;
     }
 
-    [HttpGet]
-    public async Task<UserModel> GetUser([FromServices] IUserRepository userRepository, [FromBody] int id)
+    public async Task<UserStatisticResponse> GetUserCountAsync(
+       [FromServices] IEventBus eventBus)
     {
-        var result = await userRepository.GetUserAsync(id);
+        var statisticQuery = new StatisticQuery();
+        await eventBus.PublishAsync(statisticQuery);
 
-        return result;
-    }
-
-    public async Task GetOnlineUserCount(
-       [FromServices] IEventBus eventBus, [FromServices] IMemoryCache _memoryCache,
-       [FromHeader(Name = "creator-id")] Guid creator)
-    {
-        await eventBus.PublishAsync(new CreateRoleCommand(userRoleCreateRequest)
-        {
-            Creator = creator
-        });
-
-        //var users = _memoryCache.Get<List<OnlineUserModel>>("online_user_id");
-        //return users?.Count ?? 0;
-    }
-
-    [HttpGet]
-    public async Task<int> GetUserCount([FromServices] IUserRepository userRepository)
-    {
-        var count = await userRepository.GetUserCount();
-
-        return count;
+        return statisticQuery.Result;
     }
 
 }

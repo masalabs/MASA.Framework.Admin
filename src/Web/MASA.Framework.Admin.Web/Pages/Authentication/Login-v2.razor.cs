@@ -1,5 +1,3 @@
-using MASA.Framework.Admin.Caller.UserCallers;
-using MASA.Framework.Admin.Contracts.Login.Model;
 using MASA.Framework.Admin.Web.Shared;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
@@ -26,7 +24,7 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
 
         [Inject]
-        public Caller.UserCallers.UserCaller UserCaller { get; set; } = default!;
+        public UserCaller UserCaller { get; set; } = default!;
 
         [CascadingParameter]
         public MainLayout App { get; set; } = default!;
@@ -34,47 +32,38 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         private async Task LoginAsync()
         {
             _loading = true;
-            var tokenInfo = await GetToken();
-
-            if (tokenInfo == null || tokenInfo.Code == 1)
+            var token = await GetToken();
+            _loading = false;
+            if (!string.IsNullOrEmpty(token))
             {
-                _loading = false;
-            }
-            else if (tokenInfo.Code == 0)
-            {
-                _loading = false;
                 await ProtectedLocalStorage.SetAsync("IsLogined", true);
-                NavigationManager.NavigateTo($"/Account/Login?token={tokenInfo.Result}", true);
+                NavigationManager.NavigateTo($"/Account/Login?token={token}", true);
             }
         }
 
-        private async Task<LoginViewModel?> GetToken()
+        private async Task<string> GetToken()
         {
             if (!string.IsNullOrWhiteSpace(_account) && !string.IsNullOrWhiteSpace(_password))
             {
-                LoginViewModel loginViewModel = await UserCaller.Login(new LoginModel
-                {
-                    Account = _account,
-                    Password = _password
-                });
+                var loginRes = await UserCaller.LoginAsync(_account, _password);
 
-                if (loginViewModel.Code == 1)
+                if (!loginRes.Success)
                 {
                     _showErrorMessage = true;
-                    _errorMessage = loginViewModel.Result;
+                    _errorMessage = loginRes.Message;
                 }
                 else
                 {
                     _showErrorMessage = false;
                 }
 
-                return loginViewModel;
+                return loginRes.Data;
             }
             else
             {
                 _showErrorMessage = true;
                 _errorMessage = "请输入账号或密码";
-                return null;
+                return string.Empty;
             }
         }
     }

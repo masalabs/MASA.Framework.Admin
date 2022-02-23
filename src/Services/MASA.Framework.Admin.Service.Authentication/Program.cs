@@ -6,7 +6,7 @@ var builder = WebApplication
             configurationBuilder.UseMasaOptions(options =>
             {
                 options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings",
-                    "RedisConfig"); //Map the PlatformOptions binding to the Local:Appsettings:Platforms node
+                    "RedisConfig"); //Map the RedisConfigurationOptions binding to the Local:Appsettings:RedisConfig node
             });
         },
         assemblies: typeof(AppConfigOption).Assembly);

@@ -1,11 +1,16 @@
+using MASA.Framework.Admin.Service.User.Infrastructure.Models;
+using Microsoft.Extensions.Caching.Memory;
+
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 
 public class QueryHandler
 {
     readonly IUserRepository _userRepository;
+    readonly IMemoryCache _memoryCache;
 
-    public QueryHandler(IUserRepository userRepository)
+    public QueryHandler(IUserRepository userRepository, IMemoryCache memoryCache)
     {
+        _memoryCache = memoryCache;
         _userRepository = userRepository;
     }
 
@@ -73,5 +78,13 @@ public class QueryHandler
             Id = r.Id,
             RoleId = r.RoleId
         }).ToList();
+    }
+
+    [EventHandler]
+    public async Task GetUserCountAsync(StatisticQuery statisticQuery)
+    {
+        var userOnlineCount = _memoryCache.Get<List<OnlineUserModel>>("online_user_id")?.Count ?? 0;
+        var userCount = await _userRepository.GetUserCountAsync();
+
     }
 }

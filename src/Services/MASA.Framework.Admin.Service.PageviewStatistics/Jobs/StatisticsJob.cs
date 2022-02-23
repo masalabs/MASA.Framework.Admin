@@ -1,10 +1,8 @@
-﻿using MASA.Framework.Admin.Contracts.Logging;
+using MASA.Framework.Admin.Contracts.Logging;
 using MASA.Framework.Admin.Contracts.PageviewStatistics;
 using MASA.Framework.Admin.Service.Logging.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using System;
-using System.Threading.Tasks;
 
 namespace MASA.Framework.Admin.Service.PageviewStatistics
 {

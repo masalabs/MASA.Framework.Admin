@@ -5,4 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj" />
+  </ItemGroup>
+
 </Project>

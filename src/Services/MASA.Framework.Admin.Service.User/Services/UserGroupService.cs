@@ -6,35 +6,35 @@ namespace MASA.Framework.Admin.Service.User.Services
         {
         }
 
-        public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
-            [FromServices] IEventBus eventBus,
-            [FromQuery] int pageIndex = 1,
-            [FromQuery] int pageSize = 20,
-            [FromQuery] string account = "",)
-        {
+        //public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
+        //    [FromServices] IEventBus eventBus,
+        //    [FromQuery] int pageIndex = 1,
+        //    [FromQuery] int pageSize = 20,
+        //    [FromQuery] string account = "")
+        //{
 
-            var listQuery = new ListQuery(pageIndex, pageSize, account);
-            await eventBus.PublishAsync(listQuery);
+        //    var listQuery = new ListQuery(pageIndex, pageSize, account);
+        //    await eventBus.PublishAsync(listQuery);
 
-            return listQuery.Result;
-        }
+        //    return listQuery.Result;
+        //}
 
-        public async Task CreateAsync(
-            [FromServices] IEventBus eventBus,
-            [FromHeader(Name = "creator-id")] Guid creator,
-            [FromBody] CreateUserRequest userCreateRequest)
-        {
-            await eventBus.PublishAsync(new CreateCommand(userCreateRequest)
-            {
-                Creator = creator
-            });
-        }
+        //public async Task CreateAsync(
+        //    [FromServices] IEventBus eventBus,
+        //    [FromHeader(Name = "creator-id")] Guid creator,
+        //    [FromBody] CreateUserRequest userCreateRequest)
+        //{
+        //    await eventBus.PublishAsync(new CreateCommand(userCreateRequest)
+        //    {
+        //        Creator = creator
+        //    });
+        //}
 
-        public async Task DeleteAsync(
-            [FromServices] IEventBus eventBus, Guid id)
-        {
-            await eventBus.PublishAsync(new DeleteCommand(id));
-        }
+        //public async Task DeleteAsync(
+        //    [FromServices] IEventBus eventBus, Guid id)
+        //{
+        //    await eventBus.PublishAsync(new DeleteCommand(id));
+        //}
 
     }
 }

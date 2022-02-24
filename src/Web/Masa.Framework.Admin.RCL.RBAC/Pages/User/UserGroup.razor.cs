@@ -33,8 +33,8 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
 
             if (dataRes.Success && dataRes.Data != null)
             {
-                _pageData.PageData = dataRes.Data.Items.ToList();
-                _pageData.CurrentCount = dataRes.Data.Count;
+                //_pageData.PageData = dataRes.Data.Items.ToList();
+                //_pageData.CurrentCount = dataRes.Data.Count;
             }
         }
 

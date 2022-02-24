@@ -22,7 +22,7 @@ public class RoleCommandHandler
     [EventHandler]
     public async Task AddAsync(AddRoleCommand command)
     {
-        if (await _repository.AnyAsync(role => role.Name == command.Name))
+        if (await _repository.GetCountAsync(role => role.Name == command.Name)>0)
             throw new UserFriendlyException("The current role already exists");
 
         var role = new Role(command.Creator, command.Name, command.Number);

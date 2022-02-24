@@ -12,7 +12,7 @@ public class CommandHandler
     [EventHandler]
     public async Task AddObjectAsync(AddObjectCommand command)
     {
-        if (await _repository.AnyAsync(obj => obj.Code == command.Code))
+        if (await _repository.GetCountAsync(obj => obj.Code == command.Code)>1)
             throw new UserFriendlyException("duplicate resource");
 
         var objectItem = new Domain.Aggregates.ObjectAggregate.Object(

@@ -1,8 +1,9 @@
-using MASA.Framework.Admin.Contracts.Base.Request;
-using MASA.Framework.Admin.Contracts.Base.Response;
 using MASA.Framework.Admin.Infrastructure.Configurations.Response;
 using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Commands;
 using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
+using MASA.Framework.Sdks.Authentication.Internal;
+using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
+using MASA.Framework.Sdks.Authentication.Response.LogStatistics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.LogStatistics.Services
@@ -11,8 +12,8 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Services
     {
         public OperationLogService(IServiceCollection services) : base(services)
         {
-            App.MapPost("", CreateLogAsync);
-            App.MapGet("", GetItemsAsync);
+            App.MapPost(Routing.OperateLog, CreateLogAsync);
+            App.MapGet(Routing.LogList, GetItemsAsync);
         }
 
         public async Task<PaginatedItemResponse<OperationLogItemResponse>> GetItemsAsync(

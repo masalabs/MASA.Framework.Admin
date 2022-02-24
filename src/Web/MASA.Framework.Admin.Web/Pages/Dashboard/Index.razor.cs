@@ -1,12 +1,3 @@
-﻿using MASA.Framework.Admin.Contracts.Logging;
-using MASA.Framework.Admin.Contracts.PageviewStatistics;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class Index

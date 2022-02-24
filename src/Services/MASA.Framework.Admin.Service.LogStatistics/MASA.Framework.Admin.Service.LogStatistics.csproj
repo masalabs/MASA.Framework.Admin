@@ -34,13 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Statistics\Queres\" />
-    <Folder Include="Application\Statistics\Commands\" />
     <Folder Include="Infrastructure\EntityConfigurations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Base\MASA.Framework.Admin.Contracts.Base.csproj" />
+    <ProjectReference Include="..\..\..\sdks\MASA.Framework.Sdks.Authentication\MASA.Framework.Sdks.Authentication.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
   </ItemGroup>
 

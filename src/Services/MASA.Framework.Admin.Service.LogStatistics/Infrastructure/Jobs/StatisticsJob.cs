@@ -1,108 +1,53 @@
-//using Quartz;
+using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
+using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
+using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Const;
+using Quartz;
 
-//namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
-//{
-//    [Job(nameof(StatisticsJob), GroupNames.Default, "0 55 0/1 * * ?")]
-//    public class StatisticsJob : IJob
-//    {
-//        public async Task Execute(IJobExecutionContext context)
-//        {
-//            var serviceProvider = context.JobDetail.JobDataMap[nameof(IServiceProvider)] as IServiceProvider;
-//            using (var scope = serviceProvider.CreateScope())
-//            {
-//                using (var dbContext = scope.ServiceProvider.GetService<PageviewStatisticsDbContext>())
-//                {
-//                    await UpdateDayStatisticsAsync(dbContext);
-//                    await UpdateHourStatisticsAsync(dbContext);
-//                }
-//            }
-//        }
+namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
+{
+    [Job(nameof(StatisticsJob), GroupNames.DEFAULT, "0 55 0/1 * * ?")]
+    public class StatisticsJob : IJob
+    {
+        readonly IEventBus _eventBus;
 
-//        private static async Task UpdateDayStatisticsAsync(PageviewStatisticsDbContext dbContext)
-//        {
-//            var date = DateTime.Now.Date;
+        public StatisticsJob(IEventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
 
-//            var startTime = date;
-//            var endTime = date.AddDays(1);
+        public async Task Execute(IJobExecutionContext context)
+        {
+            await UpdateDayStatisticsAsync();
+            await UpdateHourStatisticsAsync();
+        }
 
-//            var (pv, uv, ipCount) = await CountAsync(dbContext, startTime, endTime);
+        private async Task UpdateDayStatisticsAsync()
+        {
+            var date = DateTime.Now.Date;
+            var startTime = date;
+            var endTime = date.AddDays(1);
 
-//            var dayStatistics = await dbContext.PageviewDayStatistics.SingleOrDefaultAsync(statistic => statistic.Date == date);
-//            if (dayStatistics == null)
-//            {
-//                dayStatistics = new PageviewDayStatistics
-//                {
-//                    PV = pv,
-//                    UV = uv,
-//                    IPCount = ipCount,
-//                    Date = date,
-//                };
-//                dbContext.Add(dayStatistics);
-//            }
-//            else
-//            {
-//                dayStatistics.PV = pv;
-//                dayStatistics.UV = uv;
-//                dayStatistics.IPCount = ipCount;
-//                dbContext.Update(dayStatistics);
-//            }
+            var (pv, uv, ipCount) = await CountAsync(startTime, endTime);
+            await _eventBus.PublishAsync(new UpdateDayStatisticsCommand(pv, uv, ipCount));
+        }
 
-//            await dbContext.SaveChangesAsync();
-//        }
+        private async Task<(int pv, int uv, int ipCount)> CountAsync(DateTime startTime, DateTime endTime)
+        {
+            var query = new VisitStatisticsQuery(startTime, endTime);
+            await _eventBus.PublishAsync(query);
 
-//        private static async Task<(int pv, int uv, int ipCount)> CountAsync(PageviewStatisticsDbContext dbContext, DateTime startTime, DateTime endTime)
-//        {
-//            var pv = await dbContext.OperationLogs
-//                .Where(log => log.Type == OperationLogType.VisitPage)
-//                .Where(log => log.CreateTime >= startTime && log.CreateTime <= endTime)
-//                .CountAsync();
+            return (query.Result.PV, query.Result.UV, query.Result.IpCount);
+        }
 
-//            var uv = await dbContext.OperationLogs
-//                .Where(log => log.Type == OperationLogType.VisitPage)
-//                .Where(log => log.CreateTime >= startTime && log.CreateTime <= endTime)
-//                .GroupBy(log => log.UserId)
-//                .CountAsync();
+        private async Task UpdateHourStatisticsAsync()
+        {
+            var now = DateTime.Now;
+            var time = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0);
+            var startTime = time;
+            var endTime = time.AddHours(1);
 
-//            var ipCount = await dbContext.OperationLogs
-//                .Where(log => log.Type == OperationLogType.VisitPage)
-//                .Where(log => log.CreateTime >= startTime && log.CreateTime <= endTime)
-//                .GroupBy(log => log.ClientIP)
-//                .CountAsync();
-
-//            return (pv, uv, ipCount);
-//        }
-
-//        private async Task UpdateHourStatisticsAsync(PageviewStatisticsDbContext dbContext)
-//        {
-//            var now = DateTime.Now;
-//            var time = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0);
-
-//            var startTime = time;
-//            var endTime = time.AddHours(1);
-
-//            var (pv, uv, ipCount) = await CountAsync(dbContext, startTime, endTime);
-
-//            var hourStatistics = await dbContext.PageviewHourStatistics.SingleOrDefaultAsync(statistic => statistic.Time == time);
-//            if (hourStatistics == null)
-//            {
-//                hourStatistics = new PageviewHourStatistics
-//                {
-//                    PV = pv,
-//                    UV = uv,
-//                    IPCount = ipCount,
-//                    Time = time,
-//                };
-//                dbContext.Add(hourStatistics);
-//            }
-//            else
-//            {
-//                hourStatistics.PV = pv;
-//                hourStatistics.UV = uv;
-//                hourStatistics.IPCount = ipCount;
-//                dbContext.Update(hourStatistics);
-//            }
-
-//            await dbContext.SaveChangesAsync();
-//        }
-//    }
-//}
+            var (pv, uv, ipCount) = await CountAsync(startTime, endTime);
+            await _eventBus.PublishAsync(new UpdateHourStatisticsCommand(pv, uv, ipCount));
+        }
+    }
+}

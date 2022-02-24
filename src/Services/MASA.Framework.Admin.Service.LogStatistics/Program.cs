@@ -1,6 +1,12 @@
+using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
+using Quartz;
+using Quartz.Impl;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddHostedService<JobHostedService>();
 
 var app = builder.Services.AddFluentValidation(options =>
 {

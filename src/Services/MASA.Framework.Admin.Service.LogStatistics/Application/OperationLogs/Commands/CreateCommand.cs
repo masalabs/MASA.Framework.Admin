@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Contracts.Base.Request;
+using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
 
 namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Commands
 {

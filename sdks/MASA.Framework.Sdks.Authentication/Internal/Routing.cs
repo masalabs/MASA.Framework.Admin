@@ -80,4 +80,16 @@ public class Routing
     #endregion
 
     #endregion
+
+    #region   LogStatistics
+
+    public static string OperateLog = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.LOG_SERVICE);
+
+    public static string LogList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.LOG_SERVICE);
+
+    public static string DayStatistics = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.STATISTIC_SERVICE, "day");
+
+    public static string HourStatistics = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.STATISTIC_SERVICE, "hour");
+
+    #endregion
 }

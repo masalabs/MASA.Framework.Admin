@@ -22,7 +22,7 @@ public class UserCaller : CallerBase
         {
             { "pageIndex", pageIndex.ToString() },
             { "pageSize", pageSize.ToString() },
-            { "account", pageIndex.ToString() },
+            { "account", account },
             { "state", state.ToString() }
         };
 
@@ -91,6 +91,15 @@ public class UserCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var response = await CallerProvider.PostAsync<UserLoginRequest, string>(Routing.UserLogin, new UserLoginRequest { Account = account, Password = password });
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponse<UserStatisticResponse>> GetUserStatisticAsync()
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<UserStatisticResponse>("");
             return response!;
         });
     }

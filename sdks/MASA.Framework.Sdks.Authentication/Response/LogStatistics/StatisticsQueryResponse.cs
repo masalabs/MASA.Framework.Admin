@@ -2,7 +2,7 @@ namespace MASA.Framework.Sdks.Authentication.Response.LogStatistics
 {
     public class StatisticsQueryResponse
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public int PV { get; set; }
 
@@ -10,6 +10,6 @@ namespace MASA.Framework.Sdks.Authentication.Response.LogStatistics
 
         public int IPCount { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

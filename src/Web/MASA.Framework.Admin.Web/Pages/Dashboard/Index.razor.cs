@@ -1,35 +1,35 @@
+using MASA.Framework.Sdks.Authentication.Response.LogStatistics;
+
 namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class Index
     {
-        private HttpClient _loggingClient;
-        private HttpClient _pageviewStatisticsClient;
-        private HttpClient _userClient;
-        private IEnumerable<OperationLogDto> _operationLogs;
+
+        private IEnumerable<OperationLogItemResponse> _operationLogs;
         private int _onlineUserCount;
-        private IEnumerable<PageviewDayStatistics> _pageviewDayStatistics;
-        private IEnumerable<PageviewHourStatistics> _pageviewHourStatistics;
+        private IEnumerable<StatisticsQueryResponse> _pageviewDayStatistics;
+        private IEnumerable<StatisticsQueryResponse> _pageviewHourStatistics;
         private StringNumber _current = "PV";
-        private List<DataTableHeader<OperationLogDto>> _headers = new List<DataTableHeader<OperationLogDto>>
+        private List<DataTableHeader<OperationLogItemResponse>> _headers = new List<DataTableHeader<OperationLogItemResponse>>
         {
            new ()
            {
                 Text= "用户名",
                 Align= "start",
                 Sortable= false,
-                Value= nameof(OperationLogDto.Username),
+                Value= nameof(OperationLogItemResponse.UserName),
                 CellClass="text-subtitle"
           },
           new ()
           {
                 Text= "描述",
-                Value= nameof(OperationLogDto.Description),
+                Value= nameof(OperationLogItemResponse.Description),
                 CellClass="text-subtitle"
           },
           new ()
           {
                 Text= "时间",
-                Value= nameof(OperationLogDto.CreateTime),
+                Value= nameof(OperationLogItemResponse.CreateTime),
                 CellClass="text-subtitle"}
         };
         private dynamic _onlineChart = new
@@ -158,16 +158,19 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         [Inject]
         public IHttpClientFactory HttpClientFactory { get; set; }
 
-        protected PageviewDayStatistics TodayStatistics => _pageviewDayStatistics.FirstOrDefault(statistic => statistic.Date == DateTime.Today);
+        protected StatisticsQueryResponse TodayStatistics => _pageviewDayStatistics.FirstOrDefault(statistic => statistic.DateTime == DateTime.Today);
 
-        protected PageviewDayStatistics YesterdayStatistics => _pageviewDayStatistics.FirstOrDefault(statistic => statistic.Date == DateTime.Today.AddDays(-1));
+        protected StatisticsQueryResponse YesterdayStatistics => _pageviewDayStatistics.FirstOrDefault(statistic => statistic.DateTime == DateTime.Today.AddDays(-1));
+
+        [Inject]
+        public LogStatisticsCaller LogStatisticsCaller { get; set; } = null!;
+
+        [Inject]
+        public UserCaller UserCaller { get; set; } = null!;
+
 
         protected override async Task OnInitializedAsync()
         {
-            _loggingClient = HttpClientFactory.CreateClient("Logging");
-            _pageviewStatisticsClient = HttpClientFactory.CreateClient("PageviewStatistics");
-            _userClient = HttpClientFactory.CreateClient("User");
-
             await UpdateOperationLogsAsync(0, int.MaxValue);
             await UpdateVisitPageDayStatisticsAsync();
             await UpdateVisitPageHourStatisticsAsync();
@@ -176,46 +179,54 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
 
         private async Task UpdateOperationLogsAsync(int offset = 0, int limit = 10)
         {
-            var query = $"?offset={offset}&limit={limit}";
-            var pageResult = await _loggingClient.GetFromJsonAsync<PageResult<OperationLogDto>>("/api/operationLog" + query);
-
-            _operationLogs = pageResult.Data;
+            var res = await LogStatisticsCaller.GetLogListAsync(offset + 1, limit);
+            if (res.Success)
+            {
+                _operationLogs = res.Data.Items;
+            }
         }
 
         private async Task UpdateVisitPageDayStatisticsAsync()
         {
             var startDate = DateTime.Today.AddDays(-1);
             var endDate = DateTime.Today;
-            var query = $"?startDate={startDate}&endDate={endDate}";
 
-            _pageviewDayStatistics = await _pageviewStatisticsClient.GetFromJsonAsync<IEnumerable<PageviewDayStatistics>>("/api/pageviewDayStatistics" + query);
+            var res = await LogStatisticsCaller.GetDayStatisticsAsync(startDate, endDate);
+            if (res.Success)
+            {
+                _pageviewDayStatistics = res.Data;
+            }
         }
 
         private async Task UpdateVisitPageHourStatisticsAsync()
         {
             var startTime = DateTime.Today.AddDays(-1);
             var endTime = DateTime.Today.AddDays(1);
-            var query = $"?startTime={startTime}&endTime={endTime}";
 
-            _pageviewHourStatistics = await _pageviewStatisticsClient.GetFromJsonAsync<IEnumerable<PageviewHourStatistics>>("/api/pageviewHourStatistics" + query);
+            var res = await LogStatisticsCaller.GetHourStatisticsAsync(startTime, endTime);
 
-            UpdateData(DateTime.Today.AddDays(-1), 0);//Yesterday
-            UpdateData(DateTime.Today, 1);//Today
+            if (res.Success)
+            {
+                _pageviewHourStatistics = res.Data;
+
+                UpdateData(DateTime.Today.AddDays(-1), 0);//Yesterday
+                UpdateData(DateTime.Today, 1);//Today
+            }
 
             void UpdateData(DateTime date, int day)
             {
                 var statistics = _pageviewHourStatistics
-                                .Where(statistic => statistic.Time.Date == date);
+                                .Where(statistic => statistic.DateTime.Date == date);
 
                 for (int i = 0; i < 24; i++)
                 {
                     if (_current == "PV")
                     {
-                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.Time.Hour == i)?.PV ?? 0;
+                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.DateTime.Hour == i)?.PV ?? 0;
                     }
                     else if (_current == "UV")
                     {
-                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.Time.Hour == i)?.UV ?? 0;
+                        _option.Series[day].Data[i] = statistics.FirstOrDefault(statistic => statistic.DateTime.Hour == i)?.UV ?? 0;
                     }
                     else
                     {
@@ -227,8 +238,11 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
 
         private async Task UpdateOnlineUserCountAsync()
         {
-            var content = await _userClient.GetStringAsync("/api/User/GetOnlineUserCount");
-            _onlineUserCount = Convert.ToInt32(content);
+            var res = await UserCaller.GetUserStatisticAsync();
+            if (res.Success)
+            {
+                _onlineUserCount = res.Data.UserOnlineCount;
+            }
         }
 
         private async Task HandleOnChangeAsync(StringNumber value)

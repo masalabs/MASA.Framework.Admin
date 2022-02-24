@@ -1,7 +1,5 @@
 using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Queres;
 using MASA.Framework.Sdks.Authentication.Internal;
-using MASA.Framework.Sdks.Authentication.Internal.Enum;
-using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MASA.Framework.Admin.Service.LogStatistics.Services
@@ -14,20 +12,24 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Services
             App.MapGet(Routing.HourStatistics, HourStatisticsAsync);
         }
 
-        public async Task DayStatisticsAsync(
+        public async Task<List<StatisticsQueryResponse>> DayStatisticsAsync(
                     [FromServices] IEventBus eventBus,
-                    [FromBody] StatisticsQueryRequest statisticsQueryRequest)
+                    [FromQuery] DateTime startTime,
+                    [FromQuery] DateTime endTime)
         {
-            var statisticsQuery = new StatisticsQuery(statisticsQueryRequest, VisitStatisticType.Day);
+            var statisticsQuery = new StatisticsQuery(startTime, endTime, VisitStatisticType.Day);
             await eventBus.PublishAsync(statisticsQuery);
+            return statisticsQuery.Result;
         }
 
-        public async Task HourStatisticsAsync(
+        public async Task<List<StatisticsQueryResponse>> HourStatisticsAsync(
                     [FromServices] IEventBus eventBus,
-                    [FromBody] StatisticsQueryRequest statisticsQueryRequest)
+                    [FromQuery] DateTime startTime,
+                    [FromQuery] DateTime endTime)
         {
-            var statisticsQuery = new StatisticsQuery(statisticsQueryRequest, VisitStatisticType.Hour);
+            var statisticsQuery = new StatisticsQuery(startTime, endTime, VisitStatisticType.Hour);
             await eventBus.PublishAsync(statisticsQuery);
+            return statisticsQuery.Result;
         }
 
     }

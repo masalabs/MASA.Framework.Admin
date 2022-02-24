@@ -8,7 +8,10 @@ builder.AddMasaConfiguration(
     assemblies: typeof(AppConfigOption).Assembly);
 
 builder.Services.AddScoped<LoginService>();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR().AddHubOptions<LoginHub>(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 builder.Services.AddLogging();
 
 builder.Services.AddMemoryCache();
@@ -108,12 +111,18 @@ app.UseMasaExceptionHandling(opt =>
     });
 
 app.UseRouting();
-app.UseEndpoints(endpoint =>
-{
-    endpoint.MapHub<LoginHub>("/hub/login",
+app.UseCloudEvents();
+app.MapHub<LoginHub>("/hub/login",
                     options => options.Transports =
                         HttpTransportType.WebSockets |
                         HttpTransportType.LongPolling);
-});
+
+//app.UseEndpoints(endpoint =>
+//{
+//    endpoint.MapHub<LoginHub>("/hub/login",
+//                    options => options.Transports =
+//                        HttpTransportType.WebSockets |
+//                        HttpTransportType.LongPolling);
+//});
 
 app.Run();

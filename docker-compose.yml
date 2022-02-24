@@ -35,19 +35,12 @@ services:
       context: .
       dockerfile: src/Web/MASA.Framework.Admin.Web/Dockerfile
 
+
+  masa.admin.service.logstatistics:
+    image: ${DOCKER_REGISTRY-}masa-service-logstatistics
+    build:
+      context: .
+      dockerfile: src/Services/MASA.Framework.Admin.Service.LogStatistics/Dockerfile
+
   dapr-placement:
     image: "daprio/dapr:1.5.1"
-
-  masa.admin.service.logging:
-    image: ${DOCKER_REGISTRY-}masaframeworkadminservicelogging
-    build:
-      context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.Logging/Dockerfile
-
-
-  masa.admin.service.pageviewstatistics:
-    image: ${DOCKER_REGISTRY-}masaframeworkadminservicepageviewstatistics
-    build:
-      context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.PageviewStatistics/Dockerfile
-

@@ -14,6 +14,11 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates
 
         public VisitStatisticType Type { get; private set; }
 
+        private VisitStatisticsRecord()
+        {
+
+        }
+
         public VisitStatisticsRecord(int pv, int uv, int ipCount, VisitStatisticType type)
         {
             PV = pv;

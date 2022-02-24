@@ -58,7 +58,7 @@ namespace MASA.Framework.Admin.Web.Shared
 
             _hubConnection.On<string>("Logout", Logout);
 
-            await _hubConnection.StartAsync();
+            //await _hubConnection.StartAsync();
         }
 
         public async Task Logout(string msg)

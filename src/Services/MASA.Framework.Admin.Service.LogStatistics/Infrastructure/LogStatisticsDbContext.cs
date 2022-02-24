@@ -1,6 +1,4 @@
-using MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
 using MASA.Utils.Data.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure

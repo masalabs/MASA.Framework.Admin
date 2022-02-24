@@ -9,8 +9,6 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["nuget.config", "."]
 COPY ["src/Services/MASA.Framework.Admin.Service.LogStatistics/MASA.Framework.Admin.Service.LogStatistics.csproj", "src/Services/MASA.Framework.Admin.Service.LogStatistics/"]
-COPY ["src/Infrastructure/MASA.Framework.Admin.Infrastructure.Configurations/MASA.Framework.Admin.Infrastructure.Configurations.csproj", "src/Infrastructure/MASA.Framework.Admin.Infrastructure.Configurations/"]
-COPY ["sdks/MASA.Framework.Sdks.Authentication/MASA.Framework.Sdks.Authentication.csproj", "sdks/MASA.Framework.Sdks.Authentication/"]
 RUN dotnet restore "src/Services/MASA.Framework.Admin.Service.LogStatistics/MASA.Framework.Admin.Service.LogStatistics.csproj"
 COPY . .
 WORKDIR "/src/src/Services/MASA.Framework.Admin.Service.LogStatistics"

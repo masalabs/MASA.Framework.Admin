@@ -1,4 +1,3 @@
-using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
 using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
 using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Const;
 using Quartz;
@@ -6,17 +5,26 @@ using Quartz;
 namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
 {
     [Job(nameof(StatisticsJob), GroupNames.DEFAULT, "0 55 0/1 * * ?")]
+    //[Job(nameof(StatisticsJob), GroupNames.DEFAULT, "* * * * * ?")]
     public class StatisticsJob : IJob
     {
-        readonly IEventBus _eventBus;
+        IEventBus _eventBus;
 
-        public StatisticsJob(IEventBus eventBus)
-        {
-            _eventBus = eventBus;
-        }
+        //public StatisticsJob(IEventBus eventBus)
+        //{
+        //    _eventBus = eventBus;
+        //}
 
         public async Task Execute(IJobExecutionContext context)
         {
+            //todo change ctor ioc by IJobFactory
+            if (_eventBus is null)
+            {
+                var serviceProvider = context.JobDetail.JobDataMap[nameof(IServiceProvider)] as IServiceProvider;
+                var scope = serviceProvider.CreateScope();
+                _eventBus = scope.ServiceProvider.GetService<IEventBus>();
+            }
+
             await UpdateDayStatisticsAsync();
             await UpdateHourStatisticsAsync();
         }

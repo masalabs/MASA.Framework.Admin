@@ -7,7 +7,7 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
     {
         private readonly ISchedulerFactory _schedulerFactory;
         private readonly IServiceProvider _serviceProvider;
-        private IScheduler _scheduler;
+        private IScheduler? _scheduler;
 
         public JobHostedService(ISchedulerFactory schedulerFactory, IServiceProvider serviceProvider)
         {
@@ -18,6 +18,7 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _scheduler = await _schedulerFactory.GetScheduler();
+            //_scheduler.JobFactory = new DefaultScheduleServiceFactory(_serviceProvider);
             await _scheduler.Start(cancellationToken);
 
             var assembly = Assembly.GetExecutingAssembly();

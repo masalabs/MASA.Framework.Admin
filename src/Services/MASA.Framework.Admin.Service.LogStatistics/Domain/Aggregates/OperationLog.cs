@@ -12,9 +12,13 @@ namespace MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates
 
         public Guid UserId { get; private set; }
 
+        private OperationLog()
+        {
+
+        }
         public OperationLog(Guid userId, OperationLogType type, string description)
         {
-            ClientIP = HttpContext.Connection.RemoteIpAddress.ToString();
+            ClientIP = "";
             Description = description;
             Type = type;
             UserId = userId;

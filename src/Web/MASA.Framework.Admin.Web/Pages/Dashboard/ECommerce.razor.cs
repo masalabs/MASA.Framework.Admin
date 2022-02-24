@@ -1,4 +1,5 @@
-﻿using MASA.Framework.Admin.Web.Services;
+using MASA.Framework.Sdks.Authentication.Internal.Enum;
+using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
 
 namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
@@ -24,7 +25,7 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
         public MasaBlazor Masa { get; set; } = default!;
 
         [Inject]
-        public IOperationLogService LogService { get; set; }
+        public LogStatisticsCaller LogStatisticsCaller { get; set; }
 
         private string GetEchartKey()
         {
@@ -388,7 +389,11 @@ namespace MASA.Framework.Admin.Web.Pages.Dashboard
 
         protected override async Task OnParametersSetAsync()
         {
-            await LogService.LogAsync("访问了电子商务页面！", Contracts.Logging.OperationLogType.VisitPage);
+            var res = await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
+            {
+                Description = "访问了电子商务页面",
+                OperationLogType = OperationLogType.VisitPage
+            });
         }
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

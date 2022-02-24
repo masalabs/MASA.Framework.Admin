@@ -1,9 +1,20 @@
+using MASA.Framework.Admin.Service.User.Domain.Services;
+using MASA.Framework.Admin.Service.User.Infrastructure.Hub;
+using Microsoft.AspNetCore.Http.Connections;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(AppConfigOption).Assembly);
 
+builder.Services.AddScoped<LoginService>();
+builder.Services.AddSignalR().AddHubOptions<LoginHub>(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 builder.Services.AddLogging();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenTelemetryTracing(options =>
     options
@@ -21,7 +32,6 @@ builder.Services.AddOpenTelemetryTracing(options =>
                 && !req.Request.Path.ToUriComponent().Contains("swagger", StringComparison.OrdinalIgnoreCase);
         })
         .AddHttpClientInstrumentation()
-        .AddConsoleExporter()
         .AddZipkinExporter(o =>
         {
             o.Endpoint = new Uri("http://zipkin:9411/api/v2/spans");
@@ -74,7 +84,14 @@ var app = builder.Services.AddFluentValidation(options =>
 
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
+    if (context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Any())
+    {
+        return;
+    }
+    context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new MASA.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123"));
+    context.SaveChanges();
 });
+
 app.UseMasaExceptionHandling(opt =>
     {
         opt.CustomExceptionHandler = exception =>
@@ -92,5 +109,20 @@ app.UseMasaExceptionHandling(opt =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
     });
+
+app.UseRouting();
+app.UseCloudEvents();
+app.MapHub<LoginHub>("/hub/login",
+                    options => options.Transports =
+                        HttpTransportType.WebSockets |
+                        HttpTransportType.LongPolling);
+
+//app.UseEndpoints(endpoint =>
+//{
+//    endpoint.MapHub<LoginHub>("/hub/login",
+//                    options => options.Transports =
+//                        HttpTransportType.WebSockets |
+//                        HttpTransportType.LongPolling);
+//});
 
 app.Run();

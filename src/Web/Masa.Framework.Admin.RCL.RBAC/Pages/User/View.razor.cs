@@ -1,3 +1,4 @@
+using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
 using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
@@ -35,6 +36,9 @@ public partial class View
 
     [Inject]
     public AuthenticationCaller AuthenticationCaller { get; set; } = null!;
+
+    [Inject]
+    public LogStatisticsCaller LogStatisticsCaller { get; set; }
 
     [Parameter]
     public string? Id { get; set; }
@@ -100,6 +104,16 @@ public partial class View
             return;
         }
         _userRoles = rolesRes.Data;
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
+        {
+            Description = "访问了用户详情页面",
+            OperationLogType = OperationLogType.VisitPage
+        });
+        await base.OnAfterRenderAsync(firstRender);
     }
 }
 

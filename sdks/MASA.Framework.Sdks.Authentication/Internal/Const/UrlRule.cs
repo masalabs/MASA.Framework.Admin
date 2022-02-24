@@ -13,4 +13,8 @@ public class UrlRule
     public const string USER_SERVICE = "user";
 
     public const string MENU_SERVICE = "configurations/menu";
+
+    public const string STATISTIC_SERVICE = "statistic";
+
+    public const string LOG_SERVICE = "log";
 }

@@ -3,7 +3,7 @@
 @inject GlobalConfig GlobalConfig
 @implements IDisposable
 
-@*<AuthorizeView>
+<AuthorizeView>
     <NotAuthorized>
         <MApp>
             <div style="height:100%;margin:0;padding:0;">
@@ -11,7 +11,7 @@
             </div>
         </MApp>
     </NotAuthorized>
-    <Authorized>*@
+    <Authorized>
         <MApp>
             <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ?"mx-6":"mx-6 rounded-b-4")}")">
                 <Favorite />
@@ -28,32 +28,44 @@
             <MMain Class="fill-lighten-1" Style="padding-top:60px">
                 @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
                 {
-                    <div class="pa-6 max-width">
+                     <div class="pa-6 max-width">
                         <Breadcrumb></Breadcrumb>
                         @Body
-                    </div>
+                     </div>
                 }
                 else if (GlobalConfig.PageMode == PageModes.PageTab)
                 {
-                    <PageTabs>
+                     <PageTabs>
                         @Body
-                    </PageTabs>
+                     </PageTabs>
                 }
                 else
                 {
-                    <div class="pa-6 max-width">
+                     <div class="pa-6 max-width">
                         @Body
-                    </div>
+                     </div>
                 }
             </MMain>
 
             <Settings @bind-Show=_showSetting />
-            <MLodding />
-            <MConfirmDialog />
-            <MMessage />
+
+            <MOverlay ZIndex=999 @bind-Value="_show">
+                <MSnackbar Vertical Top Color="deep-purple accent-4" @bind-Value="_show" Timeout=-1>
+                    <ChildContent>
+                        @_msg
+                    </ChildContent>
+                    <ActionContent>
+                        <MButton Color="red"
+                                 Text
+                                 OnClick="GoToLogout">
+                            确定
+                        </MButton>
+                    </ActionContent>
+                </MSnackbar>
+            </MOverlay>
         </MApp>
-@*    </Authorized>
-</AuthorizeView>*@
+    </Authorized>
+</AuthorizeView>
 
 
 @code {

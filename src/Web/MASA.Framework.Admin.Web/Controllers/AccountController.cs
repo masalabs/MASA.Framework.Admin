@@ -1,7 +1,4 @@
-﻿using MASA.Framework.Admin.Contracts.Login.Model;
-using MASA.Utils.Configuration.Json;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +13,11 @@ namespace MASA.Framework.Admin.Web.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string token)
+        public async Task<IActionResult> Login([FromServices] IConfiguration configuration, string token)
         {
-            var authOptions = AppSettings.GetModel<AuthOptions>("AuthOptions");
+            var security = configuration["AuthOptions:Security"];
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(authOptions.Security);
+            var key = Encoding.ASCII.GetBytes(security);
             tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -36,9 +33,10 @@ namespace MASA.Framework.Admin.Web.Controllers
             var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
 
             var claims = new List<Claim>
-            {
-                 new Claim("UserId", userId),
-            };
+                {
+                     new Claim("UserId", userId),
+                     new Claim("Token",token)
+                };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties

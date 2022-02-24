@@ -1,4 +1,7 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.Dashboard
+using MASA.Framework.Sdks.Authentication.Internal.Enum;
+using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
+
+namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class ECommerce : AdminCompontentBase
     {
@@ -7,7 +10,7 @@
         private object? _earningsChart;
         private object? _revenueReportChart;
         private object? _budgetChart;
-        
+
         private List<DataTableHeader<CompanyDto>> _headers = new List<DataTableHeader<CompanyDto>>
         {
             new () {Text= "COMPANY", Value= nameof(CompanyDto.CompanyName)},
@@ -20,6 +23,9 @@
 
         [Inject]
         public MasaBlazor Masa { get; set; } = default!;
+
+        [Inject]
+        public LogStatisticsCaller LogStatisticsCaller { get; set; }
 
         private string GetEchartKey()
         {
@@ -381,14 +387,23 @@
             };
         }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            var res = await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
+            {
+                Description = "访问了电子商务页面",
+                OperationLogType = OperationLogType.VisitPage
+            });
+        }
+
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Application.Left))
             {
-                if(GlobalConfig.CurrentNav?.Href == "dashboard/ecommerce")
+                if (GlobalConfig.CurrentNav?.Href == "dashboard/ecommerce")
                 {
                     InvokeAsync(StateHasChanged);
-                }           
+                }
             }
         }
 

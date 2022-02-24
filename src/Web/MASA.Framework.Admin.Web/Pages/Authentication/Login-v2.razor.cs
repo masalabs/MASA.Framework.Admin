@@ -1,13 +1,10 @@
-using MASA.Framework.Admin.Caller.UserCallers;
-using MASA.Framework.Admin.Contracts.Login.Model;
-using Microsoft.AspNetCore.SignalR.Client;
+using MASA.Framework.Admin.Web.Shared;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace MASA.Framework.Admin.Web.Pages.Authentication
 {
     public partial class Login_v2
     {
-        private HubConnection _hubConnection = default!;
-        private readonly string _hubName = "login";
         private bool _show;
         private string _account = "";
         private string _password = "";
@@ -24,72 +21,49 @@ namespace MASA.Framework.Admin.Web.Pages.Authentication
         public NavigationManager NavigationManager { get; set; } = default!;
 
         [Inject]
-        public MASA.Framework.Admin.Caller.UserCallers.UserCaller UserCaller { get; set; } = default!;
+        public ProtectedLocalStorage ProtectedLocalStorage { get; set; } = default!;
 
+        [Inject]
+        public UserCaller UserCaller { get; set; } = default!;
+
+        [CascadingParameter]
+        public MainLayout App { get; set; } = default!;
 
         private async Task LoginAsync()
         {
             _loading = true;
             var token = await GetToken();
-
-            if (!string.IsNullOrWhiteSpace(token))
+            _loading = false;
+            if (!string.IsNullOrEmpty(token))
             {
-                try
-                {
-                    string huburl = NavigationManager.BaseUri.TrimEnd('/') + $"/{_hubName}";
-                    _hubConnection = new HubConnectionBuilder()
-                        .WithUrl("http://localhost:5041/login", options =>
-                        {
-                            options.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                        })
-                        .WithAutomaticReconnect()
-                        .Build();
-
-                    _hubConnection.On<string, string>("Logout", Logout);
-
-                    await _hubConnection.StartAsync();
-
-                    _loading = false;
-
-                    NavigationManager.NavigateTo($"/Account/Login?token={token}", true);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                await ProtectedLocalStorage.SetAsync("IsLogined", true);
+                NavigationManager.NavigateTo($"/Account/Login?token={token}", true);
             }
-        }
-
-        private void Logout(string name, string msg)
-        {
-
         }
 
         private async Task<string> GetToken()
         {
             if (!string.IsNullOrWhiteSpace(_account) && !string.IsNullOrWhiteSpace(_password))
             {
-                LoginViewModel loginViewModel = await UserCaller.Login(new LoginModel
-                {
-                    Account = _account,
-                    Password = _password
-                });
+                var loginRes = await UserCaller.LoginAsync(_account, _password);
 
-                if (loginViewModel.Code == 1)
+                if (!loginRes.Success)
                 {
                     _showErrorMessage = true;
-                    _errorMessage = loginViewModel.Result;
-                    return "";
+                    _errorMessage = loginRes.Message;
                 }
                 else
                 {
                     _showErrorMessage = false;
-                    return loginViewModel.Result;
                 }
+
+                return loginRes.Data;
             }
             else
             {
-                return "";
+                _showErrorMessage = true;
+                _errorMessage = "请输入账号或密码";
+                return string.Empty;
             }
         }
     }

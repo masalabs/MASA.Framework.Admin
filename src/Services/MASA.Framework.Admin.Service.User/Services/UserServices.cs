@@ -11,7 +11,9 @@ public class UserServices : ServiceBase
         App.MapGet(Routing.UserRole, GetUserRolesAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
-        App.MapDelete(Routing.OperateUser, DeleteAsync); ;
+        App.MapDelete(Routing.OperateUser, DeleteAsync);
+        App.MapPost(Routing.UserLogin, LoginAsync);
+        App.MapGet(Routing.UserStatistic, GetUserCountAsync);
     }
 
     public async Task<PaginatedItemResponse<UserItemResponse>> GetItemsAsync(
@@ -81,4 +83,23 @@ public class UserServices : ServiceBase
     {
         await eventBus.PublishAsync(new DeleteCommand(id));
     }
+
+    [HttpPost]
+    public async Task<string> LoginAsync([FromServices] IEventBus eventBus, [FromBody] UserLoginRequest userLoginRequest)
+    {
+        var loginCommand = new LoginCommand(userLoginRequest);
+        await eventBus.PublishAsync(loginCommand);
+
+        return loginCommand.Token;
+    }
+
+    public async Task<UserStatisticResponse> GetUserCountAsync(
+       [FromServices] IEventBus eventBus)
+    {
+        var statisticQuery = new StatisticQuery();
+        await eventBus.PublishAsync(statisticQuery);
+
+        return statisticQuery.Result;
+    }
+
 }

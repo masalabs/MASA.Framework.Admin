@@ -24,7 +24,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
         builder.Property(user => user.Creator).HasColumnName("creator").IsRequired();
         builder.Property(user => user.CreationTime).HasColumnName("creation_time").IsRequired();
         builder.Property(user => user.Modifier).HasColumnName("modifier").IsRequired();
-        builder.Property(user => user.ModificationTime).HasColumnName("modifier_time").IsRequired();
+        builder.Property(user => user.ModificationTime).HasColumnName("modifier_time").IsRequired().HasDefaultValueSql("SYSDATETIME()");
 
         builder.HasMany(user => user.UserRoles).WithOne(userRole => userRole.User);
     }

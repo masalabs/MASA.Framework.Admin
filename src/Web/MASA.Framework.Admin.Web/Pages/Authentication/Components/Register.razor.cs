@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.Authentication.Components;
+namespace MASA.Framework.Admin.Web.Pages.Authentication.Components;
 
 public partial class Register
 {

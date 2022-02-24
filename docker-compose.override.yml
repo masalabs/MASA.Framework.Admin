@@ -95,6 +95,17 @@ services:
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+  masa.admin.service.logstatistics:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
   dapr-placement:
     command: ["./placement", "-port", "50000", "-log-level", "debug"]
     ports:

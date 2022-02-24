@@ -13,10 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MASA.Blazor" Version="0.2.10426" />
-    <PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.0.1872423660" />
-    <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.0.1872423660" />
-    <PackageReference Include="MASA.Utils.Extensions.DependencyInjection" Version="0.0.1872423660" />
+    <PackageReference Include="MASA.Blazor" Version="0.3.0-preview.1" />
+    <PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.3.0-preview.1" />
+    <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.3.0-preview.1" />
+    <PackageReference Include="MASA.Utils.Extensions.DependencyInjection" Version="0.3.0-preview.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />

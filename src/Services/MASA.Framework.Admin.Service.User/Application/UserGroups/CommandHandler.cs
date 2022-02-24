@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.User.Application.UserGroups
+namespace MASA.Framework.Admin.Service.User.Application.UserGroups
 {
     public class CommandHandler
     {

@@ -19,11 +19,11 @@ public partial class View
         new (){ Text= "浏览器", Sortable= false, Value= nameof(LoginRecord.Browser),Align="center"},
         new (){ Text= "地理位置", Sortable= false, Value= nameof(LoginRecord.Address),Align="center"}
     };
-    private List<DataTableHeader<UserGroup>> _userGroupHeaders = new List<DataTableHeader<UserGroup>>
+    private List<DataTableHeader<UserGroupItem>> _userGroupHeaders = new List<DataTableHeader<UserGroupItem>>
     {
-        new (){ Text= "用户组名称", Sortable= false, Value= nameof(UserGroup.Name)},
-        new (){ Text= "简介", Sortable= false, Value= nameof(UserGroup.Description)},
-        new (){ Text= "操作", Sortable= false, Value= nameof(UserGroup.Id)}
+        new (){ Text= "用户组名称", Sortable= false, Value= nameof(UserGroupItem.Name)},
+        new (){ Text= "简介", Sortable= false, Value= nameof(UserGroupItem.Description)},
+        new (){ Text= "操作", Sortable= false, Value= nameof(UserGroupItem.Id)}
     };
     private List<DataTableHeader<RoleItemResponse>> _roleItemHeaders = new List<DataTableHeader<RoleItemResponse>> {
         new (){ Text= "角色名称", Sortable= false, Value= nameof(RoleItemResponse.Name)},
@@ -38,7 +38,7 @@ public partial class View
     public AuthenticationCaller AuthenticationCaller { get; set; } = null!;
 
     [Inject]
-    public LogStatisticsCaller LogStatisticsCaller { get; set; }
+    public LogStatisticsCaller LogStatisticsCaller { get; set; } = null!;
 
     [Parameter]
     public string? Id { get; set; }
@@ -67,13 +67,30 @@ public partial class View
             return;
         }
         _addRoleDialog = true;
-        _roleSelectItems = dataRes.Data.Select(role => new RoleSelectItem
+        _roleSelectItems = dataRes.Data.Select(role => new SelectItem
         {
             Name = role.Name,
             Describetion = role.Describe ?? "",
             Id = role.Id
         }).ToList();
     }
+    private async Task OpenGroupDialog()
+    {
+        var dataRes = await AuthenticationCaller.SelectRoleAsync();
+        if (!dataRes.Success || dataRes.Data == null)
+        {
+            //获取失败
+            return;
+        }
+        _addGroupDialog = true;
+        _roleSelectItems = dataRes.Data.Select(role => new SelectItem
+        {
+            Name = role.Name,
+            Describetion = role.Describe ?? "",
+            Id = role.Id
+        }).ToList();
+    }
+
 
     private async Task AddUserRole()
     {

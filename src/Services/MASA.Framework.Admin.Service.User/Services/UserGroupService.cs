@@ -1,3 +1,6 @@
+using CreateCommand = MASA.Framework.Admin.Service.User.Application.UserGroups.Commands.CreateCommand;
+using ListQuery = MASA.Framework.Admin.Service.User.Application.UserGroups.Queres.ListQuery;
+
 namespace MASA.Framework.Admin.Service.User.Services
 {
     public class UserGroupService : ServiceBase
@@ -6,35 +9,40 @@ namespace MASA.Framework.Admin.Service.User.Services
         {
         }
 
-        //public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
-        //    [FromServices] IEventBus eventBus,
-        //    [FromQuery] int pageIndex = 1,
-        //    [FromQuery] int pageSize = 20,
-        //    [FromQuery] string account = "")
-        //{
+        public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
+            [FromServices] IEventBus eventBus,
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 20,
+            [FromQuery] string name = "")
+        {
+            var listQuery = new ListQuery(pageIndex, pageSize, name);
+            await eventBus.PublishAsync(listQuery);
+            return listQuery.Result;
+        }
 
-        //    var listQuery = new ListQuery(pageIndex, pageSize, account);
-        //    await eventBus.PublishAsync(listQuery);
+        public async Task CreateAsync(
+            [FromServices] IEventBus eventBus,
+            [FromHeader(Name = "creator-id")] Guid creator,
+            [FromBody] CreateUserGroupRequest createUserGroupRequest)
+        {
+            await eventBus.PublishAsync(new CreateCommand(createUserGroupRequest)
+            {
+                Creator = creator
+            });
+        }
 
-        //    return listQuery.Result;
-        //}
+        public async Task<List<UserGroupItemResponse>> GetSelectListAsync([FromServices] IEventBus eventBus)
+        {
+            var query = new SelectQuery();
+            await eventBus.PublishAsync(query);
+            return query.Result;
+        }
 
-        //public async Task CreateAsync(
-        //    [FromServices] IEventBus eventBus,
-        //    [FromHeader(Name = "creator-id")] Guid creator,
-        //    [FromBody] CreateUserRequest userCreateRequest)
-        //{
-        //    await eventBus.PublishAsync(new CreateCommand(userCreateRequest)
-        //    {
-        //        Creator = creator
-        //    });
-        //}
-
-        //public async Task DeleteAsync(
-        //    [FromServices] IEventBus eventBus, Guid id)
-        //{
-        //    await eventBus.PublishAsync(new DeleteCommand(id));
-        //}
+        public async Task DeleteAsync(
+            [FromServices] IEventBus eventBus, Guid id)
+        {
+            await eventBus.PublishAsync(new DeleteCommand(id));
+        }
 
     }
 }

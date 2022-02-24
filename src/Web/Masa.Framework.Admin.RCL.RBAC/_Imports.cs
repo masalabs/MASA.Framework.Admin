@@ -1,8 +1,8 @@
 global using BlazorComponent;
 global using BlazorComponent.I18n;
+global using Masa.Blazor;
 global using Masa.Framework.Admin.RCL.RBAC.Model;
 global using Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel;
-global using MASA.Blazor;
 global using MASA.Framework.Admin.Web.Base.Global;
 global using MASA.Framework.Admin.Web.Base.Shared;
 global using MASA.Framework.Sdks.Authentication.Callers;

@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel;
 
-public class UserGroup
+public class UserGroupItem
 {
     public int Id { get; set; }
 

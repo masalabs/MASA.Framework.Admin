@@ -35,7 +35,7 @@ public partial class List
 
     private async Task LoadData()
     {
-        var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Account ?? "", _pageData.State);
+        var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "", _pageData.State);
 
         if (dataRes.Success && dataRes.Data != null)
         {

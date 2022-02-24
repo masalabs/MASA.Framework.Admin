@@ -36,9 +36,6 @@
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>LastLoginTime</span>
                     <span class="text-caption">@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
                 </div>
-                <div class="flex-grow-1 d-flex align-end">
-                    <MButton Outlined MinWidth="100" Color="red" class="ml-6 rounded-pill">Delete</MButton>
-                </div>
             </MCol>
         </MRow>
     </MCardText>
@@ -89,14 +86,14 @@
                 <MCardTitle>
                     所属分组
                     <MSpacer />
-                    <MButton Text>
+                    <MButton Text OnClick="OpenGroupDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
                         添加
                     </MButton>
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
-                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroup" HideDefaultFooter Class="user ml-2 table-border-none">
+                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroupItem" HideDefaultFooter Class="user ml-2 table-border-none">
                         <HeaderColContent Context="header">
                             <span class="text-subtitle">@header.Text</span>
                         </HeaderColContent>

@@ -1,5 +1,5 @@
 global using BlazorComponent;
-global using MASA.Blazor;
+global using Masa.Blazor;
 global using MASA.Framework.Admin.Web.Base.Global;
 global using MASA.Framework.Admin.Web.Base.Shared;
 global using MASA.Framework.Admin.Web.Data.App.ECommerce;
@@ -19,6 +19,8 @@ global using MASA.Framework.Admin.Web.Data.Others.AccountSettings.Dto;
 global using MASA.Framework.Admin.Web.Data.Shared.Favorite;
 global using MASA.Framework.Sdks.Authentication.Callers;
 global using MASA.Framework.Sdks.Authentication.Internal;
+global using MASA.Framework.Sdks.Authentication.Internal.Enum;
+global using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
 global using MASA.Utils.Caller.Core;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Components;

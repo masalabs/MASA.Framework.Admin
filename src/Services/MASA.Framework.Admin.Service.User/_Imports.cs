@@ -17,6 +17,8 @@ global using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
 global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
 global using MASA.Contrib.Service.MinimalAPIs;
 global using MASA.Framework.Admin.Infrastructure.Configurations.Response;
+global using MASA.Framework.Admin.Service.User.Application.UserGroups.Commands;
+global using MASA.Framework.Admin.Service.User.Application.UserGroups.Queres;
 global using MASA.Framework.Admin.Service.User.Application.Users.Commands;
 global using MASA.Framework.Admin.Service.User.Application.Users.Queres;
 global using MASA.Framework.Admin.Service.User.Domain.Aggregates;

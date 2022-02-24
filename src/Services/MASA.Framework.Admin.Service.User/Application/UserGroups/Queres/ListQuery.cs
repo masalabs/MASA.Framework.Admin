@@ -1,7 +1,7 @@
 namespace MASA.Framework.Admin.Service.User.Application.UserGroups.Queres
 {
-    public record ListQuery : Query<UserGroupItemResponse>
+    public record ListQuery(int PageIndex, int PageSize, string Name) : Query<PaginatedItemResponse<UserGroupItemResponse>>
     {
-        public override UserGroupItemResponse Result { get; set; }
+        public override PaginatedItemResponse<UserGroupItemResponse> Result { get; set; }
     }
 }

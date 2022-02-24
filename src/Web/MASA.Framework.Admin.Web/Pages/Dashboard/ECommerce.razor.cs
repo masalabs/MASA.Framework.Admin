@@ -1,6 +1,3 @@
-using MASA.Framework.Sdks.Authentication.Internal.Enum;
-using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
-
 namespace MASA.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class ECommerce : AdminCompontentBase

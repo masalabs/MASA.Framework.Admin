@@ -7,7 +7,7 @@
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
                 <span class="text-btn neutral-lighten-1--text">展示:</span>
-                <MSelect @bind-Value="_userPage.PageSize"
+                <MSelect @bind-Value="_pageData.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
                          Dense
@@ -21,18 +21,7 @@
                 <span class="text-btn">条数</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MSelect @bind-Value="_userPage.State"
-                         Color="primary"
-                         HideDetails="@("auto")"
-                         Clearable
-                         Dense
-                         Outlined
-                         Items="@_selectStateList"
-                         ItemText="u => u.Text"
-                         ItemValue="u => u.Value"
-                         Label="状态">
-                </MSelect>
-                <MTextField @bind-Value="_userPage.Account" Color="primary" Class="rounded-2 ml-6" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                <MTextField @bind-Value="_pageData.Name" Color="primary" Class="rounded-2 ml-6" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
@@ -43,88 +32,27 @@
             </MCol>
         </MRow>
     </MCardText>
-    <MDataTable Headers="_headers" Items="_userPage.UserPageData" ItemKey="r=>r.Id.ToString()" ShowSelect TItem="UserItemResponse" ItemsPerPage="_userPage.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="_headers" Items="_pageData.PageData" ItemKey="r=>r.Id.ToString()" ShowSelect TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
             @switch (context.Header.Value)
             {
-                case nameof(UserItemResponse.Cover):
-                    <div class="hover-pointer d-flex my-2">
-                        @if (string.IsNullOrEmpty(context.Item.Cover))
-                        {
-                            <MAvatar Size=48 Class="mt-1">
-                                <span>@GetInitialShow(context.Item.Name)</span>
-                            </MAvatar>
-                        }
-                        else
-                        {
-                            <MAvatar Size=48 Class="mt-1">
-                                <MImage Contain Src="@context.Item.Cover"></MImage>
-                            </MAvatar>
-                        }
-                    </div>
+                case nameof(UserGroupItemResponse.Name):
+                    
                     break;
-                case (nameof(UserItemResponse.Email)):
-                    <span>@context.Item.Email</span>
+                case nameof(UserGroupItemResponse.Code):
+                    
                     break;
-                case nameof(UserItemResponse.Gender):
-                    var genderText = "";
-                    if (context.Item.Gender.HasValue)
-                    {
-                        if (context.Item.Gender.Value)
-                        {
-                            genderText = "男";
-                        }
-                        else
-                        {
-                            genderText = "女";
-                        }
-                    }
-                    else
-                    {
-                        genderText = "未知";
-                    }
-                    <span>@genderText</span>
+                case nameof(UserGroupItemResponse.Describtion):
+                    
                     break;
-                case (nameof(UserItemResponse.LastLoginTime)):
-                    @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                case nameof(UserGroupItemResponse.CreationTime):
+                    
                     break;
-                case nameof(UserItemResponse.State):
-                    @if (context.Item.State == (int)State.Enable)
-                    {
-                        <MChip Color="green" TextColor="white" Ripple="false">
-                            <span>@State.Enable.ToString()</span>
-                        </MChip>
-                    }
-                    else
-                    {
-                        <MChip Color="gray" Ripple="false">
-                            <span>@State.Disabled.ToString()</span>
-                        </MChip>
-                    }
-                    break;
-                case "Action":
-                    <MMenu Right Bottom>
-                        <ActivatorContent Context="activatorContext">
-                            <MButton Icon @attributes="@activatorContext.Attrs">
-                                <MIcon XSmall>fas fa-ellipsis-v</MIcon>
-                            </MButton>
-                        </ActivatorContent>
-                        <ChildContent>
-                            <MList>
-                                <MListItem OnClick="()=>NavToDetails(context.Item.Id.ToString())">
-                                    <MIcon Small>fas fa-user-tie</MIcon>
-                                    <MListItemTitle Class="ml-2"> Details </MListItemTitle>
-                                </MListItem>
-                                <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
-                                    <MIcon Small>far fa-trash-alt</MIcon>
-                                    <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
-                                </MListItem>
-                            </MList>
-                        </ChildContent>
-                    </MMenu>
+                case nameof(UserGroupItemResponse.ModificationTime):
+                    
                     break;
                 default:
                     @context.Value
@@ -134,10 +62,10 @@
     </MDataTable>
     <MCardText>
         <div class="d-flex">
-            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_userPage.PageIndex-1)*_userPage.PageSize+1) to @(_userPage.PageIndex*_userPage.PageSize) of @_userPage.CurrentCount entries</div>
-            @if (_userPage.PageCount > 0)
+            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_pageData.PageIndex-1)*_pageData.PageSize+1) to @(_pageData.PageIndex*_pageData.PageSize) of @_pageData.CurrentCount entries</div>
+            @if (_pageData.PageCount > 0)
             {
-                <MPagination @bind-Value="_userPage.PageIndex" Color="primary" Circle Length=@_userPage.PageCount></MPagination>
+                <MPagination @bind-Value="_pageData.PageIndex" Color="primary" Circle Length=@_pageData.PageCount></MPagination>
             }
         </div>
     </MCardText>

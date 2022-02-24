@@ -4,7 +4,7 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User.ViewModel
     {
         public List<T> PageData { get; set; } = new();
 
-        public string? Account { get; set; }
+        public string? Name { get; set; }
 
         public int State { get; set; }
 

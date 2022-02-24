@@ -1,6 +1,7 @@
 using MASA.Framework.Admin.Service.User.Domain.Services;
 using MASA.Utils.Security.Cryptography;
 using Microsoft.Extensions.Caching.Memory;
+using CreateCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
 
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 

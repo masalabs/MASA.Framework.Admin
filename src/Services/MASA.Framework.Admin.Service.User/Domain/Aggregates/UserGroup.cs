@@ -1,6 +1,6 @@
 namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
 {
-    public class UserGroup : AggregateRoot<Guid>
+    public class UserGroup : AuditAggregateRoot<Guid, Guid>
     {
         public string Name { get; private set; }
 

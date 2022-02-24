@@ -46,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sdks", "sdks", "{762B846C-4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Sdks.Authentication", "sdks\MASA.Framework.Sdks.Authentication\MASA.Framework.Sdks.Authentication.csproj", "{D4224385-DC0F-4E12-9252-DA81A5058C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASA.Framework.Admin.Service.LogStatistics", "src\Services\MASA.Framework.Admin.Service.LogStatistics\MASA.Framework.Admin.Service.LogStatistics.csproj", "{F7BC6FDE-1414-462C-BF5F-CB66DA986EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.LogStatistics", "src\Services\MASA.Framework.Admin.Service.LogStatistics\MASA.Framework.Admin.Service.LogStatistics.csproj", "{F7BC6FDE-1414-462C-BF5F-CB66DA986EE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

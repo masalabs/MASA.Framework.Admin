@@ -7,10 +7,10 @@ public partial class View
 {
     private StringNumber _tab;
     private UserDetailResponse _userDetail = new();
-    private bool _addRoleDialog = false;
-    private List<RoleSelectItem> _roleSelectItems = new();
+    private bool _addRoleDialog, _addGroupDialog;
+    private List<SelectItem> _roleSelectItems = new(), _groupSelectItems = new();
     private List<RoleItemResponse> _userRoles = new();
-    private string? _addRoleId;
+    private string? _addRoleId, _addGroupId;
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
         new (){ Text= "登录时间", Sortable= false, Value= nameof(LoginRecord.LoginTime)},
@@ -91,6 +91,16 @@ public partial class View
         await LoadUserRoles();
     }
 
+    private async Task AddUserGroup()
+    {
+        if (string.IsNullOrEmpty(_addRoleId) || string.IsNullOrEmpty(Id))
+        {
+            //tip msg
+            return;
+        }
+        _addGroupDialog = false;
+    }
+
     private async Task LoadUserRoles()
     {
         var userRolesRes = await UserCaller.GetUserRolesAsync(Guid.Parse(Id));
@@ -104,6 +114,11 @@ public partial class View
             return;
         }
         _userRoles = rolesRes.Data;
+    }
+
+    private async Task LoadUserGroups()
+    {
+
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

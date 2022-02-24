@@ -5,7 +5,7 @@ public partial class List
     private bool _visible;
     private bool _valid = true, _snackbar = false;
     private MForm _form = new();
-    private UserPage _userPage = new();
+    private PaginationPage<UserItemResponse> _pageData = new();
     private UserItemResponse _userItem = new();
     private CreateUserModel _createUserModel = new();
     private List<int> _pageSizes = new() { 10, 25, 50, 100 };
@@ -35,12 +35,12 @@ public partial class List
 
     private async Task LoadData()
     {
-        var dataRes = await UserCaller.GetListAsync(_userPage.PageIndex, _userPage.PageSize, _userPage.Account ?? "", _userPage.State);
+        var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Account ?? "", _pageData.State);
 
         if (dataRes.Success && dataRes.Data != null)
         {
-            _userPage.UserPageData = dataRes.Data.Items.ToList();
-            _userPage.CurrentCount = dataRes.Data.Count;
+            _pageData.PageData = dataRes.Data.Items.ToList();
+            _pageData.CurrentCount = dataRes.Data.Count;
         }
     }
 

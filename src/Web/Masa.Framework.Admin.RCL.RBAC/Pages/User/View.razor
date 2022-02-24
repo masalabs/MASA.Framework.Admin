@@ -213,3 +213,42 @@
         </MCard>
     </ChildContent>
 </MDialog>
+
+<MDialog @bind-Value="_addGroupDialog" Persistent Width="500">
+    <ChildContent>
+        <MCard class="pa-6">
+            <MCardTitle class="pa-0 mb-2">
+                所属分组
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="() => _addGroupDialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+            </MCardTitle>
+            <MDivider />
+            <MCardText class="pt-5">
+                <MSelect Label="分组选择" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId" Dense
+                         ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
+                    <ItemContent>
+                        <MListItemContent v-else>
+                            <MListItemTitle>
+                                @context.Item.Name
+                            </MListItemTitle>
+                            <MListItemSubtitle>
+                                @context.Item.Describetion
+                            </MListItemSubtitle>
+                        </MListItemContent>
+                    </ItemContent>
+                </MSelect>
+            </MCardText>
+            <MDivider />
+            <MCardActions class="mt-2 d-flex justify-end">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
+                    取消
+                </MButton>
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserGroup">
+                    保存
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>

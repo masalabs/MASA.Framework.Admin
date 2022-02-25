@@ -46,10 +46,23 @@ public class CommandHandler
     [EventHandler]
     public async Task CreateUserRoleAsync(CreateRoleCommand createUserRoleCommand)
     {
-        var user = await _userRepository.FindAsync(createUserRoleCommand.UserRoleCreateRequest.UserId);
+        var user = await _userRepository.GetByIdAsync(createUserRoleCommand.UserRoleCreateRequest.UserId);
         if (user == null)
             throw new UserFriendlyException("userid not found");
         user.AddRole(createUserRoleCommand.UserRoleCreateRequest.RoleId);
+        await _userRepository.UpdateAsync(user);
+    }
+
+    [EventHandler]
+    public async Task RemoveUserRoleAsync(RemoveRoleCommand removeUserRoleCommand)
+    {
+        var userRoleRequest = removeUserRoleCommand.RemoveRoleCreateRequest;
+        var user = await _userRepository.GetByIdAsync(userRoleRequest.UserId);
+        if (user == null)
+        {
+            throw new UserFriendlyException("userid not found");
+        }
+        user.RemoveRole(userRoleRequest.RoleId);
         await _userRepository.UpdateAsync(user);
     }
 

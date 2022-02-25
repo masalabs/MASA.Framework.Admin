@@ -27,32 +27,44 @@
                     </PrependInnerContent>
                 </MTextField>
                 <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
-                    Add User
+                    Add UserGroup
                 </MButton>
             </MCol>
         </MRow>
     </MCardText>
-    <MDataTable Headers="_headers" Items="_pageData.PageData" ItemKey="r=>r.Id.ToString()" ShowSelect TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
             @switch (context.Header.Value)
             {
-                case nameof(UserGroupItemResponse.Name):
-                    
-                    break;
-                case nameof(UserGroupItemResponse.Code):
-                    
-                    break;
-                case nameof(UserGroupItemResponse.Describtion):
-                    
-                    break;
                 case nameof(UserGroupItemResponse.CreationTime):
-                    
+                    @context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                     break;
                 case nameof(UserGroupItemResponse.ModificationTime):
-                    
+                    @context.Item.ModificationTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    break;
+                case "Action":
+                    <MMenu Right Bottom>
+                        <ActivatorContent Context="activatorContext">
+                            <MButton Icon @attributes="@activatorContext.Attrs">
+                                <MIcon XSmall>fas fa-ellipsis-v</MIcon>
+                            </MButton>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <MList>
+                                <MListItem>
+                                    <MIcon Small>fas fa-user-tie</MIcon>
+                                    <MListItemTitle Class="ml-2"> Details </MListItemTitle>
+                                </MListItem>
+                                <MListItem>
+                                    <MIcon Small>far fa-trash-alt</MIcon>
+                                    <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
+                                </MListItem>
+                            </MList>
+                        </ChildContent>
+                    </MMenu>
                     break;
                 default:
                     @context.Value
@@ -73,24 +85,17 @@
 
 <MNavigationDrawer Temporary Fixed Right Value=_visible Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">Add New User</span>
+        <span class="text-h6">Add User Group</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=_createUserModel EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
-        <MTextField @bind-Value="_createUserModel.Account" Class="mb-6" Label="账号" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserModel.Pwd" Class="mb-6" Type="password" Label="密码" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserModel.ConfirmPwd" Class="mb-6" Type="password" Label="确认密码" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserModel.Name" Class="mb-6" Label="姓名" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserModel.Email" Class="mb-6" Label="邮箱" HideDetails="@("auto")" Dense Outlined />
+    <MForm Model=_createUserGroup EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
+        <MTextField @bind-Value="_createUserGroup.Name" Class="mb-6" Label="分组名称" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Code" Class="mb-6" Label="分组唯一标识" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="分组描述" HideDetails="@("auto")" Dense Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateUser(context)"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateGroup(context)"> Add </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
-
-<MSnackbar Absolute Dark Centered Timeout="3000" @bind-Value="_snackbar"
-           Color="deep-purple accent-4" Elevation="24">
-    添加失败
-</MSnackbar>

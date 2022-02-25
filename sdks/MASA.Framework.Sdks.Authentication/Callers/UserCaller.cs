@@ -77,6 +77,33 @@ public class UserCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponseBase> RemoveUserRoleAsync(RemoveUserRoleRequest removeUserRoleRequest)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.DeleteAsync(Routing.UserRole, removeUserRoleRequest);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponseBase> CreateUserGroupAsync(CreateUserGroupRequest createUserGroupRequest)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.PostAsync(Routing.UserGroup, createUserGroupRequest);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponseBase> RemoveUserGroupAsync(RemoveUserGroupRequest removeUserGroupRequest)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.DeleteAsync(Routing.UserGroup, removeUserGroupRequest);
+            return response!;
+        });
+    }
+
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
         return await ResultAsync(async () =>

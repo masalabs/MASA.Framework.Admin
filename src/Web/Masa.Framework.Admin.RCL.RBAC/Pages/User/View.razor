@@ -93,15 +93,22 @@
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
-                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroupItem" HideDefaultFooter Class="user ml-2 table-border-none">
+                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroupItemResponse" Items="_userGroups" HideDefaultFooter Class="user ml-2 table-border-none">
                         <HeaderColContent Context="header">
                             <span class="text-subtitle">@header.Text</span>
                         </HeaderColContent>
                         <ItemColContent>
                             @switch (context.Header.Value)
                             {
-                                case nameof(UserItemResponse.Id):
-                                    <span>移除此分组</span>
+                                case nameof(UserGroupItemResponse.Id):
+                                    <MTooltip Top>
+                                        <ActivatorContent Context="_">
+                                            <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="async ()=>await RemoveUserGroup(context.Item.Id)">mdi-delete</MIcon>
+                                        </ActivatorContent>
+                                        <ChildContent>
+                                            <span>移除分组</span>
+                                        </ChildContent>
+                                    </MTooltip>
                                     break;
                                 default:
                                     @context.Value
@@ -159,14 +166,14 @@
                     访问记录
                 </MCardTitle>
                 <MDivider />
-                <MCardText>3</MCardText>
+                <MCardText>Todo</MCardText>
             </MCard>
             <MCard class="mt-6" Flat>
                 <MCardTitle>
                     位置
                 </MCardTitle>
                 <MDivider />
-                <MCardText>3</MCardText>
+                <MCardText>Todo</MCardText>
             </MCard>
         </MTabItem>
     </MTabsItems>
@@ -184,7 +191,7 @@
             </MCardTitle>
             <MDivider />
             <MCardText class="pt-5">
-                <MSelect Label="选择角色" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId" Dense
+                <MSelect Label="选择角色" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId"
                          ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
                     <ItemContent>
                         <MListItemContent v-else>
@@ -223,7 +230,7 @@
             </MCardTitle>
             <MDivider />
             <MCardText class="pt-5">
-                <MSelect Label="分组选择" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId" Dense
+                <MSelect Label="分组选择" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId"
                          ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
                     <ItemContent>
                         <MListItemContent v-else>

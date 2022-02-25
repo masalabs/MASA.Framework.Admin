@@ -7,6 +7,11 @@ namespace MASA.Framework.Admin.Service.User.Services
     {
         public UserGroupService(IServiceCollection services) : base(services)
         {
+            App.MapGet(Routing.UserGroupList, GetItemsAsync);
+            App.MapGet(Routing.UserGroupSelect, GetSelectListAsync);
+            App.MapGet(Routing.GroupByUser, GetUserGroupListAsync);
+            App.MapPost(Routing.OperateGroup, CreateAsync);
+            App.MapDelete(Routing.OperateGroup, DeleteAsync);
         }
 
         public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
@@ -23,7 +28,7 @@ namespace MASA.Framework.Admin.Service.User.Services
         public async Task CreateAsync(
             [FromServices] IEventBus eventBus,
             [FromHeader(Name = "creator-id")] Guid creator,
-            [FromBody] CreateUserGroupRequest createUserGroupRequest)
+            [FromBody] CreateGroupRequest createUserGroupRequest)
         {
             await eventBus.PublishAsync(new CreateCommand(createUserGroupRequest)
             {
@@ -31,9 +36,19 @@ namespace MASA.Framework.Admin.Service.User.Services
             });
         }
 
-        public async Task<List<UserGroupItemResponse>> GetSelectListAsync([FromServices] IEventBus eventBus)
+        public async Task<List<UserGroupItemResponse>> GetSelectListAsync(
+            [FromServices] IEventBus eventBus)
         {
             var query = new SelectQuery();
+            await eventBus.PublishAsync(query);
+            return query.Result;
+        }
+
+        public async Task<List<UserGroupItemResponse>> GetUserGroupListAsync(
+            [FromServices] IEventBus eventBus,
+            [FromQuery] Guid userId)
+        {
+            var query = new UserGroupQuery(userId);
             await eventBus.PublishAsync(query);
             return query.Result;
         }

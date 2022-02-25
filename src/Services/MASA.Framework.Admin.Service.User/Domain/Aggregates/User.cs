@@ -55,4 +55,12 @@ public class User : AuditAggregateRoot<Guid, Guid>
             userRoles.Add(new UserRole(roleId));
         }
     }
+
+    public void RemoveRole(Guid roleId)
+    {
+        if (userRoles.Any(r => r.RoleId == roleId))
+        {
+            userRoles.RemoveAll(r => r.RoleId == roleId);
+        }
+    }
 }

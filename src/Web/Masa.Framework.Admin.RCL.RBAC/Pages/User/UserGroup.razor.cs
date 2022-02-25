@@ -3,11 +3,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
     public partial class UserGroup
     {
         private bool _visible;
-        private bool _valid = true, _snackbar = false;
+        private bool _valid = true;
         private MForm _form = new();
         private PaginationPage<UserGroupItemResponse> _pageData = new();
-        private UserGroupItemResponse _userItem = new();
-        private CreateUserModel _createUserModel = new();
+        private CreateGroupRequest _createUserGroup = new();
         private List<int> _pageSizes = new() { 10, 25, 50, 100 };
         private readonly List<DataTableHeader<UserGroupItemResponse>> _headers = new()
         {
@@ -20,7 +19,7 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
         };
 
         [Inject]
-        public UserCaller UserCaller { get; set; } = null!;
+        public UserGroupCaller UserGroupCaller { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -29,46 +28,27 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
 
         private async Task LoadData()
         {
-            var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "", _pageData.State);
+            var dataRes = await UserGroupCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "");
 
             if (dataRes.Success && dataRes.Data != null)
             {
-                //_pageData.PageData = dataRes.Data.Items.ToList();
-                //_pageData.CurrentCount = dataRes.Data.Count;
+                _pageData.PageData = dataRes.Data.Items.ToList();
+                _pageData.CurrentCount = dataRes.Data.Count;
             }
         }
 
-
-        private async Task DeleteUser(string id)
-        {
-            var res = await UserCaller.DeleteAsync(id);
-            if (!res.Success)
-            {
-                //tip msg
-            }
-            else
-            {
-                //reload items
-            }
-        }
-
-        private async Task CreateUser(EditContext context)
+        private async Task CreateGroup(EditContext context)
         {
             var success = context.Validate();
             if (!success)
             {
                 return;
             }
-            if (!_createUserModel.Pwd.Trim().Equals(_createUserModel.ConfirmPwd.Trim()))
-            {
-                //密码确认失败 提示
-                return;
-            }
 
-            var res = await UserCaller.CreateAsync(_createUserModel);
+            var res = await UserGroupCaller.CreateAsync(_createUserGroup);
             if (!res.Success)
             {
-                _snackbar = true;
+
             }
 
             _visible = false;

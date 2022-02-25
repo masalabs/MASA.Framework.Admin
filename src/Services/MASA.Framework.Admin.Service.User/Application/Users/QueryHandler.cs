@@ -1,6 +1,4 @@
-using MASA.Framework.Admin.Service.User.Infrastructure.Models;
-using Microsoft.Extensions.Caching.Memory;
-using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queres.ListQuery;
+using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
 
 namespace MASA.Framework.Admin.Service.User.Application.Users;
 

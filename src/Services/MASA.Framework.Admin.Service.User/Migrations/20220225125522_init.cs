@@ -13,6 +13,27 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 name: "user");
 
             migrationBuilder.CreateTable(
+                name: "department",
+                schema: "user",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    describtion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    parent_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false),
+                    creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    creation_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    modifier_time = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_department", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IntegrationEventLog",
                 columns: table => new
                 {
@@ -38,14 +59,14 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Describtion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Modifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    describtion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false),
+                    creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    creation_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    modifier_time = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,13 +101,35 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "department_users",
+                schema: "user",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_department_users", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_department_users_department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalSchema: "user",
+                        principalTable: "department",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_group_items",
                 schema: "user",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,13 +139,6 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         column: x => x.UserGroupId,
                         principalSchema: "user",
                         principalTable: "user_groups",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_group_items_users_userId",
-                        column: x => x.userId,
-                        principalSchema: "user",
-                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -129,6 +165,18 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_department_code",
+                schema: "user",
+                table: "department",
+                column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_department_users_DepartmentId",
+                schema: "user",
+                table: "department_users",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "index_state_modificationtime",
                 table: "IntegrationEventLog",
                 columns: new[] { "State", "ModificationTime" });
@@ -145,16 +193,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                 column: "UserGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_group_items_userId",
-                schema: "user",
-                table: "user_group_items",
-                column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_groups_Code",
+                name: "IX_user_groups_code",
                 schema: "user",
                 table: "user_groups",
-                column: "Code");
+                column: "code");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_roles_UserId",
@@ -166,6 +208,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "department_users",
+                schema: "user");
+
+            migrationBuilder.DropTable(
                 name: "IntegrationEventLog");
 
             migrationBuilder.DropTable(
@@ -174,6 +220,10 @@ namespace MASA.Framework.Admin.Service.User.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_roles",
+                schema: "user");
+
+            migrationBuilder.DropTable(
+                name: "department",
                 schema: "user");
 
             migrationBuilder.DropTable(

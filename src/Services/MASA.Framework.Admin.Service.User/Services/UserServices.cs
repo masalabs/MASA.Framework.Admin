@@ -1,5 +1,5 @@
 using CreateCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
-using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queres.ListQuery;
+using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
 
 namespace MASA.Framework.Admin.Service.User.Services;
 

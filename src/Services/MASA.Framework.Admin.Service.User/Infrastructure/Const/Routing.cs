@@ -29,5 +29,8 @@ public class Routing
 
     public static string UserGroupSelect = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_GROUP_SERVICE, "select");
 
+    public static string OperateDepartment = string.Format(UrlPre.DEFAULT_SERVICE, UrlRule.USER_DEPARTMENT_SERVICE);
+
+    public static string DepartmentList = string.Format(UrlPre.DEFAULT_SERVICE_LIST, UrlRule.USER_DEPARTMENT_SERVICE);
 }
 

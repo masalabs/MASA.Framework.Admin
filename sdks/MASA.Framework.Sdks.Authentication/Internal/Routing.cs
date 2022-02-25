@@ -75,6 +75,10 @@ public class Routing
 
     public static string UserGroupSelect = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "select");
 
+    public static string OperateDepartment = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_DEPARTMENT_SERVICE);
+
+    public static string DepartmentList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.USER_DEPARTMENT_SERVICE);
+
     #endregion
 
     #region Configuration

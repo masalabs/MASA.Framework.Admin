@@ -1,0 +1,64 @@
+﻿@page "/org/index"
+
+<MCard>
+    <MCardTitle class="indigo white--text text-h5">
+        User Directory
+    </MCardTitle>
+    <MRow Class="pa-4"
+          Justify="JustifyTypes.SpaceBetween">
+        <MCol Cols="5">
+            <MTreeview @bind-Active="_active"
+                       Items="_dapartments"
+                       LoadChildren="LoadDepartUser"
+                       Activatable
+                       OpenOnClick
+                       ItemText="r=>r.Name"
+                       ItemKey="r=>r.Id"
+                       ItemChildren="r=>r.Children">
+                <PrependContent>
+                    @if (context.Item.Children == null)
+                    {
+                        <MIcon>
+                            mdi-account
+                        </MIcon>
+                    }
+                </PrependContent>
+            </MTreeview>
+        </MCol>
+
+        <MDivider Vertical></MDivider>
+
+        <MCol class="d-flex text-center">
+            
+        </MCol>
+    </MRow>
+</MCard>
+
+<MDialog @bind-Value="_addOrgDialog" Persistent Width="500">
+    <ChildContent>
+        <MCard class="pa-6">
+            <MCardTitle class="pa-0 mb-2">
+                部门
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="() => _addOrgDialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+            </MCardTitle>
+            <MDivider />
+            <MCardText class="pt-5">
+                <MTextField @bind-Value="_createDepartment.Name" Class="mb-6" Label="部门名称" HideDetails="@("auto")" Dense Outlined />
+                <MTextField @bind-Value="_createDepartment.Code" Class="mb-6" Label="部门标识" HideDetails="@("auto")" Dense Outlined />
+                <MTextField @bind-Value="_createDepartment.Describtion" Class="mb-6" Label="部门描述" HideDetails="@("auto")" Dense Outlined />
+            </MCardText>
+            <MDivider />
+            <MCardActions class="mt-2 d-flex justify-end">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addOrgDialog = false">
+                    取消
+                </MButton>
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddDepartment">
+                    保存
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>

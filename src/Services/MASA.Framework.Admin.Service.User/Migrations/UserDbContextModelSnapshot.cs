@@ -69,6 +69,84 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.ToTable("IntegrationEventLog", (string)null);
                 });
 
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("creation_time");
+
+                    b.Property<Guid>("Creator")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("creator");
+
+                    b.Property<string>("Describtion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("describtion");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modifier_time");
+
+                    b.Property<Guid>("Modifier")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("modifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("parent_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code");
+
+                    b.ToTable("department", "user");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.DepartmentUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("department_users", "user");
+                });
+
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -161,30 +239,38 @@ namespace MASA.Framework.Admin.Service.User.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("code");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("creation_time");
 
                     b.Property<Guid>("Creator")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("creator");
 
                     b.Property<string>("Describtion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("describtion");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("is_deleted");
 
                     b.Property<DateTime>("ModificationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modifier_time");
 
                     b.Property<Guid>("Modifier")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("modifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
@@ -203,14 +289,13 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.Property<Guid>("UserGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserGroupId");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("user_group_items", "user");
                 });
@@ -236,23 +321,26 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.ToTable("user_roles", "user");
                 });
 
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.DepartmentUser", b =>
+                {
+                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregates.Department", "Department")
+                        .WithMany("DepartmentUsers")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserGroupItem", b =>
                 {
                     b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserGroup", "UserGroup")
-                        .WithMany()
+                        .WithMany("UserGroupItems")
                         .HasForeignKey("UserGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("UserGroup");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserRole", b =>
@@ -266,9 +354,19 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.Department", b =>
+                {
+                    b.Navigation("DepartmentUsers");
+                });
+
             modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("MASA.Framework.Admin.Service.User.Domain.Aggregates.UserGroup", b =>
+                {
+                    b.Navigation("UserGroupItems");
                 });
 #pragma warning restore 612, 618
         }

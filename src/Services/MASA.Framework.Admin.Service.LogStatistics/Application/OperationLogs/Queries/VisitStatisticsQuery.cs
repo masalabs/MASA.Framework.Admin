@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
+namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queries;
 
 public record VisitStatisticsQuery(DateTime StartTime, DateTime EndTime) : Query<OperationStatisticsModel>
 {

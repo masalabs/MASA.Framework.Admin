@@ -14,6 +14,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
+    <ProjectReference Include="..\..\src\Services\MASA.Framework.Admin.Service.Authentication\MASA.Framework.Admin.Service.Authentication.csproj" />
   </ItemGroup>
   
 </Project>

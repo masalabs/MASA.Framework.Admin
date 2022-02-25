@@ -60,4 +60,9 @@ public class ConfigurationCaller : CallerBase
     {
         return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.OperateMenu, new DeleteMenuRequest { MenuId = id }));
     }
+
+    public async Task<ApiResultResponseBase> DeleteByIdsAsync(Guid[] menuIds)
+    {
+        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.OperateMenu, new DeleteMenuByIdsRequest(menuIds)));
+    }
 }

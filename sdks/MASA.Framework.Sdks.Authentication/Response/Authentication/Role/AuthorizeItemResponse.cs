@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
+namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 public class AuthorizeItemResponse
 {
@@ -11,7 +11,7 @@ public class AuthorizeItemResponse
 
     public string PermissionName { get; set; } = default!;
 
-    public int ObjectType { get; set; }
+    public ObjectType ObjectType { get; set; }
 
     public string ObjectTypeName { get; set; } = default!;
 
@@ -26,7 +26,7 @@ public class AuthorizeItemResponse
     /// </summary>
     public string InheritanceRoleSource { get; set; } = default!;
 
-    public int PermissionType { get; set; }
+    //public PermissionType PermissionType { get; set; }
 
     public string PermissionTypeName { get; set; } = default!;
 }

@@ -1,0 +1,67 @@
+﻿@inherits AdminCompontentBase
+
+@if (MenuNavs?.Count() > 0)
+{
+    @foreach (var nav in MenuNavs)
+    {
+        if (nav.Children is null)
+        {
+            <MListItem IsActive="@(Page.CurrentData.Id == nav.Id)" OnClick="async () => await OnClick.InvokeAsync(nav)" Ripple=false Class="mb-4" ActiveClass="fill-lighten-1">
+                <ItemContent>
+                    @if (string.IsNullOrEmpty(nav.Icon) is false)
+                    {
+                        <MListItemIcon>
+                            <MIcon Color="@(context.Active?"primary":"neutral-lighten-2")" Size=20>@nav.Icon</MIcon>
+                        </MListItemIcon>
+                    }
+                    <MListItemContent>
+                        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap @(context.Active?"text-subtitle":"text-body neutral-lighten-2--text")">@nav.Name</div>
+                    </MListItemContent>
+                </ItemContent>
+            </MListItem>
+        }
+        else
+        {
+            <MListGroup Value="@IsChild(nav)" ValueChanged="async (value) => await OnClick.InvokeAsync(nav)" Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText">
+                <ActivatorContent>
+                    <MListItemContent>
+                        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@nav.Name</div>
+                    </MListItemContent>
+                </ActivatorContent>
+                <ChildContent>
+                    <Menus OnClick=OnClick MenuNavs="@nav.Children" />
+                </ChildContent>
+            </MListGroup>
+        }
+    }
+}
+
+@code {
+    [Inject]
+    public MenuPage Page { get; set; } = default!;
+
+    [Parameter]
+    public MenuNav[]? MenuNavs { get; set; }
+
+    [Parameter]
+    public EventCallback<MenuNav> OnClick { get; set; }
+
+    bool IsChild(MenuNav menuNav)
+    {
+        if (Page.CurrentData.Id == menuNav.Id) return true;
+        else return ContansChild(menuNav!.Children);
+
+        bool ContansChild(MenuNav[] navs)
+        {
+            foreach(var nav in navs)
+            {
+                if (nav.Id == Page.CurrentData.Id || nav.Id == Page.CurrentData.ParentId) return true;
+                if(nav.Children is not null)
+                {
+                    if (ContansChild(nav.Children)) return true;
+                }
+            }
+            return false;
+        }
+    }
+}

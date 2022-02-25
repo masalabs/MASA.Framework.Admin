@@ -28,7 +28,7 @@
             <MMain Class="fill-lighten-1" Style="padding-top:60px">
                 @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
                 {
-                     <div class="pa-6 max-width">
+                     <div class="pa-6 max-width max-height">
                         <Breadcrumb></Breadcrumb>
                         @Body
                      </div>
@@ -41,13 +41,17 @@
                 }
                 else
                 {
-                     <div class="pa-6 max-width">
+                     <div class="pa-6 max-width max-height">
                         @Body
                      </div>
                 }
             </MMain>
 
             <Settings @bind-Show=_showSetting />
+
+            <MLodding />
+            <MConfirmDialog />
+            <MMessage />
 
             <MOverlay ZIndex=999 @bind-Value="_show">
                 <MSnackbar Vertical Top Color="deep-purple accent-4" @bind-Value="_show" Timeout=-1>

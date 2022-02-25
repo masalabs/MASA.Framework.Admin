@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
+namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 public class RoleItemResponse
 {
@@ -17,4 +17,6 @@ public class RoleItemResponse
     public bool Enable { get; set; }
 
     public DateTime CreationTime { get; set; }
+
+    public RoleItemResponse Copy() => (RoleItemResponse)MemberwiseClone();
 }

@@ -1,8 +1,3 @@
-using MASA.Framework.Sdks.Authentication.Callers;
-using MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
-using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
-using AuthorizeItemResponse = MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
-
 namespace Masa.Framework.Admin.RCL.RBAC;
 
 public class RolePage : ComponentPageBase
@@ -11,13 +6,7 @@ public class RolePage : ComponentPageBase
 
     public RoleItemResponse CurrentData { get; set; } = new();
 
-    public List<AuthorizeItemResponse.AuthorizeItemResponse> AuthorizeDatas { get; set; } = new();
-
-    public AuthorizeItemResponse.AuthorizeItemResponse CurrentAuthorizeData { get; set; } = new();
-
     private AuthenticationCaller AuthenticationCaller { get; set; }
-
-    public int State { get; set; } = -1;
 
     public string? _search;
 
@@ -42,114 +31,144 @@ public class RolePage : ComponentPageBase
         }
     }
 
-    public int PageIndex { get; set; } = 1;
+    public int _pageIndex = 1;
+    public int PageIndex
+    {
+        get { return _pageIndex; }
+        set
+        {
+            _pageIndex = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
 
-    public int PageCount => (int)Math.Ceiling(CurrentCount / (double)PageSize);
+    public int PageCount { get; set; }
 
-    public bool Lodding { get; set; }
-
-    public bool Error { get; set; }
-
-    public string? Message { get; set; }
-
-    public long CurrentCount { get; set; }
+    public long TotalCount { get; set; }
 
     public List<int> PageSizes = new() { 10, 25, 50, 100 };
 
     public List<DataTableHeader<RoleItemResponse>> Headers { get; set; }
 
-    public bool IsAdd => CurrentData.Id != Guid.Empty;
+     public bool IsOpenRoleForm { get; set; }
 
-    public RolePage(AuthenticationCaller authenticationCaller, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
+    public State? _stateEnum;
+    public State? StateEnum
+    {
+        get { return _stateEnum; }
+        set
+        {
+            _stateEnum = value;
+            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
+        }
+    }
+
+    public List<KeyValuePair<string, State>> StateSelect { get; set; }
+
+    public NavigationManager NavigationManager { get; set; }
+
+    public RolePage(AuthenticationCaller authenticationCaller,NavigationManager navigationManager, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
+        NavigationManager = navigationManager;
+        StateSelect = GetEnumMap<State>();
         Headers = new()
         {
-            new() { Text = T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
-            new() { Text = T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
-            new() { Text = T("State"), Value = nameof(RoleItemResponse.Enable) },
-            new() { Text = T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
-            new() { Text = T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
-            new() { Text = T("Action"), Value = "Action", Sortable = false }
+            new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
+            new() { Text = i18n.T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
+            //new() { Text = i18n.T("State"), Value = nameof(RoleItemResponse.State) },
+            new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
+            new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
+            new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
         };
-
-        string T(string key)
-        {
-            return i18n.T(key) ?? key;
-        }
     }
 
     public async Task QueryPageDatasAsync()
     {
         Lodding = true;
-        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, State, Search);
-        Error = !result.Success;
-        Message = result.Message;
+        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, StateEnum is null ? -1 : Convert.ToInt32(StateEnum), Search);
         if (result.Success)
         {
             var pageData = result.Data!;
-            CurrentCount = pageData.Count;
+            PageCount = (int)pageData.TotalPages;
+            TotalCount = pageData.Count;
             Datas = pageData.Items.ToList();
-            Datas.Add(new RoleItemResponse
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Describe = "Test",
-                Number = 100,
-                CreationTime = DateTime.Now,
-                Enable = true,
-            });
-        }
+        }        
         Lodding = false;
     }
 
-    public async Task AddOrUpdateAsync()
+    public void OpenObjectForm()
+    {
+        CurrentData = new();
+        IsOpenRoleForm = true;
+    }
+
+    public async Task<bool> AddAsync()
     {
         Lodding = true;
-        var result = default(MASA.Framework.Sdks.Authentication.Response.Base.ApiResultResponseBase);
-        if (CurrentData.Id != Guid.Empty)
+        var request = new AddRoleRequest(CurrentData.Name, CurrentData.Describe, CurrentData.Number);
+        var result = await AuthenticationCaller.AddRoleAsync(request);
+        await CheckApiResult(result, I18n.T("Added Role successfully"), I18n.T(result.Message));
+        Lodding = false;
+
+        return result.Success;
+    }
+
+    public async Task<bool> UpdateAsync()
+    {
+        Lodding = true;
+        var request = new EditRoleRequest(CurrentData.Id, CurrentData.Name, CurrentData.Describe);
+        var result = await AuthenticationCaller.EditRoleAsync(request);
+        await CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
+        Lodding = false;
+
+        return result.Success;
+    }
+
+    public void OpenDeleteRoleDialog(RoleItemResponse item)
+    {
+        CurrentData = item;
+        OpenDeleteConfirmDialog(DeleteAsync);
+    }
+
+    public async Task DeleteAsync(bool confirm)
+    {
+        if(confirm)
         {
-            result = await AuthenticationCaller.AddRoleAsync(new AddRoleRequest()
-            {
-                Name = CurrentData.Name,
-                Number = CurrentData.Number,
-                Describe = CurrentData.Describe,
-            });
-        }
-        else
-        {
-            result = await AuthenticationCaller.EditRoleAsync(new EditRoleRequest
+            Lodding = true;
+            var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
             {
                 RoleId = CurrentData.Id,
-                Name = CurrentData.Name,
-                Describe = CurrentData.Describe,
-            });
+            });           
+            await CheckApiResult(result, I18n.T("Delete role successfully"), result.Message);
+            Lodding = false;
         }
-        Error = result.Success;
-        Message = result.Message;
-        Lodding = false;
     }
 
-    public async Task DeleteAsync()
+    //public async Task QueryAuthorizeItemsAsync()
+    //{
+    //    Lodding = true;
+    //    var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
+    //    Error = !result.Success;
+    //    Message = result.Message;
+    //    Lodding = false;
+    //    AuthorizeDatas = result.Data ?? new();
+    //}
+
+    public void NavigateToRoleDetails(RoleItemResponse item)
     {
-        Lodding = true;
-        var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
+        CurrentData = item.Copy();
+        NavigationManager.NavigateTo($"/role/details/{CurrentData.Id}");
+    }
+
+    async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
+    {
+        if (result.Success is false) OpenErrorDialog(errorMessage);
+        else
         {
-            RoleId = CurrentData.Id,
-        });
-        Error = result.Success;
-        Message = result.Message;
-        Lodding = false;
-    }
-
-    public async Task QueryAuthorizeItemsAsync()
-    {
-        Lodding = true;
-        var result = await AuthenticationCaller.GetRoleDetailAsync(CurrentData.Id);
-        Error = !result.Success;
-        Message = result.Message;
-        Lodding = false;
-        AuthorizeDatas = result.Data.Permissions ?? new();
+            OpenSuccessMessage(successMessage);
+            await QueryPageDatasAsync();
+        }
     }
 }
 

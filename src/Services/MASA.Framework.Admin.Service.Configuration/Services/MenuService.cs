@@ -10,6 +10,7 @@ public class MenuService : ServiceBase
         App.MapPost(Routing.OperateMenu, CreateAsync);
         App.MapPut(Routing.OperateMenu, EditAsync);
         App.MapDelete(Routing.OperateMenu, DeleteAsync);
+        App.MapDelete(Routing.DeleteMenuByIds, DeleteByIdsAsync);
     }
 
     private async Task<PaginatedItemResponse<MenuItemResponse>> GetItemsAsync(
@@ -57,6 +58,13 @@ public class MenuService : ServiceBase
     private async Task DeleteAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] DeleteMenuCommand command)
+    {
+        await eventBus.PublishAsync(command);
+    }
+
+    public async Task DeleteByIdsAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] DeleteMenuByidsCommand command)
     {
         await eventBus.PublishAsync(command);
     }

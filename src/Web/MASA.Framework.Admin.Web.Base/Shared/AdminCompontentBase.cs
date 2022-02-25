@@ -54,7 +54,7 @@ public abstract class ComponentPageBase
         I18n = i18n;
     }
 
-    public void OpenDeleteConfirmDialog(Func<bool, Task> confirmFunc,string? messgae = null)
+    public void OpenDeleteConfirmDialog(Func<bool, Task> confirmFunc, string? messgae = null)
     {
         EventCallback<bool> callback = EventCallback.Factory.Create(Component, confirmFunc);
         GlobalConfig.OpenConfirmDialog(I18n.T("Operation confirmation"), messgae ?? I18n.T("Are you sure you need to delete?"), callback);
@@ -63,6 +63,11 @@ public abstract class ComponentPageBase
     public void OpenErrorDialog(string message)
     {
         GlobalConfig.OpenConfirmDialog(I18n.T("Error"), message, default);
+    }
+
+    public void OpenWarningDialog(string message)
+    {
+        GlobalConfig.OpenConfirmDialog(I18n.T("Warning"), message, default);
     }
 
     public void OpenInformationMessage(string message)
@@ -83,6 +88,11 @@ public abstract class ComponentPageBase
     public void OpenErrorMessage(string message)
     {
         GlobalConfig.OpenMessage(message, MessageType.Error);
+    }
+
+    public static List<KeyValuePair<string, TEnum>> GetEnumMap<TEnum>() where TEnum : struct, Enum
+    {
+        return Enum.GetValues<TEnum>().Select(e => new KeyValuePair<string, TEnum>(e.ToString(),e)).ToList();
     }
 }
 

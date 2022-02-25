@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication;
+namespace MASA.Framework.Sdks.Authentication;
 
 public class DefaultClient : IClient
 {
@@ -48,7 +48,7 @@ public class DefaultClient : IClient
         foreach (var menu in menuList)
         {
             if (roleResponse.Data!.Permissions.Any(permission =>
-                    permission.ObjectType == (int)ObjectType.Menu &&
+                    permission.ObjectType == ObjectType.Menu &&
                     (permission.Scope.Equals("all") || (permission.Scope.Equals(menu.Id.ToString(), StringComparison.OrdinalIgnoreCase)) &&
                         permission.Action.Equals("view", StringComparison.OrdinalIgnoreCase))))
             {

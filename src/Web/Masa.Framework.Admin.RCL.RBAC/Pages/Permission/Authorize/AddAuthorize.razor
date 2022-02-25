@@ -1,0 +1,111 @@
+﻿@inherits AdminCompontentBase
+
+<MNavigationDrawer Stateless Touchless Temporary Fixed Right Value=Visible ValueChanged=VisibleChanged Width="465" Class="pa-6">
+    <div class="block-between mb-12">
+        <span class="text-h6">@T("Add Authoize")</span>
+        <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>Visible=false">mdi-close</MIcon>
+    </div>
+
+    <MForm Model=AuthoriedData EnableDataAnnotationsValidation>       
+        <MSelect @bind-Value="AuthoriedData.ObjectType"
+                 Color="primary"
+                 HideDetails="@("auto")"
+                 Outlined
+                 Items="@(ComponentPageBase.GetEnumMap<ObjectType>())"
+                 ItemText="map => map.Key"
+                 ItemValue="map => map.Value"
+                 Label="@T("ObjectType")">
+        </MSelect>
+
+        @if(AuthoriedData.ObjectType is ObjectType.Operate)
+        {
+            @*<MTextField @bind-Value="AuthoriedData.ObjectName" Class="mb-6" Label="@T("Object")" HideDetails="@("auto")" Outlined />*@
+        }
+        else if(AuthoriedData.ObjectType is ObjectType.Menu)
+        {
+@*            <MSelect @bind-Value="AuthoriedData.ObjectName"
+                Color="primary"
+                HideDetails="@("auto")"
+                Outlined
+                Items="@(MenuPage.AllDatas.Where(m => MenuPage.AllDatas.All(m2 => m2.ParentId != m.Id)).ToList())"
+                ItemText="m => m.Name"
+                ItemValue="map => map.Id"
+                Label="@T("PermissionType")"
+                Multiple>
+                <SelectionContent Context="data">
+                   <span class="grey--text text-caption">
+                        @string.Join(",",data.Item.)
+                    </span>
+                </SelectionContent>
+            </MSelect>*@
+        }
+
+@*        <MSelect @bind-Value="AuthoriedData.PermissionType"
+            Color="primary"
+            HideDetails="@("auto")"
+            Outlined
+            Items="@(ComponentPageBase.GetEnumMap<PermissionType>())"
+            ItemText="map => map.Key"
+            ItemValue="map => map.Value"
+            Label="@T("PermissionType")">
+        </MSelect>*@
+
+        <MTextField @bind-Value="AuthoriedData.PermissionName" Class="mb-6" Label="@T("PermissionName")" HideDetails="@("auto")" Outlined />
+
+@*        <MTextField @bind-Value="AuthoriedData.ObjectIdentifies" Class="mb-6" Label="@T("ObjectIdentifies")" HideDetails="@("auto")" Outlined />
+        <MTextField @bind-Value="AuthoriedData.InheritanceRoleSource" Class="mb-6" Label="@T("Action")" HideDetails="@("auto")" Outlined />*@
+        
+        <div style="bottom:48px;right:24px;position:absolute">
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await UpdateVisible(false)">@T("Confirm")</MButton>
+        </div>
+    </MForm>
+</MNavigationDrawer>
+
+@code {
+    [Inject]
+    public RoleDetailsPage RoleDetailPage { get; set; } = default!;
+
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
+
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    public AuthorizeItemResponse AuthoriedData { get; set; } = new();
+
+    public  List<KeyValuePair<string, ObjectType>> ObjectTypeSelect => ComponentPageBase.GetEnumMap<ObjectType>();
+
+    private async Task UpdateVisible(bool visible)
+    {
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(visible);
+        }
+        else
+        {
+            Visible = visible;
+        }
+    }
+
+    //private async Task AddOrUpdateAsync(EditContext context)
+    //{
+    //    if (context.Validate())
+    //    {
+    //        var success = await Page.AddAsync();
+    //        if(success) await UpdateVisible(false);
+    //    }
+    //}
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Visible is true)
+        {
+            AuthoriedData = new();           
+            await MenuPage.GetAllMenus();
+        }
+    }
+}

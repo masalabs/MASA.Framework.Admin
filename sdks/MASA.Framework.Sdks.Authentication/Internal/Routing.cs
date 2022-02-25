@@ -79,6 +79,8 @@ public class Routing
 
     public static string OperateMenu = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.MENU_SERVICE);
 
+    public static string DeleteMenuByIds = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.MENU_SERVICE, "deleteByIds");
+
     #endregion
 
     #endregion

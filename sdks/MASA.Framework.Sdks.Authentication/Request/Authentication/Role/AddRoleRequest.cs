@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
+namespace MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
 
 public class AddRoleRequest
 {
@@ -8,5 +8,13 @@ public class AddRoleRequest
 
     public int Number { get; set; } = -1;
 
-    public List<Guid> ChildrenRoleIds { get; set; } = new();
+    public List<Guid> ChildrenRoleIds { get; set; }
+
+    public AddRoleRequest(string name, string? describe, int number, List<Guid> childrenRoleIds =null)
+    {
+        Name = name;
+        Describe = describe;
+        Number = number;
+        ChildrenRoleIds = childrenRoleIds ?? new();
+    }
 }

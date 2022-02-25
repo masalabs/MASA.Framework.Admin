@@ -27,7 +27,16 @@ namespace MASA.Framework.Admin.Web.Shared
             if (firstRender)
             {
                 var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
-                bool isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
+                bool isLogined = false;
+                try
+                {
+                    isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
+
+                }catch(Exception e)
+                {
+
+                }
+                
                 if (token == null || !isLogined)
                 {
                     NavigationManager.NavigateTo("/pages/authentication/Login-v2", true);

@@ -12,3 +12,7 @@ global using MASA.Framework.Sdks.Authentication.Response.Configuration;
 global using MASA.Framework.Sdks.Authentication.Response.Users;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Forms;
+global using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
+global using MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
+global using MASA.Framework.Sdks.Authentication.Response.Base;
+global using MASA.Framework.Sdks.Authentication.Request.Configuration.Menu;

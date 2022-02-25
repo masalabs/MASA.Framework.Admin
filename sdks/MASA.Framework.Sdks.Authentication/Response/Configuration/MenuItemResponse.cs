@@ -16,11 +16,11 @@ public class MenuItemResponse
 
     public Guid? ParentId { get; set; }
 
-    public string? ParentName { get; set; }
-
     public int Sort { get; set; }
 
     public bool Disabled { get; set; }
 
     public DateTimeOffset CreationTime { get; set; }
+
+    public MenuItemResponse Copy() => (MenuItemResponse)MemberwiseClone();
 }

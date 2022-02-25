@@ -32,27 +32,39 @@
             </MCol>
         </MRow>
     </MCardText>
-    <MDataTable Headers="_headers" Items="_pageData.PageData" ItemKey="r=>r.Id.ToString()" ShowSelect TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+    <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
         <HeaderColContent Context="header">
             <span class="text-subtitle">@header.Text</span>
         </HeaderColContent>
         <ItemColContent>
             @switch (context.Header.Value)
             {
-                case nameof(UserGroupItemResponse.Name):
-                    
-                    break;
-                case nameof(UserGroupItemResponse.Code):
-                    
-                    break;
-                case nameof(UserGroupItemResponse.Describtion):
-                    
-                    break;
                 case nameof(UserGroupItemResponse.CreationTime):
-                    
+                    @context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                     break;
                 case nameof(UserGroupItemResponse.ModificationTime):
-                    
+                    @context.Item.ModificationTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    break;
+                case "Action":
+                    <MMenu Right Bottom>
+                        <ActivatorContent Context="activatorContext">
+                            <MButton Icon @attributes="@activatorContext.Attrs">
+                                <MIcon XSmall>fas fa-ellipsis-v</MIcon>
+                            </MButton>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <MList>
+                                <MListItem>
+                                    <MIcon Small>fas fa-user-tie</MIcon>
+                                    <MListItemTitle Class="ml-2"> Details </MListItemTitle>
+                                </MListItem>
+                                <MListItem>
+                                    <MIcon Small>far fa-trash-alt</MIcon>
+                                    <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
+                                </MListItem>
+                            </MList>
+                        </ChildContent>
+                    </MMenu>
                     break;
                 default:
                     @context.Value

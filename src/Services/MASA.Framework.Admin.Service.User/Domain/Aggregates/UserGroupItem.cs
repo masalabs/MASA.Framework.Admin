@@ -4,6 +4,11 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
     {
         public UserGroup UserGroup { get; private set; } = null!;
 
-        public User user { get; private set; } = null!;
+        public Guid UserId { get; private set; }
+
+        public UserGroupItem(Guid userId)
+        {
+            UserId = userId;
+        }
     }
 }

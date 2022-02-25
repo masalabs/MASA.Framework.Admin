@@ -28,7 +28,7 @@ namespace MASA.Framework.Admin.Service.User.Services
         public async Task CreateAsync(
             [FromServices] IEventBus eventBus,
             [FromHeader(Name = "creator-id")] Guid creator,
-            [FromBody] CreateUserGroupRequest createUserGroupRequest)
+            [FromBody] CreateGroupRequest createUserGroupRequest)
         {
             await eventBus.PublishAsync(new CreateCommand(createUserGroupRequest)
             {
@@ -37,10 +37,9 @@ namespace MASA.Framework.Admin.Service.User.Services
         }
 
         public async Task<List<UserGroupItemResponse>> GetSelectListAsync(
-            [FromServices] IEventBus eventBus,
-            [FromQuery] Guid userId)
+            [FromServices] IEventBus eventBus)
         {
-            var query = new SelectQuery(userId);
+            var query = new SelectQuery();
             await eventBus.PublishAsync(query);
             return query.Result;
         }

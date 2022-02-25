@@ -8,6 +8,10 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
 
         public string Describtion { get; private set; }
 
+        private List<UserGroupItem> userGroupItems = new();
+
+        public IReadOnlyCollection<UserGroupItem> UserGroupItems => userGroupItems;
+
         private UserGroup()
         {
 
@@ -18,6 +22,22 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
             Name = name;
             Code = code;
             Describtion = describtion;
+        }
+
+        public void AddUser(Guid userId)
+        {
+            if (!userGroupItems.Any(r => r.UserId == userId))
+            {
+                userGroupItems.Add(new UserGroupItem(userId));
+            }
+        }
+
+        public void RemoveUser(Guid userId)
+        {
+            if (userGroupItems.Any(r => r.UserId == userId))
+            {
+                userGroupItems.RemoveAll(r => r.UserId == userId);
+            }
         }
     }
 }

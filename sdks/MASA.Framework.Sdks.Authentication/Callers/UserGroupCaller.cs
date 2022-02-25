@@ -34,11 +34,20 @@ namespace MASA.Framework.Sdks.Authentication.Callers
             });
         }
 
-        public async Task<ApiResultResponseBase> CreateAsync(CreateUserGroupRequest createUserGroupRequest)
+        public async Task<ApiResultResponseBase> CreateAsync(CreateGroupRequest createUserGroupRequest)
         {
             return await ResultAsync(async () =>
             {
                 var response = await CallerProvider.PostAsync(Routing.OperateGroup, createUserGroupRequest);
+                return response!;
+            });
+        }
+
+        public async Task<ApiResultResponseBase> DeleteAsync(string id)
+        {
+            return await ResultAsync(async () =>
+            {
+                var response = await CallerProvider.DeleteAsync(Routing.OperateGroup, new { id });
                 return response!;
             });
         }
@@ -56,24 +65,20 @@ namespace MASA.Framework.Sdks.Authentication.Callers
             });
         }
 
-        public async Task<ApiResultResponse<List<UserGroupItemResponse>>> SelectUserGroupsAsync(Guid userId)
+        public async Task<ApiResultResponse<List<UserGroupItemResponse>>> SelectUserGroupsAsync()
         {
-            var queryArguments = new Dictionary<string, string>()
-            {
-                { "userId", userId.ToString() }
-            };
             return await ResultAsync(async () =>
             {
-                var response = await CallerProvider.GetAsync<List<UserGroupItemResponse>>(Routing.UserGroupSelect, queryArguments);
+                var response = await CallerProvider.GetAsync<List<UserGroupItemResponse>>(Routing.UserGroupSelect);
                 return response!;
             });
         }
 
-        public async Task<ApiResultResponseBase> DeleteAsync(string id)
+        public async Task<ApiResultResponseBase> AddUserAsync(CreateUserGroupRequest createUserGroupRequest)
         {
             return await ResultAsync(async () =>
             {
-                var response = await CallerProvider.DeleteAsync(Routing.OperateGroup, new { id });
+                var response = await CallerProvider.PostAsync(Routing.OperateGroup, createUserGroupRequest);
                 return response!;
             });
         }

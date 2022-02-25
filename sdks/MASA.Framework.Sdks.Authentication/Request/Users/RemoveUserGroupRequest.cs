@@ -1,6 +1,6 @@
 namespace MASA.Framework.Sdks.Authentication.Request.Users
 {
-    public class CreateUserGroupRequest
+    public class RemoveUserGroupRequest
     {
         public Guid UserId { get; set; }
 

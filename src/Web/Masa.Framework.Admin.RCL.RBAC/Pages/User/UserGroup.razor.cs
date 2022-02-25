@@ -6,7 +6,7 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
         private bool _valid = true;
         private MForm _form = new();
         private PaginationPage<UserGroupItemResponse> _pageData = new();
-        private CreateUserGroupRequest _createUserGroup = new();
+        private CreateGroupRequest _createUserGroup = new();
         private List<int> _pageSizes = new() { 10, 25, 50, 100 };
         private readonly List<DataTableHeader<UserGroupItemResponse>> _headers = new()
         {

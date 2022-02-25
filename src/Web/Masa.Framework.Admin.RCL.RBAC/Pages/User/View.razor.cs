@@ -1,5 +1,4 @@
 using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
-using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
@@ -10,6 +9,7 @@ public partial class View
     private bool _addRoleDialog, _addGroupDialog;
     private List<SelectItem> _roleSelectItems = new(), _groupSelectItems = new();
     private List<RoleItemResponse> _userRoles = new();
+    private List<UserGroupItemResponse> _userGroups = new();
     private string? _addRoleId, _addGroupId;
     private List<DataTableHeader<LoginRecord>> _loginRecordHeaders = new List<DataTableHeader<LoginRecord>>
     {
@@ -19,11 +19,11 @@ public partial class View
         new (){ Text= "浏览器", Sortable= false, Value= nameof(LoginRecord.Browser),Align="center"},
         new (){ Text= "地理位置", Sortable= false, Value= nameof(LoginRecord.Address),Align="center"}
     };
-    private List<DataTableHeader<UserGroupItem>> _userGroupHeaders = new List<DataTableHeader<UserGroupItem>>
+    private List<DataTableHeader<UserGroupItemResponse>> _userGroupHeaders = new List<DataTableHeader<UserGroupItemResponse>>
     {
-        new (){ Text= "用户组名称", Sortable= false, Value= nameof(UserGroupItem.Name)},
-        new (){ Text= "简介", Sortable= false, Value= nameof(UserGroupItem.Description)},
-        new (){ Text= "操作", Sortable= false, Value= nameof(UserGroupItem.Id)}
+        new (){ Text= "用户组名称", Sortable= false, Value= nameof(UserGroupItemResponse.Name)},
+        new (){ Text= "简介", Sortable= false, Value= nameof(UserGroupItemResponse.Describtion)},
+        new (){ Text= "操作", Sortable= false, Value= nameof(UserGroupItemResponse.Id)}
     };
     private List<DataTableHeader<RoleItemResponse>> _roleItemHeaders = new List<DataTableHeader<RoleItemResponse>> {
         new (){ Text= "角色名称", Sortable= false, Value= nameof(RoleItemResponse.Name)},
@@ -36,6 +36,9 @@ public partial class View
 
     [Inject]
     public AuthenticationCaller AuthenticationCaller { get; set; } = null!;
+
+    [Inject]
+    public UserGroupCaller UserGroupCaller { get; set; } = null!;
 
     [Inject]
     public LogStatisticsCaller LogStatisticsCaller { get; set; } = null!;
@@ -56,6 +59,7 @@ public partial class View
         }
 
         await LoadUserRoles();
+        await LoadUserGroups();
     }
 
     private async Task OpenRoleDialog()
@@ -76,18 +80,18 @@ public partial class View
     }
     private async Task OpenGroupDialog()
     {
-        var dataRes = await AuthenticationCaller.SelectRoleAsync();
+        var dataRes = await UserGroupCaller.SelectUserGroupsAsync();
         if (!dataRes.Success || dataRes.Data == null)
         {
             //获取失败
             return;
         }
         _addGroupDialog = true;
-        _roleSelectItems = dataRes.Data.Select(role => new SelectItem
+        _groupSelectItems = dataRes.Data.Select(userGroup => new SelectItem
         {
-            Name = role.Name,
-            Describetion = role.Describe ?? "",
-            Id = role.Id
+            Name = userGroup.Name,
+            Describetion = userGroup.Describtion,
+            Id = userGroup.Id
         }).ToList();
     }
 
@@ -110,12 +114,28 @@ public partial class View
 
     private async Task AddUserGroup()
     {
-        if (string.IsNullOrEmpty(_addRoleId) || string.IsNullOrEmpty(Id))
+        if (string.IsNullOrEmpty(_addGroupId) || string.IsNullOrEmpty(Id))
         {
             //tip msg
             return;
         }
         _addGroupDialog = false;
+        await UserCaller.CreateUserGroupAsync(new CreateUserGroupRequest
+        {
+            UserGroupId = Guid.Parse(_addGroupId),
+            UserId = Guid.Parse(Id)
+        });
+        await LoadUserGroups();
+    }
+
+    private async Task RemoveUserGroup(Guid groupId)
+    {
+        await UserCaller.RemoveUserGroupAsync(new RemoveUserGroupRequest
+        {
+            UserGroupId = groupId,
+            UserId = Guid.Parse(Id)
+        });
+        await LoadUserGroups();
     }
 
     private async Task LoadUserRoles()
@@ -135,7 +155,12 @@ public partial class View
 
     private async Task LoadUserGroups()
     {
-
+        var userGroupsRes = await UserGroupCaller.GetUserGroupsAsync(Guid.Parse(Id));
+        if (!userGroupsRes.Success || userGroupsRes.Data == null)
+        {
+            return;
+        }
+        _userGroups = userGroupsRes.Data;
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

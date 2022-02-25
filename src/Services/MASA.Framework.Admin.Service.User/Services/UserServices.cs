@@ -14,6 +14,9 @@ public class UserServices : ServiceBase
         App.MapGet(Routing.UserRole, GetUserRolesAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
+        App.MapDelete(Routing.UserRole, RemoveUserRoleAsync);
+        App.MapPost(Routing.UserGroup, CreateUserGroupAsync);
+        App.MapDelete(Routing.UserGroup, RemoveUserGroupAsync);
         App.MapDelete(Routing.OperateUser, DeleteAsync);
         App.MapPost(Routing.UserLogin, LoginAsync);
         App.MapGet(Routing.UserStatistic, GetUserCountAsync);
@@ -76,6 +79,39 @@ public class UserServices : ServiceBase
         [FromBody] CreateUserRoleRequest userRoleCreateRequest)
     {
         await eventBus.PublishAsync(new CreateRoleCommand(userRoleCreateRequest)
+        {
+            Creator = creator
+        });
+    }
+
+    public async Task RemoveUserRoleAsync(
+       [FromServices] IEventBus eventBus,
+       [FromHeader(Name = "creator-id")] Guid creator,
+       [FromBody] RemoveUserRoleRequest removeUserRoleRequest)
+    {
+        await eventBus.PublishAsync(new RemoveRoleCommand(removeUserRoleRequest)
+        {
+            Creator = creator
+        });
+    }
+
+    public async Task CreateUserGroupAsync(
+       [FromServices] IEventBus eventBus,
+       [FromHeader(Name = "creator-id")] Guid creator,
+       [FromBody] CreateUserGroupRequest createUserGroupRequest)
+    {
+        await eventBus.PublishAsync(new CreateUserGroupCommand(createUserGroupRequest)
+        {
+            Creator = creator
+        });
+    }
+
+    public async Task RemoveUserGroupAsync(
+       [FromServices] IEventBus eventBus,
+       [FromHeader(Name = "creator-id")] Guid creator,
+       [FromBody] RemoveUserGroupRequest removeUserGroupRequest)
+    {
+        await eventBus.PublishAsync(new RemoveUserRoleCommand(removeUserGroupRequest)
         {
             Creator = creator
         });

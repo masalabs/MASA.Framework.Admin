@@ -12,6 +12,8 @@ public class UrlRule
 
     public const string USER_SERVICE = "user";
 
+    public const string USER_GROUP_SERVICE = "usergroup";
+
     public const string MENU_SERVICE = "configurations/menu";
 
     public const string STATISTIC_SERVICE = "statistic";

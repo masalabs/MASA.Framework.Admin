@@ -11,7 +11,11 @@ public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        request.Headers.Add("creator-id", Guid.NewGuid().ToString());
+        var userClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+        if (userClaim != null)
+        {
+            request.Headers.Add("creator-id", userClaim.Value);
+        }
         return await base.SendAsync(request, cancellationToken);
     }
 }

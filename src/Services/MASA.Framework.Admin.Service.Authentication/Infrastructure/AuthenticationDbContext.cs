@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure;
+namespace MASA.Framework.Admin.Service.Authentication.Infrastructure;
 
 public class AuthenticationDbContext : IntegrationEventLogContext
 {
@@ -10,7 +10,6 @@ public class AuthenticationDbContext : IntegrationEventLogContext
 
     protected override void OnModelCreatingExecuting(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new ObjectEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PermissionEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleItemEntityTypeConfiguration());

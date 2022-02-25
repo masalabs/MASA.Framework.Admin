@@ -64,7 +64,7 @@ public class MenuService : ServiceBase
 
     public async Task DeleteByIdsAsync(
         [FromServices] IEventBus eventBus,
-        [FromBody] DeleteMenuByidsCommand command)
+        [FromBody] DeleteMenuByIdsCommand command)
     {
         await eventBus.PublishAsync(command);
     }

@@ -1,7 +1,6 @@
 global using MASA.Framework.Admin.Infrastructure.Configurations.Response;
 global using MASA.Framework.Sdks.Authentication.Internal;
 global using MASA.Framework.Sdks.Authentication.Internal.Enum;
-global using MASA.Framework.Sdks.Authentication.Request.Authentication.Objects;
 global using MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
 global using MASA.Framework.Sdks.Authentication.Request.Configuration.Menu;
 global using MASA.Framework.Sdks.Authentication.Request.Users;

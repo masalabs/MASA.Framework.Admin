@@ -40,7 +40,6 @@ global using MASA.Framework.Admin.Service.Authentication.Infrastructure.EntityCo
 global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Extensions;
 global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Middleware;
 global using MASA.Framework.Admin.Service.Authentication.Infrastructure.Options;
-global using MASA.Framework.Admin.Service.Authentication.Response.Objects;
 global using MASA.Framework.Admin.Service.Authentication.Response.Permission;
 global using MASA.Framework.Admin.Service.Authentication.Response.Role;
 global using MASA.Utils.Caching.Core.Interfaces;

@@ -25,7 +25,7 @@ public class RoleCommandHandler
         if (await _repository.GetCountAsync(role => role.Name == command.Name)>0)
             throw new UserFriendlyException("The current role already exists");
 
-        var role = new Role(command.Creator, command.Name, command.Number);
+        var role = new Role(command.Creator, command.Name, command.Number,command.Describe);
         role.SetInheritedRole(command.ChildrenRoleIds);
         await _repository.AddAsync(role);
         await _domainService.AddRoleAsync(role);

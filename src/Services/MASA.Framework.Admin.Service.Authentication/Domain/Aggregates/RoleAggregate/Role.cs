@@ -26,12 +26,13 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         roleItems = new List<RoleItem>();
     }
 
-    public Role(Guid @operator, string name, int number = -1) : this()
+    public Role(Guid @operator, string name, int number,string? describe) : this()
     {
         Creator = @operator;
         Modifier = @operator;
         Name = name;
         Number = number;
+        Describe = describe ?? "";
         Enable = true;
     }
 

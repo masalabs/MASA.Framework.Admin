@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Response.Menu;
+namespace MASA.Framework.Admin.Configuration.Response.Menu;
 
 public class MenuInfoResponse
 {
@@ -16,7 +16,7 @@ public class MenuInfoResponse
 
     public Guid? ParentId { get; set; }
 
-    public string? ParentName { get; set; }
+    public bool Disabled { get; set; }
 
     public int Sort { get; set; }
 }

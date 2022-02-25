@@ -30,7 +30,12 @@ public class RoleQueryHandler
             new PaginatedOptions
             {
                 Page = query.PageIndex,
-                PageSize = query.PageSize
+                PageSize = query.PageSize,
+                Sorting = new Dictionary<string, bool>
+                {
+                    [nameof(Role.ModificationTime)] = true,
+                    [nameof(Role.CreationTime)] = true,
+                }
             });
 
         query.Result = new PaginatedItemResponse<RoleItemResponse>(query.PageIndex, query.PageSize, roles.Total, roles.TotalPages,

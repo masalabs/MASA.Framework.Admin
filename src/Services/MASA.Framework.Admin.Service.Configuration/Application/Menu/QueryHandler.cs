@@ -92,10 +92,6 @@ public class QueryHandler
         if (menuInfo == null)
             throw new UserFriendlyException("the menu is not found");
 
-        var parentName = string.Empty;
-        if (menuInfo.ParentId != null)
-            parentName = menuInfo.Name;
-
         query.Result = new MenuInfoResponse()
         {
             Id = menuInfo.Id,
@@ -105,7 +101,7 @@ public class QueryHandler
             Icon = menuInfo.Icon,
             Url = menuInfo.Url,
             ParentId = menuInfo.ParentId,
-            ParentName = parentName,
+            Disabled = menuInfo.Enable,
             Sort = menuInfo.Sort
         };
     }

@@ -9,15 +9,6 @@
     <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
         <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="Page.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
-@*        <MRadioGroup @bind-Value="Page.CurrentData.State" Label="@T("State")" Row Class="mb-6">
-            <LabelContent>
-                <div class="text-btn">@T("State")：</div>
-            </LabelContent>
-            <ChildContent>
-                <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
-                <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
-            </ChildContent>
-        </MRadioGroup>*@
         <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>

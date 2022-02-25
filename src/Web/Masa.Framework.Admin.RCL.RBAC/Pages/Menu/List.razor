@@ -1,8 +1,8 @@
 ﻿@page "/menu/list"
 @inherits AdminCompontentBase
 
-<div class="d-flex max-height">
-    <MNavigationDrawer Class="navigation pt-4 rounded-4" Width=410>
+<div class="d-flex">
+    <MNavigationDrawer Class="navigation py-4 rounded-4" Width=410 Style="min-height:800px">
         <MList Nav Dense Class="pa-0">
             <Menus OnClick=SetCurentData MenuNavs="@Page.MenuNavs.ToArray()" />
         </MList>

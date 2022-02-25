@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Callers;
+namespace MASA.Framework.Sdks.Authentication.Callers;
 
 public class AuthenticationCaller : CallerBase
 {
@@ -8,6 +8,11 @@ public class AuthenticationCaller : CallerBase
     {
         Name = nameof(AuthenticationCaller);
         BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
+    }
+
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     #region Role
@@ -34,8 +39,11 @@ public class AuthenticationCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var url = Routing.RoleDetail.Replace("{id}", id.ToString());
-            var response = await CallerProvider.GetAsync<RoleDetailResponse>(url);
+            var paramters = new Dictionary<string, string>
+            {
+                ["id"] = id.ToString(),
+            };
+            var response = await CallerProvider.GetAsync<RoleDetailResponse>(Routing.RoleDetail, paramters);
             return response!;
         });
     }
@@ -82,77 +90,6 @@ public class AuthenticationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             await CallerProvider.DeleteAsync(Routing.OperateRole, request);
-        });
-    }
-
-    #endregion
-
-    #region Object
-
-    public async Task<ApiResultResponse<PaginatedItemResponse<ObjectItemResponse>>> GetObjectItemsAsync(int pageIndex, int pageSize,
-        int type = -1, string? name = null)
-    {
-        return (await ResultAsync(async () =>
-        {
-            var paramters = new Dictionary<string, string?>
-            {
-                ["pageIndex"] = pageIndex.ToString(),
-                ["pageSize"] = pageSize.ToString(),
-                ["type"] = type.ToString(),
-                ["name"] = name,
-            };
-            return await CallerProvider.GetAsync<PaginatedItemResponse<ObjectItemResponse>>(Routing.ObjectList, paramters!);
-        }))!;
-    }
-
-    public async Task<ApiResultResponse<List<ObjectItemResponse>>> GetAllAsync()
-    {
-        return (await ResultAsync(async () => await CallerProvider.GetAsync<List<ObjectItemResponse>>(Routing.ObjectAll)))!;
-    }
-
-    public async Task<ApiResultResponse<bool>> ContainsObjectAsync(Guid objectId, string code)
-    {
-        return await ResultAsync(async () =>
-        {
-            var paramters = new Dictionary<string, string>
-            {
-                ["objectId"] = objectId.ToString(),
-                ["code"] = code
-            };
-            return await CallerProvider.GetAsync<bool>(Routing.ContainsObject, paramters);
-        });
-    }
-
-    public async Task<ApiResultResponseBase> AddObjectAsync(AddObjectRequest request)
-    {
-        return await ResultAsync(async () =>
-        {
-            await CallerProvider.PostAsync(Routing.OperateObject, request);
-        });
-    }
-
-    public async Task<ApiResultResponseBase> EditObjectAsync(EditObjectRequest request)
-    {
-        return await ResultAsync(async () =>
-        {
-            await CallerProvider.PutAsync(Routing.OperateObject, request);
-        });
-    }
-
-    public async Task<ApiResultResponseBase> DeleteObjectAsync(DeleteObjectRequest request)
-    {
-        return await ResultAsync(async () =>
-        {
-            await CallerProvider.DeleteAsync(Routing.OperateObject, request);
-        });
-    }
-
-    public async Task<ApiResultResponseBase> BatchDeleteObjectAsync(BatchDeleteObjectRequest request)
-    {
-        return await ResultAsync(async () =>
-        {
-            await CallerProvider.DeleteAsync(Routing.BatchDeleteObject,
-                request);
         });
     }
 

@@ -50,9 +50,8 @@ public class CommandHandler
     }
 
     [EventHandler]
-    public async Task DeleteByIdsAsync(MenuCommand.DeleteMenuByidsCommand command)
+    public async Task DeleteByIdsAsync(MenuCommand.DeleteMenuByIdsCommand command)
     {
         await _repository.RemoveAsync(m => command.MenuIds.Contains(m.Id));
-        await _repository.UnitOfWork.SaveChangesAsync();
     }
 }

@@ -10,6 +10,11 @@ public class ConfigurationCaller : CallerBase
         BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
+
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(
         int pageIndex,
         int pageSize,
@@ -63,6 +68,6 @@ public class ConfigurationCaller : CallerBase
 
     public async Task<ApiResultResponseBase> DeleteByIdsAsync(Guid[] menuIds)
     {
-        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.OperateMenu, new DeleteMenuByIdsRequest(menuIds)));
+        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.DeleteMenuByIds, new DeleteMenuByIdsRequest(menuIds)));
     }
 }

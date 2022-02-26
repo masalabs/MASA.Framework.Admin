@@ -1,5 +1,5 @@
 ﻿@page "/usergroup/list"
-@inherits ComponentBase
+@inherits AdminCompontentBase
 @inject NavigationManager Nav
 
 <MCard Class="mt-6">
@@ -94,8 +94,8 @@
         <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="分组描述" HideDetails="@("auto")" Dense Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateGroup(context)"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> @T("Cancel") </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateGroup(context)"> @T("Add") </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>

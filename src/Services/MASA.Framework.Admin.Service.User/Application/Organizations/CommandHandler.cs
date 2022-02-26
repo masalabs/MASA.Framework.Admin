@@ -15,7 +15,7 @@ public class CommandHandler
     public async Task CreateAsync(CreateCommand createCommand)
     {
         var createDepartmentRequest = createCommand.CreateDepartmentRequest;
-        await _departmentRepository.AddAsync(new Department(createDepartmentRequest.Name, createDepartmentRequest.Code, createDepartmentRequest.Describtion));
+        await _departmentRepository.AddAsync(new Department(createDepartmentRequest.Name, createDepartmentRequest.Code, createDepartmentRequest.Describtion, createDepartmentRequest.ParentId));
     }
 }
 

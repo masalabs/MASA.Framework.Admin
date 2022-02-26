@@ -1,5 +1,5 @@
 ﻿@page "/user/view/{Id}"
-@inherits ComponentBase
+@inherits AdminCompontentBase
 
 <MCard Height="200" class="pt-2 pb-2">
     <MCardText>
@@ -88,7 +88,7 @@
                     <MSpacer />
                     <MButton Text OnClick="OpenGroupDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
-                        添加
+                        @T("Add")
                     </MButton>
                 </MCardTitle>
                 <MDivider />
@@ -135,7 +135,7 @@
                     <MSpacer />
                     <MButton Text OnClick="OpenRoleDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
-                        添加
+                        @T("Add")
                     </MButton>
                 </MCardTitle>
                 <MDivider />
@@ -208,7 +208,7 @@
             <MDivider />
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
-                    取消
+                    @T("Cancel")
                 </MButton>
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserRole">
                     保存
@@ -247,7 +247,7 @@
             <MDivider />
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
-                    取消
+                    @T("Cancel")
                 </MButton>
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserGroup">
                     保存

@@ -6,7 +6,8 @@ public interface IUserRepository : IRepository<Aggregates.User>
 {
     Task<Aggregates.User?> GetByIdAsync(Guid Id);
 
+    Task<int> GetUserCountAsync(Expression<Func<Aggregates.User, bool>> predicate);
 
-    Task<int> GetUserCountAsync(Expression<Func<Aggregates.User, bool>>? predicate = null);
+    Task<List<Aggregates.User>> GetUsersByDepartment(Guid departmentId, int pageIndex, int pageSize);
 }
 

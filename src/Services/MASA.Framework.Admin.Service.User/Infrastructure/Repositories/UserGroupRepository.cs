@@ -7,10 +7,10 @@ namespace MASA.Framework.Admin.Service.User.Infrastructure.Repositories
 
         }
 
-        public async Task<UserGroup> GetByIdAsync(Guid Id)
+        public async Task<UserGroup?> GetByIdAsync(Guid Id)
         {
             return await _context.Set<UserGroup>().Where(a => a.Id == Id)
-                .Include(b => b.UserGroupItems).SingleOrDefaultAsync();
+                .Include(b => b.UserGroupItems).FirstOrDefaultAsync();
         }
     }
 }

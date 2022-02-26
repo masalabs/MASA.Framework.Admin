@@ -1,5 +1,5 @@
 ﻿@page "/user/list"
-@inherits ComponentBase
+@inherits AdminCompontentBase
 @inject NavigationManager Nav
 
 <MCard Class="mt-6">
@@ -118,7 +118,7 @@
                                             <MIcon Small>fas fa-user-tie</MIcon>
                                             <MListItemTitle Class="ml-2"> Details </MListItemTitle>
                                         </MListItem>
-                                        <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
+                                        <MListItem>
                                             <MIcon Small>far fa-trash-alt</MIcon>
                                             <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
                                         </MListItem>
@@ -156,8 +156,8 @@
         <MTextField @bind-Value="_createUserModel.Email" Class="mb-6" Label="邮箱" HideDetails="@("auto")" Dense Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
-            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> Cancel </MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateUser(context)"> Add </MButton>
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false">  @T("Cancel")</MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateUser(context)"> @T("Add") </MButton>
         </div>
     </MForm>
 </MNavigationDrawer>

@@ -2,13 +2,13 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
 {
     public class Department : AuditAggregateRoot<Guid, Guid>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public string Code { get; set; }
+        public string Code { get; private set; }
 
-        public string Describtion { get; set; }
+        public string Describtion { get; private set; }
 
-        public Guid? ParentId { get; set; }
+        public Guid ParentId { get; private set; } = Guid.Empty;
 
         private List<DepartmentUser> departmentUsers = new List<DepartmentUser>();
 
@@ -19,11 +19,17 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
 
         }
 
-        public Department(string name, string code, string describtion)
+        public Department(string name, string code, string describtion):this(name,code,describtion,Guid.Empty)
+        {
+
+        }
+
+        public Department(string name, string code, string describtion,Guid parentId)
         {
             Name = name;
             Code = code;
             Describtion = describtion;
+            ParentId = parentId;
         }
     }
 }

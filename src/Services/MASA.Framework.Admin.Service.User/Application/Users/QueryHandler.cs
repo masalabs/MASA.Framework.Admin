@@ -83,7 +83,7 @@ public class QueryHandler
     public async Task GetUserCountAsync(StatisticQuery statisticQuery)
     {
         var userOnlineCount = _memoryCache.Get<List<OnlineUserModel>>("online_user_id")?.Count ?? 0;
-        var userCount = await _userRepository.GetUserCountAsync();
+        var userCount = await _userRepository.GetUserCountAsync((a)=>true);
         statisticQuery.Result = new UserStatisticResponse
         {
             UserCount = userCount,

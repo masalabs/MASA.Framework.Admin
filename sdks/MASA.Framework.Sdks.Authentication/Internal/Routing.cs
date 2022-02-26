@@ -79,6 +79,8 @@ public class Routing
 
     public static string DepartmentList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.USER_DEPARTMENT_SERVICE);
 
+    public static string DepartmentUsers = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_DEPARTMENT_SERVICE,"users");
+
     #endregion
 
     #region Configuration

@@ -6,17 +6,20 @@ public class RoleCommandHandler
     private readonly IDistributedCacheClient _distributedCacheClient;
     private readonly RoleDomainService _domainService;
     private readonly IEventBus _eventBus;
+    private readonly DbContext _dbContext;
 
     public RoleCommandHandler(
         IRoleRepository repository,
         IDistributedCacheClient distributedCacheClient,
         RoleDomainService domainService,
-        IEventBus eventBus)
+        IEventBus eventBus,
+        AuthenticationDbContext dbContext)
     {
         _repository = repository;
         _distributedCacheClient = distributedCacheClient;
         _domainService = domainService;
         _eventBus = eventBus;
+        _dbContext = dbContext;
     }
 
     [EventHandler]
@@ -29,6 +32,16 @@ public class RoleCommandHandler
         role.SetInheritedRole(command.ChildrenRoleIds);
         await _repository.AddAsync(role);
         await _domainService.AddRoleAsync(role);
+    }
+
+    [EventHandler]
+    public async Task AddChildRolesAsync(AddChildrenRolesCommand command)
+    {
+        var role = await _repository.FindAsync(command.RoleId);
+        if (role == null)
+            throw new UserFriendlyException("The current role does not exist");
+        role.SetInheritedRole(command.ChildrenRoleIds);
+        await _repository.UpdateAsync(role);
     }
 
     [EventHandler]

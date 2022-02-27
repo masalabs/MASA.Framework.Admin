@@ -4,11 +4,11 @@ public class RoleItem : Entity<Guid>
 {
     public Guid RoleId { get; set; }
 
-    public Role Role { get; private set; }
+    public Role Role { get; private set; } = default!;
 
     private RoleItem()
     {
-        Id = Guid.NewGuid();
+        //Id = Guid.NewGuid();
     }
 
     public RoleItem(Guid roleId) : this()

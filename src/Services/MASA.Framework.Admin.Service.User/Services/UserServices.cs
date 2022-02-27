@@ -12,9 +12,12 @@ public class UserServices : ServiceBase
         App.MapGet(Routing.UserList, GetItemsAsync);
         App.MapGet(Routing.UserDetail, GetAsync);
         App.MapGet(Routing.UserRole, GetUserRolesAsync);
+        App.MapGet(Routing.AllUser, GetAllUserAsync);
+        App.MapGet(Routing.UserListByRole, GetUserListByRoleIdAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
         App.MapDelete(Routing.UserRole, RemoveUserRoleAsync);
+        App.MapPost(Routing.UserRoles, CreateUserRolesAsync);
         App.MapPost(Routing.UserGroup, CreateUserGroupAsync);
         App.MapDelete(Routing.UserGroup, RemoveUserGroupAsync);
         App.MapDelete(Routing.OperateUser, DeleteAsync);
@@ -62,6 +65,21 @@ public class UserServices : ServiceBase
         return detailQuery.Result;
     }
 
+    public async Task<List<UserItemResponse>> GetAllUserAsync(
+        [FromServices] IEventBus eventBus)
+    {
+        var query = new AllUserQuery();
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
+    public async Task<List<UserItemResponse>> GetUserListByRoleIdAsync([FromServices] IEventBus eventBus,[FromQuery] Guid roleId)
+    {
+        var query = new UserListByRoleQuery(roleId);
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
     public async Task CreateAsync(
         [FromServices] IEventBus eventBus,
         [FromHeader(Name = "creator-id")] Guid creator,
@@ -93,6 +111,13 @@ public class UserServices : ServiceBase
         {
             Creator = creator
         });
+    }
+
+    public async Task CreateUserRolesAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] CreateUserRolesCommand command)
+    {
+        await eventBus.PublishAsync(command);
     }
 
     public async Task CreateUserGroupAsync(

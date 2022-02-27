@@ -56,11 +56,19 @@ public class AuthenticationCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponseBase> AddChildrenRolesAsync(AddChildRolesRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            await CallerProvider.PostAsync(Routing.AddChildRoles, request);
+        });
+    }
+
     public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
     {
         return await ResultAsync(async () =>
         {
-            await CallerProvider.PostAsync(Routing.OperateRole, request);
+            await CallerProvider.PutAsync(Routing.OperateRole, request);
         });
     }
 
@@ -69,6 +77,15 @@ public class AuthenticationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var response = await CallerProvider.GetAsync<List<RoleItemResponse>>(Routing.RoleSelect);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponse<List<RoleItemsResponse>>> GetAllRoleItemAsync()
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<List<RoleItemsResponse>>(Routing.AllRoleItem);
             return response!;
         });
     }

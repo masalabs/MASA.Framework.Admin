@@ -76,7 +76,6 @@ public class RolePage : ComponentPageBase
         {
             new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
             new() { Text = i18n.T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
-            //new() { Text = i18n.T("State"), Value = nameof(RoleItemResponse.State) },
             new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
             new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
             new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
@@ -144,16 +143,6 @@ public class RolePage : ComponentPageBase
             Lodding = false;
         }
     }
-
-    //public async Task QueryAuthorizeItemsAsync()
-    //{
-    //    Lodding = true;
-    //    var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
-    //    Error = !result.Success;
-    //    Message = result.Message;
-    //    Lodding = false;
-    //    AuthorizeDatas = result.Data ?? new();
-    //}
 
     public void NavigateToRoleDetails(RoleItemResponse item)
     {

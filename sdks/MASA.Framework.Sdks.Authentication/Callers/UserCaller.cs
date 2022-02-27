@@ -49,6 +49,29 @@ public class UserCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponse<List<UserItemResponse>>> GetAllUserAsync()
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.AllUser);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponse<List<UserItemResponse>>> GetUserListByRoleIdAsync(Guid roleId)
+    {
+        var queryArguments = new Dictionary<string, string>()
+        {
+            { "roleId", roleId.ToString() }
+        };
+
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.UserListByRole, queryArguments);
+            return response!;
+        });
+    }
+
     public async Task<ApiResultResponse<UserDetailResponse>> GetDetailsAsync(string id)
     {
         var url = Routing.UserDetail.Replace($"{{{nameof(id)}}}", id);
@@ -82,6 +105,15 @@ public class UserCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var response = await CallerProvider.DeleteAsync(Routing.UserRole, removeUserRoleRequest);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponseBase> CreateUserRolesAsync(CreateUserRolesRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.PostAsync(Routing.UserRoles, request);
             return response!;
         });
     }

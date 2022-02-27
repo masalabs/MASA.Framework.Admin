@@ -19,7 +19,7 @@
                 <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MSelect @bind-Value="Page.StateEnum"
+                @*<MSelect @bind-Value="Page.StateEnum"
                         Color="primary"
                         HideDetails="@("auto")"
                         Clearable
@@ -29,7 +29,7 @@
                         ItemText="o => o.Key"
                         ItemValue="o => o.Value"                    
                         Label="@T("State")">
-                </MSelect>
+                </MSelect>*@
                 <MTextField @bind-Value="Page.Search" Color="primary" Class="ml-4 rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
@@ -59,9 +59,6 @@
             case nameof(RoleItemResponse.Number):
                  <span>@context.Item.Number</span>
                 break;
-@*            case nameof(RoleItemResponse.State):
-                 <span>@T(context.Item.State.ToString())</span>
-                break;*@
             case nameof(RoleItemResponse.CreationTime):
                 <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
             break;

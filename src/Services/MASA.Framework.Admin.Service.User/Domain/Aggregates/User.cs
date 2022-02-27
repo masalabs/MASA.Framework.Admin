@@ -38,6 +38,15 @@ public class User : AuditAggregateRoot<Guid, Guid>
         userRoles = new();
     }
 
+    public User(Guid id)
+    {
+        Id = id;
+        Enable = true;
+        LastLoginTime = DateTimeOffset.Now;
+        LastUpdateTime = DateTimeOffset.Now;
+        userRoles = new();
+    }
+
     public User(Guid? creator, string account, string password) : this()
     {
         Account = account;

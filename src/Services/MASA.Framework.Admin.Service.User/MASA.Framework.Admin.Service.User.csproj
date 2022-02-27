@@ -47,4 +47,8 @@
       <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\MASA.Framework.Admin.Infrastructure.Utils.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

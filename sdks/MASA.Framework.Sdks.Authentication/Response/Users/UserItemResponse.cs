@@ -17,5 +17,7 @@ public class UserItemResponse
     public int State { get; set; }
 
     public DateTimeOffset LastLoginTime { get; set; }
+
+    public bool Select { get; set; }
 }
 

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class CacheQueryHandler
 {
@@ -14,9 +14,9 @@ public class CacheQueryHandler
     [EventHandler]
     public async Task GetRoleInfo(RoleCacheDetailQuery query)
     {
-        var rule = await _cacheClient.GetAsync<RoleInfo>(string.Format(CacheConst.Cache.Role, query.RoleId));
-        if (rule != null)
-            query.Result = rule;
+        var role = await _cacheClient.GetAsync<RoleInfo>(string.Format(CacheConst.Cache.Role, query.RoleId));
+        if (role != null)
+            query.Result = role;
         else
         {
             var roleBaseQuery = new RoleBaseQuery(query.RoleId);

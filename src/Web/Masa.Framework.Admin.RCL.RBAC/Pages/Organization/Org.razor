@@ -3,7 +3,7 @@
 
 <MCard>
     <MCardTitle class="text-h5">
-        部门
+        @T("Department")
         <MSpacer />
         <MButton Text OnClick='()=>OpenAddDialog(Guid.Empty,"")'>
             <MIcon Left>mdi-plus-circle-outline</MIcon>
@@ -43,15 +43,15 @@
                                 <MList>
                                     <MListItem OnClick="()=>OpenAddDialog(context.Item.Id,context.Item.Name)">
                                         <MIcon Small>mdi-plus-circle-outline</MIcon>
-                                        <MListItemTitle Class="ml-2"> 添加下级部门 </MListItemTitle>
+                                        <MListItemTitle Class="ml-2"> @T("AddSubordinate") </MListItemTitle>
                                     </MListItem>
                                     <MListItem>
                                         <MIcon Small>mdi-pencil-outline</MIcon>
-                                        <MListItemTitle Class="ml-2"> 编辑部门 </MListItemTitle>
+                                        <MListItemTitle Class="ml-2"> @T("Edit") </MListItemTitle>
                                     </MListItem>
                                     <MListItem>
                                         <MIcon Small>mdi-trash-can-outline</MIcon>
-                                        <MListItemTitle Class="ml-2"> 删除部门 </MListItemTitle>
+                                        <MListItemTitle Class="ml-2"> @T("Delete") </MListItemTitle>
                                     </MListItem>
                                 </MList>
                             </ChildContent>
@@ -64,10 +64,12 @@
         <MCol>
             <MRow>
                 <span>@_currentDepartment.Name</span>
-                <span class="ml-2">人数：@_pageData.CurrentCount</span>
+                <span class="ml-2">
+                    <MIcon>mdi-account-group</MIcon>
+                   @_pageData.CurrentCount</span>
                 <MSpacer/>
-                <MButton class="mr-2" Disabled>移除成员</MButton>
-                <MButton Disabled="_currentDepartment.Id==Guid.Empty" OnClick="OpenDepartmentUserDialog">添加成员</MButton>
+                <MButton class="mr-2" Disabled>@T("RemoveMember")</MButton>
+                <MButton Disabled="_currentDepartment.Id==Guid.Empty" OnClick="OpenDepartmentUserDialog">@T("AddMember")</MButton>
             </MRow>
             <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
                 <HeaderColContent Context="header">
@@ -183,7 +185,7 @@
     <ChildContent>
         <MCard class="pa-6">
             <MCardTitle class="pa-0 mb-2">
-                添加成员
+                @T("AddMember")
                 <MSpacer></MSpacer>
                 <MButton Icon OnClick="() => _addDepartmentUserDialog = false">
                     <MIcon>mdi-close</MIcon>
@@ -195,10 +197,10 @@
             <MDivider />
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addDepartmentUserDialog = false">
-                    取消
+                    @T("Cancel")
                 </MButton>
                 <MButton Color="primary" Width="100" class="rounded-pill">
-                    保存
+                    @T("Save")
                 </MButton>
             </MCardActions>
         </MCard>

@@ -6,7 +6,7 @@
     <MCardText Class="pa-6">
         <MRow>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <span class="text-btn neutral-lighten-1--text">展示:</span>
+                <span class="text-btn neutral-lighten-1--text">@T("View"):</span>
                 <MSelect @bind-Value="_pageData.PageSize"
                          Color="primary"
                          Style="max-width:120px;"
@@ -18,7 +18,7 @@
                          ItemText="u => u.ToString()"
                          ItemValue="u => u">
                 </MSelect>
-                <span class="text-btn">条数</span>
+                <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
                 <MTextField @bind-Value="_pageData.Name" Color="primary" Class="rounded-2 ml-6" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
@@ -27,7 +27,7 @@
                     </PrependInnerContent>
                 </MTextField>
                 <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
-                    Add UserGroup
+                    @T("Add UserGroup")
                 </MButton>
             </MCol>
         </MRow>
@@ -56,11 +56,11 @@
                             <MList>
                                 <MListItem>
                                     <MIcon Small>fas fa-user-tie</MIcon>
-                                    <MListItemTitle Class="ml-2"> Details </MListItemTitle>
+                                    <MListItemTitle Class="ml-2"> @T("Details")  </MListItemTitle>
                                 </MListItem>
                                 <MListItem>
                                     <MIcon Small>far fa-trash-alt</MIcon>
-                                    <MListItemTitle Class="ml-2"> Delete </MListItemTitle>
+                                    <MListItemTitle Class="ml-2"> @T("Delete") </MListItemTitle>
                                 </MListItem>
                             </MList>
                         </ChildContent>
@@ -85,13 +85,13 @@
 
 <MNavigationDrawer Temporary Fixed Right Value=_visible Width="465" Class="pa-6">
     <div class="block-between mb-12">
-        <span class="text-h6">Add User Group</span>
+        <span class="text-h6">@T("Add UserGroup")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
     <MForm Model=_createUserGroup EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
-        <MTextField @bind-Value="_createUserGroup.Name" Class="mb-6" Label="分组名称" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserGroup.Code" Class="mb-6" Label="分组唯一标识" HideDetails="@("auto")" Dense Outlined />
-        <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="分组描述" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Name" Class="mb-6" Label="@T("UserGroupName")" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Code" Class="mb-6" Label="@T("UserGroupCode")" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="@T("UserGroupDescribtion")" HideDetails="@("auto")" Dense Outlined />
 
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> @T("Cancel") </MButton>

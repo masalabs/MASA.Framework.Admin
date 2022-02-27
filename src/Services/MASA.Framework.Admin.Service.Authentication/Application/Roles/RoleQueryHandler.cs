@@ -324,7 +324,8 @@ public class RoleQueryHandler
     [EventHandler]
     public async Task GetRoleListByIdQuery(IdListQuery query)
     {
-        query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id))).Select(role => new RoleItemResponse
+        query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id)))
+            .Select(role => new RoleItemResponse
         {
             Id = role.Id,
             Name = role.Name,

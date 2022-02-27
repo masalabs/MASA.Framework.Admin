@@ -148,7 +148,14 @@
                             @switch (context.Header.Value)
                             {
                                 case nameof(RoleItemResponse.Id):
-                                    <span>@T("RemoveUserRole")</span>
+                                        <MTooltip Top>
+                                        <ActivatorContent Context="_">
+                                            <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="async ()=>await RemoveUserRole(context.Item.Id)">mdi-delete</MIcon>
+                                        </ActivatorContent>
+                                        <ChildContent>
+                                            <span>@T("RemoveUserRole")</span>
+                                        </ChildContent>
+                                    </MTooltip>
                                     break;
                                 default:
                                     @context.Value

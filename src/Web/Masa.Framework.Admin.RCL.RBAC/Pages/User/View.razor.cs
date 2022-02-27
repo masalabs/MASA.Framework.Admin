@@ -46,20 +46,30 @@ public partial class View
     [Parameter]
     public string? Id { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (string.IsNullOrEmpty(Id))
+        if (firstRender)
         {
-            return;
-        }
-        var dataRes = await UserCaller.GetDetailsAsync(Id);
-        if (dataRes.Success && dataRes.Data != null)
-        {
-            _userDetail = dataRes.Data;
-        }
+            if (string.IsNullOrEmpty(Id))
+            {
+                return;
+            }
+            var dataRes = await UserCaller.GetDetailsAsync(Id);
+            if (dataRes.Success && dataRes.Data != null)
+            {
+                _userDetail = dataRes.Data;
+            }
 
-        await LoadUserRoles();
-        await LoadUserGroups();
+            await LoadUserRoles();
+            await LoadUserGroups();
+
+            await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
+            {
+                Description = "访问了用户详情页面",
+                OperationLogType = OperationLogType.VisitPage
+            });
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task OpenRoleDialog()
@@ -107,6 +117,16 @@ public partial class View
         await UserCaller.CreateRoleAsync(new CreateUserRoleRequest
         {
             RoleId = Guid.Parse(_addRoleId),
+            UserId = Guid.Parse(Id)
+        });
+        await LoadUserRoles();
+    }
+
+    private async Task RemoveUserRole(Guid roleId)
+    {
+        await UserCaller.RemoveUserRoleAsync(new RemoveUserRoleRequest
+        {
+            RoleId = roleId,
             UserId = Guid.Parse(Id)
         });
         await LoadUserRoles();
@@ -161,16 +181,6 @@ public partial class View
             return;
         }
         _userGroups = userGroupsRes.Data;
-    }
-
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
-        {
-            Description = "访问了用户详情页面",
-            OperationLogType = OperationLogType.VisitPage
-        });
-        await base.OnAfterRenderAsync(firstRender);
     }
 }
 

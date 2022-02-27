@@ -1,4 +1,4 @@
-using ListQuery = MASA.Framework.Admin.Service.User.Application.UserGroups.Queres.ListQuery;
+using ListQuery = MASA.Framework.Admin.Service.User.Application.UserGroups.Queries.ListQuery;
 
 namespace MASA.Framework.Admin.Service.User.Application.UserGroups
 {

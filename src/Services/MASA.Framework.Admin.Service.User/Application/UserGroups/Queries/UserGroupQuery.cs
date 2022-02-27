@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Application.UserGroups.Queres
+namespace MASA.Framework.Admin.Service.User.Application.UserGroups.Queries
 {
     public record UserGroupQuery(Guid UserId) : Query<List<UserGroupItemResponse>>
     {

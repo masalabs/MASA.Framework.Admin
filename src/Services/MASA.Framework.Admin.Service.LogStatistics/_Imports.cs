@@ -13,7 +13,7 @@ global using MASA.Contrib.ReadWriteSpliting.CQRS.Queries;
 global using MASA.Contrib.Service.MinimalAPIs;
 global using MASA.Framework.Admin.Infrastructure.Configurations.Response;
 global using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Commands;
-global using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
+global using MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queries;
 global using MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
 global using MASA.Framework.Admin.Service.LogStatistics.Domain.Repositories;
 global using MASA.Framework.Admin.Service.LogStatistics.Infrastructure;

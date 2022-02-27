@@ -1,5 +1,5 @@
 ﻿@page "/user/view/{Id}"
-@inherits ComponentBase
+@inherits AdminCompontentBase
 
 <MCard Height="200" class="pt-2 pb-2">
     <MCardText>
@@ -42,53 +42,53 @@
 </MCard>
 <MCard class="mt-6" Color="transparent">
     <MTabs @bind-Value="_tab" BackgroundColor="transparent" Grow SliderColor="primary">
-        <MTab>用户信息</MTab>
-        <MTab>权限信息</MTab>
-        <MTab>访问记录</MTab>
+        <MTab Class="text-capitalize">@T("Basic Information")</MTab>
+        <MTab Class="text-capitalize">@T("PermissionInfo")</MTab>
+        <MTab Class="text-capitalize">@T("AccessRecord")</MTab>
     </MTabs>
     <MTabsItems Value="@_tab">
         <MTabItem>
             <MCard Flat>
                 <MCardTitle>
-                    基本信息
+                    @T("Basic Information")
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
                     <MRow>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="用户 ID" Title="@_userDetail.Id.ToString()" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("UserID")" Title="@_userDetail.Id.ToString()" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="账号" Title="@_userDetail.Account" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("Account")" Title="@_userDetail.Account" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="姓名" Title="@_userDetail.Name" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("UserName")" Title="@_userDetail.Name" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="邮箱" Title="@_userDetail.Email" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("Email")" Title="@_userDetail.Email" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="状态" Title="@(((State)_userDetail.State).ToString())" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("State")" Title="@(((State)_userDetail.State).ToString())" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="最后登录时间" Title="@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("LastLoginTime")" Title="@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="最后更新时间" Title="@_userDetail.LastUpdateTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("LastUpdateTime")" Title="@_userDetail.LastUpdateTime.ToString("yyyy-MM-dd HH:mm:ss")" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="注册时间" Title="@_userDetail.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                            <Masa.Framework.Admin.RCL.RBAC.Pages.User.Components.DataDisplayComponent Subtitle="@T("CreationTime")" Title="@_userDetail.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")" />
                         </MCol>
                     </MRow>
                 </MCardText>
             </MCard>
             <MCard class="mt-6">
                 <MCardTitle>
-                    所属分组
+                    @T("UserGroup")
                     <MSpacer />
                     <MButton Text OnClick="OpenGroupDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
-                        添加
+                        @T("Add")
                     </MButton>
                 </MCardTitle>
                 <MDivider />
@@ -106,7 +106,7 @@
                                             <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="async ()=>await RemoveUserGroup(context.Item.Id)">mdi-delete</MIcon>
                                         </ActivatorContent>
                                         <ChildContent>
-                                            <span>移除分组</span>
+                                            <span>@T("Remove UserGroup")</span>
                                         </ChildContent>
                                     </MTooltip>
                                     break;
@@ -120,7 +120,7 @@
             </MCard>
             <MCard class="mt-6" Flat>
                 <MCardTitle>
-                    原始 JSON 数据
+                    @T("JsonRowData")
                 </MCardTitle>
                 <MDivider />
                 <MCardText>
@@ -131,11 +131,11 @@
         <MTabItem>
             <MCard Flat>
                 <MCardTitle>
-                    用户角色
+                    @T("UserRole")
                     <MSpacer />
                     <MButton Text OnClick="OpenRoleDialog">
                         <MIcon Left>mdi-plus-circle-outline</MIcon>
-                        添加
+                        @T("Add")
                     </MButton>
                 </MCardTitle>
                 <MDivider />
@@ -148,8 +148,7 @@
                             @switch (context.Header.Value)
                             {
                                 case nameof(RoleItemResponse.Id):
-                                    <span>详情</span>
-                                    <span>撤销角色</span>
+                                    <span>@T("RemoveUserRole")</span>
                                     break;
                                 default:
                                     @context.Value
@@ -163,14 +162,14 @@
         <MTabItem>
             <MCard Flat>
                 <MCardTitle>
-                    访问记录
+                    @T("AccessRecord")
                 </MCardTitle>
                 <MDivider />
                 <MCardText>Todo</MCardText>
             </MCard>
             <MCard class="mt-6" Flat>
                 <MCardTitle>
-                    位置
+                    @T("Position")
                 </MCardTitle>
                 <MDivider />
                 <MCardText>Todo</MCardText>
@@ -183,7 +182,7 @@
     <ChildContent>
         <MCard class="pa-6">
             <MCardTitle class="pa-0 mb-2">
-                用户角色
+                @T("UserRole")
                 <MSpacer></MSpacer>
                 <MButton Icon OnClick="() => _addRoleDialog = false">
                     <MIcon>mdi-close</MIcon>
@@ -191,7 +190,7 @@
             </MCardTitle>
             <MDivider />
             <MCardText class="pt-5">
-                <MSelect Label="选择角色" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId"
+                <MSelect Label="@T("SelectRole")" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId"
                          ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
                     <ItemContent>
                         <MListItemContent v-else>
@@ -208,10 +207,10 @@
             <MDivider />
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
-                    取消
+                    @T("Cancel")
                 </MButton>
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserRole">
-                    保存
+                    @T("Save")
                 </MButton>
             </MCardActions>
         </MCard>
@@ -222,7 +221,7 @@
     <ChildContent>
         <MCard class="pa-6">
             <MCardTitle class="pa-0 mb-2">
-                所属分组
+                @T("UserGroup")
                 <MSpacer></MSpacer>
                 <MButton Icon OnClick="() => _addGroupDialog = false">
                     <MIcon>mdi-close</MIcon>
@@ -230,7 +229,7 @@
             </MCardTitle>
             <MDivider />
             <MCardText class="pt-5">
-                <MSelect Label="分组选择" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId"
+                <MSelect Label="@T("SelectGroup")" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId"
                          ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
                     <ItemContent>
                         <MListItemContent v-else>
@@ -247,10 +246,10 @@
             <MDivider />
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
-                    取消
+                    @T("Cancel")
                 </MButton>
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserGroup">
-                    保存
+                    @T("Save")
                 </MButton>
             </MCardActions>
         </MCard>

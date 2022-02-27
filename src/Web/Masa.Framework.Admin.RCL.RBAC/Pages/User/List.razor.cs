@@ -1,9 +1,11 @@
+using Masa.Blazor.Presets;
+
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class List
 {
     private bool _visible;
-    private bool _valid = true, _snackbar = false;
+    private bool _valid = true;
     private MForm _form = new();
     private PaginationPage<UserItemResponse> _pageData = new();
     private UserItemResponse _userItem = new();
@@ -19,6 +21,7 @@ public partial class List
         new() { Text = "LastLoginTime", Value = nameof(UserItemResponse.LastLoginTime) },
         new() { Text = "Action", Value = "Action", Sortable = false }
     };
+
     private List<StateItem> _selectStateList => new List<StateItem>
     {
         new StateItem((int)State.Enable,State.Enable.ToString()),
@@ -76,14 +79,15 @@ public partial class List
         }
         if (!_createUserModel.Pwd.Trim().Equals(_createUserModel.ConfirmPwd.Trim()))
         {
-            //密码确认失败 提示
+            GlobalConfig.OpenMessage(I18n.T("ConfirmPasswordError"), MessageType.Error);
             return;
         }
 
         var res = await UserCaller.CreateAsync(_createUserModel);
         if (!res.Success)
         {
-            _snackbar = true;
+            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
+            return;
         }
 
         _visible = false;

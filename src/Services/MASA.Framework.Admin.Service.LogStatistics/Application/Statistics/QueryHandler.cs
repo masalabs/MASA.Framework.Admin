@@ -1,4 +1,4 @@
-using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Queres;
+using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Queries;
 
 namespace MASA.Framework.Admin.Service.LogStatistics.Application.Statistics
 {

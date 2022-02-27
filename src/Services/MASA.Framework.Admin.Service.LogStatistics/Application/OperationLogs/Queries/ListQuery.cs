@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queres;
+namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs.Queries;
 
 public record ListQuery(int PageIndex, int PageSize, string Description) : Query<PaginatedItemResponse<OperationLogItemResponse>>
 {

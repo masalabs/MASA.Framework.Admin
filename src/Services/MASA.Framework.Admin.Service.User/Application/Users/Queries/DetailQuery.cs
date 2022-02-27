@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Application.Users.Queres;
+namespace MASA.Framework.Admin.Service.User.Application.Users.Queries;
 
 public record DetailQuery(Guid UserId) : Query<UserDetailResponse>
 {

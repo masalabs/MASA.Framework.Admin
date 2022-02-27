@@ -8,6 +8,8 @@ namespace MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations
 
             builder.HasKey(ug => ug.Id);
             builder.Property(ug => ug.Id).HasColumnName("id").IsRequired();
+
+            builder.Property(ug => ug.UserId).HasColumnName("user_id").IsRequired();
         }
     }
 }

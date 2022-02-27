@@ -1,9 +1,9 @@
-namespace MASA.Framework.Sdks.Authentication.Request.Users
-{
-    public class CreateUserGroupRequest
-    {
-        public Guid UserId { get; set; }
+namespace MASA.Framework.Sdks.Authentication.Request.Users;
 
-        public Guid UserGroupId { get; set; }
-    }
+public class CreateUserGroupRequest
+{
+    public Guid UserId { get; set; }
+
+    public Guid UserGroupId { get; set; }
 }
+

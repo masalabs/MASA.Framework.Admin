@@ -7,60 +7,68 @@
     </div>
 
     <MForm Model=AuthoriedData EnableDataAnnotationsValidation>       
-        <MSelect @bind-Value="AuthoriedData.ObjectType"
+        <MSelect
+                 Value="@AuthoriedData.ObjectType"
+                 ValueChanged="value => ObjectValueChanged(value)"
                  Color="primary"
                  HideDetails="@("auto")"
                  Outlined
+                 TValue="ObjectType"
+                 TItemValue="ObjectType"
+                 TItem="KeyValuePair<string, ObjectType>"
                  Items="@(ComponentPageBase.GetEnumMap<ObjectType>())"
                  ItemText="map => map.Key"
                  ItemValue="map => map.Value"
                  Label="@T("ObjectType")">
         </MSelect>
 
-        @if(AuthoriedData.ObjectType is ObjectType.Operate)
+        <MTextField @bind-Value="AuthoriedData.Resource" Disabled="@(AuthoriedData.ObjectType is ObjectType.Menu)" Class="mt-6" Label="@T("Resource")" HideDetails="@("auto")" Outlined />
+
+        @if(AuthoriedData.ObjectType == ObjectType.Api)
         {
-            @*<MTextField @bind-Value="AuthoriedData.ObjectName" Class="mb-6" Label="@T("Object")" HideDetails="@("auto")" Outlined />*@
+            <MTextarea @bind-Value="@AuthoriedData.Scope" Class="mt-6" Label="@T("Scop")" HideDetails="@("auto")" Outlined />
         }
-        else if(AuthoriedData.ObjectType is ObjectType.Menu)
-        {
-@*            <MSelect @bind-Value="AuthoriedData.ObjectName"
-                Color="primary"
-                HideDetails="@("auto")"
-                Outlined
-                Items="@(MenuPage.AllDatas.Where(m => MenuPage.AllDatas.All(m2 => m2.ParentId != m.Id)).ToList())"
-                ItemText="m => m.Name"
-                ItemValue="map => map.Id"
-                Label="@T("PermissionType")"
-                Multiple>
-                <SelectionContent Context="data">
-                   <span class="grey--text text-caption">
-                        @string.Join(",",data.Item.)
-                    </span>
-                </SelectionContent>
-            </MSelect>*@
+        else if(AuthoriedData.ObjectType == ObjectType.Menu)
+        {            
+            <div style="min-height:200px;border:1px solid black;" class="pa-2 max-width mt-6 hover-pointer"  @onclick="() => OpenAddMenuDialog = true" >
+                <span>@T("Scope")：</span>
+                @foreach(var menuName in SelectMenuNames.Split(','))
+                {
+                    if(menuName != "")
+                    {
+                      <MChip Class="mr-2" Color="pink" TextColor="white" Label>
+                        <MIcon Left> mdi-label </MIcon>
+                        @menuName
+                      </MChip> 
+                    }
+                }
+            </div>          
         }
 
-@*        <MSelect @bind-Value="AuthoriedData.PermissionType"
-            Color="primary"
-            HideDetails="@("auto")"
-            Outlined
-            Items="@(ComponentPageBase.GetEnumMap<PermissionType>())"
-            ItemText="map => map.Key"
-            ItemValue="map => map.Value"
-            Label="@T("PermissionType")">
-        </MSelect>*@
+        <MTextField @bind-Value="AuthoriedData.Action" Class="mt-6" Label="@T("Action")" HideDetails="@("auto")" Outlined />
 
-        <MTextField @bind-Value="AuthoriedData.PermissionName" Class="mb-6" Label="@T("PermissionName")" HideDetails="@("auto")" Outlined />
+        <MSelect
+                 @bind-Value="@AuthoriedData.PermissionType"
+                 Class="mt-6"
+                 Color="primary"
+                 HideDetails="@("auto")"
+                 Outlined
+                 Items="@(ComponentPageBase.GetEnumMap<PermissionType>())"
+                 ItemText="map => map.Key"
+                 ItemValue="map => map.Value"
+                 Label="@T("PermissionType")">
+        </MSelect>
 
-@*        <MTextField @bind-Value="AuthoriedData.ObjectIdentifies" Class="mb-6" Label="@T("ObjectIdentifies")" HideDetails="@("auto")" Outlined />
-        <MTextField @bind-Value="AuthoriedData.InheritanceRoleSource" Class="mb-6" Label="@T("Action")" HideDetails="@("auto")" Outlined />*@
-        
+        <MTextField @bind-Value="AuthoriedData.PermissionName" Class="mt-6" Label="@T("PermissionName")" HideDetails="@("auto")" Outlined />
+       
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>
-            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await UpdateVisible(false)">@T("Confirm")</MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddAuthorizeeAsync(context)">@T("Confirm")</MButton>
         </div>
     </MForm>
 </MNavigationDrawer>
+
+<AddMenuDialog @bind-Visible=OpenAddMenuDialog SelectMenuCodes=@SelectMenuCodes SelectMenuCodesChanged=SelectMenuCodesChanged SelectMenuNamesChanged=SelectMenuNamesChanged />
 
 @code {
     [Inject]
@@ -69,15 +77,48 @@
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;
 
+    public bool OpenAddMenuDialog { get; set; }
+
     [Parameter]
     public bool Visible { get; set; }
 
     [Parameter]
-    public EventCallback<bool> VisibleChanged { get; set; }
+    public EventCallback<bool> VisibleChanged { get; set; } 
 
     public AuthorizeItemResponse AuthoriedData { get; set; } = new();
 
-    public  List<KeyValuePair<string, ObjectType>> ObjectTypeSelect => ComponentPageBase.GetEnumMap<ObjectType>();
+    public List<KeyValuePair<string, ObjectType>> ObjectTypeSelect => ComponentPageBase.GetEnumMap<ObjectType>();
+
+    public string SelectMenuCodes { get; set; } = "";
+
+    public string SelectMenuNames { get; set; } = "";
+
+    void SelectMenuCodesChanged(string selectMenuCodes)
+    {
+        AuthoriedData.Scope = selectMenuCodes;
+        SelectMenuCodes = selectMenuCodes;
+    }
+
+    void SelectMenuNamesChanged(string selectMenuNames)
+    {
+        SelectMenuNames = selectMenuNames;
+    }
+
+    public void ObjectValueChanged(ObjectType type)
+    {
+        AuthoriedData.ObjectType = type;
+        AuthoriedData.Scope = "";
+        SelectMenuCodes = "";
+        SelectMenuNames = "";
+        if(type == ObjectType.Menu)
+        {
+            AuthoriedData.Resource="menus";
+        }
+        else
+        {
+            AuthoriedData.Resource="";
+        }
+    }
 
     private async Task UpdateVisible(bool visible)
     {
@@ -91,20 +132,22 @@
         }
     }
 
-    //private async Task AddOrUpdateAsync(EditContext context)
-    //{
-    //    if (context.Validate())
-    //    {
-    //        var success = await Page.AddAsync();
-    //        if(success) await UpdateVisible(false);
-    //    }
-    //}
+    private async Task AddAuthorizeeAsync(EditContext context)
+    {
+        if (context.Validate())
+        {
+            await RoleDetailPage.AddAuthorizeAsync(AuthoriedData);
+            await UpdateVisible(false);
+        }
+    }
 
     protected override async Task OnParametersSetAsync()
     {
+        SelectMenuCodes = "";
+        SelectMenuNames = "";
         if (Visible is true)
         {
-            AuthoriedData = new();           
+            AuthoriedData = new();          
             await MenuPage.GetAllMenus();
         }
     }

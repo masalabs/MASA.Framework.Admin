@@ -9,16 +9,22 @@ public class AuthorizeItemResponse
 
     public Guid PermissionId { get; set; }
 
+    [Required]
     public string PermissionName { get; set; } = default!;
 
-    public ObjectType ObjectType { get; set; }
+    public ObjectType ObjectType { get; set; } = ObjectType.Menu;
 
     public string ObjectTypeName { get; set; } = default!;
 
-    public string Resource { get; set; } = default!;
+    [Required]
+    public string Resource { get; set; } = "menus";
 
+    [Required]
     public string Scope { get; set; } = default!;
 
+    public string ScopeName { get; set; } = default!;
+
+    [Required]
     public string Action { get; set; } = default!;
 
     /// <summary>
@@ -28,5 +34,5 @@ public class AuthorizeItemResponse
 
     //public PermissionType PermissionType { get; set; }
 
-    public string PermissionTypeName { get; set; } = default!;
+    public PermissionType PermissionType { get; set; } = PermissionType.Public;
 }

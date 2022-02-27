@@ -24,6 +24,7 @@ public class PermissionsCommandHandler
 
         var permission = new Permission(
             command.Creator,
+            command.PermissionId,
             command.ObjectType,
             command.Name,
             command.Resource,

@@ -28,6 +28,7 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
 
     public Permission(
         Guid @operator,
+        Guid id,
         ObjectType objectType,
         string name,
         string resource,
@@ -36,6 +37,7 @@ public class Permission : AuditAggregateRoot<Guid, Guid>
         PermissionType permissionType) : this()
     {
         Creator = @operator;
+        Id = id;
         CreationTime = DateTime.UtcNow;
         Modifier = @operator;
         ModificationTime = DateTime.UtcNow;

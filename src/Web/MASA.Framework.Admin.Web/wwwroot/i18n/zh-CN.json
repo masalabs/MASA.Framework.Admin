@@ -135,5 +135,11 @@
   "Inherit the following roles": "继承以下角色",
   "Clear": "清空",
   "Assign the following user access authorizations": "分配下列用户访问授权",
-  "Name": "姓名"
+  "Name": "姓名",
+  "Added menu": "已添加的菜单",
+  "Resource": "资源",
+  "Add User Successful": "添加用户成功",
+  "Add Authorize Successful": "添加授权成功",
+  "Api": "接口",
+  "Cancel Authorize Successful": "取消授权成功"
 }

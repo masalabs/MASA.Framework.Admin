@@ -34,6 +34,10 @@ public class Routing
 
     public static readonly string AllRoleItem = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.ROLE_SERVICE, "allRoleItem");
 
+    public static readonly string AddRolePermission = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.ROLE_SERVICE, "addRolePermission");
+
+    public static readonly string DeleteRolePermission = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.ROLE_SERVICE, "deleteRolePermission");
+
     #endregion
 
     #region Object

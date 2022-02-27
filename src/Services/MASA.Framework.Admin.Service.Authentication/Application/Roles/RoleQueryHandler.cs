@@ -145,7 +145,7 @@ public class RoleQueryHandler
             .Select(permission => new AuthorizeItemResponse()
             {
                 Id = permission.Id,
-                PermissionId = permission.Id,
+                PermissionId = permission.PermissionId,
                 PermissionName = permission.PermissionName,
                 ObjectType = permission.ObjectType,
                 Resource = permission.Resource,

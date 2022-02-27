@@ -110,5 +110,31 @@ public class AuthenticationCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponseBase> DeleteRolePermissionAsync(DeleteRolePermissionRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            await CallerProvider.DeleteAsync(Routing.DeleteRolePermission, request);
+        });
+    }
+
+    public async Task<ApiResultResponseBase> AddRolePermissionAsync(AddRolePermissionRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            await CallerProvider.PostAsync(Routing.AddRolePermission, request);
+        });
+    }
+
+    #endregion
+
+    #region Permission
+    public async Task<ApiResultResponseBase> AddPermissionAsync(AddPermissionRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            await CallerProvider.PostAsync(Routing.OperatePermission, request);
+        });
+    }
     #endregion
 }

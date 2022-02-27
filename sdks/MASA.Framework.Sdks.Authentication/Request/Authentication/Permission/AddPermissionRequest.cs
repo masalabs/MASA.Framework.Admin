@@ -1,7 +1,9 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
+namespace MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
 
-public record AddPermissionCommand : CommandBase
+public class AddPermissionRequest
 {
+    public Guid Creator { get; set; }
+
     public Guid PermissionId { get; set; }
 
     public ObjectType ObjectType { get; set; }
@@ -17,4 +19,16 @@ public record AddPermissionCommand : CommandBase
     public Guid? RoleId { get; set; }
 
     public PermissionType PermissionType { get; set; }
+
+    public AddPermissionRequest()
+    {
+        PermissionId = Guid.NewGuid();
+        Creator =Guid.NewGuid();
+    }
+}
+
+public enum PermissionType
+{
+    Private = 1,
+    Public
 }

@@ -14,6 +14,8 @@ public class RoleService : ServiceBase
         App.MapPut(Routing.OperateRole, EditAsync);
         App.MapDelete(Routing.OperateRole, DeleteAsync);
         App.MapDelete(Routing.RolePermission, DeleteRolePermissionAsync);
+        App.MapPost(Routing.AddRolePermission, AddRolePermissionAsync);
+        App.MapDelete(Routing.DeleteRolePermission, DeleteRolePermissionAsync);
     }
 
     private async Task<PaginatedItemResponse<RoleItemResponse>> GetItemsAsync(
@@ -91,6 +93,13 @@ public class RoleService : ServiceBase
     public async Task DeleteRolePermissionAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] DeleteRolePermissionCommand command)
+    {
+        await eventBus.PublishAsync(command);
+    }
+
+    public async Task AddRolePermissionAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] AddRolePermissionDomainCommand command)
     {
         await eventBus.PublishAsync(command);
     }

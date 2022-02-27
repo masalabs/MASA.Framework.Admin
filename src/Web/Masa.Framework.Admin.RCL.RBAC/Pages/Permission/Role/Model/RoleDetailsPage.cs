@@ -28,6 +28,8 @@ public class RoleDetailsPage : ComponentPageBase
 
     public bool OpenAddChildrenRolesDialog { get; set; }
 
+    public bool OpenAddMenuDialog { get; set; }
+
     public List<DataTableHeader<RoleItemResponse>> ChildrenRoleHeaders { get; set; }
 
     public List<DataTableHeader<UserItemResponse>> UserHeaders { get; set; }
@@ -180,11 +182,55 @@ public class RoleDetailsPage : ComponentPageBase
 
     public async Task AddUserRolesAsync()
     {
-        await UserCaller.CreateUserRolesAsync(new CreateUserRolesRequest
+        var result = await UserCaller.CreateUserRolesAsync(new CreateUserRolesRequest
         {
             RoleId = Detail.Id,
             UserIds = AllUsers.Where(u => u.Select).Select(u => u.Id).ToList()
         });
+
+        CheckApiResult(result,I18n.T("Add User Successful"),result.Message);
+    }
+
+    public async Task AddAuthorizeAsync(AuthorizeItemResponse authoriedData)
+    {
+        Lodding = true;
+        var permission = new AddPermissionRequest()
+        {
+            ObjectType = authoriedData.ObjectType,
+            Name = authoriedData.PermissionName,
+            Resource = authoriedData.Resource,
+            Scope = authoriedData.Scope,
+            RoleId = Detail.Id,
+            PermissionType = authoriedData.PermissionType,
+            Action = authoriedData.Action,
+        };
+        var result = await AuthenticationCaller.AddPermissionAsync(permission);
+        if(result.Success)
+        {
+            result =await AuthenticationCaller.AddRolePermissionAsync(new AddRolePermissionRequest(permission.PermissionId, Detail.Id));
+        }
+        CheckApiResult(result, I18n.T("Add Authorize Successful"), result.Message);
+        Lodding = false;
+    }
+
+    public void OpenDeleteAuthorizeDialog(Guid permissionId)
+    {
+        OpenDeleteConfirmDialog(async (confirm) =>
+        {
+            if (confirm) await DeleteAuthorizeAsync(permissionId);
+        });
+    }
+
+    public async Task DeleteAuthorizeAsync(Guid permissionId)
+    {
+        Lodding = true;
+        var result = await AuthenticationCaller.DeleteRolePermissionAsync(new DeleteRolePermissionRequest(Detail.Id, permissionId));
+        CheckApiResult(result, I18n.T("Cancel Authorize Successful"), result.Message);
+        if(result.Success)
+        {
+            await QueryRoleById(Detail.Id.ToString());
+        }
+        Lodding = false;
     }
 
     public void NavigateToRoleDetails(UserItemResponse item)

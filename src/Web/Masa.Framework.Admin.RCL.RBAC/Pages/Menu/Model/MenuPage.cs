@@ -130,6 +130,11 @@ public class MenuPage : ComponentPageBase
         }
     }
 
+    public List<MenuItemResponse> GetBottomLayerMenus()
+    {
+        return AllDatas.Where(m => AllDatas.All(d => d.Id != m.ParentId)).ToList();
+    }
+
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
     {
         if (result.Success is false) OpenErrorDialog(errorMessage);

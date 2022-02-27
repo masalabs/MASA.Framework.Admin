@@ -154,34 +154,42 @@
     <MDivider />
 
     <MCardText>
-        @foreach (var permission in Page.Detail.Permissions)
-        {
-            <MCol Md=4 Style="background-color:rgb(248 249 251)">
-                @*                <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("object")</span>
-                    <span class="text-caption">@(ObjectDatas.FirstOrDefault(o =>o.Code == permission.ObjectCode)?.Name)</span>
-                    </div>*@
-                <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("ObjectIdentifies")</span>
-                    <span class="text-caption">@permission.Scope</span>
-                </div>
-                <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("Action")</span>
-                    <span class="text-caption">@permission.Action</span>
-                </div>
-                <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("PermissionName")</span>
-                    <span class="text-caption">@permission.PermissionName</span>
-                </div>
-                <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("PermissionType")</span>
-                    @*     <span class="text-caption">@permission.PermissionType</span>*@
-                </div>
-                <MButton>
-                    @T("Cancel Authorization")
-                </MButton>
-            </MCol>
-        }
+        <MRow>
+            @foreach (var permission in Page.Detail.Permissions)
+            {
+                <MCol Class="ma-4" Md=3 Style="background-color:rgb(248 249 251)">
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("PermissionName")</span>
+                        <span class="text-caption">@permission.PermissionName</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("ObjectType")</span>
+                        <span class="text-caption">@T(permission.ObjectType.ToString())</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Resource")</span>
+                        <span class="text-caption">@permission.Resource</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Scope")</span>
+                        <span class="text-caption">@GetScopeName(permission)</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Action")</span>
+                        <span class="text-caption">@permission.Action</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("PermissionType")</span>
+                        <span class="text-caption">@permission.PermissionType</span>
+                    </div>
+                    <div class="block-center mt-3 max-width">
+                        <MButton Color="error" OnClick="()=> Page.OpenDeleteAuthorizeDialog(permission.PermissionId)">
+                            @T("Cancel Authorization")
+                        </MButton>
+                    </div>
+                </MCol>
+            }
+        </MRow>
     </MCardText>
 </MCard>
 
@@ -193,16 +201,34 @@
     [Inject]
     public RoleDetailsPage Page { get; set; } = default!;
 
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
+
     [Parameter]
     public string? Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RegisterPage(Page);
+    }
 
     protected async override Task OnParametersSetAsync()
     {
         await Page.InitAsync(Id);
+        await MenuPage.GetAllMenus();
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (Id is null && Page.Detail.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
+    }
+
+    public string GetScopeName(AuthorizeItemResponse permission)
+    {
+        if (permission.ObjectType == ObjectType.Menu)
+        {
+            return string.Join(',', permission.Scope.Split(',').Select(s => MenuPage.AllDatas.FirstOrDefault(m => m.Code == s)?.Name ?? "")); 
+        }
+        else return permission.Scope;
     }
 }

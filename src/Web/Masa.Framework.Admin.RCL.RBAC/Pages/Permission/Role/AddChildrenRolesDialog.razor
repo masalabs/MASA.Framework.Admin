@@ -5,7 +5,7 @@
         <ChildContent>
             <MCard>
                 <div class="block-between pa-4">
-                    <span class="text-h6">@T("Add User")</span>
+                    <span class="text-h6">@T("Add Role")</span>
                     <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>UpdateVisible(false)">mdi-close</MIcon>
                 </div>
                 <MDivider></MDivider>
@@ -26,7 +26,7 @@
                         </MCol>
                         <MCol Class="pt-0" Style="height:480px;">
                             <div class="block-between my-2">
-                                <span>@T("Assign the following user access authorizations")</span>
+                                <span>@T("Inherit the following roles")</span>
                                 <div class="hover-pointer" style="color:blue" @onclick="() => DetailPage.SelectRoles.ForEach(r => r.Select = false)">@T("Clear")</div>
                             </div>
                             <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@DetailPage.SelectRoles.Where(r => r.Select).ToList()">

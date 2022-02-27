@@ -35,23 +35,12 @@
                     <MTextField @bind-Value="Page.Detail.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
                 </MCol>
                 <MCol>
-                    <MTextField @bind-Value="Page.Detail.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
+                    <MTextField @bind-Value="Page.Detail.Number" Disabled Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
                 </MCol>
             </MRow>
             <MRow>
                 <MCol>
-                    @*<MRadioGroup @bind-Value="Page.Detail.State" Label="@T("State")" Row Class="mb-6">
-                        <LabelContent>
-                            <div class="text-btn">@T("State")：</div>
-                        </LabelContent>
-                        <ChildContent>
-                            <MRadio Label="@T(State.Enable.ToString())" Value="State.Enable" />
-                            <MRadio Label="@T(State.Disabled.ToString())" Value="State.Disabled" />
-                        </ChildContent>
-                    </MRadioGroup>*@
-                </MCol>
-                <MCol>
-                    <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                   <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
                 </MCol>
             </MRow>
         </MCardText>
@@ -62,40 +51,40 @@
     <MCardText>
         <div class="block-between">
             <span class="text-btn neutral-lighten-1--text">@T("Inherited Role")</span>
-            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddChildRoleDialog = true">@T("Add Role")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddChildrenRolesDialog = true">@T("Add Role")</span>
         </div>
     </MCardText>
 
     <MDivider />
 
     <MCardText>
-       @* <MDataTable Items="Page.Detail.ChildrenRoles" TItem="KeyValuePair<Guid, string>" ItemsPerPage=100 HideDefaultFooter Class="user ml-2 table-border-none">
+        <MDataTable Items="Page.SelectRoles.Where(r => r.Select).ToList()" Headers="Page.ChildrenRoleHeaders" TItem="RoleItemResponse" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
             <HeaderColContent Context="header">
                 <span class="text-subtitle">@header.Text</span>
             </HeaderColContent>
             <ItemColContent>
                 @switch (context.Header.Value)
                 {
-                    case nameof(RoleDetailResponse.Name):
-                        @("")
+                    case nameof(RoleItemResponse.Name):
+                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.RolePage.NavigateToRoleDetails(context.Item)">
+                            <span style="color:blue">@context.Item.Name</span>
+                        </div>
                         break;
-                    case (nameof(RoleDetailResponse.CreationTime)):
-                        @("")
+                    case nameof(RoleItemResponse.Number):
+                         <span>@context.Item.Number</span>
                         break;
-                    case (nameof(RoleDetailResponse.Describe)):
-                        @("")
-                        break;
-                    case "Action":
-                        <MButton Color="error">
-                            @T("Delete")
-                        </MButton>
+                    case nameof(RoleItemResponse.CreationTime):
+                        <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                    break;
+                    case nameof(RoleItemResponse.Describe):
+                         <span>@context.Item.Describe</span>
                         break;
                     default:
                         @context.Value
                         break;
                 }
             </ItemColContent>
-        </MDataTable>*@
+        </MDataTable>
     </MCardText>
 </MCard>
 
@@ -184,7 +173,7 @@
 
 <AddUserRoleDialog @bind-Visible=Page.OpenAddUserRoleDialog />
 <AddAuthorize @bind-Visible=Page.OpenAddAuthorizeDialog />
-<AddChildRoleDialog @bind-Visible=Page.OpenAddChildRoleDialog />
+<AddChildrenRolesDialog @bind-Visible=Page.OpenAddChildrenRolesDialog />
 
 @code {
     [Inject]
@@ -193,9 +182,9 @@
     [Parameter]
     public string? Id { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnParametersSetAsync()
     {
-        await Page.QueryRoleById(Id);
+        await Page.InitAsync(Id);
     }
 
     protected override void OnAfterRender(bool firstRender)

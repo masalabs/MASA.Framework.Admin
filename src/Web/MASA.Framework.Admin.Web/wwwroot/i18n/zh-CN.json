@@ -102,5 +102,9 @@
   "Inherited Role": "已继承的角色",
   "Cancel Authorization": "取消授权",
   "Delete Menu": "删除菜单",
-  "Add First Level Menu": "添加一级菜单"
+  "Add First Level Menu": "添加一级菜单",
+  "Add children roles successfully": "添加子角色成功",
+  "Inherit the following roles": "继承以下角色",
+  "Clear": "清空",
+  "Assign the following user access authorizations": "分配下列用户访问授权"
 }

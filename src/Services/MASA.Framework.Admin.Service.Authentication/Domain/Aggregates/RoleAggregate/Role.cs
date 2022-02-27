@@ -39,7 +39,6 @@ public class Role : AuditAggregateRoot<Guid, Guid>
     public void SetInheritedRole(List<Guid>? roleIdList)
     {
         this.roleItems.Clear();
-
         if (roleIdList != null)
             this.roleItems.AddRange(roleIdList.Select(id => new RoleItem(id)));
     }

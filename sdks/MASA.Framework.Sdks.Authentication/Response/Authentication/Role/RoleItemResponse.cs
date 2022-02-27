@@ -18,5 +18,7 @@ public class RoleItemResponse
 
     public DateTime CreationTime { get; set; }
 
+    public bool Select { get; set; }
+
     public RoleItemResponse Copy() => (RoleItemResponse)MemberwiseClone();
 }

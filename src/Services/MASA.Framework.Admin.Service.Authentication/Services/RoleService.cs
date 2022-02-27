@@ -7,8 +7,10 @@ public class RoleService : ServiceBase
         App.MapGet(Routing.RoleList, GetItemsAsync);
         App.MapGet(Routing.RoleDetail, GetAsync);
         App.MapGet(Routing.RoleSelect, GetSelectListAsync);
+        App.MapGet(Routing.AllRoleItem, GetAllRoleItemAsync);
         App.MapGet(Routing.RoleListByIds, GetItemsByIdAsync);
         App.MapPost(Routing.OperateRole, CreateAsync);
+        App.MapPost(Routing.AddChildRoles, AddChildRolesAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
         App.MapDelete(Routing.OperateRole, DeleteAsync);
         App.MapDelete(Routing.RolePermission, DeleteRolePermissionAsync);
@@ -29,6 +31,13 @@ public class RoleService : ServiceBase
     private async Task<List<RoleItemResponse>> GetSelectListAsync([FromServices] IEventBus eventBus)
     {
         var query = new SelectQuery();
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
+    private async Task<List<RoleItemsResponse>> GetAllRoleItemAsync([FromServices] IEventBus eventBus)
+    {
+        var query = new AllRoleItemQuery();
         await eventBus.PublishAsync(query);
         return query.Result;
     }
@@ -54,6 +63,13 @@ public class RoleService : ServiceBase
     private async Task CreateAsync(
         [FromServices] IEventBus eventBus,
         [FromBody] AddRoleCommand command)
+    {
+        await eventBus.PublishAsync(command);
+    }
+
+    private async Task AddChildRolesAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] AddChildrenRolesCommand command)
     {
         await eventBus.PublishAsync(command);
     }

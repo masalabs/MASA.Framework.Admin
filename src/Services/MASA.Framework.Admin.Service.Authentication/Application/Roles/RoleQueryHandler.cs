@@ -75,22 +75,22 @@ public class RoleQueryHandler
     {
         query.Result =
             (from rolePermission in _dbContext.Set<RolePermission>().Include(rolePermission => rolePermission.Role)
-                where rolePermission.Role.Id == query.RoleId
-                join permission in _dbContext.Set<Permission>()
-                    on rolePermission.PermissionsId equals permission.Id
-                    into temp
-                from newPermissions in temp.DefaultIfEmpty()
-                select new AuthorizeItemResponse
-                {
-                    Id = rolePermission.Id,
-                    PermissionId = newPermissions.Id,
-                    PermissionName = newPermissions.Name,
-                    ObjectType = newPermissions.ObjectType,
-                    Resource = newPermissions.Resource,
-                    Scope = newPermissions.Scope,
-                    InheritanceRoleSource = rolePermission.Role.Name,
-                    PermissionType = newPermissions.PermissionType,
-                }).ToList();
+             where rolePermission.Role.Id == query.RoleId
+             join permission in _dbContext.Set<Permission>()
+                 on rolePermission.PermissionsId equals permission.Id
+                 into temp
+             from newPermissions in temp.DefaultIfEmpty()
+             select new AuthorizeItemResponse
+             {
+                 Id = rolePermission.Id,
+                 PermissionId = newPermissions.Id,
+                 PermissionName = newPermissions.Name,
+                 ObjectType = newPermissions.ObjectType,
+                 Resource = newPermissions.Resource,
+                 Scope = newPermissions.Scope,
+                 InheritanceRoleSource = rolePermission.Role.Name,
+                 PermissionType = newPermissions.PermissionType,
+             }).ToList();
         return Task.CompletedTask;
     }
 
@@ -108,6 +108,7 @@ public class RoleQueryHandler
             Number = role.Number,
             Enable = role.Enable,
             CreationTime = role.CreationTime,
+            ChildrenRoleIds = role.RoleItems.Select(roleItem => roleItem.RoleId).ToList(),
             Permissions = await GetPermissionAsync(role.Id)
         };
     }
@@ -119,23 +120,23 @@ public class RoleQueryHandler
         var permissions = await (from rolePermission in _dbContext.Set<RolePermission>()
                     .Include(rolePermission => rolePermission.Role)
                     .Where(rolePermission => allChildrenRoleIdList.Contains(rolePermission.Role.Id))
-                join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
-                    into temp
-                from newPermissions in temp.DefaultIfEmpty()
-                select new
-                {
-                    rolePermission.Id,
-                    PermissionId = newPermissions.Id,
-                    PermissionName = newPermissions.Name,
-                    newPermissions.ObjectType,
-                    newPermissions.Resource,
-                    newPermissions.Scope,
-                    InheritanceRoleId = rolePermission.Role.Id,
-                    InheritanceRoleSource = rolePermission.Role.Name,
-                    newPermissions.PermissionType,
-                    newPermissions.Enable,
-                    newPermissions.Action
-                })
+                                 join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
+                                     into temp
+                                 from newPermissions in temp.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     rolePermission.Id,
+                                     PermissionId = newPermissions.Id,
+                                     PermissionName = newPermissions.Name,
+                                     newPermissions.ObjectType,
+                                     newPermissions.Resource,
+                                     newPermissions.Scope,
+                                     InheritanceRoleId = rolePermission.Role.Id,
+                                     InheritanceRoleSource = rolePermission.Role.Name,
+                                     newPermissions.PermissionType,
+                                     newPermissions.Enable,
+                                     newPermissions.Action
+                                 })
             .ToListAsync();
         return permissions.Where(permission
                 => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public ||
@@ -319,6 +320,16 @@ public class RoleQueryHandler
             Name = role.Name,
             Describe = role.Describe,
         }).ToList();
+    }
+
+    [EventHandler]
+    public async Task GetAllRoleItemAsync(AllRoleItemQuery query)
+    {
+        query.Result = await _dbContext.Set<RoleItem>().Select(r => new RoleItemsResponse()
+        {
+            RoleId = r.RoleId,
+            ParentRoleId = r.Role.Id
+        }).ToListAsync();
     }
 
     [EventHandler]

@@ -17,6 +17,7 @@ public class UserServices : ServiceBase
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
         App.MapDelete(Routing.UserRole, RemoveUserRoleAsync);
+        App.MapPost(Routing.UserRoles, CreateUserRolesAsync);
         App.MapPost(Routing.UserGroup, CreateUserGroupAsync);
         App.MapDelete(Routing.UserGroup, RemoveUserGroupAsync);
         App.MapDelete(Routing.OperateUser, DeleteAsync);
@@ -110,6 +111,13 @@ public class UserServices : ServiceBase
         {
             Creator = creator
         });
+    }
+
+    public async Task CreateUserRolesAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] CreateUserRolesCommand command)
+    {
+        await eventBus.PublishAsync(command);
     }
 
     public async Task CreateUserGroupAsync(

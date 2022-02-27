@@ -10,12 +10,14 @@ public class CommandHandler
     readonly IUserRepository _userRepository;
     readonly LoginService _loginService;
     readonly IOptions<AppConfigOption> _options;
+    readonly DbContext _dbContext;
 
-    public CommandHandler(IUserRepository userRepository, IMemoryCache memoryCache, IOptions<AppConfigOption> options)
+    public CommandHandler(IUserRepository userRepository, UserDbContext dbContext, IMemoryCache memoryCache, IOptions<AppConfigOption> options)
     {
         _userRepository = userRepository;
         _loginService = new LoginService(memoryCache);
         _options = options;
+        _dbContext = dbContext;
     }
 
     [EventHandler]
@@ -51,6 +53,27 @@ public class CommandHandler
             throw new UserFriendlyException("userid not found");
         user.AddRole(createUserRoleCommand.UserRoleCreateRequest.RoleId);
         await _userRepository.UpdateAsync(user);
+    }
+
+    [EventHandler]
+    public async Task CreateUserRolesAsync(CreateUserRolesCommand command)
+    {
+        //var userRoles = command.UserIds.Select(id => new UserRole(command.RoleId) { User=new Domain.Aggregates.User(id) }).ToList();
+        ////await _dbContext.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM [user].user_roles WHERE role_id = CONVERT(uniqueidentifier,'{command.RoleId.ToString().ToUpper()}')");
+        //var deleteUserRoles = await _dbContext.Set<UserRole>().Where(ur => command.UserIds.Contains(ur.User.Id)).ToListAsync();
+        //_dbContext.Set<UserRole>().RemoveRange(deleteUserRoles);
+        //await _dbContext.Set<UserRole>().AddRangeAsync(userRoles);
+        string sql = $"DELETE FROM [user].user_roles WHERE role_id = '{command.RoleId}'";
+        await _dbContext.Database.ExecuteSqlRawAsync(sql);
+
+        foreach (var userId in command.UserIds)
+        {
+            await CreateUserRoleAsync(new CreateRoleCommand(new CreateUserRoleRequest()
+            {
+                UserId = userId,
+                RoleId = command.RoleId
+            }));
+        }
     }
 
     [EventHandler]

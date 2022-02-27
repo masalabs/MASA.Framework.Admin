@@ -109,6 +109,15 @@ public class UserCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponseBase> CreateUserRolesAsync(CreateUserRolesRequest request)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.PostAsync(Routing.UserRoles, request);
+            return response!;
+        });
+    }
+
     public async Task<ApiResultResponseBase> CreateUserGroupAsync(CreateUserGroupRequest createUserGroupRequest)
     {
         return await ResultAsync(async () =>

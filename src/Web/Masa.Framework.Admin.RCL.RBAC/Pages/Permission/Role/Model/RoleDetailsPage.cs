@@ -178,9 +178,13 @@ public class RoleDetailsPage : ComponentPageBase
         }
     }
 
-    public async Task UserRolesAsync()
+    public async Task AddUserRolesAsync()
     {
-        await Task.CompletedTask;
+        await UserCaller.CreateUserRolesAsync(new CreateUserRolesRequest
+        {
+            RoleId = Detail.Id,
+            UserIds = AllUsers.Where(u => u.Select).Select(u => u.Id).ToList()
+        });
     }
 
     public void NavigateToRoleDetails(UserItemResponse item)

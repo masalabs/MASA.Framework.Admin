@@ -20,7 +20,10 @@
                             <div class="hover-pointer pa-2" style="color:blue" @onclick="() => DetailPage.AllUsers.Where(u => u.Name?.Contains(_search ?? string.Empty) is true || u.Account.Contains(_search ?? string.Empty)).ForEach(u => u.Select = true)" >@T("All")</div>
                             <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@DetailPage.AllUsers.Where(u => !u.Select && (u.Name?.Contains(_search ?? string.Empty) is true || u.Account.Contains(_search ?? string.Empty))).ToList()">
                                 <ItemContent>
-                                    <div class="hover-pointer pa-2" style="color:blue" @onclick="() => context.Select = true" >@context.Name</div>
+                                     <div class="hover-pointer pa-2" @onclick="() => context.Select = true">
+                                         <div style="color:blue">@context.Account</div>
+                                         <div>@context.Name</div>
+                                     </div>
                                 </ItemContent>
                             </MVirtualScroll>
                         </MCol>
@@ -32,7 +35,10 @@
                             <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@DetailPage.AllUsers.Where(r => r.Select).ToList()">
                                 <ItemContent>                                   
                                     <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
-                                        <span class="text-btn neutral-lighten-1--text">@(context.Name)</span>
+                                        <div>
+                                            <div class="text-btn neutral-lighten-1--text">@(context.Account)</div>
+                                            <div>@context.Name</div>
+                                        </div>                                  
                                         <MIcon Color="neutral-lighten-3" Size=24 OnClick="() => context.Select = false">mdi-close</MIcon>
                                     </div>
                                 </ItemContent>
@@ -65,6 +71,11 @@
 
     private async Task UpdateVisible(bool visible)
     {
+        if(visible is false)
+        {
+            await DetailPage.GetAllUserAsync();
+            await DetailPage.GetUserListByRole();
+        }
         if (VisibleChanged.HasDelegate)
         {
             await VisibleChanged.InvokeAsync(visible);
@@ -72,14 +83,12 @@
         else
         {
             Visible = visible;
-        }
-        await DetailPage.GetAllUserAsync();
-        await DetailPage.GetUserListByRole();
+        }       
     }
 
     private async Task Submit()
     {
-        await DetailPage.UserRolesAsync();
+        await DetailPage.AddUserRolesAsync();
         await UpdateVisible(false);
     }
 }

@@ -19,7 +19,7 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
         Expression<Func<Role, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
-        return await _context.Set<Role>()
+        return await _context.Set<Role>().Where(predicate)
             .Include(role => role.RoleItems)
             .Include(role => role.Permissions)
             .ToListAsync(cancellationToken);

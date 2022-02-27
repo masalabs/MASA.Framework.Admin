@@ -6,11 +6,13 @@ public class QueryHandler
 {
     readonly IUserRepository _userRepository;
     readonly IMemoryCache _memoryCache;
+    readonly DbContext _dbContext;
 
-    public QueryHandler(IUserRepository userRepository, IMemoryCache memoryCache)
+    public QueryHandler(IUserRepository userRepository, UserDbContext dbContext, IMemoryCache memoryCache)
     {
         _memoryCache = memoryCache;
         _userRepository = userRepository;
+        _dbContext = dbContext;
     }
 
     [EventHandler]
@@ -61,6 +63,44 @@ public class QueryHandler
                 Gender = user.Gender,
                 LastLoginTime = user.LastLoginTime
             }));
+    }
+
+    [EventHandler]
+    public async Task GetAllUserAsync(AllUserQuery query)
+    {
+        var users = await _userRepository.GetListAsync();
+        query.Result = users.Select(user => new UserItemResponse()
+        {
+            Id = user.Id,
+            Account = user.Account,
+            Name = user.Name,
+            Email = user.Email,
+            State = Convert.ToInt32(user.Enable),
+            Cover = user.Cover,
+            Gender = user.Gender,
+            LastLoginTime = user.LastLoginTime
+        }).ToList();
+    }
+
+    [EventHandler]
+    public async Task GetUserListByRoleId(UserListByRoleQuery query)
+    {
+        query.Result =
+            await (from userRole in _dbContext.Set<UserRole>().Include(ur => ur.User)
+             where userRole.RoleId == query.roleId
+             join user in _dbContext.Set<Domain.Aggregates.User>()
+                 on userRole.User.Id equals user.Id
+             select new UserItemResponse
+             {
+                 Id = user.Id,
+                 Account = user.Account,
+                 Name = user.Name,
+                 Email = user.Email,
+                 State = Convert.ToInt32(user.Enable),
+                 Cover = user.Cover,
+                 Gender = user.Gender,
+                 LastLoginTime = user.LastLoginTime
+             }).ToListAsync();
     }
 
     [EventHandler]

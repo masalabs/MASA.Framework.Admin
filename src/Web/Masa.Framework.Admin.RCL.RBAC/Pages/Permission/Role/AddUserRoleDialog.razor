@@ -12,13 +12,13 @@
                 <MCardText Class="pb-3">
                     <MRow Class="mt-0">
                         <MCol Class="pt-0" Style="height:480px;border-right:solid 1px #e9edf7;">
-                            <MTextField @bind-Value="_roleSearch" Color="primary" Class="my-2 rounded-2" HideDetails="@("auto")" Flat Dense Solo Outlined Placeholder="@T("Search")">
+                            <MTextField @bind-Value="_search" Color="primary" Class="my-2 rounded-2" HideDetails="@("auto")" Flat Dense Solo Outlined Placeholder="@T("Search")">
                                 <PrependInnerContent>
                                     <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                                 </PrependInnerContent>
                             </MTextField>
-                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => DetailPage.SelectRoles.Where(r => r.Name.Contains(_roleSearch ?? string.Empty)).ForEach(r => r.Select = true)" >@T("All")</div>
-                            <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@DetailPage.SelectRoles.Where(r => !r.Select  && r.Name.Contains(_roleSearch ?? "")).ToList()">
+                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => DetailPage.AllUsers.Where(u => u.Name?.Contains(_search ?? string.Empty) is true || u.Account.Contains(_search ?? string.Empty)).ForEach(u => u.Select = true)" >@T("All")</div>
+                            <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@DetailPage.AllUsers.Where(u => !u.Select && (u.Name?.Contains(_search ?? string.Empty) is true || u.Account.Contains(_search ?? string.Empty))).ToList()">
                                 <ItemContent>
                                     <div class="hover-pointer pa-2" style="color:blue" @onclick="() => context.Select = true" >@context.Name</div>
                                 </ItemContent>
@@ -27,9 +27,9 @@
                         <MCol Class="pt-0" Style="height:480px;">
                             <div class="block-between my-2">
                                 <span>@T("Assign the following user access authorizations")</span>
-                                <div class="hover-pointer" style="color:blue" @onclick="() => DetailPage.SelectRoles.ForEach(r => r.Select = false)">@T("Clear")</div>
+                                <div class="hover-pointer" style="color:blue" @onclick="() => DetailPage.AllUsers.ForEach(r => r.Select = false)">@T("Clear")</div>
                             </div>
-                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@DetailPage.SelectRoles.Where(r => r.Select).ToList()">
+                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@DetailPage.AllUsers.Where(r => r.Select).ToList()">
                                 <ItemContent>                                   
                                     <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
                                         <span class="text-btn neutral-lighten-1--text">@(context.Name)</span>
@@ -61,7 +61,7 @@
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
 
-    string _roleSearch;
+    string _search;
 
     private async Task UpdateVisible(bool visible)
     {
@@ -73,13 +73,13 @@
         {
             Visible = visible;
         }
-        await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
-        await DetailPage.SelectRoleAsync();
+        await DetailPage.GetAllUserAsync();
+        await DetailPage.GetUserListByRole();
     }
 
     private async Task Submit()
     {
-        await DetailPage.AddChildrenRolesAsync();
+        await DetailPage.UserRolesAsync();
         await UpdateVisible(false);
     }
 }

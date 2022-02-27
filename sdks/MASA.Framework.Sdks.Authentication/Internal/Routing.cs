@@ -67,6 +67,10 @@ public class Routing
 
     public static string UserRole = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "role");
 
+    public static string AllUser = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "allUser");
+
+    public static string UserListByRole = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "userListByRole");
+
     public static string UserGroup = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "group");
 
     public static string UserStatistic = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "statistic");

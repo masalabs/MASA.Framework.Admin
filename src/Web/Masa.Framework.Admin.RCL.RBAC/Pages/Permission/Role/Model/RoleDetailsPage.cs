@@ -12,21 +12,25 @@ public class RoleDetailsPage : ComponentPageBase
 
     private AuthenticationCaller AuthenticationCaller { get; set; }
 
+    public UserCaller UserCaller { get; set; }
+
+    public List<UserItemResponse> AllUsers { get; set; } = new();
+
+    public List<UserItemResponse> SelectUsers { get; set; } = new();
+
     public RolePage RolePage { get; set; }
 
     public NavigationManager NavigationManager { get; set; }
 
-    public bool OpenAddUserRoleDialog { get; set; }
-
-    public UserCaller UserCaller { get; set; }
-
-    public List<UserSelect> UserSelect { get; set; } =new();
+    public bool OpenAddUserRoleDialog { get; set; } 
 
     public bool OpenAddAuthorizeDialog { get; set; }
 
     public bool OpenAddChildrenRolesDialog { get; set; }
 
     public List<DataTableHeader<RoleItemResponse>> ChildrenRoleHeaders { get; set; }
+
+    public List<DataTableHeader<UserItemResponse>> UserHeaders { get; set; }
 
     public RoleDetailsPage(AuthenticationCaller authenticationCaller, UserCaller userCaller, NavigationManager navigationManager, RolePage rolePage, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
@@ -42,14 +46,26 @@ public class RoleDetailsPage : ComponentPageBase
             new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
             new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
         };
-    }
+
+        UserHeaders = new()
+        {
+            new() { Text = i18n.T("Account"), Value = nameof(UserItemResponse.Account)},
+            new() { Text = i18n.T("Name"), Value = nameof(UserItemResponse.Name) },
+            new() { Text = i18n.T("Email"), Value = nameof(UserItemResponse.Email) },
+            new() { Text = i18n.T("State"), Value = nameof(UserItemResponse.State) },
+            new() { Text = i18n.T("LastLoginTime"), Value = nameof(UserItemResponse.LastLoginTime) },
+        };
+}
 
     public async Task InitAsync(string? roleId)
     {
+        Lodding = true;
         await QueryRoleById(roleId);
         await SelectAllRoleItemsAsync();
         await SelectRoleAsync();
-        await Task.CompletedTask;//userRole
+        await GetAllUserAsync();
+        await GetUserListByRole();
+        Lodding = false;
     }
 
     public async Task QueryRoleById(string? roleId)
@@ -65,7 +81,6 @@ public class RoleDetailsPage : ComponentPageBase
         else id = Guid.Parse(roleId);
 
         if (id is null) return;
-        Lodding = true;
         var result = await AuthenticationCaller.GetRoleDetailAsync(id.Value);
         if (result.Success)
         {
@@ -75,12 +90,10 @@ public class RoleDetailsPage : ComponentPageBase
         {
             OpenErrorMessage(result.Message);
         }
-        Lodding = false;
     }
 
     public async Task SelectRoleAsync()
     {
-        Lodding = true;
         var result = await AuthenticationCaller.SelectRoleAsync();
         if (result.Success)
         {
@@ -96,12 +109,10 @@ public class RoleDetailsPage : ComponentPageBase
         {
             OpenErrorMessage(result.Message);
         }
-        Lodding = false;
     }
 
     public async Task SelectAllRoleItemsAsync()
     {
-        Lodding = true;
         var result = await AuthenticationCaller.GetAllRoleItemAsync();
         if (result.Success)
         {
@@ -111,7 +122,6 @@ public class RoleDetailsPage : ComponentPageBase
         {
             OpenErrorMessage(result.Message);
         }
-        Lodding = false;
     }
 
     public async Task<bool> UpdateRoleInfoAsync(EditContext context)
@@ -135,6 +145,47 @@ public class RoleDetailsPage : ComponentPageBase
         var result = await AuthenticationCaller.AddChildrenRolesAsync(request);
         CheckApiResult(result, I18n.T("Add children roles successfully"), result.Message);
         Lodding = false;
+    }
+
+    public async Task GetAllUserAsync()
+    {
+        var result = await UserCaller.GetAllUserAsync();
+        if (result.Success)
+        {
+            AllUsers = result.Data ?? new();
+        }
+        else
+        {
+            OpenErrorMessage(result.Message);
+        }
+    }
+
+    public async Task GetUserListByRole()
+    {
+        var result = await UserCaller.GetUserListByRoleIdAsync(Detail.Id);
+        if (result.Success)
+        {
+            SelectUsers = result.Data ?? new();
+
+            AllUsers.ForEach(u =>
+            {
+                if (SelectUsers.Any(su => su.Id == u.Id)) u.Select = true;
+            });
+        }
+        else
+        {
+            OpenErrorMessage(result.Message);
+        }
+    }
+
+    public async Task UserRolesAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    public void NavigateToRoleDetails(UserItemResponse item)
+    {
+        NavigationManager.NavigateTo($"/user/view/{item.Id}");
     }
 
     void CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
@@ -178,14 +229,5 @@ public class RoleDetailsPage : ComponentPageBase
             return parentRoledLoop;
         }
     }
-}
-
-public class UserSelect
-{
-    public Guid UserId { get; set; }
-
-    public string UserName { get; set; } = "";
-
-    public bool Select { get; set; }
 }
 

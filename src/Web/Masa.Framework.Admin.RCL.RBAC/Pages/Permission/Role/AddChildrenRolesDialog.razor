@@ -65,6 +65,12 @@
 
     private async Task UpdateVisible(bool visible)
     {
+        if(visible == false)
+        {
+            await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
+            await DetailPage.SelectRoleAsync();
+        }
+
         if (VisibleChanged.HasDelegate)
         {
             await VisibleChanged.InvokeAsync(visible);
@@ -72,9 +78,7 @@
         else
         {
             Visible = visible;
-        }
-        await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
-        await DetailPage.SelectRoleAsync();
+        }    
     }
 
     private async Task Submit()

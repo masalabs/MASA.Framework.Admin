@@ -40,7 +40,7 @@
             </MRow>
             <MRow>
                 <MCol>
-                   <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                    <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
                 </MCol>
             </MRow>
         </MCardText>
@@ -71,13 +71,13 @@
                         </div>
                         break;
                     case nameof(RoleItemResponse.Number):
-                         <span>@context.Item.Number</span>
+                        <span>@context.Item.Number</span>
                         break;
                     case nameof(RoleItemResponse.CreationTime):
                         <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-                    break;
+                        break;
                     case nameof(RoleItemResponse.Describe):
-                         <span>@context.Item.Describe</span>
+                        <span>@context.Item.Describe</span>
                         break;
                     default:
                         @context.Value
@@ -99,33 +99,47 @@
     <MDivider />
 
     <MCardText>
-        @*<MDataTable Items="Page.Detail.ChildrenRoles" TItem="KeyValuePair<Guid, string>" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+        <MDataTable Items="Page.AllUsers.Where(u => u.Select).ToList()" TItem="UserItemResponse" Headers="Page.UserHeaders" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
             <HeaderColContent Context="header">
                 <span class="text-subtitle">@header.Text</span>
             </HeaderColContent>
             <ItemColContent>
                 @switch (context.Header.Value)
                 {
-                    case nameof(UserDetailResponse.Account):
-                        @("")
+                    case nameof(UserItemResponse.Account):
+                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToRoleDetails(context.Item)">
+                            <span style="color:blue">@context.Item.Account</span>
+                        </div>
                         break;
-                    case (nameof(UserDetailResponse.Name)):
-                        @("")
+                    case nameof(UserItemResponse.Name):
+                        <span>@context.Item.Name</span>
                         break;
-                    case (nameof(UserDetailResponse.CreationTime)):
-                        @("")
+                    case (nameof(UserItemResponse.Email)):
+                        <span>@context.Item.Email</span>
                         break;
-                    case "Action":
-                        <MButton Color="error">
-                            @T("Delete")
-                        </MButton>
+                    case (nameof(UserItemResponse.LastLoginTime)):
+                        @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                        break;
+                    case nameof(UserItemResponse.State):
+                        @if (context.Item.State == (int)State.Enable)
+                        {
+                            <MChip Color="green" TextColor="white" Ripple="false">
+                                <span>@T(State.Enable.ToString())</span>
+                            </MChip>
+                        }
+                        else
+                        {
+                            <MChip Color="gray" Ripple="false">
+                                <span>@T(State.Disabled.ToString())</span>
+                            </MChip>
+                        }
                         break;
                     default:
                         @context.Value
                         break;
                 }
             </ItemColContent>
-        </MDataTable>*@
+        </MDataTable>
     </MCardText>
 </MCard>
 
@@ -143,10 +157,10 @@
         @foreach (var permission in Page.Detail.Permissions)
         {
             <MCol Md=4 Style="background-color:rgb(248 249 251)">
-@*                <div class="mb-3 d-flex justify-space-between">
+                @*                <div class="mb-3 d-flex justify-space-between">
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("object")</span>
                     <span class="text-caption">@(ObjectDatas.FirstOrDefault(o =>o.Code == permission.ObjectCode)?.Name)</span>
-                </div>*@
+                    </div>*@
                 <div class="mb-3 d-flex justify-space-between">
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("ObjectIdentifies")</span>
                     <span class="text-caption">@permission.Scope</span>
@@ -161,7 +175,7 @@
                 </div>
                 <div class="mb-3 d-flex justify-space-between">
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("PermissionType")</span>
-               @*     <span class="text-caption">@permission.PermissionType</span>*@
+                    @*     <span class="text-caption">@permission.PermissionType</span>*@
                 </div>
                 <MButton>
                     @T("Cancel Authorization")

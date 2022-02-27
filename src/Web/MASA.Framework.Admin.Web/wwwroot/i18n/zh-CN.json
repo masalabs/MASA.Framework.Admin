@@ -130,10 +130,10 @@
   "RemoveUserRole": "撤销角色",
   "UserID": "用户 ID",
   "LastLoginTime": "最后登录时间",
-  "LastUpdateTime": "最后更新时间"
-  "Add First Level Menu": "添加一级菜单",
+  "LastUpdateTime": "最后更新时间",
   "Add children roles successfully": "添加子角色成功",
   "Inherit the following roles": "继承以下角色",
   "Clear": "清空",
-  "Assign the following user access authorizations": "分配下列用户访问授权"
+  "Assign the following user access authorizations": "分配下列用户访问授权",
+  "Name": "姓名"
 }

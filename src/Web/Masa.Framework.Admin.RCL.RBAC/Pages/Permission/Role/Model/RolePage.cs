@@ -144,16 +144,6 @@ public class RolePage : ComponentPageBase
         }
     }
 
-    //public async Task QueryAuthorizeItemsAsync()
-    //{
-    //    Lodding = true;
-    //    var result = await AuthenticationCaller.GetAuthorizeItemsAsync(CurrentData.Id);
-    //    Error = !result.Success;
-    //    Message = result.Message;
-    //    Lodding = false;
-    //    AuthorizeDatas = result.Data ?? new();
-    //}
-
     public void NavigateToRoleDetails(RoleItemResponse item)
     {
         CurrentData = item.Copy();

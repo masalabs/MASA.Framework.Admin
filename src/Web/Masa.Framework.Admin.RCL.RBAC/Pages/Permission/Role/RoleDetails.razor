@@ -226,6 +226,7 @@
     private async Task AddAuthorize(AuthorizeItemResponse data)
     {
          await Page.AddAuthorizeAsync(data);
+         await Page.QueryRoleById(Id);
     }
 
     public string GetScopeName(AuthorizeItemResponse permission)

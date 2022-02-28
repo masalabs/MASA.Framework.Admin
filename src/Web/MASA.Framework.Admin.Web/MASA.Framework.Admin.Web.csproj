@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\sdks\MASA.Framework.Sdks.Authentication\Masa.Framework.Sdks.Authentication.csproj" />
     <ProjectReference Include="..\Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj" />
   </ItemGroup>
 

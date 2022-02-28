@@ -1,4 +1,4 @@
-using MASA.Framework.Sdks.Authentication.Response.Configuration;
+using Masa.Framework.Sdks.Authentication.Response.Configuration;
 
 namespace Masa.Framework.Admin.Web.Base.Global;
 

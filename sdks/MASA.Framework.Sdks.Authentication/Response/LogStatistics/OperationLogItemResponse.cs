@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Response.LogStatistics
+namespace Masa.Framework.Sdks.Authentication.Response.LogStatistics
 {
     public class OperationLogItemResponse
     {

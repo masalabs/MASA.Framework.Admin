@@ -1,7 +1,7 @@
-using MASA.BuildingBlocks.DDD.Domain.Repositories;
-using MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
+using Masa.BuildingBlocks.Ddd.Domain.Repositories;
+using Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Domain.Repositories
+namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Repositories
 {
     public interface IVisitStatisticsRecordRepository : IRepository<VisitStatisticsRecord>
     {

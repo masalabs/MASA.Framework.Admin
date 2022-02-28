@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries;
 
 public record RolePermissionQuery(Guid RoleId) : Query<List<AuthorizeItemResponse>>
 {

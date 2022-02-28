@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Infrastructure.Configurations.Response;
+namespace Masa.Framework.Admin.Infrastructure.Configurations.Response;
 
 public class PaginatedItemResponse<TEntity> where TEntity : class
 {

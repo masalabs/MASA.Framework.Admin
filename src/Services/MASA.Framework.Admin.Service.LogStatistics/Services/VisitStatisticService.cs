@@ -1,8 +1,8 @@
-using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Queries;
-using MASA.Framework.Sdks.Authentication.Internal;
+using Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Queries;
+using Masa.Framework.Sdks.Authentication.Internal;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Services
+namespace Masa.Framework.Admin.Service.LogStatistics.Services
 {
     public class VisitStatisticService : ServiceBase
     {

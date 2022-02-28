@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Domain.Repositories;
+namespace Masa.Framework.Admin.Service.Authentication.Domain.Repositories;
 
 public interface IRoleRepository : IRepository<Role>
 {

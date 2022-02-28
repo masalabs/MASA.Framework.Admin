@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.EntityConfigurations;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.EntityConfigurations;
 
 public class RolePermissionEntityTypeConfiguration
     : IEntityTypeConfiguration<RolePermission>

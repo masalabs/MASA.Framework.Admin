@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Others.AccountSettings.Dto
+﻿namespace Masa.Framework.Admin.Web.Data.Others.AccountSettings.Dto
 {
     public class SocialDto
     {

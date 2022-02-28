@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication;
+﻿namespace Masa.Framework.Sdks.Authentication;
 
 public interface IClient
 {

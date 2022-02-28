@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
 
 public record AddPermissionCommand : CommandBase
 {
@@ -15,6 +15,8 @@ public record AddPermissionCommand : CommandBase
     public string Action { get; set; } = default!;
 
     public Guid? RoleId { get; set; }
+
+    public Guid? UserGroupId { get; set; }
 
     public PermissionType PermissionType { get; set; }
 }

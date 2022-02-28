@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MASA.Framework.Admin.Service.Authentications": {
+    "Masa.Framework.Admin.Service.Authentications": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

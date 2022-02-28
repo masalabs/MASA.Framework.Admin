@@ -1,8 +1,8 @@
-using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
+using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
 
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
-public partial class View
+public partial class UserView
 {
     private StringNumber _tab;
     private UserDetailResponse _userDetail = new();

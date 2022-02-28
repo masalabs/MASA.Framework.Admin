@@ -1,10 +1,8 @@
-using MASA.Framework.Admin.Service.User.Domain.Services;
-using MASA.Framework.Admin.Service.User.Infrastructure.Models;
+using Masa.Framework.Admin.Service.User.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
 
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Hub;
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Hub;
 
 [Authorize]
 public class LoginHub : Microsoft.AspNetCore.SignalR.Hub

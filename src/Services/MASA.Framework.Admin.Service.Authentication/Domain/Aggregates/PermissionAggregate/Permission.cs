@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate;
+namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate;
 
 public class Permission : AuditAggregateRoot<Guid, Guid>
 {

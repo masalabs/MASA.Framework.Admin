@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Services
+namespace Masa.Framework.Admin.Service.Authentication.Services
 {
     public class PermissionService : ServiceBase
     {
@@ -32,15 +32,15 @@ namespace MASA.Framework.Admin.Service.Authentication.Services
         }
 
         public async Task AddAsync(
-            [FromServices]IEventBus eventBus,
-            [FromBody]AddPermissionCommand command)
+            [FromServices] IEventBus eventBus,
+            [FromBody] AddPermissionCommand command)
         {
             await eventBus.PublishAsync(command);
         }
 
         public async Task EditAsync(
-            [FromServices]IEventBus eventBus,
-            [FromBody]EditPermissionCommand command)
+            [FromServices] IEventBus eventBus,
+            [FromBody] EditPermissionCommand command)
         {
             await eventBus.PublishAsync(command);
         }

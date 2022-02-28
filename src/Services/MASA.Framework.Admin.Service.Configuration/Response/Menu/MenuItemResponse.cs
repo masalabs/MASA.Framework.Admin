@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Configuration.Response.Menu;
+namespace Masa.Framework.Admin.Configuration.Response.Menu;
 
 public class MenuItemResponse
 {

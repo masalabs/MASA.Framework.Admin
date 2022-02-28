@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Dashboard.Analytics;
+﻿namespace Masa.Framework.Admin.Web.Data.Dashboard.Analytics;
 
 public static class AnalyticsService
 {

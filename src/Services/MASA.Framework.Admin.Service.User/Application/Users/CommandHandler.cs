@@ -1,9 +1,8 @@
-using MASA.Framework.Admin.Service.User.Domain.Services;
-using MASA.Utils.Security.Cryptography;
-using Microsoft.Extensions.Caching.Memory;
-using CreateCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
+using Masa.Framework.Admin.Service.User.Domain.Services;
+using Masa.Utils.Security.Cryptography;
+using CreateCommand = Masa.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
 
-namespace MASA.Framework.Admin.Service.User.Application.Users;
+namespace Masa.Framework.Admin.Service.User.Application.Users;
 
 public class CommandHandler
 {

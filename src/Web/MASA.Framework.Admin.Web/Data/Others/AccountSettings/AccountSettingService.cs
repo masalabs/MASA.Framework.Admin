@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Others.AccountSettings
+﻿namespace Masa.Framework.Admin.Web.Data.Others.AccountSettings
 {
     public static class AccountSettingService
     {

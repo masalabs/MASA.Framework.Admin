@@ -1,6 +1,6 @@
-using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
+using ListQuery = Masa.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
 
-namespace MASA.Framework.Admin.Service.User.Application.Users;
+namespace Masa.Framework.Admin.Service.User.Application.Users;
 
 public class QueryHandler
 {

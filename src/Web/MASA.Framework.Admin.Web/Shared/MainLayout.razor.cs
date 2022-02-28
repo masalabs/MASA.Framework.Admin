@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace MASA.Framework.Admin.Web.Shared
+namespace Masa.Framework.Admin.Web.Shared
 {
     public partial class MainLayout
     {

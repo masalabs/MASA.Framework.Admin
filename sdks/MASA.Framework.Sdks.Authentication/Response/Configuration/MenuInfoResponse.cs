@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Response.Configuration;
+﻿namespace Masa.Framework.Sdks.Authentication.Response.Configuration;
 
 public class MenuInfoResponse
 {

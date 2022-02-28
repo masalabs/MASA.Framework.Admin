@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.ECommerce.Dto;
+﻿namespace Masa.Framework.Admin.Web.Data.App.ECommerce.Dto;
 
 public class AddressDto
 {

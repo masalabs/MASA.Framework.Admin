@@ -1,7 +1,7 @@
-using MASA.Utils.Data.EntityFrameworkCore;
+using Masa.Utils.Data.EntityFrameworkCore;
 using System.Reflection;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure
 {
     public class LogStatisticsDbContext : IntegrationEventLogContext
     {

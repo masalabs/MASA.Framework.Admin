@@ -1,7 +1,7 @@
-using MASA.Framework.Admin.Infrastructure.Utils;
-using MASA.Utils.Security.Cryptography;
+using Masa.Framework.Admin.Infrastructure.Utils;
+using Masa.Utils.Security.Cryptography;
 
-namespace MASA.Framework.Admin.Service.User.Domain.Aggregates;
+namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
 public class User : AuditAggregateRoot<Guid, Guid>
 {
@@ -29,6 +29,10 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public IReadOnlyCollection<UserRole> UserRoles => userRoles;
 
+    private List<UserGroupItem> userGroups;
+
+    public IReadOnlyCollection<UserGroupItem> UserGroups => userGroups;
+
     private User()
     {
         Id = Guid.NewGuid();
@@ -36,6 +40,7 @@ public class User : AuditAggregateRoot<Guid, Guid>
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
         userRoles = new();
+        userGroups = new();
     }
 
     public User(Guid id)

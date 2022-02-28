@@ -1,6 +1,6 @@
-using MASA.Contrib.ReadWriteSpliting.CQRS.Commands;
+using Masa.Contrib.ReadWriteSpliting.Cqrs.Commands;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands
+namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands
 {
     public record UpdateHourStatisticsCommand(int UV, int PV, int IpCount) : Command
     {

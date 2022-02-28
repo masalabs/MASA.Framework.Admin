@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MASA.Framework.Admin.Service.Users": {
+    "Masa.Framework.Admin.Service.Users": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Application.Organizations.Queries;
+namespace Masa.Framework.Admin.Service.User.Application.Organizations.Queries;
 
 public record TreeQuery(Guid ParentId) : Query<List<DepartmentItemResponse>>
 {

@@ -15,32 +15,32 @@ services:
     image: ${DOCKER_REGISTRY-}masa-services-user
     build:
       context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.User/Dockerfile
+      dockerfile: src/Services/Masa.Framework.Admin.Service.User/Dockerfile
 
   masa.admin.services.configuration:
     image: ${DOCKER_REGISTRY-}masa-services-authentication
     build:
       context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.Configuration/Dockerfile
+      dockerfile: src/Services/Masa.Framework.Admin.Service.Configuration/Dockerfile
 
   masa.admin.services.authentication:
     image: ${DOCKER_REGISTRY-}masa-services-authentication
     build:
       context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.Authentication/Dockerfile
+      dockerfile: src/Services/Masa.Framework.Admin.Service.Authentication/Dockerfile
 
   masa.admin.web:
     image: ${DOCKER_REGISTRY-}masa-admin
     build:
       context: .
-      dockerfile: src/Web/MASA.Framework.Admin.Web/Dockerfile
+      dockerfile: src/Web/Masa.Framework.Admin.Web/Dockerfile
 
 
   masa.admin.service.logstatistics:
     image: ${DOCKER_REGISTRY-}masa-service-logstatistics
     build:
       context: .
-      dockerfile: src/Services/MASA.Framework.Admin.Service.LogStatistics/Dockerfile
+      dockerfile: src/Services/Masa.Framework.Admin.Service.LogStatistics/Dockerfile
 
   dapr-placement:
     image: "daprio/dapr:1.5.1"

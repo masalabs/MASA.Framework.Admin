@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Const
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Const
 {
     public class GroupNames
     {

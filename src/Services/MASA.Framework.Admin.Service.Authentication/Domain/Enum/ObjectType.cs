@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Domain.Enum;
+namespace Masa.Framework.Admin.Service.Authentication.Domain.Enum;
 
 public enum ObjectType
 {

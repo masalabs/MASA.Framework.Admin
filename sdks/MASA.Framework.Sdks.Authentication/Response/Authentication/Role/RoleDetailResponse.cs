@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Role;
+namespace Masa.Framework.Sdks.Authentication.Response.Authentication.Role;
 
 public class RoleDetailResponse : RoleItemResponse
 {

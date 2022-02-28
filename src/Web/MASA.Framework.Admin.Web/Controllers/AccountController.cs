@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MASA.Framework.Admin.Web.Controllers
+namespace Masa.Framework.Admin.Web.Controllers
 {
     [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
     public class AccountController : Controller

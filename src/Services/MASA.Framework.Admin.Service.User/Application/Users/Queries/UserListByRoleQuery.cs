@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Application.Users.Queries;
+namespace Masa.Framework.Admin.Service.User.Application.Users.Queries;
 
 public record UserListByRoleQuery(Guid roleId) : Query<List<UserItemResponse>>
 {

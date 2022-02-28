@@ -71,8 +71,6 @@
 <AddMenuDialog @bind-Visible=OpenAddMenuDialog SelectMenuCodes=@SelectMenuCodes SelectMenuCodesChanged=SelectMenuCodesChanged SelectMenuNamesChanged=SelectMenuNamesChanged />
 
 @code {
-    [Inject]
-    public RoleDetailsPage RoleDetailPage { get; set; } = default!;
 
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;
@@ -86,6 +84,9 @@
     public EventCallback<bool> VisibleChanged { get; set; } 
 
     public AuthorizeItemResponse AuthoriedData { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<AuthorizeItemResponse> ConfirmHandle { get; set; }
 
     public List<KeyValuePair<string, ObjectType>> ObjectTypeSelect => ComponentPageBase.GetEnumMap<ObjectType>();
 
@@ -136,7 +137,7 @@
     {
         if (context.Validate())
         {
-            await RoleDetailPage.AddAuthorizeAsync(AuthoriedData);
+            await ConfirmHandle.InvokeAsync(AuthoriedData);
             await UpdateVisible(false);
         }
     }

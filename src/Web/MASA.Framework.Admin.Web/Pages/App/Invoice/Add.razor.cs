@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Web.Pages.App.Invoice
+namespace Masa.Framework.Admin.Web.Pages.App.Invoice
 {
     public partial class Add : AdminCompontentBase
     {

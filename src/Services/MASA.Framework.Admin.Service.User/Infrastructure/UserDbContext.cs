@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace MASA.Framework.Admin.Service.User.Infrastructure;
+namespace Masa.Framework.Admin.Service.User.Infrastructure;
 
 public class UserDbContext : IntegrationEventLogContext
 {

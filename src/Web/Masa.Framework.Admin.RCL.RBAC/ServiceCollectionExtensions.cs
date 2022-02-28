@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<PermissionPage>();
             services.AddScoped<RolePage>();
             services.AddScoped<RoleDetailsPage>();
-            MASA.Framework.Sdks.Authentication.ServiceCollectionExtensions.AddAuthentication(services);
+            Masa.Framework.Sdks.Authentication.ServiceCollectionExtensions.AddAuthentication(services);
 
             return services;
         }

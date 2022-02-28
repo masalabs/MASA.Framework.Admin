@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Options;
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Options;
 
 public class AppConfigOption : MasaConfigurationOptions
 {

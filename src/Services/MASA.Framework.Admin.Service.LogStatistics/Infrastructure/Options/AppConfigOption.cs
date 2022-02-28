@@ -1,7 +1,7 @@
-using MASA.BuildingBlocks.Configuration;
-using MASA.Contrib.Configuration;
+using Masa.BuildingBlocks.Configuration;
+using Masa.Contrib.Configuration;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Options
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Options
 {
     public class AppConfigOption : MasaConfigurationOptions
     {

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations
+namespace Masa.Framework.Admin.Service.User.Infrastructure.EntityConfigurations
 {
     public class DepartmentEntityTypeConfiguration : IEntityTypeConfiguration<Department>
     {

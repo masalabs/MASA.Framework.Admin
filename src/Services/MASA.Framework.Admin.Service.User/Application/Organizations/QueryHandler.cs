@@ -1,6 +1,6 @@
-using MASA.Framework.Admin.Service.User.Domain.Aggregates;
+using Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
-namespace MASA.Framework.Admin.Service.User.Application.Organizations;
+namespace Masa.Framework.Admin.Service.User.Application.Organizations;
 
 public class QueryHandler
 {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.App.ECommerce.Shop
+﻿namespace Masa.Framework.Admin.Web.Pages.App.ECommerce.Shop
 {
     public partial class Shop : AdminCompontentBase
     {

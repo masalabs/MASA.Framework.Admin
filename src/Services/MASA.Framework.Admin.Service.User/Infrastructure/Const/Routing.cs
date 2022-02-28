@@ -1,6 +1,6 @@
-using UrlPre = MASA.Framework.Admin.Infrastructure.Configurations.Const.UrlRule;
+using UrlPre = Masa.Framework.Admin.Infrastructure.Configurations.Const.UrlRule;
 
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Const;
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Const;
 
 public class Routing
 {
@@ -33,12 +33,20 @@ public class Routing
 
     public static string GroupByUser = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_GROUP_SERVICE, "byuser");
 
+    public static string GroupUsers = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_GROUP_SERVICE, "users");
+
     public static string UserGroupSelect = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_GROUP_SERVICE, "select");
 
     public static string OperateDepartment = string.Format(UrlPre.DEFAULT_SERVICE, UrlRule.USER_DEPARTMENT_SERVICE);
 
     public static string DepartmentList = string.Format(UrlPre.DEFAULT_SERVICE_LIST, UrlRule.USER_DEPARTMENT_SERVICE);
 
-    public static string DepartmentUsers = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_DEPARTMENT_SERVICE,"users");
+    public static string DepartmentUsers = string.Format(UrlPre.DEFAULT_SERVICE_BASE, UrlRule.USER_DEPARTMENT_SERVICE, "users");
+
+    #region IntegrationEvent
+
+    public static readonly string GroupPermission = string.Format(UrlPre.DEFAULT_SERVICE, UrlRule.INTEGRATION_EVENT_SERVICE);
+
+    #endregion
 }
 

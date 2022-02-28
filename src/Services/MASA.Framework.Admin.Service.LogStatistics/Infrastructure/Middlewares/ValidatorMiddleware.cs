@@ -1,7 +1,7 @@
 using FluentValidation;
-using MASA.BuildingBlocks.Dispatcher.Events;
+using Masa.BuildingBlocks.Dispatcher.Events;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Middlewares
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Middlewares
 {
     public class ValidatorMiddleware<TEvent> : IMiddleware<TEvent>
      where TEvent : notnull, IEvent

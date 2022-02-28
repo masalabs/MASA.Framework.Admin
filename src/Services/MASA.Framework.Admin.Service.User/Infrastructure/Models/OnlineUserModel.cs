@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Models
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Models
 {
     public class OnlineUserModel
     {

@@ -1,6 +1,6 @@
-using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
+using Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.Statistics
+namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics
 {
     public class CommandHandler
     {

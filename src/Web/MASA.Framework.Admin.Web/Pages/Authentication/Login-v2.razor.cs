@@ -1,7 +1,7 @@
-using MASA.Framework.Admin.Web.Shared;
+using Masa.Framework.Admin.Web.Shared;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
-namespace MASA.Framework.Admin.Web.Pages.Authentication
+namespace Masa.Framework.Admin.Web.Pages.Authentication
 {
     public partial class Login_v2
     {

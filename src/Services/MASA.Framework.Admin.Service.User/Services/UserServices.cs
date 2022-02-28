@@ -1,7 +1,7 @@
-using CreateCommand = MASA.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
-using ListQuery = MASA.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
+using CreateCommand = Masa.Framework.Admin.Service.User.Application.Users.Commands.CreateCommand;
+using ListQuery = Masa.Framework.Admin.Service.User.Application.Users.Queries.ListQuery;
 
-namespace MASA.Framework.Admin.Service.User.Services;
+namespace Masa.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
 {
@@ -73,7 +73,7 @@ public class UserServices : ServiceBase
         return query.Result;
     }
 
-    public async Task<List<UserItemResponse>> GetUserListByRoleIdAsync([FromServices] IEventBus eventBus,[FromQuery] Guid roleId)
+    public async Task<List<UserItemResponse>> GetUserListByRoleIdAsync([FromServices] IEventBus eventBus, [FromQuery] Guid roleId)
     {
         var query = new UserListByRoleQuery(roleId);
         await eventBus.PublishAsync(query);

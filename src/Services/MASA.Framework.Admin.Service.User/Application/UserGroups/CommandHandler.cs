@@ -1,6 +1,6 @@
-using CreateCommand = MASA.Framework.Admin.Service.User.Application.UserGroups.Commands.CreateCommand;
+using CreateCommand = Masa.Framework.Admin.Service.User.Application.UserGroups.Commands.CreateCommand;
 
-namespace MASA.Framework.Admin.Service.User.Application.UserGroups
+namespace Masa.Framework.Admin.Service.User.Application.UserGroups
 {
     public class CommandHandler
     {
@@ -41,6 +41,18 @@ namespace MASA.Framework.Admin.Service.User.Application.UserGroups
                 throw new UserFriendlyException("usergroupid not found");
             }
             userGroupItem.RemoveUser(userGroupRequest.UserId);
+            await _userGroupRepository.UpdateAsync(userGroupItem);
+        }
+
+        [EventHandler]
+        public async Task CreateGroupPermissionAsync(CreateGroupPermissionCommand createGroupPermissionCommand)
+        {
+            var userGroupItem = await _userGroupRepository.GetByIdAsync(createGroupPermissionCommand.GroupId);
+            if (userGroupItem == null)
+            {
+                throw new UserFriendlyException("usergroupid not found");
+            }
+            userGroupItem.AddPermission(createGroupPermissionCommand.GroupId);
             await _userGroupRepository.UpdateAsync(userGroupItem);
         }
     }

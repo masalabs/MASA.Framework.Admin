@@ -1,6 +1,6 @@
-using CreateCommand = MASA.Framework.Admin.Service.User.Application.Organizations.Commands.CreateCommand;
+using CreateCommand = Masa.Framework.Admin.Service.User.Application.Organizations.Commands.CreateCommand;
 
-namespace MASA.Framework.Admin.Service.User.Services;
+namespace Masa.Framework.Admin.Service.User.Services;
 
 public class DepartmentService : ServiceBase
 {

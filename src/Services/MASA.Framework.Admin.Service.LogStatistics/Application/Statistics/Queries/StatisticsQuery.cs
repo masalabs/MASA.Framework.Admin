@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Queries
+namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Queries
 {
     public record StatisticsQuery(DateTime StartTime, DateTime EndTime, VisitStatisticType StatisticType) : Query<List<StatisticsQueryResponse>>
     {

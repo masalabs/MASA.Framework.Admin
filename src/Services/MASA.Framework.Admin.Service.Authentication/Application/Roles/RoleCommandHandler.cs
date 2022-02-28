@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class RoleCommandHandler
 {
@@ -25,10 +25,10 @@ public class RoleCommandHandler
     [EventHandler]
     public async Task AddAsync(AddRoleCommand command)
     {
-        if (await _repository.GetCountAsync(role => role.Name == command.Name)>0)
+        if (await _repository.GetCountAsync(role => role.Name == command.Name) > 0)
             throw new UserFriendlyException("The current role already exists");
 
-        var role = new Role(command.Creator, command.Name, command.Number,command.Describe);
+        var role = new Role(command.Creator, command.Name, command.Number, command.Describe);
         role.SetInheritedRole(command.ChildrenRoleIds);
         await _repository.AddAsync(role);
         await _domainService.AddRoleAsync(role);

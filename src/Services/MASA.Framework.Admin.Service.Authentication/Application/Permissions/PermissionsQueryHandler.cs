@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions;
 
 public class PermissionsQueryHandler
 {

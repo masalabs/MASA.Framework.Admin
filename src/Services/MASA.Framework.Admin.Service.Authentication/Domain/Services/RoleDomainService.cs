@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Domain.Services;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Domain.Services;
 
 public class RoleDomainService : DomainService
 {

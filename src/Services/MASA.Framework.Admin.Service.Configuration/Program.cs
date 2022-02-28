@@ -7,7 +7,7 @@ builder.AddMasaConfiguration(
 var serviceProvider = builder.Services.BuildServiceProvider()!;
 var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();
 if (appConfigOption.Value.EnableDapr)
-    builder.Services.AddDapr();
+    builder.Services.AddDaprStarter();
 
 var app = builder.Services.AddFluentValidation(options =>
     {
@@ -19,7 +19,7 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
         {
-            Title = "MASA.Framework.Admin - Configurations HTTP API",
+            Title = "Masa.Framework.Admin - Configurations HTTP API",
             Version = "v1",
             Description = "The Configurations Service HTTP API"
         });
@@ -55,7 +55,7 @@ app.UseMasaExceptionHandling(opt =>
     .UseSwagger()
     .UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
     });
 
 app.Run();

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Callers;
+namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public class UserGroupCaller : CallerBase
 {
@@ -55,12 +55,25 @@ public class UserGroupCaller : CallerBase
     public async Task<ApiResultResponse<List<UserGroupItemResponse>>> GetUserGroupsAsync(Guid userId)
     {
         var queryArguments = new Dictionary<string, string>()
-            {
-                { "userId", userId.ToString() }
-            };
+        {
+            { "userId", userId.ToString() }
+        };
         return await ResultAsync(async () =>
         {
             var response = await CallerProvider.GetAsync<List<UserGroupItemResponse>>(Routing.GroupByUser, queryArguments);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponse<List<UserItemResponse>>> GetUsersAsync(Guid groupId)
+    {
+        var queryArguments = new Dictionary<string, string>()
+        {
+            { "groupId", groupId.ToString() }
+        };
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.GroupUsers, queryArguments);
             return response!;
         });
     }

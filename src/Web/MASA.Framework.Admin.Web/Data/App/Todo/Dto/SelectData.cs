@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.Todo.Dto
+﻿namespace Masa.Framework.Admin.Web.Data.App.Todo.Dto
 {
     public class SelectData
     {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Base;
+﻿namespace Masa.Framework.Admin.Web.Data.Base;
 
 public class PagingData<TEntity> where TEntity : class
 {

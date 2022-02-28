@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Application.Organizations.Queries;
+namespace Masa.Framework.Admin.Service.User.Application.Organizations.Queries;
 
 public record DepartmentUserQuery(int PageIndex, int PageSize, Guid DepartmentId) : Query<PaginatedItemResponse<UserItemResponse>>
 {

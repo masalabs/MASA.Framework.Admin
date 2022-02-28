@@ -1,6 +1,6 @@
-using MASA.Contrib.Configuration;
-using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
-using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Options;
+using Masa.Contrib.Configuration;
+using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
+using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using Quartz;
 using Quartz.Impl;
@@ -25,7 +25,7 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
         {
-            Title = "MASA.Framework.Admin Logs - Users HTTP API",
+            Title = "Masa.Framework.Admin Logs - Users HTTP API",
             Version = "v1",
             Description = "The Users Service HTTP API"
         });
@@ -66,7 +66,7 @@ app.UseMasaExceptionHandling(opt =>
     .UseSwagger()
     .UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
     });
 
 

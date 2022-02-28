@@ -194,7 +194,7 @@
 </MCard>
 
 <AddUserRoleDialog @bind-Visible=Page.OpenAddUserRoleDialog />
-<AddAuthorize @bind-Visible=Page.OpenAddAuthorizeDialog />
+<AddAuthorize @bind-Visible=Page.OpenAddAuthorizeDialog ConfirmHandle="AddAuthorize"/>
 <AddChildrenRolesDialog @bind-Visible=Page.OpenAddChildrenRolesDialog />
 
 @code {
@@ -221,6 +221,11 @@
     protected override void OnAfterRender(bool firstRender)
     {
         if (Id is null && Page.Detail.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
+    }
+
+    private async Task AddAuthorize(AuthorizeItemResponse data)
+    {
+         await Page.AddAuthorizeAsync(data);
     }
 
     public string GetScopeName(AuthorizeItemResponse permission)

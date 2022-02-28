@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Web.Base.Shared;
+namespace Masa.Framework.Admin.Web.Base.Shared;
 
 public abstract class AdminCompontentBase : ComponentBase
 {

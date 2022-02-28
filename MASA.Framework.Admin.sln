@@ -12,41 +12,40 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FBFB499A-7022-4417-881B-68F63DBDB7F4}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\masa-framework-pubsub.yaml = dapr\components\masa-framework-pubsub.yaml
-		masa-framework-rabbitmq-pubsub.yaml = masa-framework-rabbitmq-pubsub.yaml
 		dapr\components\masa-framework-statestore.yaml = dapr\components\masa-framework-statestore.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F3986DD3-0372-4929-B72A-09D93196541E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Web", "src\Web\MASA.Framework.Admin.Web\MASA.Framework.Admin.Web.csproj", "{3F0181CA-BDF5-4F56-A664-0E82DFD2A8C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Web", "src\Web\MASA.Framework.Admin.Web\Masa.Framework.Admin.Web.csproj", "{3F0181CA-BDF5-4F56-A664-0E82DFD2A8C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{88AD0A79-5286-4C1C-8A58-AAC9E6870CCD}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{45004002-64DA-47F6-95F6-C6A0583E2FF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Contracts.Authentication", "src\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj", "{1E10FA90-8193-491E-B66C-9D9DD033B5AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Contracts.Authentication", "src\Contracts\MASA.Framework.Admin.Contracts.Authentication\Masa.Framework.Admin.Contracts.Authentication.csproj", "{1E10FA90-8193-491E-B66C-9D9DD033B5AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Authentication", "src\Services\MASA.Framework.Admin.Service.Authentication\MASA.Framework.Admin.Service.Authentication.csproj", "{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Service.Authentication", "src\Services\MASA.Framework.Admin.Service.Authentication\Masa.Framework.Admin.Service.Authentication.csproj", "{5A448B34-EFE0-4D8B-861D-3BE3848E0E90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.User", "src\Services\MASA.Framework.Admin.Service.User\MASA.Framework.Admin.Service.User.csproj", "{90976C98-6ECC-493B-BBCA-D001D5B034B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Service.User", "src\Services\MASA.Framework.Admin.Service.User\Masa.Framework.Admin.Service.User.csproj", "{90976C98-6ECC-493B-BBCA-D001D5B034B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.RCL.RBAC", "src\Web\Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj", "{B1F5A208-21A1-4D38-9FFB-89D272660809}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.Configuration", "src\Services\MASA.Framework.Admin.Service.Configuration\MASA.Framework.Admin.Service.Configuration.csproj", "{10918FA4-25B4-44FF-B8B2-6FFF12C6A744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Service.Configuration", "src\Services\MASA.Framework.Admin.Service.Configuration\Masa.Framework.Admin.Service.Configuration.csproj", "{10918FA4-25B4-44FF-B8B2-6FFF12C6A744}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Web.Base", "src\Web\MASA.Framework.Admin.Web.Base\MASA.Framework.Admin.Web.Base.csproj", "{AE66A1FB-26E3-47C0-8B9F-6879B0612B9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Web.Base", "src\Web\MASA.Framework.Admin.Web.Base\Masa.Framework.Admin.Web.Base.csproj", "{AE66A1FB-26E3-47C0-8B9F-6879B0612B9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D112D319-D505-4D84-A7B9-B94208034F92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructure.Configurations", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj", "{D3C28614-A595-456B-9790-BCF2C866FB78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Infrastructure.Configurations", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\Masa.Framework.Admin.Infrastructure.Configurations.csproj", "{D3C28614-A595-456B-9790-BCF2C866FB78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Infrastructure.Utils", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\MASA.Framework.Admin.Infrastructure.Utils.csproj", "{50A869ED-276E-42D8-ACE6-A68F4F2EB762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Infrastructure.Utils", "src\Infrastructure\MASA.Framework.Admin.Infrastructure.Utils\Masa.Framework.Admin.Infrastructure.Utils.csproj", "{50A869ED-276E-42D8-ACE6-A68F4F2EB762}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sdks", "sdks", "{762B846C-4C28-4B9C-9F2F-B91F725914DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Sdks.Authentication", "sdks\MASA.Framework.Sdks.Authentication\MASA.Framework.Sdks.Authentication.csproj", "{D4224385-DC0F-4E12-9252-DA81A5058C0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Sdks.Authentication", "sdks\MASA.Framework.Sdks.Authentication\Masa.Framework.Sdks.Authentication.csproj", "{D4224385-DC0F-4E12-9252-DA81A5058C0F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MASA.Framework.Admin.Service.LogStatistics", "src\Services\MASA.Framework.Admin.Service.LogStatistics\MASA.Framework.Admin.Service.LogStatistics.csproj", "{F7BC6FDE-1414-462C-BF5F-CB66DA986EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Framework.Admin.Service.LogStatistics", "src\Services\MASA.Framework.Admin.Service.LogStatistics\Masa.Framework.Admin.Service.LogStatistics.csproj", "{F7BC6FDE-1414-462C-BF5F-CB66DA986EE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

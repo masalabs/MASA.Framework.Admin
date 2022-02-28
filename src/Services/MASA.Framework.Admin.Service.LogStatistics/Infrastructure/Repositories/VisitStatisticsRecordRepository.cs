@@ -1,8 +1,8 @@
-using MASA.BuildingBlocks.Data.UoW;
-using MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
-using MASA.Framework.Admin.Service.LogStatistics.Domain.Repositories;
+using Masa.BuildingBlocks.Data.UoW;
+using Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
+using Masa.Framework.Admin.Service.LogStatistics.Domain.Repositories;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Repositories
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Repositories
 {
     public class VisitStatisticsRecordRepository : Repository<LogStatisticsDbContext, VisitStatisticsRecord>, IVisitStatisticsRecordRepository
     {

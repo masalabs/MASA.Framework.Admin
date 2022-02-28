@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.App.Todo
+﻿namespace Masa.Framework.Admin.Web.Pages.App.Todo
 {
     public partial class Todo
     {

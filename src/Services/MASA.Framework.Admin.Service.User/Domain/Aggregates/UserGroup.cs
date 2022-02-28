@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
+namespace Masa.Framework.Admin.Service.User.Domain.Aggregates
 {
     public class UserGroup : AuditAggregateRoot<Guid, Guid>
     {
@@ -11,6 +11,10 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
         private List<UserGroupItem> userGroupItems = new();
 
         public IReadOnlyCollection<UserGroupItem> UserGroupItems => userGroupItems;
+
+        private List<UserGroupPermission> userGroupPermissions = new();
+
+        public IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
 
         private UserGroup()
         {
@@ -37,6 +41,22 @@ namespace MASA.Framework.Admin.Service.User.Domain.Aggregates
             if (userGroupItems.Any(r => r.UserId == userId))
             {
                 userGroupItems.RemoveAll(r => r.UserId == userId);
+            }
+        }
+
+        public void AddPermission(Guid permissionId)
+        {
+            if (!userGroupPermissions.Any(r => r.PermissionId == permissionId))
+            {
+                userGroupPermissions.Add(new UserGroupPermission(permissionId));
+            }
+        }
+
+        public void RemovePermission(Guid permissionId)
+        {
+            if (userGroupPermissions.Any(r => r.PermissionId == permissionId))
+            {
+                userGroupPermissions.RemoveAll(r => r.PermissionId == permissionId);
             }
         }
     }

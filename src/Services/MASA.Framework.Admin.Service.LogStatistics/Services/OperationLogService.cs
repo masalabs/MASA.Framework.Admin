@@ -1,8 +1,8 @@
-using MASA.Framework.Sdks.Authentication.Internal;
-using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
+using Masa.Framework.Sdks.Authentication.Internal;
+using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Services
+namespace Masa.Framework.Admin.Service.LogStatistics.Services
 {
     public class OperationLogService : ServiceBase
     {

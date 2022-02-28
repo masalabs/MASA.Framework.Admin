@@ -1,6 +1,6 @@
-using MASA.Framework.Admin.Infrastructure.Configurations.Const;
+using Masa.Framework.Admin.Infrastructure.Configurations.Const;
 
-namespace MASA.Framework.Sdks.Authentication.Internal;
+namespace Masa.Framework.Sdks.Authentication.Internal;
 
 public class Routing
 {
@@ -87,13 +87,15 @@ public class Routing
 
     public static string GroupByUser = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "byuser");
 
+    public static string GroupUsers = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "users");
+
     public static string UserGroupSelect = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "select");
 
     public static string OperateDepartment = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_DEPARTMENT_SERVICE);
 
     public static string DepartmentList = string.Format(UrlRule.DEFAULT_SERVICE_LIST, Const.UrlRule.USER_DEPARTMENT_SERVICE);
 
-    public static string DepartmentUsers = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_DEPARTMENT_SERVICE,"users");
+    public static string DepartmentUsers = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_DEPARTMENT_SERVICE, "users");
 
     #endregion
 

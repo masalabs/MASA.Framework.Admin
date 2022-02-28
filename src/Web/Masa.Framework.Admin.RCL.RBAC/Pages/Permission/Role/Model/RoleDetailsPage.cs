@@ -22,7 +22,7 @@ public class RoleDetailsPage : ComponentPageBase
 
     public NavigationManager NavigationManager { get; set; }
 
-    public bool OpenAddUserRoleDialog { get; set; } 
+    public bool OpenAddUserRoleDialog { get; set; }
 
     public bool OpenAddAuthorizeDialog { get; set; }
 
@@ -51,13 +51,13 @@ public class RoleDetailsPage : ComponentPageBase
 
         UserHeaders = new()
         {
-            new() { Text = i18n.T("Account"), Value = nameof(UserItemResponse.Account)},
+            new() { Text = i18n.T("Account"), Value = nameof(UserItemResponse.Account) },
             new() { Text = i18n.T("Name"), Value = nameof(UserItemResponse.Name) },
             new() { Text = i18n.T("Email"), Value = nameof(UserItemResponse.Email) },
             new() { Text = i18n.T("State"), Value = nameof(UserItemResponse.State) },
             new() { Text = i18n.T("LastLoginTime"), Value = nameof(UserItemResponse.LastLoginTime) },
         };
-}
+    }
 
     public async Task InitAsync(string? roleId)
     {
@@ -86,7 +86,7 @@ public class RoleDetailsPage : ComponentPageBase
         var result = await AuthenticationCaller.GetRoleDetailAsync(id.Value);
         if (result.Success)
         {
-            Detail = result.Data ?? new();          
+            Detail = result.Data ?? new();
         }
         else
         {
@@ -100,7 +100,7 @@ public class RoleDetailsPage : ComponentPageBase
         if (result.Success)
         {
             AllRoles = result.Data ?? new();
-            foreach(var role in AllRoles)
+            foreach (var role in AllRoles)
             {
                 role.Select = false;
                 if (Detail.ChildrenRoleIds.Contains(role.Id)) role.Select = true;
@@ -188,7 +188,7 @@ public class RoleDetailsPage : ComponentPageBase
             UserIds = AllUsers.Where(u => u.Select).Select(u => u.Id).ToList()
         });
 
-        CheckApiResult(result,I18n.T("Add User Successful"),result.Message);
+        CheckApiResult(result, I18n.T("Add User Successful"), result.Message);
     }
 
     public async Task AddAuthorizeAsync(AuthorizeItemResponse authoriedData)
@@ -205,9 +205,9 @@ public class RoleDetailsPage : ComponentPageBase
             Action = authoriedData.Action,
         };
         var result = await AuthenticationCaller.AddPermissionAsync(permission);
-        if(result.Success)
+        if (result.Success)
         {
-            result =await AuthenticationCaller.AddRolePermissionAsync(new AddRolePermissionRequest(permission.PermissionId, Detail.Id));
+            //result =await AuthenticationCaller.AddRolePermissionAsync(new AddRolePermissionRequest(permission.PermissionId, Detail.Id));
         }
         CheckApiResult(result, I18n.T("Add Authorize Successful"), result.Message);
         Lodding = false;
@@ -226,7 +226,7 @@ public class RoleDetailsPage : ComponentPageBase
         Lodding = true;
         var result = await AuthenticationCaller.DeleteRolePermissionAsync(new DeleteRolePermissionRequest(Detail.Id, permissionId));
         CheckApiResult(result, I18n.T("Cancel Authorize Successful"), result.Message);
-        if(result.Success)
+        if (result.Success)
         {
             await QueryRoleById(Detail.Id.ToString());
         }
@@ -251,13 +251,13 @@ public class RoleDetailsPage : ComponentPageBase
     {
         var childRoles = GetChildRoledLoop(Detail.Id);
         var parentRoles = GetParentRoledLoop(Detail.Id);
-        SelectRoles = AllRoles.Where(r => Detail.ChildrenRoleIds.Contains(r.Id) ||(!childRoles.Any(cr => cr == r.Id) && !parentRoles.Any(pr => pr == r.Id))).ToList();      
+        SelectRoles = AllRoles.Where(r => Detail.ChildrenRoleIds.Contains(r.Id) || (!childRoles.Any(cr => cr == r.Id) && !parentRoles.Any(pr => pr == r.Id))).ToList();
 
         List<Guid> GetChildRoledLoop(Guid roleId)
         {
             var childRoledLoop = new List<Guid>();
             var childRoleds = AllRoleItems.Where(r => r.ParentRoleId == roleId).Select(r => r.RoleId);
-            foreach(var child in childRoleds)
+            foreach (var child in childRoleds)
             {
                 childRoledLoop.AddRange(GetChildRoledLoop(child));
             }

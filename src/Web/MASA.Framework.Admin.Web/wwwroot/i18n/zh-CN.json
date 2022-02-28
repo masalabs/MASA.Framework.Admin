@@ -141,5 +141,6 @@
   "Add User Successful": "添加用户成功",
   "Add Authorize Successful": "添加授权成功",
   "Api": "接口",
-  "Cancel Authorize Successful": "取消授权成功"
+  "Cancel Authorize Successful": "取消授权成功",
+  "RemoveUser": "移除用户"
 }

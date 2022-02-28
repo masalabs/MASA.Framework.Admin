@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Shared
+﻿namespace Masa.Framework.Admin.Web.Shared
 {
     public partial class Favorite
     {

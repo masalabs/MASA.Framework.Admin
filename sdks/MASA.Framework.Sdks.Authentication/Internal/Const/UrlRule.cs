@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Internal.Const;
+namespace Masa.Framework.Sdks.Authentication.Internal.Const;
 
 public class UrlRule
 {

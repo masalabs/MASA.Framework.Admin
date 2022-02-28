@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Response.Role;
+namespace Masa.Framework.Admin.Service.Authentication.Response.Role;
 
 public class RoleItemsResponse
 {

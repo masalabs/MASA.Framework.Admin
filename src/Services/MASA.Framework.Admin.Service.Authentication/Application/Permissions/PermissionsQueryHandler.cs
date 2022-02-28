@@ -1,3 +1,5 @@
+using IdListQuery = Masa.Framework.Admin.Service.Authentication.Application.Permissions.Queries.IdListQuery;
+
 namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions;
 
 public class PermissionsQueryHandler
@@ -48,7 +50,7 @@ public class PermissionsQueryHandler
     [EventHandler]
     public async Task GetDetailAsync(PermissionDetailQuery query)
     {
-        var permission =await _repository.FindAsync(query.PermissionId);
+        var permission = await _repository.FindAsync(query.PermissionId);
         if (permission == null)
             throw new UserFriendlyException("permission information does not exist");
 
@@ -62,5 +64,19 @@ public class PermissionsQueryHandler
             Action = permission.Action,
             PermissionType = permission.PermissionType,
         };
+    }
+
+    [EventHandler]
+    public async Task GetPermissionListByIdQuery(IdListQuery query)
+    {
+        query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id)))
+            .Select(role => new PermissionItemResponse
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Action = role.Action,
+                Resource = role.Resource,
+                Enable = role.Enable,
+            }).ToList();
     }
 }

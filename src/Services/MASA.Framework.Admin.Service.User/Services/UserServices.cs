@@ -13,6 +13,7 @@ public class UserServices : ServiceBase
         App.MapGet(Routing.UserDetail, GetAsync);
         App.MapGet(Routing.UserRole, GetUserRolesAsync);
         App.MapGet(Routing.AllUser, GetAllUserAsync);
+        App.MapGet(Routing.UserWithDepartment, GetDepartmentUserAsync);
         App.MapGet(Routing.UserListByRole, GetUserListByRoleIdAsync);
         App.MapPost(Routing.OperateUser, CreateAsync);
         App.MapPost(Routing.UserRole, CreateUserRoleAsync);
@@ -69,6 +70,14 @@ public class UserServices : ServiceBase
         [FromServices] IEventBus eventBus)
     {
         var query = new AllUserQuery();
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
+    public async Task<List<UserItemResponse>> GetDepartmentUserAsync(
+        [FromServices] IEventBus eventBus, [FromQuery] Guid departmentId, [FromQuery] bool all)
+    {
+        var query = new DepartmentUserQuery(departmentId, all);
         await eventBus.PublishAsync(query);
         return query.Result;
     }

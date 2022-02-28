@@ -1,3 +1,5 @@
+using IdListQuery = Masa.Framework.Admin.Service.Authentication.Application.Permissions.Queries.IdListQuery;
+
 namespace Masa.Framework.Admin.Service.Authentication.Services
 {
     public class PermissionService : ServiceBase
@@ -6,6 +8,7 @@ namespace Masa.Framework.Admin.Service.Authentication.Services
         {
             App.MapGet(Routing.PermissionList, GetItemsAsync);
             App.MapGet(Routing.OperatePermission, GetDetailAsync);
+            App.MapGet(Routing.PermissionListByIds, GetItemsByIdAsync);
             App.MapPost(Routing.OperatePermission, AddAsync);
             App.MapPut(Routing.OperatePermission, EditAsync);
         }
@@ -27,6 +30,15 @@ namespace Masa.Framework.Admin.Service.Authentication.Services
             [FromQuery] Guid id)
         {
             var query = new PermissionDetailQuery(id);
+            await eventBus.PublishAsync(query);
+            return query.Result;
+        }
+
+        private async Task<List<PermissionItemResponse>> GetItemsByIdAsync(
+       [FromServices] IEventBus eventBus,
+       [FromQuery] string permissionIds)
+        {
+            var query = new IdListQuery(JsonSerializer.Deserialize<List<Guid>>(permissionIds) ?? new());
             await eventBus.PublishAsync(query);
             return query.Result;
         }

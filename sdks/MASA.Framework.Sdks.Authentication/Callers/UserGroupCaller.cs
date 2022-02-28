@@ -96,5 +96,28 @@ public class UserGroupCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponse<List<Guid>>> GetPermissionIdsAsync(Guid groupId)
+    {
+        var queryArguments = new Dictionary<string, string?>()
+        {
+            { "groupId", groupId.ToString() }
+        };
+
+        return await ResultAsync(async () =>
+        {
+            var url = QueryHelpers.AddQueryString(Routing.UserGroupPermissions, queryArguments);
+            var response = await CallerProvider.GetAsync<List<Guid>>(url);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponseBase> RemovePermissionAsync(RemoveGroupPermissionRequest removeGroupPermissionRequest)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.DeleteAsync(Routing.GroupPermission, removeGroupPermissionRequest);
+            return response!;
+        });
+    }
 }
 

@@ -52,8 +52,22 @@ namespace Masa.Framework.Admin.Service.User.Application.UserGroups
             {
                 throw new UserFriendlyException("usergroupid not found");
             }
-            userGroupItem.AddPermission(createGroupPermissionCommand.GroupId);
+            userGroupItem.AddPermission(createGroupPermissionCommand.PermissionId);
             await _userGroupRepository.UpdateAsync(userGroupItem);
         }
+
+        [EventHandler]
+        public async Task RemovePermissionAsync(RemovePermissionCommand removeUserRoleCommand)
+        {
+            var userPermissionRequest = removeUserRoleCommand.RemoveGroupPermissionRequest;
+            var userGroup = await _userGroupRepository.GetByIdAsync(userPermissionRequest.UserGroupId);
+            if (userGroup == null)
+            {
+                throw new UserFriendlyException("usergroupid not found");
+            }
+            userGroup.RemovePermission(userPermissionRequest.PermissionId);
+            await _userGroupRepository.UpdateAsync(userGroup);
+        }
+
     }
 }

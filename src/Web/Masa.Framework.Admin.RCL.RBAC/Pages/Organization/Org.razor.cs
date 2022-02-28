@@ -2,9 +2,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
 {
     public partial class Org
     {
-        bool _addOrgDialog,_addDepartmentUserDialog;
+        bool _addOrgDialog, _addDepartmentUserDialog;
         List<Guid> _active = new List<Guid>();
-        private PaginationPage<UserItemResponse> _pageData = new();
+        PaginationPage<UserItemResponse> _pageData = new();
+        List<UserItemResponse> _departmentUsers = new();
         List<DepartmentItemResponse> _departments = new();
         CreateDepartmentRequest _createDepartment = new();
         DepartmentItemResponse _currentDepartment = new();
@@ -21,7 +22,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
         public Guid OrgId { get; set; } = Guid.Empty;
 
         [Inject]
-        public OrganizationCaller OrganizationCaller { get; set; }
+        public OrganizationCaller OrganizationCaller { get; set; } = null!;
+
+        [Inject]
+        public UserCaller UserCaller { get; set; } = null!;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -43,11 +47,12 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
             }
         }
 
-        private async Task OpenAddDialog(Guid parentId,string parentName)
+        private async Task OpenAddDialog(Guid parentId, string parentName)
         {
-            _createDepartment = new() {
+            _createDepartment = new()
+            {
                 ParentId = parentId,
-                ParentName= parentName
+                ParentName = parentName
             };
             _addOrgDialog = true;
         }
@@ -55,7 +60,7 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
         private async Task AddDepartment()
         {
             var res = await OrganizationCaller.CreateAsync(_createDepartment);
-            
+
             if (res.Success)
             {
                 _addOrgDialog = false;
@@ -66,17 +71,20 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
         private async Task LoadDepartUser(DepartmentItemResponse departmentItem)
         {
             _currentDepartment = departmentItem;
-            var res = await OrganizationCaller.GetDepartmentUsersAsync(_pageData.PageIndex, _pageData.PageSize,departmentItem.Id);
-            if (res.Success && res.Data!=null)
+            var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartment.Id, true);
+            if (res.Success && res.Data != null)
             {
-                _pageData.PageData = res.Data.Items.ToList();
-                _pageData.CurrentCount = res.Data.Count;
+                _departmentUsers = res.Data;
             }
         }
 
         private async Task OpenDepartmentUserDialog()
         {
-
+            //var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartment.Id, true);
+            //if (res.Success && res.Data != null)
+            //{
+            //    _departmentUsers = res.Data;
+            //}
         }
     }
 }

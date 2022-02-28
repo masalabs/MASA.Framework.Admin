@@ -21,6 +21,7 @@ namespace Masa.Framework.Admin.Service.User.Infrastructure.EntityConfigurations
             builder.Property(depart => depart.ModificationTime).HasColumnName("modifier_time").IsRequired();
 
             builder.HasMany(ug => ug.UserGroupItems).WithOne(ugi => ugi.UserGroup);
+            builder.HasMany(ug => ug.UserGroupPermissions).WithOne(ugp => ugp.UserGroup);
         }
     }
 }

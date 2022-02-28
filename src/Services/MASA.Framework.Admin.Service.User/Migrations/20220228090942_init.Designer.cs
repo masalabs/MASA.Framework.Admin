@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Masa.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220228020903_init")]
+    [Migration("20220228090942_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,7 +301,30 @@ namespace Masa.Framework.Admin.Service.User.Migrations
 
                     b.HasIndex("UserGroupId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("user_group_items", "user");
+                });
+
+            modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.UserGroupPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("permission_id");
+
+                    b.Property<Guid>("UserGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserGroupId");
+
+                    b.ToTable("user_group_permissions", "user");
                 });
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.UserRole", b =>
@@ -352,6 +375,25 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", "User")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserGroup");
+                });
+
+            modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.UserGroupPermission", b =>
+                {
+                    b.HasOne("Masa.Framework.Admin.Service.User.Domain.Aggregates.UserGroup", "UserGroup")
+                        .WithMany("UserGroupPermissions")
+                        .HasForeignKey("UserGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("UserGroup");
                 });
 
@@ -373,12 +415,16 @@ namespace Masa.Framework.Admin.Service.User.Migrations
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
+                    b.Navigation("UserGroups");
+
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.UserGroup", b =>
                 {
                     b.Navigation("UserGroupItems");
+
+                    b.Navigation("UserGroupPermissions");
                 });
 #pragma warning restore 612, 618
         }

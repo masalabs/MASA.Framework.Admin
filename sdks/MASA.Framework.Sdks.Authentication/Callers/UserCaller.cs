@@ -139,6 +139,20 @@ public class UserCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponse<List<UserItemResponse>>> GetUsersWithDepartmentAsync(Guid departmentId, bool all = false)
+    {
+        var queryArguments = new Dictionary<string, string>()
+        {
+            { "departmentId", departmentId.ToString() },
+            { "all", all.ToString() }
+        };
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.UserWithDepartment, queryArguments);
+            return response!;
+        });
+    }
+
     public async Task<ApiResultResponseBase> DeleteAsync(string id)
     {
         return await ResultAsync(async () =>

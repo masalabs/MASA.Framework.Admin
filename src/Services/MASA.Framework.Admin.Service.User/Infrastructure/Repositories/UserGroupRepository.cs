@@ -9,7 +9,7 @@ namespace Masa.Framework.Admin.Service.User.Infrastructure.Repositories
 
         public async Task<UserGroup?> GetByIdAsync(Guid Id)
         {
-            return await _context.Set<UserGroup>().Where(a => a.Id == Id)
+            return await _context.Set<UserGroup>().Where(a => a.Id == Id).Include(u => u.UserGroupPermissions)
                 .Include(b => b.UserGroupItems).ThenInclude(u => u.User).FirstOrDefaultAsync();
         }
     }

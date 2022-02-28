@@ -33,6 +33,10 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public IReadOnlyCollection<UserGroupItem> UserGroups => userGroups;
 
+    private List<DepartmentUser> departmentUsers = new List<DepartmentUser>();
+
+    public IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
+
     private User()
     {
         Id = Guid.NewGuid();

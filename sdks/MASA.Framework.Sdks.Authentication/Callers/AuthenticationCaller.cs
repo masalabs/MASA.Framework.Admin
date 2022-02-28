@@ -123,5 +123,17 @@ public class AuthenticationCaller : CallerBase
     {
         return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.OperatePermission, request));
     }
+
+    public async Task<ApiResultResponse<List<PermissionItemResponse>>> GetPermissionsByIds(List<Guid> permissionIds)
+    {
+        return (await ResultAsync(async () =>
+        {
+            var queryArguments = new Dictionary<string, string?>()
+            {
+                { "permissionIds", JsonSerializer.Serialize(permissionIds) }
+            };
+            return await CallerProvider.GetAsync<List<PermissionItemResponse>>(Routing.PermissionListByIds, queryArguments!);
+        }))!;
+    }
     #endregion
 }

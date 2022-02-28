@@ -11,6 +11,7 @@ public class RoleService : ServiceBase
         App.MapGet(Routing.RoleSelect, GetSelectListAsync);
         App.MapGet(Routing.AllRoleItem, GetAllRoleItemAsync);
         App.MapGet(Routing.RoleListByIds, GetItemsByIdAsync);
+        App.MapGet(Routing.PermissionsByRoles, GetPermissionsByRolesAsync);
         App.MapPost(Routing.OperateRole, CreateAsync);
         App.MapPost(Routing.AddChildRoles, AddChildRolesAsync);
         App.MapPut(Routing.OperateRole, EditAsync);
@@ -51,6 +52,15 @@ public class RoleService : ServiceBase
         [FromQuery] string roleIds)
     {
         var query = new IdListQuery(JsonSerializer.Deserialize<List<Guid>>(roleIds) ?? new());
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
+    private async Task<List<AuthorizeItemResponse>> GetPermissionsByRolesAsync(
+        [FromServices] IEventBus eventBus,
+        [FromQuery] string roleIds)
+    {
+        var query = new PermissionsByRolesQuery(JsonSerializer.Deserialize<List<Guid>>(roleIds) ?? new());
         await eventBus.PublishAsync(query);
         return query.Result;
     }

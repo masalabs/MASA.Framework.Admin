@@ -44,7 +44,7 @@
         var currentNav = NavHelper.SameLevelNavs.FirstOrDefault(n => n.Href is not null && NavigationManager.Uri.Contains(n.Href));
         if (currentNav is not null)
         {
-            if (currentNav.ParentId != 0)
+            if (currentNav.ParentId != null)
             {
                 var parentNav = NavHelper.SameLevelNavs.First(n => n.Id == currentNav.ParentId);
                 items.Add(new BreadcrumbItem { Text = T(parentNav.Title), Href = parentNav.Href ?? parentNav.Children?.FirstOrDefault()?.Href ?? "" });

@@ -18,7 +18,8 @@ public abstract class CallerBase : HttpClientCallerBase
         }
         catch (Exception ex)
         {
-            return ApiResultResponse<TResponse>.ResponseLose("The service is abnormal, please contact the administrator!", default);
+            if (ex is UserFriendlyException) return ApiResultResponse<TResponse>.ResponseLose(ex.Message, default);
+            else return ApiResultResponse<TResponse>.ResponseLose("The service is abnormal, please contact the administrator!", default);
         }
     }
 

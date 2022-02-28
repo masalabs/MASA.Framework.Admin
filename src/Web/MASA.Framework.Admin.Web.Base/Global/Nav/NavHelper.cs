@@ -1,8 +1,9 @@
-﻿namespace Masa.Framework.Admin.Web.Base.Global;
+using Masa.Framework.Sdks.Authentication.Response.Configuration;
+
+namespace Masa.Framework.Admin.Web.Base.Global;
 
 public class NavHelper
 {
-    private List<NavModel> _navList;
     private NavigationManager _navigationManager;
     private GlobalConfig _globalConfig;
 
@@ -12,43 +13,75 @@ public class NavHelper
 
     public List<PageTabItem> PageTabItems { get; } = new();
 
-    public NavHelper(List<NavModel> navList, NavigationManager navigationManager, GlobalConfig globalConfig)
+    public NavHelper(NavigationManager navigationManager, GlobalConfig globalConfig)
     {
-        _navList = navList;
         _navigationManager = navigationManager;
         _globalConfig = globalConfig;
-        Initialization();
     }
 
-    private void Initialization()
+    public void Initialization(List<MenuItemResponse> allMenus)
     {
-        _navList.ForEach(nav =>
+        var allMenuNavs = allMenus.Select(m => new NavModel(m.Id, m.Code,m.Url, m.Icon, m.Name, m.Sort, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
+        var menuCodes = _globalConfig.Permissions.Where(p => p.Resource=="menus")
+                                             .SelectMany(p => p.Scope.Split(','))
+                                             .Distinct();
+       // allMenuNavs = allMenuNavs.Where(mn => !menuCodes.Contains(mn.Code)).ToList();
+        
+        if(_globalConfig.IsAdmin)
         {
-            if (nav.Hide is false) Navs.Add(nav);
+            var adminNav = new NavModel(Guid.NewGuid(),"00000", "","mdi-file-outline", "System Configuration",0,null,null);
+            var menuNav = new NavModel(Guid.NewGuid(), "000001", "menu/list", "", "Menu", 0, adminNav.ParentId, null);
+            menuNav.FullTitle = adminNav.Title + " " + menuNav.Title;
+            var permissionNav = new NavModel(Guid.NewGuid(), "000002", "permission", "", "Permission", 0, adminNav.ParentId, null);
+            permissionNav.FullTitle = adminNav.Title + " " + permissionNav.Title;
+            adminNav.Children=new NavModel[] { menuNav,permissionNav };
+            Navs.Add(adminNav);
+        }
+        Navs.AddRange(GetMenuNavs(allMenuNavs));
+        //menuCodes.ForEach(code =>
+        //{
+        //    var permissionMenu = allMenuNavs.FirstOrDefault(m => m.Code == code);
+        //    if(permissionMenu is not null)
+        //    {
+        //        var parentMenu = FindParent(permissionMenu, allMenuNavs);
+        //        Navs.Add(menuNavs.First(m => m.Code == parentMenu.Code));
+        //    }
+        //});
 
-            if (nav.Children is not null)
-            {
-                nav.Children = nav.Children.Where(c => c.Hide is false).ToArray();
-
-                nav.Children.ForEach(child =>
-                {
-                    child.ParentId = nav.Id;
-                    child.FullTitle = $"{nav.Title} {child.Title}";
-                    child.ParentIcon = nav.Icon;
-                });
-            }
-        });
-
-        Navs.ForEach(nav =>
-        {
-            SameLevelNavs.Add(nav);
-            if (nav.Children is not null) SameLevelNavs.AddRange(nav.Children);
-        });
+        SameLevelNavs.AddRange(allMenuNavs.Where(m => menuCodes.Contains(m.Code)).ToList());
 
         SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav => 
         {
-            PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon, nav.Href != GlobalVariables.DefaultRoute));
+            PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon));
         });
+    }
+
+    List<NavModel> GetMenuNavs(List<NavModel> menuNavs)
+    {
+        var navs = new List<NavModel>();        
+        navs.AddRange(menuNavs.Where(m => m.ParentId is null));
+        foreach (var nav in navs)
+        {
+            BindChild(nav);
+        }
+
+        return navs;
+
+        void BindChild(NavModel nav)
+        {
+            var childs = menuNavs.Where(n => n.ParentId == nav.Id).ToArray();
+            if (childs.Count() > 0)
+            {
+                nav.Children = childs;
+                foreach (var child in childs)
+                {
+                    child.ParentId = nav.Id;
+                    child.FullTitle = $"{nav.FullTitle} {child.Title}";
+                    child.ParentIcon = nav.Icon;
+                    BindChild(child);
+                }
+            }
+        }
     }
 
     public void NavigateTo(NavModel nav)
@@ -80,7 +113,7 @@ public class NavHelper
     {
         SameLevelNavs.ForEach(n => n.Active = false);
         nav.Active = true;
-        if (nav.ParentId != 0) SameLevelNavs.First(n => n.Id == nav.ParentId).Active = true;
+        //if (nav.ParentId != null) SameLevelNavs.First(n => n.Id == nav.ParentId).Active = true;
     }
 }
 

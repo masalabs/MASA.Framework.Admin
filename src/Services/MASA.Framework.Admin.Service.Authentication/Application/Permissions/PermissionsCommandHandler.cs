@@ -55,6 +55,16 @@ public class PermissionsCommandHandler
     }
 
     [EventHandler]
+    public async Task DeleteAsync(DeletePermissionCommand command)
+    {
+        var permission = await _repository.FindAsync(command.PermissionId);
+        if (permission == null)
+            throw new UserFriendlyException("The current permission does not exist");
+
+        await _repository.RemoveAsync(permission);
+    }
+
+    [EventHandler]
     public async Task ChangeStateAsync(ChangeStateCommand command)
     {
         var permission = await _repository.FindAsync(command.PermissionId);

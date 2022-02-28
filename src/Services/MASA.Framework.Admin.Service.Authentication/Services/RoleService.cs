@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Services;
+namespace Masa.Framework.Admin.Service.Authentication.Services;
 
 public class RoleService : ServiceBase
 {

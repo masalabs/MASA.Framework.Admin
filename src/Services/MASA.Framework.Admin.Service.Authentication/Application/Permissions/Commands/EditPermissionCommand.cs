@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
 
 public record EditPermissionCommand : CommandBase
 {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Dashboard.ECommerce.Dto;
+﻿namespace Masa.Framework.Admin.Web.Data.Dashboard.ECommerce.Dto;
 
 public class CompanyDto
 {

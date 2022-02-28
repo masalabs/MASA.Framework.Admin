@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate;
+namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate;
 
 public class Role : AuditAggregateRoot<Guid, Guid>
 {
@@ -26,7 +26,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         roleItems = new List<RoleItem>();
     }
 
-    public Role(Guid @operator, string name, int number,string? describe) : this()
+    public Role(Guid @operator, string name, int number, string? describe) : this()
     {
         Creator = @operator;
         Modifier = @operator;
@@ -51,7 +51,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
         Describe = describe ?? string.Empty;
     }
 
-    public void  AddRolePermission(Guid @operator, Guid permissionsId)
+    public void AddRolePermission(Guid @operator, Guid permissionsId)
     {
         var permission = permissions.FirstOrDefault(permission => permission.PermissionsId == permissionsId);
         if (permission != null)

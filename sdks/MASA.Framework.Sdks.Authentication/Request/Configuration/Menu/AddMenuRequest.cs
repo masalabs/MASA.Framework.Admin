@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Request.Configuration.Menu;
+namespace Masa.Framework.Sdks.Authentication.Request.Configuration.Menu;
 
 public class AddMenuRequest
 {

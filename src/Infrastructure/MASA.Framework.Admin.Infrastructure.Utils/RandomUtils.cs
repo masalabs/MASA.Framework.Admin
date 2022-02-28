@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Infrastructure.Utils;
+﻿namespace Masa.Framework.Admin.Infrastructure.Utils;
 
 public class RandomUtils
 {

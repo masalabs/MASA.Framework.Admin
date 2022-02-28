@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Application.OperationLogs;
+namespace Masa.Framework.Admin.Service.LogStatistics.Application.OperationLogs;
 
 public class CommandHandler
 {

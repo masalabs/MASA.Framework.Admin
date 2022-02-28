@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Infrastructure;
+namespace Masa.Framework.Admin.Service.Authentication.Infrastructure;
 
 public class AuthenticationDbContext : IntegrationEventLogContext
 {

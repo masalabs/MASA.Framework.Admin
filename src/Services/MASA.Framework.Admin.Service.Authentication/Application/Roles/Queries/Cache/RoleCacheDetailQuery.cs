@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries.Cache;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries.Cache;
 
 public record RoleCacheDetailQuery(Guid RoleId) : Query<RoleInfo>
 {

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Callers;
+namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public class AuthenticationCaller : CallerBase
 {

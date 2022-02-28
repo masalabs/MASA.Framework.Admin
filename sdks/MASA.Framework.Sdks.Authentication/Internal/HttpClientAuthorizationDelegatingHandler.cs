@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Internal;
+namespace Masa.Framework.Sdks.Authentication.Internal;
 
 public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
 {

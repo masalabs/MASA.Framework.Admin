@@ -54,7 +54,7 @@
                         </ActivatorContent>
                         <ChildContent>
                             <MList>
-                                <MListItem>
+                                <MListItem OnClick="()=>NavToDetails(context.Item.Id.ToString())">
                                     <MIcon Small>fas fa-user-tie</MIcon>
                                     <MListItemTitle Class="ml-2"> @T("Details")  </MListItemTitle>
                                 </MListItem>

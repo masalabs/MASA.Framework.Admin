@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Cache;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.Cache;
 
 public class RoleInfo
 {

@@ -1,5 +1,5 @@
-using MASA.Framework.Admin.Service.User.Domain.Services;
-using MASA.Framework.Admin.Service.User.Infrastructure.Hub;
+using Masa.Framework.Admin.Service.User.Domain.Services;
+using Masa.Framework.Admin.Service.User.Infrastructure.Hub;
 using Microsoft.AspNetCore.Http.Connections;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,7 +61,7 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
         {
-            Title = "MASA.Framework.Admin User - Users HTTP API",
+            Title = "Masa.Framework.Admin User - Users HTTP API",
             Version = "v1",
             Description = "The Users Service HTTP API"
         });
@@ -84,11 +84,11 @@ var app = builder.Services.AddFluentValidation(options =>
 
 app.MigrateDbContext<UserDbContext>((context, services) =>
 {
-    if (context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Any())
+    if (context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Any())
     {
         return;
     }
-    context.Set<MASA.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new MASA.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123"));
+    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123"));
     context.SaveChanges();
 });
 
@@ -107,11 +107,15 @@ app.UseMasaExceptionHandling(opt =>
     .UseSwagger()
     .UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MASA.Framework.Admin Service HTTP API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
     });
 
 app.UseRouting();
 app.UseCloudEvents();
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapSubscribeHandler();
+});
 app.MapHub<LoginHub>("/hub/login",
                     options => options.Transports =
                         HttpTransportType.WebSockets |

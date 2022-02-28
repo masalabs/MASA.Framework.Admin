@@ -1,7 +1,7 @@
 using Quartz;
 using System.Reflection;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
 {
     public class JobHostedService : IHostedService
     {

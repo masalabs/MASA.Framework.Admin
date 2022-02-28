@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Extensions;
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Extensions;
 
 public static class HostExtensions
 {

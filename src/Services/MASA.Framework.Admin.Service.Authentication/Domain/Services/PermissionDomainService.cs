@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Domain.Services;
+namespace Masa.Framework.Admin.Service.Authentication.Domain.Services;
 
 public class PermissionDomainService : DomainService
 {
@@ -27,6 +27,16 @@ public class PermissionDomainService : DomainService
                 permission.Action,
                 permission.Id,
                 (int)permissionType));
+        }
+    }
+
+    public async Task AddGroupPermissionAsync(Guid permissionId, Guid? groupId)
+    {
+        if (groupId != null)
+        {
+            await EventBus.PublishAsync(new AddGroupPermissionIntegraionEvent(
+                groupId.Value,
+                permissionId));
         }
     }
 }

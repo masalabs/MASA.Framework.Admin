@@ -1,11 +1,11 @@
-using MASA.Framework.Admin.Service.User.Infrastructure.Models;
+using Masa.Framework.Admin.Service.User.Infrastructure.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MASA.Framework.Admin.Service.User.Domain.Services
+namespace Masa.Framework.Admin.Service.User.Domain.Services
 {
     public class LoginService
     {

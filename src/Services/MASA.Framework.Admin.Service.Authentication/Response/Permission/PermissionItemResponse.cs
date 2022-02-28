@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Response.Permission;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Response.Permission;
 
 public class PermissionItemResponse
 {

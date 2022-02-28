@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.Invoice;
+﻿namespace Masa.Framework.Admin.Web.Data.App.Invoice;
 
 public static class InvoiceService
 {

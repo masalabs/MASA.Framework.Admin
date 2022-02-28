@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Domain.Events;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Domain.Events;
 
 public record AddRoleDomainEvent(
     Guid RoleId,

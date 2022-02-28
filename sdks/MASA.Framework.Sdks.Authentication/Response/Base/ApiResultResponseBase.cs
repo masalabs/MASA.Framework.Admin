@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Response.Base;
+﻿namespace Masa.Framework.Sdks.Authentication.Response.Base;
 
 public class ApiResultResponseBase
 {

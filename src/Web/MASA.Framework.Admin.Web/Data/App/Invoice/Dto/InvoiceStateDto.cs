@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.Invoice.Dto;
+﻿namespace Masa.Framework.Admin.Web.Data.App.Invoice.Dto;
 
 public class InvoiceStateDto
 {

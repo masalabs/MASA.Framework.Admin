@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions.Queries;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions.Queries;
 
 public class PermissionListQueryValidator : AbstractValidator<PermissionListQuery>
 {

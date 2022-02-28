@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Repositories;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.Repositories;
 
 public class PermissionRepository :
     Repository<AuthenticationDbContext, Permission>,

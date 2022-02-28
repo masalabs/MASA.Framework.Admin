@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Configuration.Infrastructure.Extensions;
+﻿namespace Masa.Framework.Admin.Configuration.Infrastructure.Extensions;
 
 public record CommandBase : Command
 {

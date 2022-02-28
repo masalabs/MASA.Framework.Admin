@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Permissions;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions;
 
 public class PermissionsCommandHandler
 {
@@ -12,7 +12,7 @@ public class PermissionsCommandHandler
     }
 
     [EventHandler]
-    public async Task AddAsync(AddPermissionCommand command)
+    public async Task AddRolePermissionAsync(AddPermissionCommand command)
     {
         if (await _repository.AnyAsync(permission =>
                 permission.ObjectType == command.ObjectType &&
@@ -33,7 +33,14 @@ public class PermissionsCommandHandler
             command.PermissionType);
         await _repository.AddAsync(permission);
         await _repository.UnitOfWork.SaveChangesAsync();
-        await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType);
+        if (command.RoleId.HasValue)
+        {
+            await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType);
+        }
+        if (command.UserGroupId.HasValue)
+        {
+            await _domainService.AddGroupPermissionAsync(permission.Id, command.UserGroupId);
+        }
     }
 
     [EventHandler]

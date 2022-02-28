@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Infrastructure.Const;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.Const;
 
 public class UrlRule
 {

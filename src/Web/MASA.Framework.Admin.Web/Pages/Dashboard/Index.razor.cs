@@ -1,6 +1,6 @@
-using MASA.Framework.Sdks.Authentication.Response.LogStatistics;
+using Masa.Framework.Sdks.Authentication.Response.LogStatistics;
 
-namespace MASA.Framework.Admin.Web.Pages.Dashboard
+namespace Masa.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class Index
     {

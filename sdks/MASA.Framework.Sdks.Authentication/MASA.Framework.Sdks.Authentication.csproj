@@ -7,14 +7,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.3.0-preview.1" />
+    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
-    <ProjectReference Include="..\..\src\Services\MASA.Framework.Admin.Service.Authentication\MASA.Framework.Admin.Service.Authentication.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\Masa.Framework.Admin.Infrastructure.Configurations.csproj" />
   </ItemGroup>
   
 </Project>

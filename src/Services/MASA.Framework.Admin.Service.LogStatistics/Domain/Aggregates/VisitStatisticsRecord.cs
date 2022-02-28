@@ -1,6 +1,6 @@
-using MASA.BuildingBlocks.DDD.Domain.Entities;
+using Masa.BuildingBlocks.Ddd.Domain.Entities;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates
+namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates
 {
     public class VisitStatisticsRecord : AggregateRoot<Guid>
     {

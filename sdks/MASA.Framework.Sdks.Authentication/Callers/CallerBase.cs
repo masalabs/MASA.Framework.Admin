@@ -1,7 +1,7 @@
-using MASA.Utils.Exceptions;
+using Masa.Utils.Exceptions;
 using System.Net;
 
-namespace MASA.Framework.Sdks.Authentication.Callers;
+namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public abstract class CallerBase : HttpClientCallerBase
 {

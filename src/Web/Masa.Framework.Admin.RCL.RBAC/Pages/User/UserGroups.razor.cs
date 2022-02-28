@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
 {
-    public partial class UserGroup
+    public partial class UserGroups
     {
         private bool _visible;
         private bool _valid = true;
@@ -24,6 +24,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
+        }
+
+        private void NavToDetails(string id)
+        {
+            Nav.NavigateTo($"/usergroup/{id}");
         }
 
         private async Task LoadData()

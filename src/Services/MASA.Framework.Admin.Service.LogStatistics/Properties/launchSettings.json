@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MASA.Framework.Admin.Service.LogStatistics": {
+    "Masa.Framework.Admin.Service.LogStatistics": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "MASA.Framework.Admin.Web": {
+    "Masa.Framework.Admin.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

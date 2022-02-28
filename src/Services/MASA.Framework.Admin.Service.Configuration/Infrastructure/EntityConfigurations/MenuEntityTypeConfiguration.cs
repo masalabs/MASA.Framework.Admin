@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Configuration.Infrastructure.EntityConfigurations;
+namespace Masa.Framework.Admin.Configuration.Infrastructure.EntityConfigurations;
 
 public class MenuEntityTypeConfiguration
     : IEntityTypeConfiguration<Menu>

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Service.Authentication.Application.Roles.Commands;
+﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Roles.Commands;
 
 public class EditRoleCommandValidator : AbstractValidator<EditRoleCommand>
 {

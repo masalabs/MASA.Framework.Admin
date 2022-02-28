@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Configuration.Domain.Aggregate;
+namespace Masa.Framework.Admin.Configuration.Domain.Aggregate;
 
 public class Menu : AuditAggregateRoot<Guid, Guid>
 {

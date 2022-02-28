@@ -6,21 +6,22 @@
 		$(WarningsAsErrors);CS8605
 	</WarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-MASA.Blazor.Pro-1C269218-357E-4813-926B-0CA83F60438B</UserSecretsId>
+    <UserSecretsId>aspnet-Masa.Blazor.Pro-1C269218-357E-4813-926B-0CA83F60438B</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MASA.Utils.Caller.HttpClient" Version="0.3.0-preview.1" />
-    <PackageReference Include="MASA.Utils.Configuration.Json" Version="0.3.0-preview.1" />
-    <PackageReference Include="MASA.Utils.Extensions.DependencyInjection" Version="0.3.0-preview.1" />
+    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.0" />
+    <PackageReference Include="Masa.Utils.Configuration.Json" Version="0.3.0" />
+    <PackageReference Include="Masa.Utils.Extensions.DependencyInjection" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\sdks\MASA.Framework.Sdks.Authentication\Masa.Framework.Sdks.Authentication.csproj" />
     <ProjectReference Include="..\Masa.Framework.Admin.RCL.RBAC\Masa.Framework.Admin.RCL.RBAC.csproj" />
   </ItemGroup>
 

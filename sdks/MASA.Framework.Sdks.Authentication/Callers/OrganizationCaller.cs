@@ -1,7 +1,7 @@
-using MASA.Framework.Sdks.Authentication.Internal.Enum;
+using Masa.Framework.Sdks.Authentication.Internal.Enum;
 using System.Security.Principal;
 
-namespace MASA.Framework.Sdks.Authentication.Callers;
+namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public class OrganizationCaller : CallerBase
 {

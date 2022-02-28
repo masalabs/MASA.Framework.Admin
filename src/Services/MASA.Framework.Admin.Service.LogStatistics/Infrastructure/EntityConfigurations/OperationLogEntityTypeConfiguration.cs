@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.EntityConfigurations
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.EntityConfigurations
 {
     public class OperationLogEntityTypeConfiguration : IEntityTypeConfiguration<OperationLog>
     {

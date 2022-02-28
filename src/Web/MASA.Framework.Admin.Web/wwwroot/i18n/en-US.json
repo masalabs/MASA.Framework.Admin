@@ -60,5 +60,6 @@
   "RemoveUserRole": "Remove Role",
   "UserID": "UserID",
   "LastLoginTime": "Last LoginTime",
-  "LastUpdateTime": "Last UpdateTime"
+  "LastUpdateTime": "Last UpdateTime",
+  "RemoveUser": "Remove User"
 }

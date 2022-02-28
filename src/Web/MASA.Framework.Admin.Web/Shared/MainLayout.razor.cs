@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.SignalR.Client;
-
-namespace MASA.Framework.Admin.Web.Shared
+namespace Masa.Framework.Admin.Web.Shared
 {
     public partial class MainLayout
     {
@@ -58,11 +54,12 @@ namespace MASA.Framework.Admin.Web.Shared
                 {
                     isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
 
-                }catch(Exception e)
+                }
+                catch (Exception e)
                 {
 
                 }
-                
+
                 if (token == null || !isLogined)
                 {
                     NavigationManager.NavigateTo("/pages/authentication/Login-v2", true);

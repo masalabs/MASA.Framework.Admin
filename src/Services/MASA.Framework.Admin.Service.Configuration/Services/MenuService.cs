@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Configuration.Services;
+namespace Masa.Framework.Admin.Configuration.Services;
 
 public class MenuService : ServiceBase
 {

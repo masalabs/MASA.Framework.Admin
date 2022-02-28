@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class JobAttribute : Attribute

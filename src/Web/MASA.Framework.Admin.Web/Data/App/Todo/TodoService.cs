@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.Todo;
+﻿namespace Masa.Framework.Admin.Web.Data.App.Todo;
 
 public class TodoService
 {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.App.User
+﻿namespace Masa.Framework.Admin.Web.Pages.App.User
 {
     public partial class List
     {

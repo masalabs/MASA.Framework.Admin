@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Configuration.Application.Menu;
+namespace Masa.Framework.Admin.Configuration.Application.Menu;
 
 public class QueryHandler
 {

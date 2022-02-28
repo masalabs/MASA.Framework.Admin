@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.Repositories
+namespace Masa.Framework.Admin.Service.User.Infrastructure.Repositories
 {
     public class DepartmentRepository : Repository<UserDbContext, Department>, IDepartmentRepository
     {

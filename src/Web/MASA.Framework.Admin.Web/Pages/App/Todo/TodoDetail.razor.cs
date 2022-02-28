@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 
-namespace MASA.Framework.Admin.Web.Pages.App.Todo;
+namespace Masa.Framework.Admin.Web.Pages.App.Todo;
 
 public partial class TodoDetail
 {

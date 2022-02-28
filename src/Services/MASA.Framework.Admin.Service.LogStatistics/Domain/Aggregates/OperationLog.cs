@@ -1,6 +1,6 @@
-using MASA.BuildingBlocks.DDD.Domain.Entities.Auditing;
+using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Domain.Aggregates
+namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates
 {
     public class OperationLog : AuditAggregateRoot<Guid, Guid>
     {

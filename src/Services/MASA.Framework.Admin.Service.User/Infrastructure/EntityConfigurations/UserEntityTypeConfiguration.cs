@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.User.Infrastructure.EntityConfigurations;
+namespace Masa.Framework.Admin.Service.User.Infrastructure.EntityConfigurations;
 
 public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggregates.User>
 {
@@ -27,6 +27,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
         builder.Property(user => user.ModificationTime).HasColumnName("modifier_time").IsRequired().HasDefaultValueSql("SYSDATETIME()");
 
         builder.HasMany(user => user.UserRoles).WithOne(userRole => userRole.User);
+        builder.HasMany(user => user.UserGroups).WithOne(userGroup => userGroup.User);
     }
 }
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Migrations
+namespace Masa.Framework.Admin.Service.LogStatistics.Migrations
 {
     public partial class init : Migration
     {

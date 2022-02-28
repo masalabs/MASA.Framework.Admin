@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Models
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Models
 {
     public class OperationStatisticsModel
     {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
+﻿namespace Masa.Framework.Sdks.Authentication.Request.Authentication.Role;
 
 public class DeleteRoleRequest
 {

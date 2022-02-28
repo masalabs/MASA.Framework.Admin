@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.Shared.Favorite
+﻿namespace Masa.Framework.Admin.Web.Data.Shared.Favorite
 {
     public static class FavoriteService
     {

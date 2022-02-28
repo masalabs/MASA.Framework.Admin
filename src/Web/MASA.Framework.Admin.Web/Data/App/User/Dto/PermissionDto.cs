@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.User.Dto;
+﻿namespace Masa.Framework.Admin.Web.Data.App.User.Dto;
 
 public class PermissionDto
 {

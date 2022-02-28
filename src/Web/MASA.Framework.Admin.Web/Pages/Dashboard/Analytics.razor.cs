@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Pages.Dashboard
+﻿namespace Masa.Framework.Admin.Web.Pages.Dashboard
 {
     public partial class Analytics : AdminCompontentBase
     {

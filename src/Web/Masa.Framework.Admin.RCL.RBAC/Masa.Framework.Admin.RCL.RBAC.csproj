@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MASA.Framework.Admin.Web.Base\MASA.Framework.Admin.Web.Base.csproj" />
+    <ProjectReference Include="..\..\..\sdks\MASA.Framework.Sdks.Authentication\Masa.Framework.Sdks.Authentication.csproj" />
+    <ProjectReference Include="..\MASA.Framework.Admin.Web.Base\Masa.Framework.Admin.Web.Base.csproj" />
   </ItemGroup>
 
 </Project>

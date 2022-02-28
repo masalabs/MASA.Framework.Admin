@@ -1,7 +1,7 @@
-using CreateCommand = MASA.Framework.Admin.Service.User.Application.UserGroups.Commands.CreateCommand;
-using ListQuery = MASA.Framework.Admin.Service.User.Application.UserGroups.Queries.ListQuery;
+using CreateCommand = Masa.Framework.Admin.Service.User.Application.UserGroups.Commands.CreateCommand;
+using ListQuery = Masa.Framework.Admin.Service.User.Application.UserGroups.Queries.ListQuery;
 
-namespace MASA.Framework.Admin.Service.User.Services;
+namespace Masa.Framework.Admin.Service.User.Services;
 
 public class UserGroupService : ServiceBase
 {
@@ -10,6 +10,7 @@ public class UserGroupService : ServiceBase
         App.MapGet(Routing.UserGroupList, GetItemsAsync);
         App.MapGet(Routing.UserGroupSelect, GetSelectListAsync);
         App.MapGet(Routing.GroupByUser, GetUserGroupListAsync);
+        App.MapGet(Routing.GroupUsers, GetUserListAsync);
         App.MapPost(Routing.OperateGroup, CreateAsync);
         App.MapDelete(Routing.OperateGroup, DeleteAsync);
     }
@@ -49,6 +50,15 @@ public class UserGroupService : ServiceBase
         [FromQuery] Guid userId)
     {
         var query = new UserGroupQuery(userId);
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
+    public async Task<List<UserItemResponse>> GetUserListAsync(
+        [FromServices] IEventBus eventBus,
+        [FromQuery] Guid groupId)
+    {
+        var query = new GroupUserQuery(groupId);
         await eventBus.PublishAsync(query);
         return query.Result;
     }

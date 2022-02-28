@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MASA.Framework.Sdks.Authentication.Request.LogStatistics
+namespace Masa.Framework.Sdks.Authentication.Request.LogStatistics
 {
     public class OperationLogCreateRequest
     {

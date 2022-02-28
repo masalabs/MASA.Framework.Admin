@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.Authentication.Application.Roles;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class CacheQueryHandler
 {

@@ -1,9 +1,8 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MASA.Framework.Admin.Service.Authentication.Migrations
+namespace Masa.Framework.Admin.Service.Authentication.Migrations
 {
     public partial class init : Migration
     {

@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Response.Authentication.Permission;
+namespace Masa.Framework.Sdks.Authentication.Response.Authentication.Permission;
 
 public class PermissionDetailResponse
 {

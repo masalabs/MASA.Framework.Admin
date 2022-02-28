@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Request.Authentication.Role;
+namespace Masa.Framework.Sdks.Authentication.Request.Authentication.Role;
 
 public class AddPermissionRequest
 {
@@ -18,12 +18,14 @@ public class AddPermissionRequest
 
     public Guid? RoleId { get; set; }
 
+    public Guid? UserGroupId { get; set; }
+
     public PermissionType PermissionType { get; set; }
 
     public AddPermissionRequest()
     {
         PermissionId = Guid.NewGuid();
-        Creator =Guid.NewGuid();
+        Creator = Guid.NewGuid();
     }
 }
 

@@ -1,8 +1,8 @@
-using MASA.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
-using MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Const;
+using Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
+using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Const;
 using Quartz;
 
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
 {
     [Job(nameof(StatisticsJob), GroupNames.DEFAULT, "0 55 0/1 * * ?")]
     //[Job(nameof(StatisticsJob), GroupNames.DEFAULT, "* * * * * ?")]

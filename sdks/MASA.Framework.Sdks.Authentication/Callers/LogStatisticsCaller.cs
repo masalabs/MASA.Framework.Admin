@@ -1,7 +1,7 @@
-using MASA.Framework.Sdks.Authentication.Request.LogStatistics;
-using MASA.Framework.Sdks.Authentication.Response.LogStatistics;
+using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
+using Masa.Framework.Sdks.Authentication.Response.LogStatistics;
 
-namespace MASA.Framework.Sdks.Authentication.Callers
+namespace Masa.Framework.Sdks.Authentication.Callers
 {
     public class LogStatisticsCaller : CallerBase
     {

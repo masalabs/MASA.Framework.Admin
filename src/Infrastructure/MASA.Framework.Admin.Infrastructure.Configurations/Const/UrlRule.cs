@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Infrastructure.Configurations.Const;
+﻿namespace Masa.Framework.Admin.Infrastructure.Configurations.Const;
 
 public class UrlRule
 {

@@ -1,6 +1,6 @@
-using ListQuery = MASA.Framework.Admin.Service.User.Application.UserGroups.Queries.ListQuery;
+using ListQuery = Masa.Framework.Admin.Service.User.Application.UserGroups.Queries.ListQuery;
 
-namespace MASA.Framework.Admin.Service.User.Application.UserGroups
+namespace Masa.Framework.Admin.Service.User.Application.UserGroups
 {
     public class QueryHandler
     {
@@ -63,6 +63,23 @@ namespace MASA.Framework.Admin.Service.User.Application.UserGroups
                 CreationTime = userGroup.CreationTime,
                 ModificationTime = userGroup.ModificationTime
             }).ToList();
+        }
+
+        [EventHandler]
+        public async Task GroupUserListAsync(GroupUserQuery groupUserQuery)
+        {
+            var userGroup = await _userGroupRepository.GetByIdAsync(groupUserQuery.GroupId);
+            if (userGroup is null)
+            {
+                throw new UserFriendlyException("usergroupid not found");
+            }
+            groupUserQuery.Result = userGroup.UserGroupItems.Select(ugi => ugi.User)
+                .Select(user => new UserItemResponse
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email
+                }).ToList();
         }
     }
 }

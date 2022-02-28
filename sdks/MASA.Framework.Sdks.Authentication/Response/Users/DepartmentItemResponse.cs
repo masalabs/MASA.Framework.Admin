@@ -1,4 +1,4 @@
-namespace MASA.Framework.Sdks.Authentication.Response.Users
+namespace Masa.Framework.Sdks.Authentication.Response.Users
 {
     public class DepartmentItemResponse
     {

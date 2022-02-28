@@ -1,6 +1,6 @@
-using MASA.Framework.Admin.Web.Shared;
+using Masa.Framework.Admin.Web.Shared;
 
-namespace MASA.Framework.Admin.Web.Pages.Home
+namespace Masa.Framework.Admin.Web.Pages.Home
 {
     public partial class Index
     {

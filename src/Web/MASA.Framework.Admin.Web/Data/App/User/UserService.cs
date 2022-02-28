@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Web.Data.App.User;
+﻿namespace Masa.Framework.Admin.Web.Data.App.User;
 
 public class UserService
 {

@@ -1,4 +1,4 @@
-﻿namespace MASA.Framework.Admin.Contracts.Authentication;
+﻿namespace Masa.Framework.Admin.Contracts.Authentication;
 
 public record AddRoleIntegraionEvent(
     Guid RoleId,

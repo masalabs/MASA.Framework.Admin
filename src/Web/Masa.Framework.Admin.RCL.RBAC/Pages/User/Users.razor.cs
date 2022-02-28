@@ -1,8 +1,6 @@
-using Masa.Blazor.Presets;
-
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
-public partial class List
+public partial class Users
 {
     private bool _visible;
     private bool _valid = true;
@@ -54,7 +52,7 @@ public partial class List
 
     private void NavToDetails(string id)
     {
-        Nav.NavigateTo($"/user/view/{id}");
+        Nav.NavigateTo($"/user/{id}");
     }
 
     private async Task DeleteUser(string id)

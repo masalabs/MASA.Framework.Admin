@@ -1,4 +1,4 @@
-namespace MASA.Framework.Admin.Service.LogStatistics.Infrastructure.Extensions
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Extensions
 {
     public static class HostExtensions
     {

@@ -10,11 +10,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MASA.Utils.Caching.DistributedMemory" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Utils.Caching.Redis" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Utils.Development.Dapr.AspNetCore" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Utils.Expressions" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Utils.Exceptions" Version="0.3.0-preview.1" />
+      <PackageReference Include="Masa.Utils.Caching.DistributedMemory" Version="0.3.0" />
+      <PackageReference Include="Masa.Utils.Caching.Redis" Version="0.3.0" />
+      <PackageReference Include="Masa.Utils.Development.Dapr.AspNetCore" Version="0.3.0" />
+      <PackageReference Include="Masa.Utils.Expressions" Version="0.3.0" />
+      <PackageReference Include="Masa.Utils.Exceptions" Version="0.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,21 +23,21 @@
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-      <PackageReference Include="MASA.Contrib.Data.Contracts.EF" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Data.UoW.EF" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.DDD.Domain" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.DDD.Domain.Repository.EF" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Dispatcher.Events" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Service.MinimalAPIs" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.ReadWriteSpliting.CQRS" Version="0.3.0-preview.1" />
-      <PackageReference Include="MASA.Contrib.Configuration" Version="0.3.0-preview.1" />
+      <PackageReference Include="Masa.Contrib.Data.Contracts.EF" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Data.UoW.EF" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="0.3.0" />
+      <PackageReference Include="Masa.Contrib.Configuration" Version="0.3.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\MASA.Framework.Admin.Contracts.Authentication.csproj" />
-      <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\MASA.Framework.Admin.Infrastructure.Configurations.csproj" />
+      <ProjectReference Include="..\..\Contracts\MASA.Framework.Admin.Contracts.Authentication\Masa.Framework.Admin.Contracts.Authentication.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\MASA.Framework.Admin.Infrastructure.Configurations\Masa.Framework.Admin.Infrastructure.Configurations.csproj" />
     </ItemGroup>
 
 </Project>

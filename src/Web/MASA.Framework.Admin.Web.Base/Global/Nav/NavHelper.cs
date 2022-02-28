@@ -1,6 +1,6 @@
 using MASA.Framework.Sdks.Authentication.Response.Configuration;
 
-namespace MASA.Framework.Admin.Web.Base.Global;
+namespace Masa.Framework.Admin.Web.Base.Global;
 
 public class NavHelper
 {

@@ -2,12 +2,15 @@ namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public class UserCaller : CallerBase
 {
+    AuthenticationCaller _authenticationCaller;
+
     protected override string BaseAddress { get; set; }
 
-    public UserCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public UserCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(UserCaller);
         BaseAddress = configuration["ApiGateways:UserCaller"];
+        _authenticationCaller = authenticationCaller;
     }
 
     protected override IHttpClientBuilder UseHttpClient()
@@ -161,6 +164,16 @@ public class UserCaller : CallerBase
             var response = await CallerProvider.GetAsync<UserStatisticResponse>("");
             return response!;
         });
+    }
+
+    public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetAuthorizeByUserAsync(Guid userId)
+    {
+        var userRolesResponse = await GetUserRolesAsync(userId);
+        if (!userRolesResponse.Success) throw new Exception(userRolesResponse.Message);
+        else
+        {
+            return await _authenticationCaller.GetPermissionsByRoles(userRolesResponse.Data!.Select(ur => ur.RoleId).ToList());
+        }
     }
 }
 

@@ -28,3 +28,4 @@ global using Microsoft.AspNetCore.Components.Web;
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Reflection;
+global using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;

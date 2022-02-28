@@ -126,6 +126,14 @@ public class AuthenticationCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetPermissionsByRoles(List<Guid> roleId)
+    {
+        return await ResultAsync(async () =>
+        {
+            return await Task.FromResult(new List<AuthorizeItemResponse>());
+        });
+    }
+
     #endregion
 
     #region Permission

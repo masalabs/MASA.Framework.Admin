@@ -205,10 +205,6 @@ public class RoleDetailsPage : ComponentPageBase
             Action = authoriedData.Action,
         };
         var result = await AuthenticationCaller.AddPermissionAsync(permission);
-        if(result.Success)
-        {
-            result =await AuthenticationCaller.AddRolePermissionAsync(new AddRolePermissionRequest(permission.PermissionId, Detail.Id));
-        }
         CheckApiResult(result, I18n.T("Add Authorize Successful"), result.Message);
         Lodding = false;
     }

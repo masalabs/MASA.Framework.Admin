@@ -11,6 +11,13 @@ namespace MASA.Framework.Admin.Web.Controllers
     [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        readonly UserCaller _userCaller;
+
+        public AccountController(UserCaller userCaller)
+        {
+            _userCaller = userCaller;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromServices] IConfiguration configuration, string token)
@@ -31,12 +38,13 @@ namespace MASA.Framework.Admin.Web.Controllers
 
             var jwtToken = (JwtSecurityToken)validatedToken;
             var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
+            
 
             var claims = new List<Claim>
-                {
-                     new Claim("UserId", userId),
-                     new Claim("Token",token)
-                };
+            {
+                    new Claim("UserId", userId),
+                    new Claim("Token",token)
+            };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties

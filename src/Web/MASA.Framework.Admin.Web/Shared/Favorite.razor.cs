@@ -1,8 +1,8 @@
-﻿namespace MASA.Framework.Admin.Web.Shared
+namespace MASA.Framework.Admin.Web.Shared
 {
     public partial class Favorite
     {
-        List<int> _favoriteMenus = FavoriteService.GetDefaultFavoriteMenuList();
+        List<string> _favoriteMenus = new();//FavoriteService.GetDefaultFavoriteMenuList();
 
         protected override void OnInitialized()
         {
@@ -12,7 +12,7 @@
             }
             else if (GlobalConfig.Favorite is not null)
             {
-                _favoriteMenus = GlobalConfig.Favorite.Split('|').Select(v => Convert.ToInt32(v)).ToList();
+                _favoriteMenus = GlobalConfig.Favorite.Split('|').ToList();
             }
 
             GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
@@ -34,7 +34,7 @@
         {
             var output = new List<NavModel>();
 
-            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => _favoriteMenus.Contains(n.Id)));
+            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => _favoriteMenus.Contains(n.Id.ToString())));
             else
             {
                 output.AddRange(NavHelper.SameLevelNavs.Where(n => n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
@@ -45,7 +45,7 @@
 
         List<NavModel> GetFavoriteMenus() => GetNavs(null);
 
-        void AddOrRemoveFavoriteMenu(int id)
+        void AddOrRemoveFavoriteMenu(string id)
         {
             if (_favoriteMenus.Contains(id)) _favoriteMenus.Remove(id);
             else _favoriteMenus.Add(id);

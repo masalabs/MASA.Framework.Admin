@@ -169,10 +169,14 @@ public class UserCaller : CallerBase
     public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetAuthorizeByUserAsync(Guid userId)
     {
         var userRolesResponse = await GetUserRolesAsync(userId);
-        if (!userRolesResponse.Success) throw new Exception(userRolesResponse.Message);
+        if (!userRolesResponse.Success) return ApiResultResponse<List<AuthorizeItemResponse>>.ResponseLose(userRolesResponse.Message, null);
         else
         {
-            return await _authenticationCaller.GetPermissionsByRoles(userRolesResponse.Data!.Select(ur => ur.RoleId).ToList());
+            if (userRolesResponse.Data?.Count > 0)
+            {
+                return await _authenticationCaller.GetPermissionsByRolesAsync(userRolesResponse.Data!.Select(ur => ur.RoleId).ToList());
+            }
+            else return ApiResultResponse<List<AuthorizeItemResponse>>.ResponseSuccess(new(), "success");
         }
     }
 }

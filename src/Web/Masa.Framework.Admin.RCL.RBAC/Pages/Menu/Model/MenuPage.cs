@@ -132,7 +132,7 @@ public class MenuPage : ComponentPageBase
 
     public List<MenuItemResponse> GetBottomLayerMenus()
     {
-        return AllDatas.Where(m => AllDatas.All(d => d.Id != m.ParentId)).ToList();
+        return AllDatas.Where(m => AllDatas.All(d => m.Id != d.ParentId)).ToList();
     }
 
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)

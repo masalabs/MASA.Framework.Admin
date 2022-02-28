@@ -81,6 +81,18 @@ public class AuthenticationCaller : CallerBase
         });
     }
 
+    public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetPermissionsByRolesAsync(List<Guid> roleIds)
+    {
+        return (await ResultAsync(async () =>
+        {
+            var queryArguments = new Dictionary<string, string>()
+            {
+                { "roleIds", JsonSerializer.Serialize(roleIds) }
+            };
+            return await CallerProvider.GetAsync<List<AuthorizeItemResponse>>(Routing.PermissionsByRoles, queryArguments);
+        }))!;
+    }
+
     public async Task<ApiResultResponse<List<RoleItemResponse>>> GetRolesByIdsAsync(List<Guid> roleIds)
     {
         return (await ResultAsync(async () =>
@@ -106,14 +118,6 @@ public class AuthenticationCaller : CallerBase
     public async Task<ApiResultResponseBase> AddRolePermissionAsync(AddRolePermissionRequest request)
     {
         return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.AddRolePermission, request));
-    }
-
-    public async Task<ApiResultResponse<List<AuthorizeItemResponse>>> GetPermissionsByRoles(List<Guid> roleId)
-    {
-        return await ResultAsync(async () =>
-        {
-            return await Task.FromResult(new List<AuthorizeItemResponse>());
-        });
     }
 
     #endregion

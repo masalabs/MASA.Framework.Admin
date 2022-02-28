@@ -113,6 +113,12 @@ public class RoleQueryHandler
         };
     }
 
+    [EventHandler]
+    public async Task GetPermissionsByRolesAsync(PermissionsByRolesQuery query)
+    {
+        query.Result = await GetPermissionAsync(query.RoleIds);
+    }
+
     private async Task<List<AuthorizeItemResponse>> GetPermissionAsync(Guid roleId)
     {
         var allChildrenRoleIdList = await GetRoleListLoop(roleId);
@@ -141,6 +147,53 @@ public class RoleQueryHandler
         return permissions.Where(permission
                 => (permission.InheritanceRoleId != roleId && permission.PermissionType == PermissionType.Public ||
                     permission.InheritanceRoleId == roleId) &&
+                permission.Enable)
+            .Select(permission => new AuthorizeItemResponse()
+            {
+                Id = permission.Id,
+                PermissionId = permission.PermissionId,
+                PermissionName = permission.PermissionName,
+                ObjectType = permission.ObjectType,
+                Resource = permission.Resource,
+                Scope = permission.Scope,
+                Action = permission.Action,
+                InheritanceRoleSource = permission.InheritanceRoleSource,
+                PermissionType = permission.PermissionType
+            }).ToList();
+    }
+
+    private async Task<List<AuthorizeItemResponse>> GetPermissionAsync(List<Guid> roleIds)
+    {
+        var allChildrenRoleIdList = new List<Guid>();
+        foreach(var roleId in roleIds)
+        {
+            allChildrenRoleIdList.AddRange(await GetRoleListLoop(roleId));
+        }
+
+        var permissions = await (from rolePermission in _dbContext.Set<RolePermission>()
+                   .Include(rolePermission => rolePermission.Role)
+                   .Where(rolePermission => allChildrenRoleIdList.Contains(rolePermission.Role.Id))
+                                 join permission in _dbContext.Set<Permission>() on rolePermission.PermissionsId equals permission.Id
+                                     into temp
+                                 from newPermissions in temp.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     rolePermission.Id,
+                                     PermissionId = newPermissions.Id,
+                                     PermissionName = newPermissions.Name,
+                                     newPermissions.ObjectType,
+                                     newPermissions.Resource,
+                                     newPermissions.Scope,
+                                     InheritanceRoleId = rolePermission.Role.Id,
+                                     InheritanceRoleSource = rolePermission.Role.Name,
+                                     newPermissions.PermissionType,
+                                     newPermissions.Enable,
+                                     newPermissions.Action
+                                 })
+           .ToListAsync();
+        return permissions.Where(permission
+                => (roleIds.Contains(permission.InheritanceRoleId) is false && permission.PermissionType == PermissionType.Public ||
+                    roleIds.Contains(permission.InheritanceRoleId)) &&
                 permission.Enable)
             .Select(permission => new AuthorizeItemResponse()
             {

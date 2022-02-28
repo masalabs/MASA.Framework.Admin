@@ -85,5 +85,6 @@ public class RoleCommandHandler
 
         role.DeleteRolePermission(command.Creator, command.PermissionId);
         await _repository.UpdateAsync(role);
+        await _eventBus.PublishAsync(new DeletePermissionCommand() { PermissionId = command.PermissionId });
     }
 }

@@ -104,7 +104,9 @@ public class GlobalConfig
         }
     }
 
-    public List<AuthorizeItemResponse> Permissions { get; set; }
+    public List<AuthorizeItemResponse> Permissions { get; set; } = new ();
+
+    public bool IsAdmin { get; set; }
 
     public bool Lodding
     {

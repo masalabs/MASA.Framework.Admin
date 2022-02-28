@@ -22,7 +22,13 @@ namespace MASA.Framework.Admin.Web.Shared
         [Inject]
         public IConfiguration Configuration { get; set; } = default!;
 
-        protected override void OnInitialized()
+        [Inject]
+        public NavHelper NavHelper { get; set; } = default!;
+
+        [Inject]
+        public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
+
+        protected override async Task OnInitializedAsync()
         {
             GlobalConfig.OnPageModeChanged += base.StateHasChanged;
 
@@ -31,6 +37,9 @@ namespace MASA.Framework.Admin.Web.Shared
             {
                 var permissions = System.Text.Json.JsonSerializer.Deserialize<List<AuthorizeItemResponse>>(permissionsJson);
                 GlobalConfig.Permissions = permissions;
+                GlobalConfig.IsAdmin = true;
+                var menusResponse = await ConfigurationCaller.GetAllAsync();
+                NavHelper.Initialization(menusResponse.Data);
             }
         }
 

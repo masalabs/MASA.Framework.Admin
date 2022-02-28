@@ -57,7 +57,7 @@ public class RoleDetailsPage : ComponentPageBase
             new() { Text = i18n.T("State"), Value = nameof(UserItemResponse.State) },
             new() { Text = i18n.T("LastLoginTime"), Value = nameof(UserItemResponse.LastLoginTime) },
         };
-}
+    }
 
     public async Task InitAsync(string? roleId)
     {

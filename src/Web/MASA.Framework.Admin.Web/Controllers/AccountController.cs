@@ -38,12 +38,13 @@ namespace MASA.Framework.Admin.Web.Controllers
 
             var jwtToken = (JwtSecurityToken)validatedToken;
             var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
-            
+            var permissions = _userCaller.GetAuthorizeByUserAsync(Guid.Parse(userId));
 
             var claims = new List<Claim>
             {
-                    new Claim("UserId", userId),
-                    new Claim("Token",token)
+                new Claim("UserId", userId),
+                new Claim("Token",token),
+                new Claim("Permissions",System.Text.Json.JsonSerializer.Serialize(permissions))
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

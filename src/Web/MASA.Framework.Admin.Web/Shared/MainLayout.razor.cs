@@ -22,6 +22,23 @@ namespace MASA.Framework.Admin.Web.Shared
         [Inject]
         public IConfiguration Configuration { get; set; } = default!;
 
+        protected override void OnInitialized()
+        {
+            GlobalConfig.OnPageModeChanged += base.StateHasChanged;
+
+            var permissionsJson = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Permissions")?.Value;
+            if (permissionsJson is not null)
+            {
+                var permissions = System.Text.Json.JsonSerializer.Deserialize<List<AuthorizeItemResponse>>(permissionsJson);
+                GlobalConfig.Permissions = permissions;
+            }
+        }
+
+        public void Dispose()
+        {
+            GlobalConfig.OnPageModeChanged -= base.StateHasChanged;
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)

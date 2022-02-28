@@ -6,3 +6,4 @@ global using System.Reflection;
 global using System.Text.Json;
 global using Microsoft.AspNetCore.Http;
 global using MASA.Framework.Admin.Web.Base.Shared;
+global using MASA.Framework.Sdks.Authentication.Response.Authentication.Role;

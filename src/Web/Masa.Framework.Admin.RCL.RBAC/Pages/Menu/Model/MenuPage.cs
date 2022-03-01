@@ -6,6 +6,8 @@ public class MenuPage : ComponentPageBase
 
     public MenuItemResponse CurrentData { get; set; } = new();
 
+    public List<MenuNav> BottomLayerMenus { get; set; } = new();
+
     public List<MenuNav> MenuNavs { get; set; } = new();
 
     private ConfigurationCaller ConfigurationCaller { get; set; }
@@ -32,7 +34,8 @@ public class MenuPage : ComponentPageBase
     List<MenuNav> GetMenuNavs(List<MenuItemResponse> menus)
     {
         var navs = new List<MenuNav>();
-        var menuNavs = menus.Select(m => new MenuNav(m.Id, m.ParentId, m.Url, m.Icon, m.Name, m.Sort)).OrderBy(m => m.Sort).ToList();
+        var menuNavs = menus.Select(m => new MenuNav(m.Id, m.Code,m.ParentId, m.Url, m.Icon, m.Name, m.Sort)).OrderBy(m => m.Sort).ToList();
+        BottomLayerMenus = menuNavs.Where(m => menuNavs.All(d => m.Id != d.ParentId)).ToList();
         navs.AddRange(menuNavs.Where(m => m.ParentId is null));
         foreach (var nav in navs)
         {
@@ -130,11 +133,6 @@ public class MenuPage : ComponentPageBase
         }
     }
 
-    public List<MenuItemResponse> GetBottomLayerMenus()
-    {
-        return AllDatas.Where(m => AllDatas.All(d => m.Id != d.ParentId)).ToList();
-    }
-
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)
     {
         if (result.Success is false) OpenErrorDialog(errorMessage);
@@ -151,6 +149,8 @@ public class MenuNav
 {
     public Guid Id { get; set; }
 
+    public string Code { get; set; }
+
     public Guid? ParentId { get; set; }
 
     public string? Href { get; set; }
@@ -161,11 +161,14 @@ public class MenuNav
 
     public int Sort { get; set; }
 
+    public bool Select { get; set; }
+
     public MenuNav[]? Children { get; set; }
 
-    public MenuNav(Guid id, Guid? parentId, string? href, string? icon, string name, int sort, MenuNav[]? children = null)
+    public MenuNav(Guid id,string code, Guid? parentId, string? href, string? icon, string name, int sort, MenuNav[]? children = null)
     {
         Id = id;
+        Code = code;
         ParentId = parentId;
         Href = href;
         Icon = icon;

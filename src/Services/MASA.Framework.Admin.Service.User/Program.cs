@@ -74,7 +74,8 @@ var app = builder.Services.AddFluentValidation(options =>
                 var serviceProvider = builder.Services.BuildServiceProvider()!;
                 var option = serviceProvider
                     .GetRequiredService<IOptions<AppConfigOption>>();
-                dbOptions.UseSqlServer(option.Value.DbConn);
+                dbOptions
+                    .UseSqlServer(option.Value.DbConn);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<UserDbContext>()
@@ -91,7 +92,7 @@ app.MigrateDbContext<UserDbContext>((context, services) =>
     context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123")
     {
         Name = "Administrator",
-        Email = "masa@admin.com"
+        Email = "admin@masastack.com"
     });
     context.SaveChanges();
 });

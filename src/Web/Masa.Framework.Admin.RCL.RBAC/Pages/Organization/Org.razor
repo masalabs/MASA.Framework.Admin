@@ -13,12 +13,11 @@
     <MDivider />
     <MRow Class="pa-4"
           Justify="JustifyTypes.SpaceBetween">
-        <MCol Cols="5">
-            <MTreeview @bind-Active="_active"
+        <MCol Cols="4">
+            <MTreeview Active="_active"
                        Items="_departments"
-                       LoadChildren="LoadDepartUser"
+                       OnActiveUpdate="(List<DepartmentItemResponse> e)=>ActiveUpdated(e)"
                        Activatable
-                       OpenOnClick
                        ItemText="r=>r.Name"
                        ItemKey="r=>r.Id"
                        ItemChildren="r=>r.Children">
@@ -61,21 +60,21 @@
             </MTreeview>
         </MCol>
         <MDivider Vertical></MDivider>
-        <MCol>
+        <MCol Cols="8">
             <MRow>
-                <MCol>
-                    <span>@_currentDepartment.Name</span>
+                <MCol class="d-flex align-center">
+                    <span>@_currentDepartmentName</span>
                     <span class="ml-2">
                         <MIcon>mdi-account-group</MIcon>
-                        @_pageData.CurrentCount
+                        @_departmentUsers.Count(a=>a.Select)
                     </span>
                 </MCol>
                 <MSpacer />
-                <MCol>
-                    <MButton OnClick="OpenDepartmentUserDialog">@T("AddMember")</MButton>
+                <MCol Md="@("auto")">
+                    <MButton Disabled="_disableDepartmentMemberBtn" OnClick="()=>_addDepartmentUserDialog = true">@T("AddMember")</MButton>
                 </MCol>
             </MRow>
-            <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+            <MDataTable Headers="_headers" Items="_departmentUsers" TItem="UserItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
                 <HeaderColContent Context="header">
                     <span class="text-subtitle">@header.Text</span>
                 </HeaderColContent>
@@ -142,13 +141,6 @@
                     }
                 </ItemColContent>
             </MDataTable>
-            <div class="d-flex">
-                <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_pageData.PageIndex-1)*_pageData.PageSize+1) to @(_pageData.PageIndex*_pageData.PageSize) of @_pageData.CurrentCount entries</div>
-                @if (_pageData.PageCount > 0)
-                {
-                    <MPagination @bind-Value="_pageData.PageIndex" Color="primary" Circle Length=@_pageData.PageCount></MPagination>
-                }
-            </div>
         </MCol>
     </MRow>
 </MCard>
@@ -230,7 +222,7 @@
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addDepartmentUserDialog = false">
                     @T("Cancel")
                 </MButton>
-                <MButton Color="primary" Width="100" class="rounded-pill">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="UpdateDepartmentUser">
                     @T("Save")
                 </MButton>
             </MCardActions>

@@ -127,7 +127,7 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    department_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -135,8 +135,8 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 {
                     table.PrimaryKey("PK_department_users", x => x.id);
                     table.ForeignKey(
-                        name: "FK_department_users_department_DepartmentId",
-                        column: x => x.DepartmentId,
+                        name: "FK_department_users_department_department_id",
+                        column: x => x.department_id,
                         principalSchema: "user",
                         principalTable: "department",
                         principalColumn: "id",
@@ -206,10 +206,10 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 column: "code");
 
             migrationBuilder.CreateIndex(
-                name: "IX_department_users_DepartmentId",
+                name: "IX_department_users_department_id",
                 schema: "user",
                 table: "department_users",
-                column: "DepartmentId");
+                column: "department_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_department_users_user_id",

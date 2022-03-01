@@ -10,11 +10,11 @@ namespace Masa.Framework.Admin.Service.User.Domain.Aggregates
 
         private List<UserGroupItem> userGroupItems = new();
 
-        public IReadOnlyCollection<UserGroupItem> UserGroupItems => userGroupItems;
+        public virtual IReadOnlyCollection<UserGroupItem> UserGroupItems => userGroupItems;
 
         private List<UserGroupPermission> userGroupPermissions = new();
 
-        public IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
+        public virtual IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
 
         private UserGroup()
         {

@@ -130,7 +130,8 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                         .HasColumnName("id");
 
                     b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("department_id");
 
                     b.Property<string>("Position")
                         .IsRequired()
@@ -355,7 +356,7 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                         .IsRequired();
 
                     b.HasOne("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", "User")
-                        .WithMany()
+                        .WithMany("DepartmentUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -413,6 +414,8 @@ namespace Masa.Framework.Admin.Service.User.Migrations
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
+                    b.Navigation("DepartmentUsers");
+
                     b.Navigation("UserGroups");
 
                     b.Navigation("UserRoles");

@@ -1,6 +1,3 @@
-using Masa.Framework.Sdks.Authentication.Internal.Enum;
-using System.Security.Principal;
-
 namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public class OrganizationCaller : CallerBase
@@ -43,7 +40,7 @@ public class OrganizationCaller : CallerBase
         });
     }
 
-    public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetDepartmentUsersAsync(int pageIndex = 1, int pageSize = 20,Guid departmentId=default(Guid))
+    public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetDepartmentUsersAsync(int pageIndex = 1, int pageSize = 20, Guid departmentId = default(Guid))
     {
         var queryArguments = new Dictionary<string, string?>()
         {
@@ -56,6 +53,15 @@ public class OrganizationCaller : CallerBase
         {
             var url = QueryHelpers.AddQueryString(Routing.DepartmentUsers, queryArguments);
             var response = await CallerProvider.GetAsync<PaginatedItemResponse<UserItemResponse>>(url);
+            return response!;
+        });
+    }
+
+    public async Task<ApiResultResponseBase> UpdateDepartmentUsers(UpdateDepartmentUserRequest updateDepartmentUserRequest)
+    {
+        return await ResultAsync(async () =>
+        {
+            var response = await CallerProvider.PostAsync(Routing.DepartmentUsers, updateDepartmentUserRequest);
             return response!;
         });
     }

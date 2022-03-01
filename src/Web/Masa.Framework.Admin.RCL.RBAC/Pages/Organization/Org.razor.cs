@@ -2,20 +2,20 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
 {
     public partial class Org
     {
-        bool _addOrgDialog, _addDepartmentUserDialog;
+        bool _addOrgDialog, _addDepartmentUserDialog, _disableDepartmentMemberBtn = true;
         List<Guid> _active = new List<Guid>();
-        PaginationPage<UserItemResponse> _pageData = new();
         List<UserItemResponse> _departmentUsers = new();
         List<DepartmentItemResponse> _departments = new();
         CreateDepartmentRequest _createDepartment = new();
-        DepartmentItemResponse _currentDepartment = new();
+        string _currentDepartmentName = "";
+        Guid _currentDepartmentId = Guid.Empty;
         readonly List<DataTableHeader<UserItemResponse>> _headers = new()
         {
-            new() { Text = "Name", Value = nameof(UserItemResponse.Name) },
-            new() { Text = "Email", Value = nameof(UserItemResponse.Email) },
-            new() { Text = "State", Value = nameof(UserItemResponse.State) },
-            new() { Text = "Gender", Value = nameof(UserItemResponse.Gender) },
-            new() { Text = "Action", Value = "Action", Sortable = false }
+            new() { Text = "姓名", Value = nameof(UserItemResponse.Name) },
+            new() { Text = "邮箱", Value = nameof(UserItemResponse.Email) },
+            new() { Text = "状态", Value = nameof(UserItemResponse.State) },
+            new() { Text = "性别", Value = nameof(UserItemResponse.Gender) },
+            new() { Text = "操作", Value = "Action", Sortable = false }
         };
 
         [Parameter]
@@ -42,12 +42,12 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
             var res = await OrganizationCaller.GetListAsync(OrgId);
             if (res.Success)
             {
-                _departments = res.Data;
+                _departments = res.Data ?? new();
                 StateHasChanged();
             }
         }
 
-        private async Task OpenAddDialog(Guid parentId, string parentName)
+        private void OpenAddDialog(Guid parentId, string parentName)
         {
             _createDepartment = new()
             {
@@ -68,23 +68,34 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
             }
         }
 
-        private async Task LoadDepartUser(DepartmentItemResponse departmentItem)
+        private async Task ActiveUpdated(List<DepartmentItemResponse> activedItems)
         {
-            _currentDepartment = departmentItem;
-            var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartment.Id, true);
+            _disableDepartmentMemberBtn = false;
+            _currentDepartmentId = activedItems[0].Id;
+            _currentDepartmentName = activedItems[0].Name;
+            var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartmentId, true);
             if (res.Success && res.Data != null)
             {
                 _departmentUsers = res.Data;
             }
+            StateHasChanged();
         }
 
-        private async Task OpenDepartmentUserDialog()
+        private async Task UpdateDepartmentUser()
         {
-            //var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartment.Id, true);
-            //if (res.Success && res.Data != null)
-            //{
-            //    _departmentUsers = res.Data;
-            //}
+            var res = await OrganizationCaller.UpdateDepartmentUsers(new UpdateDepartmentUserRequest
+            {
+                DepartmentId = _currentDepartmentId,
+                UserIds = _departmentUsers.Where(u => u.Select).Select(u => u.Id).ToList()
+            });
+            if (res.Success)
+            {
+                _addDepartmentUserDialog = false;
+            }
+            else
+            {
+
+            }
         }
     }
 }

@@ -27,15 +27,15 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     private List<UserRole> userRoles;
 
-    public IReadOnlyCollection<UserRole> UserRoles => userRoles;
+    public virtual IReadOnlyCollection<UserRole> UserRoles => userRoles;
 
     private List<UserGroupItem> userGroups;
 
-    public IReadOnlyCollection<UserGroupItem> UserGroups => userGroups;
+    public virtual IReadOnlyCollection<UserGroupItem> UserGroups => userGroups;
 
     private List<DepartmentUser> departmentUsers = new List<DepartmentUser>();
 
-    public IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
+    public virtual IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
 
     private User()
     {

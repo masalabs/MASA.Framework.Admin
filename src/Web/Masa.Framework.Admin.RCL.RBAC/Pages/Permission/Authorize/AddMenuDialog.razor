@@ -17,20 +17,36 @@
                                     <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                                 </PrependInnerContent>
                             </MTextField>
-                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => BottomLayerMenus.Where(m => m.Name.Contains(_search ?? string.Empty)).ForEach(m => m.Select = true)">@T("All")</div>
-                            <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@BottomLayerMenus.Where(m => !m.Select  && m.Name.Contains(_search ?? "")).ToList()">
-                                <ItemContent>
-                                    <div class="hover-pointer pa-2" style="color:blue" @onclick="() => context.Select = true" >@context.Name</div>
-                                </ItemContent>
-                            </MVirtualScroll>
+                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => MenuPage.BottomLayerMenus.Where(m => m.Name.Contains(_search ?? string.Empty)).ForEach(m => m.Select = true)">@T("All")</div>
+                            <div style="overflow:scroll;max-height:400px;">
+                                <MTreeview Items="QueryMenuNavs()"
+                                           Activatable
+                                           ItemKey="m => m.Id"
+                                           ItemChildren="m => m.Children?.ToList()"
+                                           ItemText="m => m.Name"
+                                           OpenOnClick>
+                                    <PrependContent>
+                                        @if (context.Item.Children is not null)
+                                        {
+                                            <MIcon>
+                                                @(context.Open ? "mdi-folder-open" : "mdi-folder")
+                                            </MIcon>
+                                        }
+                                        else
+                                        {                              
+                                            <MCheckbox Class="mt-n1" @bind-Value="context.Item.Select" />
+                                        }
+                                    </PrependContent>
+                                </MTreeview>
+                            </div>
                         </MCol>
                         <MCol Class="pt-0" Style="height:480px;">
                             <div class="block-between my-2">
                                 <span>@T("Added menu")</span>
-                                <div class="hover-pointer" style="color:blue" @onclick="() => BottomLayerMenus.ForEach(m => m.Select = false)">@T("Clear")</div>
+                                <div class="hover-pointer" style="color:blue" @onclick="() => MenuPage.BottomLayerMenus.ForEach(m => m.Select = false)">@T("Clear")</div>
                             </div>
-                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@BottomLayerMenus.Where(m => m.Select).ToList()">
-                                <ItemContent>                                   
+                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@MenuPage.BottomLayerMenus.Where(m => m.Select).ToList()">
+                                <ItemContent>
                                     <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
                                         <span class="text-btn neutral-lighten-1--text">@(context.Name)</span>
                                         <MIcon Color="neutral-lighten-3" Size=24 OnClick="() => context.Select = false">mdi-close</MIcon>
@@ -78,8 +94,6 @@
 
     string _search;
 
-    List<MenuItemResponse> BottomLayerMenus { get; set; }
-
     private async Task UpdateVisible(bool visible)
     {
         if (VisibleChanged.HasDelegate)
@@ -89,25 +103,58 @@
         else
         {
             Visible = visible;
-        }    
+        }
     }
 
     protected override void OnParametersSet()
     {
-        BottomLayerMenus = MenuPage.GetBottomLayerMenus();
         var arr = SelectMenuCodes.Split(',');
-        BottomLayerMenus.ForEach(m =>
+        MenuPage.BottomLayerMenus.ForEach(m =>
         {
             if (arr.Contains(m.Code)) m.Select = true;
         });
     }
 
+    private List<MenuNav> QueryMenuNavs()
+    {
+        if (string.IsNullOrEmpty(_search)) return MenuPage.MenuNavs;
+        else
+        {
+            var menuNavs = new List<MenuNav>();
+            foreach(var menuNav in MenuPage.MenuNavs)
+            {
+                if(CheckContansSonByName(menuNav,_search))
+                {
+                    menuNavs.Add(menuNav);
+                }
+            }
+            return menuNavs;
+        }
+
+        bool CheckContansSonByName(MenuNav menuNav,string name)
+        {
+            if (menuNav.Name.ToUpper().Contains(name.ToUpper())) return true;
+            else
+            {
+                if (menuNav.Children is not null)
+                {
+                    foreach(var child in menuNav.Children)
+                    {
+                        if (CheckContansSonByName(child, name) is true) return true;
+                    }
+                    return false;
+                }
+                else return false;
+            }
+        }
+    }
+
     private async Task Submit()
     {
-        var selectMenus =  MenuPage.AllDatas.Where(m => m.Select);
-        SelectMenuNames = string.Join(',',selectMenus.Select(m => m.Name));
+        var selectMenus = MenuPage.BottomLayerMenus.Where(m => m.Select);
+        SelectMenuNames = string.Join(',', selectMenus.Select(m => m.Name));
         await SelectMenuNamesChanged.InvokeAsync(SelectMenuNames);
-        SelectMenuCodes = string.Join(',',selectMenus.Select(m => m.Code));
+        SelectMenuCodes = string.Join(',', selectMenus.Select(m => m.Code));
         await SelectMenuCodesChanged.InvokeAsync(SelectMenuCodes);
 
         await UpdateVisible(false);

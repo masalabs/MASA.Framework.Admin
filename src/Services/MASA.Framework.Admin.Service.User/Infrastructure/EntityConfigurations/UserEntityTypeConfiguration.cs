@@ -17,6 +17,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
         builder.Property(user => user.Cover).HasColumnName("cover").HasMaxLength(200);
         builder.Property(user => user.Email).HasColumnName("email").HasMaxLength(100);
         builder.Property(user => user.Enable).HasColumnName("enable").IsRequired();
+        builder.Property(user => user.IsAdmin).HasColumnName("isAdmin").IsRequired();
         builder.Property(user => user.LastLoginTime).HasColumnName("last_login_time");
         builder.Property(user => user.LastUpdateTime).HasColumnName("last_update_time");
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Masa.Framework.Admin.Service.User.Migrations
+namespace MASA.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot
@@ -188,6 +188,10 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                     b.Property<bool>("Gender")
                         .HasColumnType("bit")
                         .HasColumnName("gender");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit")
+                        .HasColumnName("isAdmin");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit")

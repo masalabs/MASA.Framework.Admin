@@ -21,44 +21,52 @@ public class NavHelper
 
     public void Initialization(List<MenuItemResponse> allMenus)
     {
-        var allMenuNavs = allMenus.Select(m => new NavModel(m.Id, m.Code,m.Url, m.Icon, m.Name, m.Sort, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
-        var menuCodes = _globalConfig.Permissions.Where(p => p.Resource=="menus")
-                                             .SelectMany(p => p.Scope.Split(','))
-                                             .Distinct();
-       // allMenuNavs = allMenuNavs.Where(mn => !menuCodes.Contains(mn.Code)).ToList();
-        
-        if(_globalConfig.IsAdmin)
+        var allMenuNavs = allMenus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
+
+        if (_globalConfig.IsAdmin)
         {
-            var adminNav = new NavModel(Guid.NewGuid(),"00000", "","mdi-file-outline", "System Configuration",0,null,null);
+            var adminNav = new NavModel(Guid.NewGuid(), "00000", "", "mdi-file-outline", "System Configuration", 0, null, null);
             var menuNav = new NavModel(Guid.NewGuid(), "000001", "menu/list", "", "Menu", 0, adminNav.ParentId, null);
             menuNav.FullTitle = adminNav.Title + " " + menuNav.Title;
             var permissionNav = new NavModel(Guid.NewGuid(), "000002", "permission", "", "Permission", 0, adminNav.ParentId, null);
             permissionNav.FullTitle = adminNav.Title + " " + permissionNav.Title;
-            adminNav.Children=new NavModel[] { menuNav,permissionNav };
+            adminNav.Children = new NavModel[] { menuNav, permissionNav };
             Navs.Add(adminNav);
+            Navs.AddRange(GetMenuNavs(allMenuNavs));
         }
-        Navs.AddRange(GetMenuNavs(allMenuNavs));
-        //menuCodes.ForEach(code =>
-        //{
-        //    var permissionMenu = allMenuNavs.FirstOrDefault(m => m.Code == code);
-        //    if(permissionMenu is not null)
-        //    {
-        //        var parentMenu = FindParent(permissionMenu, allMenuNavs);
-        //        Navs.Add(menuNavs.First(m => m.Code == parentMenu.Code));
-        //    }
-        //});
+        else
+        {
+            var menuCodes = _globalConfig.Permissions.Where(p => p.Resource == "menus")
+                                     .SelectMany(p => p.Scope.Split(','))
+                                     .Distinct();           
+            DeleteEmptyMenuNavs(allMenuNavs, menuCodes);
+            Navs.AddRange(GetMenuNavs(allMenuNavs));
+        }
 
-        SameLevelNavs.AddRange(allMenuNavs.Where(m => menuCodes.Contains(m.Code)).ToList());
+        SameLevelNavs.AddRange(allMenuNavs.Where(m => allMenuNavs.All(d => m.Id != d.ParentId)).ToList());
 
-        SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav => 
+        SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav =>
         {
             PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon));
         });
     }
 
+    void DeleteEmptyMenuNavs(List<NavModel> meunNavs, IEnumerable<string> menuCodes)
+    {
+        var deleteMenus = meunNavs.Where(m => meunNavs.All(d => m.Id != d.ParentId) && !menuCodes.Contains(m.Code)).ToList();
+        if (deleteMenus.Count > 0)
+        {
+            foreach(var menu in deleteMenus)
+            {
+                meunNavs.Remove(menu);
+            }
+            DeleteEmptyMenuNavs(meunNavs, menuCodes);
+        }
+    }
+
     List<NavModel> GetMenuNavs(List<NavModel> menuNavs)
     {
-        var navs = new List<NavModel>();        
+        var navs = new List<NavModel>();
         navs.AddRange(menuNavs.Where(m => m.ParentId is null));
         foreach (var nav in navs)
         {

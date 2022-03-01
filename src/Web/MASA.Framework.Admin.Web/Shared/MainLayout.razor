@@ -26,25 +26,35 @@
             <Navigation />
 
             <MMain Class="fill-lighten-1" Style="padding-top:60px">
-                @if (GlobalConfig.PageMode == PageModes.Breadcrumb)
-                {
-                     <div class="pa-6 max-width max-height">
-                        @*<Breadcrumb></Breadcrumb>*@
-                        @Body
-                     </div>
+                @{
+                    var uri = NavigationManager.Uri.Replace(NavigationManager.BaseUri, "");
                 }
-                else if (GlobalConfig.PageMode == PageModes.PageTab)
+                @if(uri!="" && PermissionHelper.CheckMenuPermissionBuUrl(uri) is false && NavigationManager.Uri.Contains("/pages/others/401") is false)
                 {
-                     <PageTabs>
-                        @Body
-                     </PageTabs>
+                    <Masa.Framework.Admin.Web.Pages.Others.NotAuthorized />
                 }
                 else
                 {
-                     <div class="pa-6 max-width max-height">
-                        @Body
-                     </div>
-                }
+                    if (GlobalConfig.PageMode == PageModes.Breadcrumb)
+                    {
+                         <div class="pa-6 max-width max-height">
+                            <Breadcrumb></Breadcrumb>
+                            @Body
+                         </div>
+                    }
+                    else if (GlobalConfig.PageMode == PageModes.PageTab)
+                    {
+                         <PageTabs>
+                            @Body
+                         </PageTabs>
+                    }
+                    else
+                    {
+                         <div class="pa-6 max-width max-height">
+                            @Body
+                         </div>
+                    }
+                }               
             </MMain>
 
             <Settings @bind-Show=_showSetting />

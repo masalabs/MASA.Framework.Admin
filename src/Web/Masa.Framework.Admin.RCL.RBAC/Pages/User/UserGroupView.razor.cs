@@ -46,21 +46,20 @@ public partial class UserGroupView
             return;
         }
         var resPermissions = await AuthenticationCaller.GetPermissionsByIds(res.Data);
-        if (resPermissions.Success && resPermissions.Data != null)
+        HandleCaller(resPermissions, (data) =>
         {
-            _groupPermissions = resPermissions.Data;
+            _groupPermissions = data;
             StateHasChanged();
-        }
+#warning StateHasChanged
+        });
     }
 
     private async Task LoadUsersAysnc()
     {
-        var res = await UserGroupCaller.GetUsersAsync(ID);
-        if (res != null && res.Success)
+        HandleCaller(await UserGroupCaller.GetUsersAsync(ID), (data) =>
         {
-            _groupUsers = res.Data ?? new();
-            StateHasChanged();
-        }
+            _groupUsers = data;
+        });
     }
 
     private async Task AddAuthorize(AuthorizeItemResponse data)
@@ -76,11 +75,10 @@ public partial class UserGroupView
             Action = data.Action,
         };
         var result = await AuthenticationCaller.AddPermissionAsync(permission);
-        if (result.Success)
+        await HandleCallerAsync(result, async () =>
         {
-            //refresh
             await LoadPermissionAsync();
-        }
+        });
     }
 
     private async Task RemovePermissionAsync(Guid permissionId)
@@ -90,10 +88,10 @@ public partial class UserGroupView
             PermissionId = permissionId,
             UserGroupId = ID
         });
-        if (res.Success)
+        await HandleCallerAsync(res, async () =>
         {
             await LoadPermissionAsync();
-        }
+        });
     }
 
 }

@@ -157,7 +157,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.OperateUser, new { id });
+            var response = await CallerProvider.DeleteAsync(Routing.OperateUser, new { UserId = id });
             return response!;
         });
     }

@@ -66,7 +66,7 @@
                     <span>@_currentDepartmentName</span>
                     <span class="ml-2">
                         <MIcon>mdi-account-group</MIcon>
-                        @_departmentUsers.Count(a=>a.Select)
+                        @_departmentUsers.Count(u=>u.Select)
                     </span>
                 </MCol>
                 <MSpacer />
@@ -74,7 +74,7 @@
                     <MButton Disabled="_disableDepartmentMemberBtn" OnClick="()=>_addDepartmentUserDialog = true">@T("AddMember")</MButton>
                 </MCol>
             </MRow>
-            <MDataTable Headers="_headers" Items="_departmentUsers" TItem="UserItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
+            <MDataTable Headers="_headers" Items="_departmentUsers.Where(u=>u.Select)" TItem="UserItemResponse" HideDefaultFooter Class="user mt-2 table-border-none">
                 <HeaderColContent Context="header">
                     <span class="text-subtitle">@header.Text</span>
                 </HeaderColContent>

@@ -34,12 +34,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
         private async Task LoadData()
         {
             var dataRes = await UserGroupCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "");
-
-            if (dataRes.Success && dataRes.Data != null)
+            HandleCaller(dataRes, (data) =>
             {
-                _pageData.PageData = dataRes.Data.Items.ToList();
-                _pageData.CurrentCount = dataRes.Data.Count;
-            }
+                _pageData.PageData = data.Items.ToList();
+                _pageData.CurrentCount = data.Count;
+            });
         }
 
         private async Task CreateGroup(EditContext context)
@@ -50,14 +49,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
                 return;
             }
 
-            var res = await UserGroupCaller.CreateAsync(_createUserGroup);
-            if (!res.Success)
+            await HandleCallerAsync(await UserGroupCaller.CreateAsync(_createUserGroup), async () =>
             {
-
-            }
-
-            _visible = false;
-            await LoadData();
+                _visible = false;
+                await LoadData();
+            });
         }
     }
 }

@@ -9,6 +9,7 @@ global using Masa.Framework.Sdks.Authentication.Callers;
 global using Masa.Framework.Sdks.Authentication.Internal.Enum;
 global using Masa.Framework.Sdks.Authentication.Request.Authentication.Role;
 global using Masa.Framework.Sdks.Authentication.Request.Configuration.Menu;
+global using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
 global using Masa.Framework.Sdks.Authentication.Request.Users;
 global using Masa.Framework.Sdks.Authentication.Response.Authentication.Permission;
 global using Masa.Framework.Sdks.Authentication.Response.Authentication.Role;

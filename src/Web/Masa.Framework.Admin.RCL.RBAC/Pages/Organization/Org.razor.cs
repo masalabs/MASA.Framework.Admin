@@ -40,11 +40,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
         private async Task LoadDataAsync()
         {
             var res = await OrganizationCaller.GetListAsync(OrgId);
-            if (res.Success)
+            HandleCaller(res, (data) =>
             {
-                _departments = res.Data ?? new();
+                _departments = data;
                 StateHasChanged();
-            }
+            });
         }
 
         private void OpenAddDialog(Guid parentId, string parentName)
@@ -60,12 +60,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
         private async Task AddDepartment()
         {
             var res = await OrganizationCaller.CreateAsync(_createDepartment);
-
-            if (res.Success)
+            await HandleCallerAsync(res, async () =>
             {
                 _addOrgDialog = false;
                 await LoadDataAsync();
-            }
+            });
         }
 
         private async Task ActiveUpdated(List<DepartmentItemResponse> activedItems)
@@ -74,11 +73,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
             _currentDepartmentId = activedItems[0].Id;
             _currentDepartmentName = activedItems[0].Name;
             var res = await UserCaller.GetUsersWithDepartmentAsync(_currentDepartmentId, true);
-            if (res.Success && res.Data != null)
+            HandleCaller(res, (data) =>
             {
-                _departmentUsers = res.Data;
-            }
-            StateHasChanged();
+                _departmentUsers = data;
+            });
         }
 
         private async Task UpdateDepartmentUser()
@@ -88,14 +86,10 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.Organization
                 DepartmentId = _currentDepartmentId,
                 UserIds = _departmentUsers.Where(u => u.Select).Select(u => u.Id).ToList()
             });
-            if (res.Success)
+            HandleCaller(res, () =>
             {
                 _addDepartmentUserDialog = false;
-            }
-            else
-            {
-
-            }
+            });
         }
     }
 }

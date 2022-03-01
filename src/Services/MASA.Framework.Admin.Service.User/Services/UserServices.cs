@@ -152,9 +152,9 @@ public class UserServices : ServiceBase
     }
 
     public async Task DeleteAsync(
-        [FromServices] IEventBus eventBus, Guid id)
+        [FromServices] IEventBus eventBus, [FromBody] DeleteCommand deleteCommand)
     {
-        await eventBus.PublishAsync(new DeleteCommand(id));
+        await eventBus.PublishAsync(deleteCommand);
     }
 
     [HttpPost]

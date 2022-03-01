@@ -19,12 +19,14 @@ public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User>,
         return await _context.Set<Domain.Aggregates.User>().Where(predicate).CountAsync();
     }
 
-    public async Task<List<Domain.Aggregates.User>> GetUsersByDepartment(Guid departmentId, int pageIndex, int pageSize)
+    public async Task<List<Domain.Aggregates.User>> QueryListAsync(Expression<Func<Domain.Aggregates.User, bool>> predicate, params string[] includProperties)
     {
-        return await _context.Set<DepartmentUser>().Where(a => a.Department.Id == departmentId)
-            .Select(du => du.UserId).Join(_context.Set<Domain.Aggregates.User>(),
-            userId => userId, user => user.Id, (userId, user) => user)
-            .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        var query = _context.Set<Domain.Aggregates.User>().Where(predicate);
+        foreach (var includProperty in includProperties)
+        {
+            query = query.Include(includProperty);
+        }
+        return await query.ToListAsync();
     }
 }
 

@@ -167,7 +167,7 @@ public class RoleQueryHandler
     private async Task<List<AuthorizeItemResponse>> GetPermissionAsync(List<Guid> roleIds)
     {
         var allChildrenRoleIdList = new List<Guid>();
-        foreach(var roleId in roleIds)
+        foreach (var roleId in roleIds)
         {
             allChildrenRoleIdList.AddRange(await GetRoleListLoop(roleId));
         }

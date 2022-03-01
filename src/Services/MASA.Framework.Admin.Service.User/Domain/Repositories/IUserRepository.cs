@@ -8,6 +8,6 @@ public interface IUserRepository : IRepository<Aggregates.User>
 
     Task<int> GetUserCountAsync(Expression<Func<Aggregates.User, bool>> predicate);
 
-    Task<List<Aggregates.User>> GetUsersByDepartment(Guid departmentId, int pageIndex, int pageSize);
+    Task<List<Aggregates.User>> QueryListAsync(Expression<Func<Aggregates.User, bool>> predicate, params string[] includProperties);
 }
 

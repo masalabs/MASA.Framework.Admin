@@ -14,7 +14,7 @@ public class QueryHandler
     [EventHandler]
     public async Task GetDepartmentUserAsync(DepartmentUserQuery departmentUserQuery)
     {
-        var users = await _userRepository.GetListAsync();
+        var users = await _userRepository.QueryListAsync((e) => true, nameof(Domain.Aggregates.User.DepartmentUsers));
         departmentUserQuery.Result = users.Select(user => new UserItemResponse()
         {
             Id = user.Id,

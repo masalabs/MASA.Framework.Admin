@@ -11,11 +11,11 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
         private readonly List<DataTableHeader<UserGroupItemResponse>> _headers = new()
         {
             new() { Text = "名称", Value = nameof(UserGroupItemResponse.Name), CellClass = "" },
-            new() { Text = "Code", Value = nameof(UserGroupItemResponse.Code) },
+            new() { Text = "标识", Value = nameof(UserGroupItemResponse.Code) },
             new() { Text = "描述", Value = nameof(UserGroupItemResponse.Describtion) },
             new() { Text = "创建时间", Value = nameof(UserGroupItemResponse.CreationTime) },
             new() { Text = "最近修改时间", Value = nameof(UserGroupItemResponse.ModificationTime) },
-            new() { Text = "Action", Value = "Action", Sortable = false }
+            new() { Text = "操作", Value = "Action", Sortable = false }
         };
 
         [Inject]

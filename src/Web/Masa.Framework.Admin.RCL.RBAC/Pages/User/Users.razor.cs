@@ -11,13 +11,13 @@ public partial class Users
     private List<int> _pageSizes = new() { 10, 25, 50, 100 };
     private readonly List<DataTableHeader<UserItemResponse>> _headers = new()
     {
-        new() { Text = "Account", Value = nameof(UserItemResponse.Account), CellClass = "" },
-        new() { Text = "Name", Value = nameof(UserItemResponse.Name) },
-        new() { Text = "Email", Value = nameof(UserItemResponse.Email) },
-        new() { Text = "State", Value = nameof(UserItemResponse.State) },
-        new() { Text = "Gender", Value = nameof(UserItemResponse.Gender) },
-        new() { Text = "LastLoginTime", Value = nameof(UserItemResponse.LastLoginTime) },
-        new() { Text = "Action", Value = "Action", Sortable = false }
+        new() { Text = "账号", Value = nameof(UserItemResponse.Account), CellClass = "" },
+        new() { Text = "姓名", Value = nameof(UserItemResponse.Name) },
+        new() { Text = "邮箱", Value = nameof(UserItemResponse.Email) },
+        new() { Text = "状态", Value = nameof(UserItemResponse.State) },
+        new() { Text = "性别", Value = nameof(UserItemResponse.Gender) },
+        new() { Text = "最后登录时间", Value = nameof(UserItemResponse.LastLoginTime) },
+        new() { Text = "操作", Value = "Action", Sortable = false }
     };
 
     private List<StateItem> _selectStateList => new List<StateItem>

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MASA.Framework.Admin.Service.User.Migrations
+namespace Masa.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot
@@ -130,7 +130,8 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .HasColumnName("id");
 
                     b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("department_id");
 
                     b.Property<string>("Position")
                         .IsRequired()
@@ -359,7 +360,7 @@ namespace MASA.Framework.Admin.Service.User.Migrations
                         .IsRequired();
 
                     b.HasOne("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", "User")
-                        .WithMany()
+                        .WithMany("DepartmentUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -417,6 +418,8 @@ namespace MASA.Framework.Admin.Service.User.Migrations
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.User.Domain.Aggregates.User", b =>
                 {
+                    b.Navigation("DepartmentUsers");
+
                     b.Navigation("UserGroups");
 
                     b.Navigation("UserRoles");

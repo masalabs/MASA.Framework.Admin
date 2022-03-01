@@ -10,6 +10,7 @@ namespace Masa.Framework.Admin.Service.User.Infrastructure.EntityConfigurations
             builder.Property(depart => depart.Id).HasColumnName("id").IsRequired();
 
             builder.Property(depart => depart.UserId).HasColumnName("user_id").IsRequired();
+            builder.Property(depart => depart.DepartmentId).HasColumnName("department_id").IsRequired();
         }
     }
 }

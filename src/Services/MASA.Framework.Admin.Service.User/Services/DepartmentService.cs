@@ -1,3 +1,4 @@
+using Masa.Framework.Admin.Service.User.Application.Organizations.Commands;
 using CreateCommand = Masa.Framework.Admin.Service.User.Application.Organizations.Commands.CreateCommand;
 
 namespace Masa.Framework.Admin.Service.User.Services;
@@ -8,6 +9,7 @@ public class DepartmentService : ServiceBase
     {
         App.MapGet(Routing.DepartmentList, GetTreeListAsync);
         App.MapPost(Routing.OperateDepartment, CreateAsync);
+        App.MapPost(Routing.DepartmentUsers, UpdateDepartmentUsersAsync);
     }
 
     public async Task CreateAsync(
@@ -28,6 +30,14 @@ public class DepartmentService : ServiceBase
         var query = new TreeQuery(parentId);
         await eventBus.PublishAsync(query);
         return query.Result;
+    }
+
+    public async Task UpdateDepartmentUsersAsync(
+        [FromServices] IEventBus eventBus,
+        [FromBody] UpdateDepartmentUserRequest updateDepartmentUserRequest)
+    {
+        var command = new UpdateDepartmentUserCommand(updateDepartmentUserRequest);
+        await eventBus.PublishAsync(command);
     }
 }
 

@@ -12,24 +12,33 @@ namespace Masa.Framework.Admin.Service.User.Domain.Aggregates
 
         private List<DepartmentUser> departmentUsers = new List<DepartmentUser>();
 
-        public IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
+        public virtual IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
 
         private Department()
         {
 
         }
 
-        public Department(string name, string code, string describtion):this(name,code,describtion,Guid.Empty)
+        public Department(string name, string code, string describtion) : this(name, code, describtion, Guid.Empty)
         {
 
         }
 
-        public Department(string name, string code, string describtion,Guid parentId)
+        public Department(string name, string code, string describtion, Guid parentId)
         {
             Name = name;
             Code = code;
             Describtion = describtion;
             ParentId = parentId;
+        }
+
+        public void UpdateUsers(List<Guid> userIds)
+        {
+            departmentUsers.Clear();
+            foreach (var userId in userIds)
+            {
+                departmentUsers.Add(new DepartmentUser(userId));
+            }
         }
     }
 }

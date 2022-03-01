@@ -1,5 +1,3 @@
-using Masa.Framework.Admin.Service.User.Domain.Aggregates;
-
 namespace Masa.Framework.Admin.Service.User.Application.Organizations;
 
 public class QueryHandler
@@ -16,23 +14,17 @@ public class QueryHandler
     [EventHandler]
     public async Task GetDepartmentUserAsync(DepartmentUserQuery departmentUserQuery)
     {
-        var users = await _userRepository.GetUsersByDepartment(departmentUserQuery.DepartmentId,
-            departmentUserQuery.PageIndex, departmentUserQuery.PageSize
-        );
-        departmentUserQuery.Result = new PaginatedItemResponse<UserItemResponse>(
-            departmentUserQuery.PageIndex,
-            departmentUserQuery.PageSize,
-            0,//todo
-            0,//todo 
-            users.Select(user => new UserItemResponse()
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                State = Convert.ToInt32(user.Enable),
-                Cover = user.Cover,
-                Gender = user.Gender
-            }));
+        var users = await _userRepository.GetListAsync();
+        departmentUserQuery.Result = users.Select(user => new UserItemResponse()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            State = Convert.ToInt32(user.Enable),
+            Cover = user.Cover,
+            Gender = user.Gender,
+            Select = user.DepartmentUsers.Any(d => d.Department.Id == departmentUserQuery.DepartmentId),
+        }).ToList();
     }
 
     [EventHandler]

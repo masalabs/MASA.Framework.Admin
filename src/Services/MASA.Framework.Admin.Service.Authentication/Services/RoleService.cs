@@ -1,3 +1,5 @@
+using IdListQuery = Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries.IdListQuery;
+
 namespace Masa.Framework.Admin.Service.Authentication.Services;
 
 public class RoleService : ServiceBase

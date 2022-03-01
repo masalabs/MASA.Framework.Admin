@@ -16,6 +16,9 @@ public class Routing
 
     public static readonly string OperatePermission = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.PERMISSION_SERVICE);
 
+    public static readonly string PermissionListByIds = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.PERMISSION_SERVICE, "ids");
+
+
     #endregion
 
     #region Role
@@ -77,6 +80,8 @@ public class Routing
 
     public static string AllUser = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "allUser");
 
+    public static string UserWithDepartment = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "department");
+
     public static string UserListByRole = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "userListByRole");
 
     public static string UserGroup = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_SERVICE, "group");
@@ -92,6 +97,10 @@ public class Routing
     public static string GroupUsers = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "users");
 
     public static string UserGroupSelect = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "select");
+
+    public static string UserGroupPermissions = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "permissions");
+
+    public static string GroupPermission = string.Format(UrlRule.DEFAULT_SERVICE_BASE, Const.UrlRule.USER_GROUP_SERVICE, "permission");
 
     public static string OperateDepartment = string.Format(UrlRule.DEFAULT_SERVICE, Const.UrlRule.USER_DEPARTMENT_SERVICE);
 

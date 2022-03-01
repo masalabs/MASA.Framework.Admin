@@ -1,7 +1,7 @@
 namespace Masa.Framework.Admin.Service.User.Application.Organizations.Queries;
 
-public record DepartmentUserQuery(int PageIndex, int PageSize, Guid DepartmentId) : Query<PaginatedItemResponse<UserItemResponse>>
+public record DepartmentUserQuery(Guid DepartmentId, bool All) : Query<List<UserItemResponse>>
 {
-    public override PaginatedItemResponse<UserItemResponse> Result { get; set; } = null!;
+    public override List<UserItemResponse> Result { get; set; } = null!;
 }
 

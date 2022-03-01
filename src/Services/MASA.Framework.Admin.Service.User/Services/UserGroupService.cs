@@ -11,8 +11,10 @@ public class UserGroupService : ServiceBase
         App.MapGet(Routing.UserGroupSelect, GetSelectListAsync);
         App.MapGet(Routing.GroupByUser, GetUserGroupListAsync);
         App.MapGet(Routing.GroupUsers, GetUserListAsync);
+        App.MapGet(Routing.GroupPermissions, GetPermissionListAsync);
         App.MapPost(Routing.OperateGroup, CreateAsync);
         App.MapDelete(Routing.OperateGroup, DeleteAsync);
+        App.MapDelete(Routing.GroupPermission, RemovePermissionAsync);
     }
 
     public async Task<PaginatedItemResponse<UserGroupItemResponse>> GetItemsAsync(
@@ -63,11 +65,30 @@ public class UserGroupService : ServiceBase
         return query.Result;
     }
 
+    public async Task<List<Guid>> GetPermissionListAsync(
+        [FromServices] IEventBus eventBus,
+        [FromQuery] Guid groupId)
+    {
+        var query = new PermissionIdsQuery(groupId);
+        await eventBus.PublishAsync(query);
+        return query.Result;
+    }
+
     public async Task DeleteAsync(
         [FromServices] IEventBus eventBus, Guid id)
     {
         await eventBus.PublishAsync(new DeleteCommand(id));
     }
 
+    public async Task RemovePermissionAsync(
+       [FromServices] IEventBus eventBus,
+       [FromHeader(Name = "creator-id")] Guid creator,
+       [FromBody] RemoveGroupPermissionRequest removeGroupPermissionRequest)
+    {
+        await eventBus.PublishAsync(new RemovePermissionCommand(removeGroupPermissionRequest)
+        {
+            Creator = creator
+        });
+    }
 }
 

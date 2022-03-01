@@ -9,7 +9,7 @@ namespace Masa.Framework.Admin.Service.User.Services
 
         public IntegrationEventService(IServiceCollection services) : base(services)
         {
-            App.MapPost(Routing.GroupPermission, AddGroupPermissionAsync);
+            App.MapPost(Routing.GroupPermissionNotify, AddGroupPermissionAsync);
         }
 
         [Topic(DAPR_PUBSUB_NAME, nameof(AddGroupPermissionIntegraionEvent))]

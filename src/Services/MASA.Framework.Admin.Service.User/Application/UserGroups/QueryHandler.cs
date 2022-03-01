@@ -81,5 +81,16 @@ namespace Masa.Framework.Admin.Service.User.Application.UserGroups
                     Email = user.Email
                 }).ToList();
         }
+
+        [EventHandler]
+        public async Task GroupPermissionListAsync(PermissionIdsQuery permissionIdsQuery)
+        {
+            var userGroup = await _userGroupRepository.GetByIdAsync(permissionIdsQuery.GroupId);
+            if (userGroup is null)
+            {
+                throw new UserFriendlyException("usergroupid not found");
+            }
+            permissionIdsQuery.Result = userGroup.UserGroupPermissions.Select(ugp => ugp.PermissionId).ToList();
+        }
     }
 }

@@ -1,3 +1,5 @@
+using IdListQuery = Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries.IdListQuery;
+
 namespace Masa.Framework.Admin.Service.Authentication.Application.Roles;
 
 public class RoleQueryHandler
@@ -390,12 +392,12 @@ public class RoleQueryHandler
     {
         query.Result = (await _repository.GetListAsync((r) => query.IdList.Contains(r.Id)))
             .Select(role => new RoleItemResponse
-        {
-            Id = role.Id,
-            Name = role.Name,
-            Describe = role.Describe,
-            Number = role.Number,
-            Enable = role.Enable,
-        }).ToList();
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Describe = role.Describe,
+                Number = role.Number,
+                Enable = role.Enable,
+            }).ToList();
     }
 }

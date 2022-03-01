@@ -31,7 +31,7 @@
                     }
                 </PrependContent>
                 <LabelContent>
-                    <div class="d-flex justify-space-between">
+                    <div class="d-flex justify-space-between align-center">
                         <span>@context.Item.Name</span>
                         <MMenu Right Bottom class="mr-2">
                             <ActivatorContent Context="activatorContext">
@@ -63,13 +63,17 @@
         <MDivider Vertical></MDivider>
         <MCol>
             <MRow>
-                <span>@_currentDepartment.Name</span>
-                <span class="ml-2">
-                    <MIcon>mdi-account-group</MIcon>
-                   @_pageData.CurrentCount</span>
-                <MSpacer/>
-                <MButton class="mr-2" Disabled>@T("RemoveMember")</MButton>
-                <MButton Disabled="_currentDepartment.Id==Guid.Empty" OnClick="OpenDepartmentUserDialog">@T("AddMember")</MButton>
+                <MCol>
+                    <span>@_currentDepartment.Name</span>
+                    <span class="ml-2">
+                        <MIcon>mdi-account-group</MIcon>
+                        @_pageData.CurrentCount
+                    </span>
+                </MCol>
+                <MSpacer />
+                <MCol>
+                    <MButton OnClick="OpenDepartmentUserDialog">@T("AddMember")</MButton>
+                </MCol>
             </MRow>
             <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
                 <HeaderColContent Context="header">
@@ -181,20 +185,47 @@
     </ChildContent>
 </MDialog>
 
-<MDialog @bind-Value="_addDepartmentUserDialog" Persistent Width="500">
+<MDialog Persistent @bind-Value="_addDepartmentUserDialog" Width="800">
     <ChildContent>
-        <MCard class="pa-6">
-            <MCardTitle class="pa-0 mb-2">
-                @T("AddMember")
-                <MSpacer></MSpacer>
-                <MButton Icon OnClick="() => _addDepartmentUserDialog = false">
-                    <MIcon>mdi-close</MIcon>
-                </MButton>
-            </MCardTitle>
-            <MCardText class="pt-5">
-
+        <MCard>
+            <div class="block-between pa-4">
+                <span class="text-h6">@T("Add User")</span>
+                <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_addDepartmentUserDialog = false">mdi-close</MIcon>
+            </div>
+            <MDivider></MDivider>
+            <MCardText Class="pb-3">
+                <MRow Class="mt-0">
+                    <MCol Class="pt-0" Style="height:480px;border-right:solid 1px #e9edf7;">
+                        <div class="hover-pointer pa-2" style="color:blue" @onclick="() => _departmentUsers.ForEach(u => u.Select = true)">@T("All")</div>
+                        <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@_departmentUsers.Where(u => !u.Select).ToList()">
+                            <ItemContent>
+                                <div class="hover-pointer pa-2" @onclick="() => context.Select = true">
+                                    <div style="color:blue">@context.Account</div>
+                                    <div>@context.Name</div>
+                                </div>
+                            </ItemContent>
+                        </MVirtualScroll>
+                    </MCol>
+                    <MCol Class="pt-0" Style="height:480px;">
+                        <div class="block-between my-2">
+                            <span>@T("Assign the following user access authorizations")</span>
+                            <div class="hover-pointer" style="color:blue" @onclick="() => _departmentUsers.ForEach(r => r.Select = false)">@T("Clear")</div>
+                        </div>
+                        <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@_departmentUsers.Where(r => r.Select).ToList()">
+                            <ItemContent>
+                                <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
+                                    <div>
+                                        <div class="text-btn neutral-lighten-1--text">@(context.Account)</div>
+                                        <div>@context.Name</div>
+                                    </div>
+                                    <MIcon Color="neutral-lighten-3" Size=24 OnClick="() => context.Select = false">mdi-close</MIcon>
+                                </div>
+                            </ItemContent>
+                        </MVirtualScroll>
+                    </MCol>
+                </MRow>
             </MCardText>
-            <MDivider />
+            <MDivider></MDivider>
             <MCardActions class="mt-2 d-flex justify-end">
                 <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addDepartmentUserDialog = false">
                     @T("Cancel")

@@ -40,7 +40,17 @@ public partial class UserGroupView
 
     private async Task LoadPermissionAsync()
     {
-
+        var res = await UserGroupCaller.GetPermissionIdsAsync(ID);
+        if (!res.Success || res.Data == null)
+        {
+            return;
+        }
+        var resPermissions = await AuthenticationCaller.GetPermissionsByIds(res.Data);
+        if (resPermissions.Success && resPermissions.Data != null)
+        {
+            _groupPermissions = resPermissions.Data;
+            StateHasChanged();
+        }
     }
 
     private async Task LoadUsersAysnc()
@@ -69,6 +79,19 @@ public partial class UserGroupView
         if (result.Success)
         {
             //refresh
+            await LoadPermissionAsync();
+        }
+    }
+
+    private async Task RemovePermissionAsync(Guid permissionId)
+    {
+        var res = await UserGroupCaller.RemovePermissionAsync(new RemoveGroupPermissionRequest
+        {
+            PermissionId = permissionId,
+            UserGroupId = ID
+        });
+        if (res.Success)
+        {
             await LoadPermissionAsync();
         }
     }

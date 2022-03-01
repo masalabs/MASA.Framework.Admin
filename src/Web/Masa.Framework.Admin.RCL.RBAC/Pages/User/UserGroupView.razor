@@ -55,7 +55,7 @@
                     case nameof(PermissionItemResponse.Id):
                         <MTooltip Top>
                             <ActivatorContent Context="_">
-                                <MIcon Small Class="mr-2" @attributes="@_.Attrs">mdi-delete</MIcon>
+                                <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="()=>RemovePermissionAsync(context.Item.Id)">mdi-delete</MIcon>
                             </ActivatorContent>
                             <ChildContent>
                                 <span>@T("Remove UserGroup")</span>

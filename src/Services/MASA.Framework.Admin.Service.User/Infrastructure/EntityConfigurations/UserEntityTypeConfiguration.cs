@@ -29,6 +29,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Domain.Aggre
 
         builder.HasMany(user => user.UserRoles).WithOne(userRole => userRole.User);
         builder.HasMany(user => user.UserGroups).WithOne(userGroup => userGroup.User);
+        builder.HasMany(user => user.DepartmentUsers).WithOne(du => du.User);
     }
 }
 

@@ -86,6 +86,7 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                     gender = table.Column<bool>(type: "bit", nullable: false),
                     cover = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    isAdmin = table.Column<bool>(type: "bit", nullable: false),
                     enable = table.Column<bool>(type: "bit", nullable: false),
                     last_login_time = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     last_update_time = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),

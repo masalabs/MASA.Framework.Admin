@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Masa.Framework.Admin.Service.User.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220301033029_init")]
+    [Migration("20220301050336_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,6 +190,10 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                     b.Property<bool>("Gender")
                         .HasColumnType("bit")
                         .HasColumnName("gender");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit")
+                        .HasColumnName("isAdmin");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit")

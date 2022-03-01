@@ -88,7 +88,11 @@ app.MigrateDbContext<UserDbContext>((context, services) =>
     {
         return;
     }
-    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123",true));
+    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123",true)
+    {
+        Name = "Administrator",
+        Email = "masa@admin.com"
+    });
     context.SaveChanges();
 });
 

@@ -19,25 +19,11 @@ namespace Masa.Framework.Admin.Web.Shared
         public IConfiguration Configuration { get; set; } = default!;
 
         [Inject]
-        public NavHelper NavHelper { get; set; } = default!;
+        public PermissionHelper PermissionHelper { get; set; } = default!;
 
-        [Inject]
-        public ConfigurationCaller ConfigurationCaller { get; set; } = default!;
-
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             GlobalConfig.OnPageModeChanged += base.StateHasChanged;
-
-            var permissionsJson = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Permissions")?.Value;
-            if (permissionsJson is not null)
-            {
-                var permissions = System.Text.Json.JsonSerializer.Deserialize<List<AuthorizeItemResponse>>(permissionsJson);
-                GlobalConfig.Permissions = permissions;
-                var isAdmin = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "IsAdmin")?.Value ??"false";
-                GlobalConfig.IsAdmin = Convert.ToBoolean(isAdmin);
-                var menusResponse = await ConfigurationCaller.GetAllAsync();
-                NavHelper.Initialization(menusResponse.Data);
-            }
         }
 
         public void Dispose()
@@ -67,12 +53,12 @@ namespace Masa.Framework.Admin.Web.Shared
                 }
                 else
                 {
-                    await StartSignalR(token.Value);
+                    StartSignalR(token.Value);
                 }
             }
         }
 
-        public async Task StartSignalR(string token)
+        public void StartSignalR(string token)
         {
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl($"{Configuration["ApiGateways:UserCaller"]}/hub/login", HttpTransportType.WebSockets | HttpTransportType.LongPolling

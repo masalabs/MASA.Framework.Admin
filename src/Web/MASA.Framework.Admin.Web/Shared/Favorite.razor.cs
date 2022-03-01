@@ -2,17 +2,33 @@ namespace Masa.Framework.Admin.Web.Shared
 {
     public partial class Favorite
     {
-        List<string> _favoriteMenus = new();//FavoriteService.GetDefaultFavoriteMenuList();
+        List<string> _favoriteMenus = new();
+
+        List<string> FavoriteMenus
+        {
+            get
+            {
+                if(GlobalConfig.Favorite is null)
+                {
+                    if (NavHelper.SameLevelNavs.Count <= 3) _favoriteMenus = NavHelper.SameLevelNavs.Select(n => n.Code).ToList();
+                    else _favoriteMenus = NavHelper.SameLevelNavs.GetRange(0, 3).Select(n => n.Code).ToList();
+
+                    return _favoriteMenus;
+                }
+                return _favoriteMenus;
+            }
+            set { _favoriteMenus = value; }
+        }
 
         protected override void OnInitialized()
         {
             if (GlobalConfig.Favorite == "")
             {
-                _favoriteMenus.Clear();
+                FavoriteMenus.Clear();
             }
             else if (GlobalConfig.Favorite is not null)
             {
-                _favoriteMenus = GlobalConfig.Favorite.Split('|').ToList();
+                FavoriteMenus = GlobalConfig.Favorite.Split('|').ToList();
             }
 
             GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
@@ -34,7 +50,7 @@ namespace Masa.Framework.Admin.Web.Shared
         {
             var output = new List<NavModel>();
 
-            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => _favoriteMenus.Contains(n.Id.ToString())));
+            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => FavoriteMenus.Contains(n.Code)));
             else
             {
                 output.AddRange(NavHelper.SameLevelNavs.Where(n => n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
@@ -45,11 +61,11 @@ namespace Masa.Framework.Admin.Web.Shared
 
         List<NavModel> GetFavoriteMenus() => GetNavs(null);
 
-        void AddOrRemoveFavoriteMenu(string id)
+        void AddOrRemoveFavoriteMenu(string code)
         {
-            if (_favoriteMenus.Contains(id)) _favoriteMenus.Remove(id);
-            else _favoriteMenus.Add(id);
-            GlobalConfig.Favorite = string.Join("|", _favoriteMenus);
+            if (FavoriteMenus.Contains(code)) FavoriteMenus.Remove(code);
+            else FavoriteMenus.Add(code);
+            GlobalConfig.Favorite = string.Join("|", FavoriteMenus);
         }
 
         string GetI18nFullTitle(string fullTitle)

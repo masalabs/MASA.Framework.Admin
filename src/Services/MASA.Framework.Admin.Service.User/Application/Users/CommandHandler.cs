@@ -109,7 +109,7 @@ public class CommandHandler
             throw new UserFriendlyException("密码错误！");
         }
 
-        token = _loginService.GenerateJwtToken(user.Id, _options.Value.Security, _options.Value.Expiration);
+        token = _loginService.GenerateJwtToken(user.Id,user.IsAdmin, _options.Value.Security, _options.Value.Expiration);
         loginCommand.Token = token;
     }
 

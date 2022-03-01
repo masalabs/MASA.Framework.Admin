@@ -19,6 +19,8 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public string? Email { get; set; }
 
+    public bool IsAdmin { get; private set; }
+
     public bool Enable { get; private set; }
 
     public DateTimeOffset LastLoginTime { get; private set; }
@@ -60,6 +62,17 @@ public class User : AuditAggregateRoot<Guid, Guid>
         Creator = creator ?? Id;
         Modifier = Creator;
         userRoles = new();
+    }
+
+    public User(Guid? creator, string account, string password,bool isAdmin) : this()
+    {
+        Account = account;
+        Salt = RandomUtils.GenerateSpecifiedString(6);
+        Password = SHA1Utils.Encrypt($"{password}{Salt}");
+        Creator = creator ?? Id;
+        Modifier = Creator;
+        userRoles = new();
+        IsAdmin = isAdmin;
     }
 
     public void AddRole(Guid roleId)

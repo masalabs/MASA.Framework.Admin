@@ -33,7 +33,8 @@ namespace Masa.Framework.Admin.Web.Shared
             {
                 var permissions = System.Text.Json.JsonSerializer.Deserialize<List<AuthorizeItemResponse>>(permissionsJson);
                 GlobalConfig.Permissions = permissions;
-                GlobalConfig.IsAdmin = true;
+                var isAdmin = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "IsAdmin")?.Value ??"false";
+                GlobalConfig.IsAdmin = Convert.ToBoolean(isAdmin);
                 var menusResponse = await ConfigurationCaller.GetAllAsync();
                 NavHelper.Initialization(menusResponse.Data);
             }

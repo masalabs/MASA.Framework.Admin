@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Masa.Framework.Admin.Service.User.Migrations
+namespace MASA.Framework.Admin.Service.User.Migrations
 {
     public partial class init : Migration
     {
@@ -86,6 +86,7 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                     gender = table.Column<bool>(type: "bit", nullable: false),
                     cover = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    isAdmin = table.Column<bool>(type: "bit", nullable: false),
                     enable = table.Column<bool>(type: "bit", nullable: false),
                     last_login_time = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     last_update_time = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -101,19 +102,19 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_group_items",
+                name: "user_group_permissions",
                 schema: "user",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    permission_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_group_items", x => x.id);
+                    table.PrimaryKey("PK_user_group_permissions", x => x.id);
                     table.ForeignKey(
-                        name: "FK_user_group_items_user_groups_UserGroupId",
+                        name: "FK_user_group_permissions_user_groups_UserGroupId",
                         column: x => x.UserGroupId,
                         principalSchema: "user",
                         principalTable: "user_groups",
@@ -143,6 +144,34 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_department_users_users_user_id",
+                        column: x => x.user_id,
+                        principalSchema: "user",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_group_items",
+                schema: "user",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_group_items", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_user_group_items_user_groups_UserGroupId",
+                        column: x => x.UserGroupId,
+                        principalSchema: "user",
+                        principalTable: "user_groups",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_group_items_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "user",
                         principalTable: "users",
@@ -200,9 +229,21 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 columns: new[] { "State", "TimesSent", "ModificationTime" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_user_group_items_user_id",
+                schema: "user",
+                table: "user_group_items",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_group_items_UserGroupId",
                 schema: "user",
                 table: "user_group_items",
+                column: "UserGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_group_permissions_UserGroupId",
+                schema: "user",
+                table: "user_group_permissions",
                 column: "UserGroupId");
 
             migrationBuilder.CreateIndex(
@@ -229,6 +270,10 @@ namespace Masa.Framework.Admin.Service.User.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_group_items",
+                schema: "user");
+
+            migrationBuilder.DropTable(
+                name: "user_group_permissions",
                 schema: "user");
 
             migrationBuilder.DropTable(

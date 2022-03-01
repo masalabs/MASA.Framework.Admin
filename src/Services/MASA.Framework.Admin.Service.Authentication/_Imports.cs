@@ -57,3 +57,5 @@ global using System.Linq.Expressions;
 global using System.Text.Json;
 global using CacheConst = Masa.Framework.Admin.Service.Authentication.Infrastructure.Const;
 global using Masa.Utils.Development.Dapr.AspNetCore;
+global using MASA.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
+global using MASA.Framework.Admin.Service.Authentication.Application.Roles.Queries;

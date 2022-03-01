@@ -22,9 +22,6 @@ public class NavHelper
     public void Initialization(List<MenuItemResponse> allMenus)
     {
         var allMenuNavs = allMenus.Select(m => new NavModel(m.Id, m.Code,m.Url, m.Icon, m.Name, m.Sort, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
-        var menuCodes = _globalConfig.Permissions.Where(p => p.Resource=="menus")
-                                             .SelectMany(p => p.Scope.Split(','))
-                                             .Distinct();
        // allMenuNavs = allMenuNavs.Where(mn => !menuCodes.Contains(mn.Code)).ToList();
         
         if(_globalConfig.IsAdmin)
@@ -36,8 +33,17 @@ public class NavHelper
             permissionNav.FullTitle = adminNav.Title + " " + permissionNav.Title;
             adminNav.Children=new NavModel[] { menuNav,permissionNav };
             Navs.Add(adminNav);
+            Navs.AddRange(GetMenuNavs(allMenuNavs));
         }
-        Navs.AddRange(GetMenuNavs(allMenuNavs));
+        else
+        {
+            var menuCodes = _globalConfig.Permissions.Where(p => p.Resource == "menus")
+                                     .SelectMany(p => p.Scope.Split(','))
+                                     .Distinct();
+            allMenuNavs = allMenuNavs.Where(m => allMenuNavs.All(d => m.Id == d.ParentId) || menuCodes.Contains(m.Code)).ToList();
+            Navs.AddRange(GetMenuNavs(allMenuNavs));
+        }
+     
         //menuCodes.ForEach(code =>
         //{
         //    var permissionMenu = allMenuNavs.FirstOrDefault(m => m.Code == code);
@@ -48,7 +54,7 @@ public class NavHelper
         //    }
         //});
 
-        SameLevelNavs.AddRange(allMenuNavs.Where(m => menuCodes.Contains(m.Code)).ToList());
+        SameLevelNavs.AddRange(allMenuNavs.Where(m => allMenuNavs.All(d => m.Id != d.ParentId)).ToList());
 
         SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav => 
         {

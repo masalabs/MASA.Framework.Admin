@@ -35,7 +35,7 @@ namespace Masa.Framework.Admin.Service.User.Domain.Services
             _memoryCache.Set($"{cacheKeyOnlineUserId}", onlineUsers);
         }
 
-        public string GenerateJwtToken(Guid userId, string security, int expiration)
+        public string GenerateJwtToken(Guid userId, bool isAdmin,string security, int expiration)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(security);
@@ -43,7 +43,8 @@ namespace Masa.Framework.Admin.Service.User.Domain.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("UserId",userId.ToString())
+                    new Claim("UserId",userId.ToString()),
+                    new Claim("IsAdmin",isAdmin.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(expiration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

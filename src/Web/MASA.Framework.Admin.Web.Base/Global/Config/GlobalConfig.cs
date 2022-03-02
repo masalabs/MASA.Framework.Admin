@@ -38,7 +38,6 @@ public class GlobalConfig
             if (I18nConfig is not null)
             {
                 I18nConfig.Language = value;
-                OnLanguageChanged?.Invoke();
             }
         }
     }
@@ -100,7 +99,6 @@ public class GlobalConfig
         set
         {
             _currentNav = value;
-            OnCurrentNavChanged?.Invoke();
         }
     }
 
@@ -144,8 +142,6 @@ public class GlobalConfig
     public delegate void ConfirmChanged(string title, string message, EventCallback<bool> confirmFunc);
 
     public event GlobalConfigChanged? OnPageModeChanged;
-    public event GlobalConfigChanged? OnCurrentNavChanged;
-    public event GlobalConfigChanged? OnLanguageChanged;
     public event LoddingChanged? OnLoddingChanged;
     public event ConfirmChanged? OnConfirmChanged;
     public event MessageChanged? OnMessageChanged;

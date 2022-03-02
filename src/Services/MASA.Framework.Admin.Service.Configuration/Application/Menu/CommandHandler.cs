@@ -21,7 +21,8 @@ public class CommandHandler
             command.Describe,
             command.ParentId,
             command.Sort,
-            command.Disabled);
+            command.Disabled,
+            command.OnlyJump);
         await _repository.AddAsync(menu);
     }
 
@@ -38,7 +39,8 @@ public class CommandHandler
             command.Describe,
             command.ParentId,
             command.Sort,
-            command.Disabled);
+            command.Disabled,
+            command.OnlyJump);
 
         await _repository.UpdateAsync(menu);
     }

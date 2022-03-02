@@ -8,17 +8,21 @@ namespace Masa.Framework.Admin.Web.Shared
         {
             get
             {
-                if(GlobalConfig.Favorite is null)
+                if (GlobalConfig.Favorite is null && _favoriteMenus.Count == 0)
                 {
-                    if (NavHelper.SameLevelNavs.Count <= 3) _favoriteMenus = NavHelper.SameLevelNavs.Select(n => n.Code).ToList();
-                    else _favoriteMenus = NavHelper.SameLevelNavs.GetRange(0, 3).Select(n => n.Code).ToList();
-
-                    return _favoriteMenus;
+                    if (NavHelper.BottomLevelNavs.Count <= 3) _favoriteMenus = NavHelper.BottomLevelNavs.Select(n => n.Code).ToList();
+                    else _favoriteMenus = NavHelper.BottomLevelNavs.GetRange(0, 3).Select(n => n.Code).ToList();
                 }
                 return _favoriteMenus;
             }
             set { _favoriteMenus = value; }
         }
+
+        [Parameter]
+        public NavHelper NavHelper { get; set; }
+
+        [Parameter]
+        public string CurrentUri { get; set; }
 
         protected override void OnInitialized()
         {
@@ -30,8 +34,6 @@ namespace Masa.Framework.Admin.Web.Shared
             {
                 FavoriteMenus = GlobalConfig.Favorite.Split('|').ToList();
             }
-
-            GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
         }
 
         bool _open;
@@ -50,10 +52,10 @@ namespace Masa.Framework.Admin.Web.Shared
         {
             var output = new List<NavModel>();
 
-            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => FavoriteMenus.Contains(n.Code)));
+            if (search is null || search == "") output.AddRange(NavHelper.BottomLevelNavs.Where(n => FavoriteMenus.Contains(n.Code)));
             else
             {
-                output.AddRange(NavHelper.SameLevelNavs.Where(n => n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
+                output.AddRange(NavHelper.BottomLevelNavs.Where(n => GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
             }
 
             return output;
@@ -74,15 +76,8 @@ namespace Masa.Framework.Admin.Web.Shared
             if (arr.Count == 1) return T(fullTitle);
             else
             {
-                var parent = arr[0];
-                arr.RemoveAt(0);
-                return $"{T(parent)} {T(string.Join(' ', arr))}";
+                return string.Join(" ", arr.Select(a => T(a)));
             }
-        }
-
-        public void Dispose()
-        {
-            GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
         }
     }
 }

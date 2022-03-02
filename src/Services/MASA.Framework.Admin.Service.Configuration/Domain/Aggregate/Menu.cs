@@ -18,6 +18,8 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
 
     public bool Enable { get; private set; }
 
+    public bool OnlyJump { get; private set; }
+
     private Menu()
     {
         CreationTime = DateTime.UtcNow;
@@ -33,7 +35,8 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         string? describe,
         Guid? parentId,
         int sort,
-        bool disabled) : this()
+        bool disabled,
+        bool onlyJump) : this()
     {
         Creator = creator;
         Modifier = creator;
@@ -45,6 +48,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         Icon = icon ?? string.Empty;
         Describe = describe;
         ParentId = parentId;
+        OnlyJump = onlyJump;
     }
 
     public void Update(
@@ -55,7 +59,8 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         string? describe,
         Guid? parentId,
         int sort,
-        bool disabled)
+        bool disabled,
+        bool onlyJump)
     {
         Name = name;
         Url = url ?? string.Empty;
@@ -64,6 +69,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         Icon = icon ?? string.Empty;
         Describe = describe;
         ParentId = parentId;
+        OnlyJump = onlyJump;
         Modifier = creator;
         ModificationTime = DateTime.Now;
     }

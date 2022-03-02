@@ -17,4 +17,6 @@ public record EditMenuCommand : CommandBase
     public int Sort { get; set; }
 
     public bool Disabled { get; set; }
+
+    public bool OnlyJump { get; set; }
 }

@@ -142,5 +142,6 @@
   "Add Authorize Successful": "添加授权成功",
   "Api": "接口",
   "Cancel Authorize Successful": "取消授权成功",
-  "RemoveUser": "移除用户"
+  "RemoveUser": "移除用户",
+  "OnlyJump（The menu list will not show this menu）": "仅跳转（菜单列表将不展示此菜单）"
 }

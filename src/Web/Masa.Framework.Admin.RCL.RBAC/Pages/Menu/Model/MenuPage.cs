@@ -65,13 +65,13 @@ public class MenuPage : ComponentPageBase
         var input = item ?? CurrentData;
         if (input.Id == Guid.Empty)
         {
-            var request = new AddMenuRequest(input.Code, input.Name, input.Describe, input.Icon, input.ParentId, input.Url, input.Sort, input.Disabled);
+            var request = new AddMenuRequest(input.Code, input.Name, input.Describe, input.Icon, input.ParentId, input.Url, input.Sort, input.Disabled,input.OnlyJump);
             result = await ConfigurationCaller.CreateAsync(request);
             await CheckApiResult(result, I18n.T("Added menu successfully"), result.Message);
         }
         else
         {
-            var request = new EditMenuRequest(input.Id, input.Name, input.Describe, input.Icon, input.ParentId, input.Url, input.Sort, input.Disabled);
+            var request = new EditMenuRequest(input.Id, input.Name, input.Describe, input.Icon, input.ParentId, input.Url, input.Sort, input.Disabled, input.OnlyJump);
             result = await ConfigurationCaller.EditAsync(request);
             await CheckApiResult(result, I18n.T("Edit menu successfully"), result.Message);
         }

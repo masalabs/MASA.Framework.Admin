@@ -21,9 +21,13 @@ namespace Masa.Framework.Admin.Web.Shared
         [Inject]
         public PermissionHelper PermissionHelper { get; set; } = default!;
 
-        protected override void OnInitialized()
+        [Inject]
+        public NavHelper NavHelper { get; set; } = default!;
+
+        protected override async Task OnInitializedAsync()
         {
             GlobalConfig.OnPageModeChanged += base.StateHasChanged;
+            await NavHelper.InitializationAsync();
         }
 
         public void Dispose()

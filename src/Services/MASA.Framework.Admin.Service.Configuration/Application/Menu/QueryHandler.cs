@@ -37,6 +37,7 @@ public class QueryHandler
                 ParentName = newMenu.Name,
                 Sort = menu.Sort,
                 Disabled = !menu.Enable,
+                OnlyJump = menu.OnlyJump,
                 CreationTime = menu.CreationTime
             }).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToListAsync();
 
@@ -74,6 +75,7 @@ public class QueryHandler
                 ParentName = newMenu.Name,
                 Sort = menu.Sort,
                 Disabled = !menu.Enable,
+                OnlyJump = menu.OnlyJump,
                 CreationTime = menu.CreationTime
             }).ToListAsync();
     }

@@ -1,22 +1,20 @@
 ﻿@inherits AdminCompontentBase
 @inject GlobalConfig GlobalConfig;
 @inject NavigationManager Nav
-@inject NavHelper NavHelper
-@implements IDisposable
 
 <div class="ml-10">
     @foreach (var menu in GetFavoriteMenus())
     {
         <MTooltip Color="primary" Bottom>
             <ActivatorContent>
-                <span @attributes="@context.Attrs" class="hover-pointer mr-8"  @onclick="()=>NavHelper.NavigateTo(menu)">
-                    <MIcon Size=24 Color="@(menu.Active?"primary":"neutral-lighten-3")">
-                        @menu.ParentIcon
+                <span @attributes="@context.Attrs" class="hover-pointer mr-8"  @onclick="()=>Nav.NavigateTo(menu.Href)">
+                    <MIcon Size=24 Color="@(CurrentUri.Contains(menu.Href)?"primary":"neutral-lighten-3")">
+                        @menu.InheritIcon
                     </MIcon>
                 </span>
             </ActivatorContent>
             <ChildContent>
-                <span>@GetI18nFullTitle(menu.FullTitle)</span>
+                <span>@T(menu.Title)</span>
             </ChildContent>
         </MTooltip>
     }
@@ -49,12 +47,12 @@
                     </MListItem>
                     @foreach (var nav in GetNavs(_search))
                     {
-                        <MListItem Dense OnClick="()=> NavHelper.NavigateTo(nav)" Class="px-4">
+                        <MListItem Dense OnClick="()=> Nav.NavigateTo(nav.Href)" Class="px-4">
                             <MListItemAction Class="mr-3">
-                                <MIcon Size=20 Color="neutral-lighten-3">@nav.ParentIcon</MIcon>
+                                <MIcon Size=20 Color="neutral-lighten-3">@nav.InheritIcon</MIcon>
                             </MListItemAction>
                             <MListItemContent>
-                                <span Class="text-btn">@GetI18nFullTitle(nav.FullTitle)</span>
+                                <span Class="text-btn">@T(nav.Title)</span>
                             </MListItemContent>
                             <MListItemIcon Class="my-1">
                                 <MButton Icon Text Color="dark-yellow" StopPropagation OnClick="()=>AddOrRemoveFavoriteMenu(nav.Code)">

@@ -23,6 +23,8 @@ public class MenuItemResponse
 
     public bool Disabled { get; set; }
 
+    public bool OnlyJump { get; set; }
+
     public DateTimeOffset CreationTime { get; set; }
 
     public bool Select { get; set; }

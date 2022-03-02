@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace Masa.Framework.Admin.Service.User.Infrastructure;
 
 public class UserDbContext : IntegrationEventLogContext

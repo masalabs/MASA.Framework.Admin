@@ -1,31 +1,28 @@
-using Quartz;
-using Quartz.Spi;
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
 
-namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs
+public class DefaultScheduleServiceFactory : IJobFactory
 {
-    public class DefaultScheduleServiceFactory : IJobFactory
+    protected IServiceProvider _serviceProvider;
+
+    public DefaultScheduleServiceFactory(IServiceProvider serviceProvider)
     {
-        protected IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        public DefaultScheduleServiceFactory(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+    public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
+    {
+        //Job类型
+        Type jobType = bundle.JobDetail.JobType;
 
-        public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
-        {
-            //Job类型
-            Type jobType = bundle.JobDetail.JobType;
+        //返回jobType对应类型的实例
+        return _serviceProvider.GetService(jobType) as IJob;
+    }
 
-            //返回jobType对应类型的实例
-            return _serviceProvider.GetService(jobType) as IJob;
-        }
+    public void ReturnJob(IJob job)
+    {
+        var disposable = job as IDisposable;
 
-        public void ReturnJob(IJob job)
-        {
-            var disposable = job as IDisposable;
-
-            disposable?.Dispose();
-        }
+        disposable?.Dispose();
     }
 }
+

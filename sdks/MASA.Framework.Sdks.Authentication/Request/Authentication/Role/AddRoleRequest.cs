@@ -10,7 +10,7 @@ public class AddRoleRequest
 
     public List<Guid> ChildrenRoleIds { get; set; }
 
-    public AddRoleRequest(string name, string? describe, int number, List<Guid> childrenRoleIds =null)
+    public AddRoleRequest(string name, string? describe, int number, List<Guid>? childrenRoleIds = null)
     {
         Name = name;
         Describe = describe;

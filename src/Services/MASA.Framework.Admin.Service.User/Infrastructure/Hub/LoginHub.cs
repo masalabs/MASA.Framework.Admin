@@ -1,7 +1,3 @@
-using Masa.Framework.Admin.Service.User.Domain.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-
 namespace Masa.Framework.Admin.Service.User.Infrastructure.Hub;
 
 [Authorize]
@@ -17,7 +13,6 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
         _loginService = new LoginService(memoryCache);
         UserRepository = userRepository;
     }
-
 
     public override async Task OnConnectedAsync()
     {

@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-
 namespace Masa.Framework.Admin.Service.User.Domain.Repositories;
 
 public interface IUserRepository : IRepository<Aggregates.User>

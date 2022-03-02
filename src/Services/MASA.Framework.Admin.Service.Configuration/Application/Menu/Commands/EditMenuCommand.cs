@@ -1,4 +1,4 @@
-﻿namespace Masa.Framework.Admin.Configuration.Application.Menu.Commands;
+namespace Masa.Framework.Admin.Configuration.Application.Menu.Commands;
 
 public record EditMenuCommand : CommandBase
 {
@@ -12,7 +12,7 @@ public record EditMenuCommand : CommandBase
 
     public Guid? ParentId { get; set; }
 
-    public string Url { get; set; }
+    public string Url { get; set; } = "";
 
     public int Sort { get; set; }
 

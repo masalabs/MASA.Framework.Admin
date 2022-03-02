@@ -18,9 +18,9 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenTelemetryTracing(options =>
     options
-    .AddSource(TelemetryConstants.ServiceName)
+    .AddSource(TelemetryConstants.SERVICE_NAME)
     .SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService(serviceName: TelemetryConstants.ServiceName, serviceVersion: TelemetryConstants.ServiceVersion).AddTelemetrySdk())
+            .AddService(serviceName: TelemetryConstants.SERVICE_NAME, serviceVersion: TelemetryConstants.SERVICE_VERSION).AddTelemetrySdk())
         .AddSqlClientInstrumentation(options =>
         {
             options.SetDbStatementForText = true;

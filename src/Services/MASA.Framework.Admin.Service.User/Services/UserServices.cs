@@ -5,7 +5,7 @@ namespace Masa.Framework.Admin.Service.User.Services;
 
 public class UserServices : ServiceBase
 {
-    private static ActivitySource activitySource = new ActivitySource(TelemetryConstants.ServiceName);
+    private static ActivitySource activitySource = new ActivitySource(TelemetryConstants.SERVICE_NAME);
 
     public UserServices(IServiceCollection services) : base(services)
     {

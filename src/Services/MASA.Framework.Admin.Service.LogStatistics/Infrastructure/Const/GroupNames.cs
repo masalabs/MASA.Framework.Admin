@@ -1,7 +1,7 @@
-namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Const
+namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Const;
+
+public class GroupNames
 {
-    public class GroupNames
-    {
-        public const string DEFAULT = "Group";
-    }
+    public const string DEFAULT = "Group";
 }
+

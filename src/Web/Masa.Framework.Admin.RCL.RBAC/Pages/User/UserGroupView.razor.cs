@@ -18,7 +18,7 @@ public partial class UserGroupView
     };
 
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; } = Guid.Empty.ToString();
 
     public Guid ID { get { return Guid.Parse(Id); } }
 
@@ -34,7 +34,9 @@ public partial class UserGroupView
         {
             await LoadUsersAysnc();
             await LoadPermissionAsync();
+            StateHasChanged();
         }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
@@ -49,8 +51,6 @@ public partial class UserGroupView
         HandleCaller(resPermissions, (data) =>
         {
             _groupPermissions = data;
-            StateHasChanged();
-#warning StateHasChanged
         });
     }
 

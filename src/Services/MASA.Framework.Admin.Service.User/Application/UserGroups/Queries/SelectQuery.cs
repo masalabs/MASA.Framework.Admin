@@ -1,7 +1,7 @@
-namespace Masa.Framework.Admin.Service.User.Application.UserGroups.Queries
+namespace Masa.Framework.Admin.Service.User.Application.UserGroups.Queries;
+
+public record SelectQuery : Query<List<UserGroupItemResponse>>
 {
-    public record SelectQuery : Query<List<UserGroupItemResponse>>
-    {
-        public override List<UserGroupItemResponse> Result { get; set; } = null!;
-    }
+    public override List<UserGroupItemResponse> Result { get; set; } = null!;
 }
+

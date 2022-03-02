@@ -7,7 +7,7 @@ public abstract class AdminCompontentBase : ComponentBase
     private I18n? _i18n;
 
     [Inject]
-    public GlobalConfig GlobalConfig { get; set; }
+    public GlobalConfig GlobalConfig { get; set; } = null!;
 
     [Inject]
     public I18n I18n

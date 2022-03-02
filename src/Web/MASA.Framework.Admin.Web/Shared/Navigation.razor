@@ -1,6 +1,5 @@
 ﻿@inherits AdminCompontentBase
 @inject NavHelper NavHelper
-@inject GlobalConfig GlobalConfig;
 @implements IDisposable
 
 <MNavigationDrawer Class="navigation" Width=300 MiniVariantWidth=80 Fixed ExpandOnHover="GlobalConfig.ExpandOnHover" @bind-Value="IsShow" @bind-MiniVariant="GlobalConfig.NavigationMini" App>

@@ -1,7 +1,7 @@
-namespace Masa.Framework.Admin.Service.User.Domain.Repositories
+namespace Masa.Framework.Admin.Service.User.Domain.Repositories;
+
+public interface IUserGroupRepository : IRepository<UserGroup>
 {
-    public interface IUserGroupRepository : IRepository<UserGroup>
-    {
-        Task<UserGroup?> GetByIdAsync(Guid Id);
-    }
+    Task<UserGroup?> GetByIdAsync(Guid Id);
 }
+

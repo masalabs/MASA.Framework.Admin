@@ -26,13 +26,7 @@ namespace Masa.Framework.Admin.Web.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            GlobalConfig.OnPageModeChanged += base.StateHasChanged;
             await NavHelper.InitializationAsync();
-        }
-
-        public void Dispose()
-        {
-            GlobalConfig.OnPageModeChanged -= base.StateHasChanged;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

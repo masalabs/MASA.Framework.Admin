@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering
 @inherits LayoutComponentBase
 @inject GlobalConfig GlobalConfig
-@implements IDisposable
 
 <AuthorizeView>
     <NotAuthorized>
@@ -57,7 +56,7 @@
                 }
             </MMain>
 
-            <Settings @bind-Show=_showSetting />
+            <Settings @bind-GlobalConfig=GlobalConfig @bind-Show=_showSetting />
 
             <MLodding />
             <MConfirmDialog />

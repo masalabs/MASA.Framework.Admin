@@ -1,6 +1,4 @@
-﻿@inject GlobalConfig GlobalConfig
-
-<MNavigationDrawer Value=Show ValueChanged=ShowChanged Fixed Right Temporary Width="300">
+﻿<MNavigationDrawer Value=Show ValueChanged=ShowChanged Fixed Right Temporary Width="300">
     <PrependContent>
         <MContainer>
             <MToolbar Flat Height="80">
@@ -28,8 +26,15 @@
     [Parameter]
     public EventCallback<bool> ShowChanged { get; set; }
 
-    void PageModeChanged(StringNumber value)
+    [Parameter]
+    public GlobalConfig GlobalConfig { get; set; }
+
+    [Parameter]
+    public EventCallback<GlobalConfig> GlobalConfigChanged { get; set; }
+
+    async Task PageModeChanged(StringNumber value)
     {
         GlobalConfig.PageMode = value.ToString();
+        if (GlobalConfigChanged.HasDelegate) await GlobalConfigChanged.InvokeAsync(GlobalConfig);
     }
 }

@@ -29,7 +29,7 @@ public class NavHelper
         SameLevelNavs = menuNavs;
 
         PageTabItems.Clear();
-        SameLevelNavs.Where(nav => nav.Href is not null && nav.Href != "").ForEach(nav =>
+        SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav =>
         {
             PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.Icon ?? nav.ParentNav?.Icon ?? "", PageTabsMatch.Prefix));
         });

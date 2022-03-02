@@ -59,7 +59,6 @@ public class GlobalConfig
         {
             _pageMode = value;
             _cookieStorage?.SetItemAsync(PageModeKey, value);
-            OnPageModeChanged?.Invoke();
         }
     }
 
@@ -141,7 +140,6 @@ public class GlobalConfig
     public delegate void MessageChanged(string message, MessageType messageType, int timeOut);
     public delegate void ConfirmChanged(string title, string message, EventCallback<bool> confirmFunc);
 
-    public event GlobalConfigChanged? OnPageModeChanged;
     public event LoddingChanged? OnLoddingChanged;
     public event ConfirmChanged? OnConfirmChanged;
     public event MessageChanged? OnMessageChanged;

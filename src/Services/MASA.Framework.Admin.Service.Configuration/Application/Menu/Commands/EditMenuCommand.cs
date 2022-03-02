@@ -1,4 +1,4 @@
-﻿namespace Masa.Framework.Admin.Configuration.Application.Menu.Commands;
+namespace Masa.Framework.Admin.Configuration.Application.Menu.Commands;
 
 public record EditMenuCommand : CommandBase
 {
@@ -17,4 +17,6 @@ public record EditMenuCommand : CommandBase
     public int Sort { get; set; }
 
     public bool Disabled { get; set; }
+
+    public bool OnlyJump { get; set; }
 }

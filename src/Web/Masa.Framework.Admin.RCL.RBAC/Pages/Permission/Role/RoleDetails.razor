@@ -107,7 +107,7 @@
                 @switch (context.Header.Value)
                 {
                     case nameof(UserItemResponse.Account):
-                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToRoleDetails(context.Item)">
+                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToUserDetails(context.Item)">
                             <span style="color:blue">@context.Item.Account</span>
                         </div>
                         break;

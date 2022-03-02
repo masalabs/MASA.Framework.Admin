@@ -229,9 +229,9 @@ public class RoleDetailsPage : ComponentPageBase
         Lodding = false;
     }
 
-    public void NavigateToRoleDetails(UserItemResponse item)
+    public void NavigateToUserDetails(UserItemResponse item)
     {
-        NavigationManager.NavigateTo($"/user/view/{item.Id}");
+        NavigationManager.NavigateTo($"/user/{item.Id}");
     }
 
     void CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)

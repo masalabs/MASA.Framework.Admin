@@ -1,5 +1,4 @@
 ﻿@inherits AdminCompontentBase
-@inject NavHelper NavHelper
 
 @{
     var navs = GetNavs(_search);
@@ -44,6 +43,9 @@
 
 @code {
     string? _search;
+
+    [Parameter]
+    public NavHelper NavHelper { get; set; }
 
     List<NavModel> GetNavs(string? search)
     {

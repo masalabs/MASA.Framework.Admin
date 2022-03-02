@@ -33,7 +33,7 @@ public class PermissionHelper
         }
     }
 
-    public async Task InitializationMenus()
+    public async Task InitializationMenusAsync()
     {
         var menusResponse = await ConfigurationCaller.GetAllAsync();
         Menus = menusResponse.Data ?? new();
@@ -69,9 +69,21 @@ public class PermissionHelper
                 Sort = 2,
                 ParentId = adminNav.Id,
             };
+            var roleDetailNav = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000002",
+                Url = "role/details",
+                Icon = "",
+                Name = "roleDetail",
+                Sort = 3,
+                OnlyJump = true,
+                ParentId = adminNav.Id,
+            };
             Menus.Add(adminNav);
             Menus.Add(menuNav);
             Menus.Add(permissionNav);
+            Menus.Add(roleDetailNav);
         }
         else
         {

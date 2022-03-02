@@ -24,9 +24,11 @@ public class NavModel
 
     public bool Active { get; set; }
 
+    public bool OnlyJump { get; set; }
+
     public NavModel[]? Children { get; set; }
 
-    public NavModel(Guid id, string code,string? href, string? icon, string title, int sort, Guid? parentId, NavModel[]? children)
+    public NavModel(Guid id, string code,string? href, string? icon, string title, int sort, bool onlyJump,bool hide,Guid? parentId, NavModel[]? children)
     {
         Id = id;
         Code = code;
@@ -35,6 +37,8 @@ public class NavModel
         ParentIcon = icon;
         Title = title;
         Sort = sort;
+        OnlyJump = onlyJump;
+        Hide = hide;
         ParentId = parentId;
         FullTitle = title;
         Children = children;

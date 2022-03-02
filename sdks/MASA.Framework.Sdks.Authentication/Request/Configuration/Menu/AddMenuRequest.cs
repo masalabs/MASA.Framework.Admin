@@ -18,7 +18,9 @@ public class AddMenuRequest
 
     public bool Disabled { get; set; }
 
-    public AddMenuRequest(string code, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled)
+    public bool OnlyJump { get; set; }
+
+    public AddMenuRequest(string code, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled,bool onlyJump)
     {
         Code = code;
         Name = name;
@@ -28,5 +30,6 @@ public class AddMenuRequest
         Url = url;
         Sort = sort;
         Disabled = disabled;
+        OnlyJump = onlyJump;
     }
 }

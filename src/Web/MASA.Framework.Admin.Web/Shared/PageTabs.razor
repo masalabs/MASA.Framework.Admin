@@ -1,7 +1,6 @@
 ﻿@inherits AdminCompontentBase
 @inject NavHelper NavHelper
 @inject GlobalConfig GlobalConfig
-@implements IDisposable
 
 <MPageTabs Value="NavHelper.PageTabItems.FindIndex(tab => tab.Url == GlobalConfig.CurrentNav?.Href)" Class="px-6 pagetabs" Items="NavHelper.PageTabItems">
     <TabContent>
@@ -27,16 +26,4 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    protected override void OnInitialized()
-    {
-        GlobalConfig.OnLanguageChanged += base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
-    }
-
-    public void Dispose()
-    {
-        GlobalConfig.OnLanguageChanged -= base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
-    }
 }

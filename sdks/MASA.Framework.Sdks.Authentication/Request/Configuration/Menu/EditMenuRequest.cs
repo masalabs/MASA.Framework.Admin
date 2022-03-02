@@ -18,7 +18,9 @@ public class EditMenuRequest
 
     public bool Disabled { get; set; }
 
-    public EditMenuRequest(Guid menuId, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled)
+    public bool OnlyJump { get; set; }
+
+    public EditMenuRequest(Guid menuId, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled, bool onlyJump)
     {
         MenuId = menuId;
         Name = name;
@@ -28,5 +30,6 @@ public class EditMenuRequest
         Url = url;
         Sort = sort;
         Disabled = disabled;
+        OnlyJump = onlyJump;
     }
 }

@@ -54,9 +54,12 @@
                     </MCol>
                 </MRow>
                 <MRow>
-                    <MCol>
+                     <MCol>                       
                         <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
                     </MCol>
+                    <MCol>
+                        <MCheckbox Label="@T("OnlyJump（The menu list will not show this menu）")" @bind-Value="Page.CurrentData.OnlyJump" />
+                    </MCol>                 
                 </MRow>
                 @if (Page.IsEdit)
                 {

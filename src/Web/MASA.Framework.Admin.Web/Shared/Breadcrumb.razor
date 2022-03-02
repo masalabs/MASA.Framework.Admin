@@ -1,8 +1,6 @@
 ﻿@inherits AdminCompontentBase
 @inject NavigationManager NavigationManager
-@inject NavHelper NavHelper
 @inject GlobalConfig GlobalConfig
-@implements IDisposable
 
 @{
     var items = GetBreadcrumbItems();
@@ -32,16 +30,17 @@
 }
 
 @code {
-    protected override void OnInitialized()
-    {
-       GlobalConfig.OnLanguageChanged += base.StateHasChanged;
-       GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
-    }
+
+    [Parameter]
+    public NavHelper NavHelper { get; set; }
+
+    [Parameter]
+    public string CurrentUri { get; set; }
 
     private List<BreadcrumbItem> GetBreadcrumbItems()
     {
         var items = new List<BreadcrumbItem>();
-        var currentNav = NavHelper.SameLevelNavs.FirstOrDefault(n => string.IsNullOrEmpty(n.Href) is false && NavigationManager.Uri.Contains(n.Href));
+        var currentNav = NavHelper.SameLevelNavs.FirstOrDefault(n => string.IsNullOrEmpty(n.Href) is false && CurrentUri.Contains(n.Href));
         if (currentNav is not null)
         {
             if (currentNav.ParentId != null)
@@ -53,11 +52,5 @@
             items.Last().Href = currentNav.Href;
         }
         return items;
-    }
-
-    public void Dispose()
-    {
-        GlobalConfig.OnLanguageChanged -= base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
     }
 }

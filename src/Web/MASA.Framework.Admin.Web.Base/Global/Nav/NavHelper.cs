@@ -1,5 +1,3 @@
-using Masa.Framework.Sdks.Authentication.Response.Configuration;
-
 namespace Masa.Framework.Admin.Web.Base.Global;
 
 public class NavHelper
@@ -8,13 +6,15 @@ public class NavHelper
     private GlobalConfig _globalConfig;
     private PermissionHelper _permissionHelper;
 
-    public List<NavModel> Navs { get; } = new();
+    public List<NavModel> Navs { get; private set; } = new();
 
-    public List<NavModel> SameLevelNavs { get; } = new();
+    public List<NavModel> SameLevelNavs { get; private set; } = new();
 
-    public List<PageTabItem> PageTabItems { get; } = new();
+    public List<NavModel> BottomLevelNavs { get; private set; } = new();
 
-    public NavHelper(NavigationManager navigationManager, GlobalConfig globalConfig,PermissionHelper permissionHelper)
+    public List<PageTabItem> PageTabItems { get; private set; } = new();
+
+    public NavHelper(NavigationManager navigationManager, GlobalConfig globalConfig, PermissionHelper permissionHelper)
     {
         _navigationManager = navigationManager;
         _globalConfig = globalConfig;
@@ -23,17 +23,20 @@ public class NavHelper
 
     public async Task InitializationAsync()
     {
-        await _permissionHelper.InitializationMenus();
-        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
+        await _permissionHelper.InitializationMenusAsync();
+        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.OnlyJump, m.Disabled, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
 
-        Navs.AddRange(GetMenuNavs(menuNavs));
+        Navs = GetMenuNavs(menuNavs);
 
-        SameLevelNavs.AddRange(menuNavs);//AddRange(menuNavs.Where(m => menuNavs.All(d => m.Id != d.ParentId)).ToList());
+        BottomLevelNavs = menuNavs.Where(m => menuNavs.All(mn => m.Id != mn.ParentId)).ToList();
 
-        SameLevelNavs.Where(nav => nav.Href is not null && nav.Href!="").ForEach(nav =>
-        {
-            PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon));
-        });
+        SameLevelNavs = menuNavs;
+
+        PageTabItems.Clear();
+        SameLevelNavs.Where(nav => nav.Href is not null && nav.Href != "").ForEach(nav =>
+          {
+              PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon, PageTabsMatch.Prefix));
+          });
     }
 
     List<NavModel> GetMenuNavs(List<NavModel> menuNavs)

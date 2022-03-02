@@ -122,6 +122,10 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("name");
 
+                    b.Property<bool>("OnlyJump")
+                        .HasColumnType("bit")
+                        .HasColumnName("onlyJump");
+
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("parent_id");

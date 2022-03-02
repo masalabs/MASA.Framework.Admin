@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Masa.Framework.Admin.Configuration.Migrations
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20220221163757_init")]
+    [Migration("20220301082035_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,6 +123,10 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("name");
+
+                    b.Property<bool>("OnlyJump")
+                        .HasColumnType("bit")
+                        .HasColumnName("onlyJump");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier")

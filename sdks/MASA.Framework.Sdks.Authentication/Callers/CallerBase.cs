@@ -27,7 +27,7 @@ public abstract class CallerBase : HttpClientCallerBase
     {
         try
         {
-            var response =await func.Invoke();
+            var response = await func.Invoke();
             return response.StatusCode switch
             {
                 HttpStatusCode.OK or HttpStatusCode.Accepted or HttpStatusCode.NoContent => ApiResultResponseBase.ResponseSuccess("success"),
@@ -35,7 +35,7 @@ public abstract class CallerBase : HttpClientCallerBase
                 _ => ApiResultResponseBase.ResponseSuccess("The service is abnormal, please contact the administrator!"),
             };
         }
-        catch (Exception ex)
+        catch
         {
             return ApiResultResponseBase.ResponseLose("The service is abnormal, please contact the administrator!");
         }

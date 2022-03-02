@@ -18,9 +18,9 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenTelemetryTracing(options =>
     options
-    .AddSource(TelemetryConstants.ServiceName)
+    .AddSource(TelemetryConstants.SERVICE_NAME)
     .SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService(serviceName: TelemetryConstants.ServiceName, serviceVersion: TelemetryConstants.ServiceVersion).AddTelemetrySdk())
+            .AddService(serviceName: TelemetryConstants.SERVICE_NAME, serviceVersion: TelemetryConstants.SERVICE_VERSION).AddTelemetrySdk())
         .AddSqlClientInstrumentation(options =>
         {
             options.SetDbStatementForText = true;
@@ -89,7 +89,8 @@ app.MigrateDbContext<UserDbContext>((context, services) =>
     {
         return;
     }
-    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123",true)
+
+    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123", true)
     {
         Name = "Administrator",
         Email = "admin@masastack.com"

@@ -1,6 +1,3 @@
-using Masa.Framework.Admin.Infrastructure.Utils;
-using Masa.Utils.Security.Cryptography;
-
 namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
 public class User : AuditAggregateRoot<Guid, Guid>
@@ -68,7 +65,7 @@ public class User : AuditAggregateRoot<Guid, Guid>
         userRoles = new();
     }
 
-    public User(Guid? creator, string account, string password,bool isAdmin) : this()
+    public User(Guid? creator, string account, string password, bool isAdmin) : this()
     {
         Account = account;
         Salt = RandomUtils.GenerateSpecifiedString(6);

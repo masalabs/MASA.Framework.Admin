@@ -1,10 +1,8 @@
-using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
-
 namespace Masa.Framework.Admin.RCL.RBAC.Pages.User;
 
 public partial class UserView
 {
-    private StringNumber _tab;
+    private StringNumber _tab = 0;
     private UserDetailResponse _userDetail = new();
     private bool _addRoleDialog, _addGroupDialog;
     private List<SelectItem> _roleSelectItems = new(), _groupSelectItems = new();
@@ -44,7 +42,7 @@ public partial class UserView
     public LogStatisticsCaller LogStatisticsCaller { get; set; } = null!;
 
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; } = Guid.Empty.ToString();
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
@@ -74,35 +72,30 @@ public partial class UserView
 
     private async Task OpenRoleDialog()
     {
-        var dataRes = await AuthenticationCaller.SelectRoleAsync();
-        if (!dataRes.Success || dataRes.Data == null)
+        HandleCaller(await AuthenticationCaller.SelectRoleAsync(), (data) =>
         {
-            //获取失败
-            return;
-        }
-        _addRoleDialog = true;
-        _roleSelectItems = dataRes.Data.Select(role => new SelectItem
-        {
-            Name = role.Name,
-            Describetion = role.Describe ?? "",
-            Id = role.Id
-        }).ToList();
+            _addRoleDialog = true;
+            _roleSelectItems = data.Select(role => new SelectItem
+            {
+                Name = role.Name,
+                Describetion = role.Describe ?? "",
+                Id = role.Id
+            }).ToList();
+        });
     }
+
     private async Task OpenGroupDialog()
     {
-        var dataRes = await UserGroupCaller.SelectUserGroupsAsync();
-        if (!dataRes.Success || dataRes.Data == null)
+        HandleCaller(await UserGroupCaller.SelectUserGroupsAsync(), (data) =>
         {
-            //获取失败
-            return;
-        }
-        _addGroupDialog = true;
-        _groupSelectItems = dataRes.Data.Select(userGroup => new SelectItem
-        {
-            Name = userGroup.Name,
-            Describetion = userGroup.Describtion,
-            Id = userGroup.Id
-        }).ToList();
+            _addGroupDialog = true;
+            _groupSelectItems = data.Select(userGroup => new SelectItem
+            {
+                Name = userGroup.Name,
+                Describetion = userGroup.Describtion,
+                Id = userGroup.Id
+            }).ToList();
+        });
     }
 
 
@@ -113,23 +106,30 @@ public partial class UserView
             //tip msg
             return;
         }
-        _addRoleDialog = false;
-        await UserCaller.CreateRoleAsync(new CreateUserRoleRequest
+
+        var res = await UserCaller.CreateRoleAsync(new CreateUserRoleRequest
         {
             RoleId = Guid.Parse(_addRoleId),
             UserId = Guid.Parse(Id)
         });
-        await LoadUserRoles();
+        await HandleCallerAsync(res, async () =>
+        {
+            _addRoleDialog = false;
+            await LoadUserRoles();
+        });
     }
 
     private async Task RemoveUserRole(Guid roleId)
     {
-        await UserCaller.RemoveUserRoleAsync(new RemoveUserRoleRequest
+        var res = await UserCaller.RemoveUserRoleAsync(new RemoveUserRoleRequest
         {
             RoleId = roleId,
             UserId = Guid.Parse(Id)
         });
-        await LoadUserRoles();
+        await HandleCallerAsync(res, async () =>
+        {
+            await LoadUserRoles();
+        });
     }
 
     private async Task AddUserGroup()
@@ -139,23 +139,30 @@ public partial class UserView
             //tip msg
             return;
         }
-        _addGroupDialog = false;
-        await UserCaller.CreateUserGroupAsync(new CreateUserGroupRequest
+
+        var res = await UserCaller.CreateUserGroupAsync(new CreateUserGroupRequest
         {
             UserGroupId = Guid.Parse(_addGroupId),
             UserId = Guid.Parse(Id)
         });
-        await LoadUserGroups();
+        await HandleCallerAsync(res, async () =>
+        {
+            _addGroupDialog = false;
+            await LoadUserGroups();
+        });
     }
 
     private async Task RemoveUserGroup(Guid groupId)
     {
-        await UserCaller.RemoveUserGroupAsync(new RemoveUserGroupRequest
+        var res = await UserCaller.RemoveUserGroupAsync(new RemoveUserGroupRequest
         {
             UserGroupId = groupId,
             UserId = Guid.Parse(Id)
         });
-        await LoadUserGroups();
+        await HandleCallerAsync(res, async () =>
+        {
+            await LoadUserGroups();
+        });
     }
 
     private async Task LoadUserRoles()
@@ -176,11 +183,10 @@ public partial class UserView
     private async Task LoadUserGroups()
     {
         var userGroupsRes = await UserGroupCaller.GetUserGroupsAsync(Guid.Parse(Id));
-        if (!userGroupsRes.Success || userGroupsRes.Data == null)
+        HandleCaller(userGroupsRes, (data) =>
         {
-            return;
-        }
-        _userGroups = userGroupsRes.Data;
+            _userGroups = data;
+        });
     }
 }
 

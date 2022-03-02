@@ -1,8 +1,8 @@
-﻿namespace Masa.Framework.Admin.Web.Data.App.Invoice.Dto;
+namespace Masa.Framework.Admin.Web.Data.App.Invoice.Dto;
 
 public class BillDto
 {
-    public string? Type { get; set; }
+    public string Type { get; set; }
 
     public int Cost { get; set; }
 
@@ -10,11 +10,11 @@ public class BillDto
 
     public decimal Price { get; set; }
 
-    public string? Remark { get; set; }
+    public string Remark { get; set; }
 
     public bool ShowMenu { get; set; }
 
-    public string? Discount { get; set; }
+    public string Discount { get; set; }
 
     public int Tax1 { get; set; }
 
@@ -22,7 +22,7 @@ public class BillDto
 
     public BillDto() { }
 
-    public BillDto(string? type, int cost, int qty, decimal price, string? remark)
+    public BillDto(string type, int cost, int qty, decimal price, string remark)
     {
         Type = type;
         Cost = cost;

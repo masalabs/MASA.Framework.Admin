@@ -37,12 +37,14 @@ public partial class Users
     private async Task LoadData()
     {
         var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "", _pageData.State);
-
-        if (dataRes.Success && dataRes.Data != null)
+        HandleCaller(dataRes, (data) =>
         {
-            _pageData.PageData = dataRes.Data.Items.ToList();
-            _pageData.CurrentCount = dataRes.Data.Count;
-        }
+            if (data != null)
+            {
+                _pageData.PageData = data.Items.ToList();
+                _pageData.CurrentCount = data.Count;
+            }
+        });
     }
 
     private string GetInitialShow(string name)
@@ -57,15 +59,10 @@ public partial class Users
 
     private async Task DeleteUser(string id)
     {
-        var res = await UserCaller.DeleteAsync(id);
-        if (!res.Success)
+        await HandleCallerAsync(await UserCaller.DeleteAsync(id), async () =>
         {
-            //tip msg
-        }
-        else
-        {
-            //reload items
-        }
+            await LoadData();
+        });
     }
 
     private async Task CreateUser(EditContext context)
@@ -80,16 +77,11 @@ public partial class Users
             GlobalConfig.OpenMessage(I18n.T("ConfirmPasswordError"), MessageType.Error);
             return;
         }
-
-        var res = await UserCaller.CreateAsync(_createUserModel);
-        if (!res.Success)
+        await HandleCallerAsync(await UserCaller.CreateAsync(_createUserModel), async () =>
         {
-            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
-            return;
-        }
-
-        _visible = false;
-        await LoadData();
+            _visible = false;
+            await LoadData();
+        });
     }
 }
 

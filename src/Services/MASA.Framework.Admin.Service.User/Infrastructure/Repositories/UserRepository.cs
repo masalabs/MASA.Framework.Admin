@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-
 namespace Masa.Framework.Admin.Service.User.Infrastructure.Repositories;
 
 public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User>, IUserRepository

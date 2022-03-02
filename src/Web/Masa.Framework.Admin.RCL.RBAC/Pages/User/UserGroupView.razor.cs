@@ -18,7 +18,7 @@ public partial class UserGroupView
     };
 
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; } = Guid.Empty.ToString();
 
     public Guid ID { get { return Guid.Parse(Id); } }
 
@@ -34,7 +34,9 @@ public partial class UserGroupView
         {
             await LoadUsersAysnc();
             await LoadPermissionAsync();
+            StateHasChanged();
         }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
@@ -46,21 +48,18 @@ public partial class UserGroupView
             return;
         }
         var resPermissions = await AuthenticationCaller.GetPermissionsByIds(res.Data);
-        if (resPermissions.Success && resPermissions.Data != null)
+        HandleCaller(resPermissions, (data) =>
         {
-            _groupPermissions = resPermissions.Data;
-            StateHasChanged();
-        }
+            _groupPermissions = data;
+        });
     }
 
     private async Task LoadUsersAysnc()
     {
-        var res = await UserGroupCaller.GetUsersAsync(ID);
-        if (res != null && res.Success)
+        HandleCaller(await UserGroupCaller.GetUsersAsync(ID), (data) =>
         {
-            _groupUsers = res.Data ?? new();
-            StateHasChanged();
-        }
+            _groupUsers = data;
+        });
     }
 
     private async Task AddAuthorize(AuthorizeItemResponse data)
@@ -76,11 +75,10 @@ public partial class UserGroupView
             Action = data.Action,
         };
         var result = await AuthenticationCaller.AddPermissionAsync(permission);
-        if (result.Success)
+        await HandleCallerAsync(result, async () =>
         {
-            //refresh
             await LoadPermissionAsync();
-        }
+        });
     }
 
     private async Task RemovePermissionAsync(Guid permissionId)
@@ -90,10 +88,10 @@ public partial class UserGroupView
             PermissionId = permissionId,
             UserGroupId = ID
         });
-        if (res.Success)
+        await HandleCallerAsync(res, async () =>
         {
             await LoadPermissionAsync();
-        }
+        });
     }
 
 }

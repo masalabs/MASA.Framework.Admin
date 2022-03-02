@@ -1,38 +1,36 @@
-using Masa.BuildingBlocks.Ddd.Domain.Entities;
+namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
 
-namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates
+public class VisitStatisticsRecord : AggregateRoot<Guid>
 {
-    public class VisitStatisticsRecord : AggregateRoot<Guid>
+    public int PV { get; private set; }
+
+    public int UV { get; private set; }
+
+    public int IPCount { get; private set; }
+
+    public DateTime DateTime { get; private set; }
+
+    public VisitStatisticType Type { get; private set; }
+
+    private VisitStatisticsRecord()
     {
-        public int PV { get; private set; }
-
-        public int UV { get; private set; }
-
-        public int IPCount { get; private set; }
-
-        public DateTime DateTime { get; private set; }
-
-        public VisitStatisticType Type { get; private set; }
-
-        private VisitStatisticsRecord()
-        {
-
-        }
-
-        public VisitStatisticsRecord(int pv, int uv, int ipCount, VisitStatisticType type)
-        {
-            PV = pv;
-            UV = uv;
-            IPCount = ipCount;
-            Type = type;
-        }
-
-        public void Update(int pv, int uv, int ipCount)
-        {
-            PV = pv;
-            UV = uv;
-            IPCount = ipCount;
-        }
 
     }
+
+    public VisitStatisticsRecord(int pv, int uv, int ipCount, VisitStatisticType type)
+    {
+        PV = pv;
+        UV = uv;
+        IPCount = ipCount;
+        Type = type;
+    }
+
+    public void Update(int pv, int uv, int ipCount)
+    {
+        PV = pv;
+        UV = uv;
+        IPCount = ipCount;
+    }
+
 }
+

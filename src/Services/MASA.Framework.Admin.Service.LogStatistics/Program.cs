@@ -2,7 +2,6 @@ using Masa.Contrib.Configuration;
 using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
 using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Options;
 using Microsoft.Extensions.Options;
-using Quartz;
 using Quartz.Impl;
 
 var builder = WebApplication.CreateBuilder(args);

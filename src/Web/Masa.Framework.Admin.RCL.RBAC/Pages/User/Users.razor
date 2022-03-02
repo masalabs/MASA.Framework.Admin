@@ -118,7 +118,7 @@
                                     <MIcon Small>fas fa-user-tie</MIcon>
                                     <MListItemTitle Class="ml-2"> @T("Details") </MListItemTitle>
                                 </MListItem>
-                                <MListItem>
+                                <MListItem OnClick="()=>DeleteUser(context.Item.Id.ToString())">
                                     <MIcon Small>far fa-trash-alt</MIcon>
                                     <MListItemTitle Class="ml-2"> @T("Delete") </MListItemTitle>
                                 </MListItem>

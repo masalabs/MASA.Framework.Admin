@@ -12,7 +12,7 @@ public record EditMenuCommand : CommandBase
 
     public Guid? ParentId { get; set; }
 
-    public string Url { get; set; }
+    public string Url { get; set; } = "";
 
     public int Sort { get; set; }
 

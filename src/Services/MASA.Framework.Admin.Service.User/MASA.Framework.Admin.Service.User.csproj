@@ -12,6 +12,7 @@
     <ItemGroup>
       <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="0.3.0" />
       <PackageReference Include="Masa.Utils.Security.Cryptography" Version="0.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
         <PrivateAssets>all</PrivateAssets>

@@ -1,12 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
+
+var configOption = builder.Configuration.GetSection("AppConfig").Get<AppConfigOption>();
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(AppConfigOption).Assembly);
 
-var serviceProvider = builder.Services.BuildServiceProvider()!;
-var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();
-if (appConfigOption.Value.EnableDapr)
+if (configOption.EnableDapr)
     builder.Services.AddDaprStarter();
 
 var app = builder.Services.AddFluentValidation(options =>
@@ -29,7 +29,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<ConfigurationDbContext>(dbOptions =>
             {
-                dbOptions.UseSqlServer(appConfigOption.Value.DbConn);
+                dbOptions.UseSqlServer(configOption.DbConn);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<ConfigurationDbContext>()
@@ -57,5 +57,7 @@ app.UseMasaExceptionHandling(opt =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
     });
+
+//app.Services.GetService
 
 app.Run();

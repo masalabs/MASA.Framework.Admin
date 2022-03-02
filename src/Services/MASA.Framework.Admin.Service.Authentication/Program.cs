@@ -1,6 +1,6 @@
-var builder = WebApplication
-    .CreateBuilder(args)
-    .AddMasaConfiguration(
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddMasaConfiguration(
         configurationBuilder =>
         {
             configurationBuilder.UseMasaOptions(options =>

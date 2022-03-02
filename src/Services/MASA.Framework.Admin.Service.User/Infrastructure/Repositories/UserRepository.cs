@@ -6,10 +6,10 @@ public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User>,
     {
     }
 
-    public async Task<Domain.Aggregates.User?> GetByIdAsync(Guid Id)
+    public async Task<Domain.Aggregates.User> GetByIdAsync(Guid Id)
     {
         return await _context.Set<Domain.Aggregates.User>().Where(a => a.Id == Id)
-            .Include(b => b.UserRoles).FirstOrDefaultAsync();
+            .Include(b => b.UserRoles).FirstAsync();
     }
 
     public async Task<int> GetUserCountAsync(Expression<Func<Domain.Aggregates.User, bool>> predicate)

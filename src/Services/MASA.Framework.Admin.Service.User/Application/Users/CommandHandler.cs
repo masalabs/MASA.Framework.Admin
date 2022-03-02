@@ -106,8 +106,11 @@ public class CommandHandler
         {
             throw new UserFriendlyException("密码错误！");
         }
-
-        token = _loginService.GenerateJwtToken(user.Id, user.IsAdmin, _options.Value.Security, _options.Value.Expiration);
+        var SECRET_STORE_NAME = "localsecretstore";
+        using var client = new DaprClientBuilder().Build();
+        var security = await client.GetSecretAsync(SECRET_STORE_NAME, "jwt_security");
+        var expiration = await client.GetSecretAsync(SECRET_STORE_NAME, "jwt_expiration");
+        token = _loginService.GenerateJwtToken(user.Id, user.IsAdmin, security["jwt_security"], int.Parse(expiration["jwt_expiration"]));
         loginCommand.Token = token;
     }
 

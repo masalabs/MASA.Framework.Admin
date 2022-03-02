@@ -1,10 +1,7 @@
-using Masa.Contrib.Configuration;
-using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
-using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Options;
-using Microsoft.Extensions.Options;
-using Quartz.Impl;
-
 var builder = WebApplication.CreateBuilder(args);
+
+var configOption = builder.Configuration.GetSection("AppConfig").Get<AppConfigOption>();
+
 builder.AddMasaConfiguration(
     null,
     assemblies: typeof(AppConfigOption).Assembly);
@@ -34,10 +31,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<LogStatisticsDbContext>(dbOptions =>
             {
-                var serviceProvider = builder.Services.BuildServiceProvider()!;
-                var option = serviceProvider
-                    .GetRequiredService<IOptions<AppConfigOption>>();
-                dbOptions.UseSqlServer(option.Value.DbConn);
+                dbOptions.UseSqlServer(configOption.DbConn);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<LogStatisticsDbContext>()

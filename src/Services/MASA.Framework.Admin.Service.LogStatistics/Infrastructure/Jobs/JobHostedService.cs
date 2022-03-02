@@ -15,6 +15,10 @@ public class JobHostedService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _scheduler = await _schedulerFactory.GetScheduler();
+        if (_scheduler is null)
+        {
+            return;
+        }
         //_scheduler.JobFactory = new DefaultScheduleServiceFactory(_serviceProvider);
         await _scheduler.Start(cancellationToken);
 
@@ -54,7 +58,10 @@ public class JobHostedService : IHostedService
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
-        await _scheduler.Shutdown(cancellationToken);
+        if (_scheduler != null && _scheduler.IsStarted)
+        {
+            await _scheduler.Shutdown(cancellationToken);
+        }
     }
 }
 

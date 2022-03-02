@@ -106,6 +106,19 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+  masa.admin.service.logstatistics.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa.admin.service.logstatistics",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.service.logstatistics
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.service.logstatistics"
+
   dapr-placement:
     command: ["./placement", "-port", "50000", "-log-level", "debug"]
     ports:

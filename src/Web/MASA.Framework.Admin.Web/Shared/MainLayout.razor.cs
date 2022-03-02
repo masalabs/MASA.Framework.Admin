@@ -36,16 +36,7 @@ namespace Masa.Framework.Admin.Web.Shared
             if (firstRender)
             {
                 var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
-                bool isLogined = false;
-                try
-                {
-                    isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
-
-                }
-                catch (Exception e)
-                {
-
-                }
+                var isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
 
                 if (token == null || !isLogined)
                 {
@@ -53,18 +44,18 @@ namespace Masa.Framework.Admin.Web.Shared
                 }
                 else
                 {
-                    StartSignalR(token.Value);
+                    await StartSignalR(token.Value);
                 }
             }
         }
 
-        public void StartSignalR(string token)
+        public async Task StartSignalR(string token)
         {
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl($"{Configuration["ApiGateways:UserCaller"]}/hub/login", HttpTransportType.WebSockets | HttpTransportType.LongPolling
                     , options =>
                     {
-                        options.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                        options.AccessTokenProvider = () => Task.FromResult(token);
                     }
                 )
                 .ConfigureLogging(logging =>
@@ -77,19 +68,17 @@ namespace Masa.Framework.Admin.Web.Shared
 
             _hubConnection.On<string>("Logout", Logout);
 
-            //await _hubConnection.StartAsync();
+            await _hubConnection.StartAsync();
         }
 
         public async Task Logout(string msg)
         {
             await ProtectedLocalStorage.SetAsync("IsLogined", false);
-
             await _hubConnection.StopAsync();
             await _hubConnection.DisposeAsync();
 
             _show = true;
             _msg = msg;
-
             StateHasChanged();
             await Task.Delay(5000);
 

@@ -35,6 +35,10 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
             if (onlineUser == null)
             {
                 var user = await UserRepository.GetByIdAsync(userId);
+                if (user is null)
+                {
+                    return;
+                }
                 onlineUser = new OnlineUserModel
                 {
                     UserId = user.Id,

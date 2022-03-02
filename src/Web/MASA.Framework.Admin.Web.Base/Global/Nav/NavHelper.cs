@@ -2,8 +2,6 @@ namespace Masa.Framework.Admin.Web.Base.Global;
 
 public class NavHelper
 {
-    private NavigationManager _navigationManager;
-    private GlobalConfig _globalConfig;
     private PermissionHelper _permissionHelper;
 
     public List<NavModel> Navs { get; private set; } = new();
@@ -14,17 +12,15 @@ public class NavHelper
 
     public List<PageTabItem> PageTabItems { get; private set; } = new();
 
-    public NavHelper(NavigationManager navigationManager, GlobalConfig globalConfig, PermissionHelper permissionHelper)
+    public NavHelper(PermissionHelper permissionHelper)
     {
-        _navigationManager = navigationManager;
-        _globalConfig = globalConfig;
         _permissionHelper = permissionHelper;
     }
 
     public async Task InitializationAsync()
     {
         await _permissionHelper.InitializationMenusAsync();
-        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.OnlyJump, m.Disabled, m.ParentId, null)).OrderBy(m => m.Sort).ToList();
+        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.OnlyJump, m.Disabled, m.ParentId, null, null)).OrderBy(m => m.Sort).ToList();
 
         Navs = GetMenuNavs(menuNavs);
 
@@ -34,9 +30,9 @@ public class NavHelper
 
         PageTabItems.Clear();
         SameLevelNavs.Where(nav => nav.Href is not null && nav.Href != "").ForEach(nav =>
-          {
-              PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.ParentIcon, PageTabsMatch.Prefix));
-          });
+        {
+            PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.Icon ?? nav.ParentNav?.Icon ?? "", PageTabsMatch.Prefix));
+        });
     }
 
     List<NavModel> GetMenuNavs(List<NavModel> menuNavs)
@@ -60,43 +56,13 @@ public class NavHelper
                 {
                     child.ParentId = nav.Id;
                     child.FullTitle = $"{nav.FullTitle} {child.Title}";
-                    child.ParentIcon = nav.Icon;
+                    child.ParentNav = nav;
+                    if (child.InheritIcon is null) child.InheritIcon = child.Icon ?? nav.Icon ?? nav.InheritIcon;
+
                     BindChild(child);
                 }
             }
         }
-    }
-
-    public void NavigateTo(NavModel nav)
-    {
-        Active(nav);
-        _navigationManager.NavigateTo(nav.Href ?? "");
-    }
-
-    public void NavigateTo(string href)
-    {
-        var nav = SameLevelNavs.FirstOrDefault(n => n.Href == href);
-        if (nav is not null) Active(nav);
-        _navigationManager.NavigateTo(href);
-    }
-
-    public void RefreshRender(NavModel nav)
-    {
-        Active(nav);
-        _globalConfig.CurrentNav = nav;
-    }
-
-    public void NavigateToByEvent(NavModel nav)
-    {
-        RefreshRender(nav);
-        _navigationManager.NavigateTo(nav.Href ?? "");
-    }
-
-    public void Active(NavModel nav)
-    {
-        SameLevelNavs.ForEach(n => n.Active = false);
-        nav.Active = true;
-        //if (nav.ParentId != null) SameLevelNavs.First(n => n.Id == nav.ParentId).Active = true;
     }
 }
 

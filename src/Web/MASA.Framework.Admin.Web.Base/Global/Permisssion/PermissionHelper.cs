@@ -72,7 +72,7 @@ public class PermissionHelper
             var roleDetailNav = new MenuItemResponse
             {
                 Id = Guid.NewGuid(),
-                Code = "000002",
+                Code = "000003",
                 Url = "role/details",
                 Icon = "",
                 Name = "roleDetail",

@@ -7,9 +7,9 @@
     {
         <MTooltip Color="primary" Bottom>
             <ActivatorContent>
-                <span @attributes="@context.Attrs" class="hover-pointer mr-8"  @onclick="()=>NavHelper.NavigateTo(menu)">
+                <span @attributes="@context.Attrs" class="hover-pointer mr-8"  @onclick="()=>Nav.NavigateTo(menu.Href)">
                     <MIcon Size=24 Color="@(CurrentUri.Contains(menu.Href)?"primary":"neutral-lighten-3")">
-                        @menu.ParentIcon
+                        @menu.InheritIcon
                     </MIcon>
                 </span>
             </ActivatorContent>
@@ -47,9 +47,9 @@
                     </MListItem>
                     @foreach (var nav in GetNavs(_search))
                     {
-                        <MListItem Dense OnClick="()=> NavHelper.NavigateTo(nav)" Class="px-4">
+                        <MListItem Dense OnClick="()=> Nav.NavigateTo(nav.Href)" Class="px-4">
                             <MListItemAction Class="mr-3">
-                                <MIcon Size=20 Color="neutral-lighten-3">@nav.ParentIcon</MIcon>
+                                <MIcon Size=20 Color="neutral-lighten-3">@nav.InheritIcon</MIcon>
                             </MListItemAction>
                             <MListItemContent>
                                 <span Class="text-btn">@GetI18nFullTitle(nav.FullTitle)</span>

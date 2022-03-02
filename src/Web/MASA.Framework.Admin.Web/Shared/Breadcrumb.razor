@@ -40,17 +40,21 @@
     private List<BreadcrumbItem> GetBreadcrumbItems()
     {
         var items = new List<BreadcrumbItem>();
-        var currentNav = NavHelper.SameLevelNavs.FirstOrDefault(n => string.IsNullOrEmpty(n.Href) is false && CurrentUri.Contains(n.Href));
+        var currentNav = NavHelper.BottomLevelNavs.FirstOrDefault(n => string.IsNullOrEmpty(n.Href) is false && CurrentUri.Contains(n.Href));
         if (currentNav is not null)
         {
-            if (currentNav.ParentId != null)
-            {
-                var parentNav = NavHelper.SameLevelNavs.First(n => n.Id == currentNav.ParentId);
-                items.Add(new BreadcrumbItem { Text = T(parentNav.Title), Href = parentNav.Href ?? parentNav.Children?.FirstOrDefault()?.Href ?? "" });
-            }
+            AddParentBreadcrumbItemLoop(currentNav);
             items.Add(new BreadcrumbItem { Text = T(currentNav.Title), Href = currentNav.Href });
-            items.Last().Href = currentNav.Href;
         }
         return items;
+
+        void AddParentBreadcrumbItemLoop(NavModel? nav)
+        {
+            if(nav.ParentNav is not null)
+            {
+                items.Add(new BreadcrumbItem { Text = T(nav.ParentNav.Title), Href = nav.ParentNav.Href });
+                AddParentBreadcrumbItemLoop(nav.ParentNav);
+            }
+        }
     }
 }

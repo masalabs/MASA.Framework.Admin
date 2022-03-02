@@ -1,4 +1,5 @@
 ﻿@inherits AdminCompontentBase
+@inject NavigationManager NavigationManager
 
 @{
     var navs = GetNavs(_search);
@@ -19,9 +20,9 @@
            <MList>
                 @foreach (var nav in navs)
                 {
-                    <MListItem OnClick="()=>NavHelper.NavigateToByEvent(nav)">
+                    <MListItem OnClick="()=>NavigationManager.NavigateTo(nav.Href)">
                         <MListItemAction>
-                            <MIcon Size=20 Color="neutral-lighten-4">@nav.ParentIcon</MIcon>
+                            <MIcon Size=20 Color="neutral-lighten-4">@nav.InheritIcon</MIcon>
                         </MListItemAction>
                         <MListItemContent>
                             <span Class="text-btn">@GetI18nFullTitle(nav.FullTitle)</span>

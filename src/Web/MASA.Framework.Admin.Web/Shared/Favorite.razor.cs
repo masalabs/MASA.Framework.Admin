@@ -76,9 +76,7 @@ namespace Masa.Framework.Admin.Web.Shared
             if (arr.Count == 1) return T(fullTitle);
             else
             {
-                var parent = arr[0];
-                arr.RemoveAt(0);
-                return $"{T(parent)} {T(string.Join(' ', arr))}";
+                return string.Join(" ", arr.Select(a => T(a)));
             }
         }
     }

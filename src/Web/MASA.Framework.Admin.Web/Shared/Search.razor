@@ -15,9 +15,9 @@
         </div>
     </ActivatorContent>
     <ChildContent>
-        @if(navs.Count>0)
+        @if (navs.Count > 0)
         {
-           <MList>
+            <MList>
                 @foreach (var nav in navs)
                 {
                     <MListItem OnClick="()=>NavigationManager.NavigateTo(nav.Href)">
@@ -31,7 +31,7 @@
                 }
             </MList>
         }
-        else if(string.IsNullOrEmpty(_search) is false)
+        else if (string.IsNullOrEmpty(_search) is false)
         {
             <MList>
                 <MListItem>
@@ -51,9 +51,9 @@
     List<NavModel> GetNavs(string? search)
     {
         var output = new List<NavModel>();
-        if (search is not null && search!="")
+        if (search is not null && search != "")
         {
-            output.AddRange(NavHelper.SameLevelNavs.Where(n=>n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search,StringComparison.OrdinalIgnoreCase)));
+            output.AddRange(NavHelper.BottomLevelNavs.Where(n => GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
         }
         return output;
     }
@@ -64,9 +64,7 @@
         if (arr.Count == 1) return T(fullTitle);
         else
         {
-            var parent = arr[0];
-            arr.RemoveAt(0);
-            return $"{T(parent)} {T(string.Join(' ',arr))}";
+            return string.Join(" ", arr.Select(a => T(a)));
         }
     }
 }

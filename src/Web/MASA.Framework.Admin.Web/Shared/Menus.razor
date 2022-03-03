@@ -10,7 +10,7 @@
             if (nav.Hide is false && nav.OnlyJump is false)
             {
                 <MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
-                    <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1" Href="@nav.Href">
+                    <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1" Href="@(nav.Href ?? "")">
                         <ItemContent>
                             @if (string.IsNullOrEmpty(nav.Icon) is false)
                             {
@@ -29,7 +29,7 @@
         }
         else if (nav.Hide is false)
         {
-            <MListGroup Group="@nav.Children.Select(n => n.Href).ToList()" Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText">
+            <MListGroup Group="@nav.Children.Select(n => n.Href ?? "").ToList()" Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText">
                 <ActivatorContent>
                     <MListItemContent>
                         <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@nav.Title</div>

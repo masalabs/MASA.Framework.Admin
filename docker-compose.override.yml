@@ -94,6 +94,19 @@ services:
       - "8443:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  masa.admin.web.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa.admin.web",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.web
+    volumes:
+      - "./dapr/components/localSecretStore.yaml:/components/localSecretStore.yaml"
+      - "./dapr/components/secretsFile.json:/components/secretsFile.json"
+    network_mode: "service:masa.admin.web"
 
   masa.admin.service.logstatistics:
     environment:

@@ -1,48 +1,41 @@
-using Masa.Framework.Sdks.Authentication.Callers;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+namespace Masa.Framework.Admin.Web.Controllers;
 
-namespace Masa.Framework.Admin.Web.Controllers
+[Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
+public class AccountController : Controller
 {
-    [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
-    public class AccountController : Controller
+    readonly UserCaller _userCaller;
+
+    public AccountController(UserCaller userCaller)
     {
-        readonly UserCaller _userCaller;
+        _userCaller = userCaller;
+    }
 
-        public AccountController(UserCaller userCaller)
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login([FromServices] DaprClient daprClient, string token)
+    {
+        var SECRET_STORE_NAME = "localsecretstore";
+        var secret = await daprClient.GetSecretAsync(SECRET_STORE_NAME, "jwt_security");
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(secret["jwt_security"]);
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
         {
-            _userCaller = userCaller;
-        }
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+            // 将clockskew设置为0，使令牌恰好在令牌到期时间到期(而不是5分钟后)
+            ClockSkew = TimeSpan.Zero,
+        }, out SecurityToken validatedToken);
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromServices] IConfiguration configuration, string token)
-        {
-            var security = configuration["AuthOptions:Security"];
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(security);
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                // 将clockskew设置为0，使令牌恰好在令牌到期时间到期(而不是5分钟后)
-                ClockSkew = TimeSpan.Zero,
-            }, out SecurityToken validatedToken);
+        var jwtToken = (JwtSecurityToken)validatedToken;
+        var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
+        var isAdmin = jwtToken.Claims.First(x => x.Type == "IsAdmin").Value;
+        var permissions = await _userCaller.GetAuthorizeByUserAsync(Guid.Parse(userId));
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
-            var isAdmin = jwtToken.Claims.First(x => x.Type == "IsAdmin").Value;
-            var permissions = await _userCaller.GetAuthorizeByUserAsync(Guid.Parse(userId));
-
-            var claims = new List<Claim>
+        var claims = new List<Claim>
             {
                 new Claim("UserId", userId),
                 new Claim("Token",token),
@@ -50,33 +43,33 @@ namespace Masa.Framework.Admin.Web.Controllers
                 new Claim("IsAdmin",isAdmin),
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                RedirectUri = this.Request.Host.Value,
-                ExpiresUtc = DateTime.UtcNow.AddDays(7)
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-
-            return LocalRedirect(Url.Content("~/"));
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Logout()
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var authProperties = new AuthenticationProperties
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated == true)
-            {
-                // delete local authentication cookie
-                await HttpContext.SignOutAsync();
-            }
+            IsPersistent = true,
+            RedirectUri = this.Request.Host.Value,
+            ExpiresUtc = DateTime.UtcNow.AddDays(7)
+        };
 
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties);
+
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Logout()
+    {
+        if (User.Identity != null && User.Identity.IsAuthenticated == true)
+        {
+            // delete local authentication cookie
+            await HttpContext.SignOutAsync();
         }
+
+        return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
     }
 }
+

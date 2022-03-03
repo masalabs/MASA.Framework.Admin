@@ -46,7 +46,7 @@ public class PermissionHelper
                 Url = "",
                 Icon = "mdi-file-outline",
                 Name = "Authentication",
-                Sort = 0,
+                Sort = -1,
                 ParentId = null,
             };
             var menuNav = new MenuItemResponse
@@ -91,7 +91,7 @@ public class PermissionHelper
                 Url = "",
                 Icon = "mdi-account-check-outline",
                 Name = "Organization",
-                Sort = 1,
+                Sort = 0,
                 ParentId = null,
             };
             var org = new MenuItemResponse

@@ -397,7 +397,7 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
         {
             if (e.PropertyName == nameof(Application.Left))
             {
-                if (GlobalConfig.CurrentNav?.Href == "dashboard/ecommerce")
+                if (NavigationManager.Uri.Replace(NavigationManager.BaseUri, string.Empty) == "dashboard/ecommerce")
                 {
                     InvokeAsync(StateHasChanged);
                 }

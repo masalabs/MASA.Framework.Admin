@@ -9,9 +9,7 @@ public class GlobalConfig
     private bool _expandOnHover;
     private bool _navigationMini;
     private string? _favorite;
-    private NavModel? _currentNav;
     private bool _lodding;
-    private bool _confirm;
     private CookieStorage? _cookieStorage;
 
     #endregion
@@ -89,15 +87,6 @@ public class GlobalConfig
         {
             _favorite = value;
             _cookieStorage?.SetItemAsync(FavoriteCookieKey, value);
-        }
-    }
-
-    public NavModel? CurrentNav
-    {
-        get => _currentNav;
-        set
-        {
-            _currentNav = value;
         }
     }
 

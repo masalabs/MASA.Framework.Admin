@@ -3,14 +3,16 @@ namespace Masa.Framework.Sdks.Authentication.Callers;
 public class UserCaller : CallerBase
 {
     AuthenticationCaller _authenticationCaller;
+    UserGroupCaller _userGroupCaller;
 
     protected override string BaseAddress { get; set; }
 
-    public UserCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public UserCaller(AuthenticationCaller authenticationCaller,IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         Name = nameof(UserCaller);
         BaseAddress = configuration["ApiGateways:UserCaller"];
         _authenticationCaller = authenticationCaller;
+        _userGroupCaller = new UserGroupCaller(authenticationCaller, serviceProvider, configuration);
     }
 
     protected override IHttpClientBuilder UseHttpClient()
@@ -188,7 +190,21 @@ public class UserCaller : CallerBase
         {
             if (userRolesResponse.Data?.Count > 0)
             {
-                return await _authenticationCaller.GetPermissionsByRolesAsync(userRolesResponse.Data!.Select(ur => ur.RoleId).ToList());
+                var groupPermissionsReponse = await _userGroupCaller.GetPermissionsByUserIdAsync(userId);
+                if (groupPermissionsReponse.Success is false) return ApiResultResponse<List<AuthorizeItemResponse>>.ResponseLose(groupPermissionsReponse.Message, null);
+                var rolePermissionsReponse = await _authenticationCaller.GetPermissionsByRolesAsync(userRolesResponse.Data!.Select(ur => ur.RoleId).ToList());
+                if (rolePermissionsReponse.Success is false) return rolePermissionsReponse;
+
+                rolePermissionsReponse.Data!.AddRange(groupPermissionsReponse.Data!.Select(p => new AuthorizeItemResponse()
+                {
+                    PermissionId = p.Id,PermissionName = p.Name,
+                    ObjectType = (ObjectType)p.ObjectType,
+                    Resource=p.Resource,
+                    Scope = p.Scope,
+                    Action = p.Action,
+                    PermissionType = (PermissionType)p.PermissionType
+                }));
+                return rolePermissionsReponse;
             }
             else return ApiResultResponse<List<AuthorizeItemResponse>>.ResponseSuccess(new(), "success");
         }

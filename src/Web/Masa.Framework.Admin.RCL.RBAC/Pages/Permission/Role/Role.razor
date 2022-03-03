@@ -19,17 +19,6 @@
                 <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                @*<MSelect @bind-Value="Page.StateEnum"
-                        Color="primary"
-                        HideDetails="@("auto")"
-                        Clearable
-                        Dense
-                        Outlined
-                        Items="@Page.StateSelect"
-                        ItemText="o => o.Key"
-                        ItemValue="o => o.Value"                    
-                        Label="@T("State")">
-                </MSelect>*@
                 <MTextField @bind-Value="Page.Search" Color="primary" Class="ml-4 rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
                     <PrependInnerContent>
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
@@ -66,7 +55,8 @@
                  <span>@context.Item.Describe</span>
                 break;
             case "Action":
-                <MButton Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">Delete</MButton>
+                <MButton Color="primary" OnClick="()=> Page.NavigateToRoleDetails(context.Item)">Detail</MButton>
+                <MButton Class="ml-2" Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">Delete</MButton>
                 break;
             default:
                 @context.Value

@@ -74,7 +74,9 @@ public class PermissionsQueryHandler
             {
                 Id = role.Id,
                 Name = role.Name,
+                ObjectType = role.ObjectType,
                 Action = role.Action,
+                Scope = role.Scope,
                 Resource = role.Resource,
                 Enable = role.Enable,
             }).ToList();

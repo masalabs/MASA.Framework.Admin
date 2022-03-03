@@ -45,7 +45,7 @@ public class PermissionHelper
                 Code = "00000",
                 Url = "",
                 Icon = "mdi-file-outline",
-                Name = "System Configuration",
+                Name = "Authentication",
                 Sort = 0,
                 ParentId = null,
             };
@@ -84,6 +84,74 @@ public class PermissionHelper
             Menus.Add(menuNav);
             Menus.Add(permissionNav);
             Menus.Add(roleDetailNav);
+            var organization = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "00001",
+                Url = "",
+                Icon = "mdi-account-check-outline",
+                Name = "Organization",
+                Sort = 1,
+                ParentId = null,
+            };
+            var org = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000011",
+                Url = "org/index",
+                Icon = "",
+                Name = "Org",
+                Sort = 1,
+                ParentId = organization.Id,
+            };
+            var userList = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000012",
+                Url = "user/list",
+                Icon = "",
+                Name = "User",
+                Sort = 2,
+                ParentId = organization.Id,
+            };
+            var usergroup = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000013",
+                Url = "usergroup/list",
+                Icon = "",
+                Name = "Usergroup",
+                Sort = 3,
+                ParentId = organization.Id,
+            };
+            var usergroupDetail = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000014",
+                Url = "usergroupDetail",
+                Icon = "",
+                Name = "usergroupDetail",
+                Sort = 4,
+                OnlyJump = true,
+                ParentId = organization.Id,
+            };
+            var userDetail = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "000015",
+                Url = "userDetail",
+                Icon = "",
+                Name = "UserDetail",
+                Sort = 5,
+                OnlyJump = true,
+                ParentId = organization.Id,
+            };
+            Menus.Add(organization);
+            Menus.Add(org);
+            Menus.Add(userList);
+            Menus.Add(usergroup);
+            Menus.Add(usergroupDetail);
+            Menus.Add(userDetail);
         }
         else
         {

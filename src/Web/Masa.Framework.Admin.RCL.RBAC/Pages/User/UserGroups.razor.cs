@@ -28,7 +28,7 @@ namespace Masa.Framework.Admin.RCL.RBAC.Pages.User
 
         private void NavToDetails(string id)
         {
-            Nav.NavigateTo($"/usergroup/{id}");
+            Nav.NavigateTo($"/usergroupDetail/{id}");
         }
 
         private async Task LoadData()

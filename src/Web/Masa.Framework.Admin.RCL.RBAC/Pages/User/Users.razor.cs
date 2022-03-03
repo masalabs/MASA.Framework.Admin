@@ -54,7 +54,7 @@ public partial class Users
 
     private void NavToDetails(string id)
     {
-        Nav.NavigateTo($"/user/{id}");
+        Nav.NavigateTo($"/userDetail/{id}");
     }
 
     private async Task DeleteUser(string id)

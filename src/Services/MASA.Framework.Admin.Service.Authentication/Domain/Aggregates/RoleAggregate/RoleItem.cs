@@ -6,12 +6,7 @@ public class RoleItem : Entity<Guid>
 
     public Role Role { get; private set; } = default!;
 
-    private RoleItem()
-    {
-        //Id = Guid.NewGuid();
-    }
-
-    public RoleItem(Guid roleId) : this()
+    public RoleItem(Guid roleId)
     {
         RoleId = roleId;
     }

@@ -16,11 +16,6 @@ public class UserGroup : AuditAggregateRoot<Guid, Guid>
 
     public virtual IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
 
-    private UserGroup()
-    {
-
-    }
-
     public UserGroup(string name, string code, string describtion)
     {
         Name = name;

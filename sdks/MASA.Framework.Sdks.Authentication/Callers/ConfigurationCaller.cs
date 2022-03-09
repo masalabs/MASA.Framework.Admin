@@ -4,9 +4,10 @@ public class ConfigurationCaller : CallerBase
 {
     protected override string BaseAddress { get; set; }
 
+    public override string Name { get; set; } = nameof(ConfigurationCaller);
+
     public ConfigurationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        Name = nameof(ConfigurationCaller);
         BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 

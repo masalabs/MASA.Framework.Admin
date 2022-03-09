@@ -14,11 +14,6 @@ public class Department : AuditAggregateRoot<Guid, Guid>
 
     public virtual IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
 
-    private Department()
-    {
-
-    }
-
     public Department(string name, string code, string describtion) : this(name, code, describtion, Guid.Empty)
     {
 

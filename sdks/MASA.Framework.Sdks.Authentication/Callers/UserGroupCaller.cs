@@ -6,9 +6,10 @@ public class UserGroupCaller : CallerBase
 
     protected override string BaseAddress { get; set; } = "";
 
+    public override string Name { get; set; } = nameof(UserGroupCaller);
+
     public UserGroupCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        Name = nameof(UserGroupCaller);
         BaseAddress = configuration["ApiGateways:UserCaller"];
         _authenticationCaller = authenticationCaller;
     }
@@ -117,7 +118,7 @@ public class UserGroupCaller : CallerBase
     {
         var permissions = new List<PermissionItemResponse>();
         var groupsReponse = await GetUserGroupsAsync(userId);
-        if(groupsReponse.Success is true)
+        if (groupsReponse.Success is true)
         {
             var permissionIds = new List<Guid>();
             foreach (var group in groupsReponse.Data!)
@@ -125,7 +126,7 @@ public class UserGroupCaller : CallerBase
                 var groupPermissionIds = (await GetPermissionIdsAsync(group.Id))?.Data ?? new();
                 permissionIds.AddRange(groupPermissionIds);
                 var groupPermissions = (await _authenticationCaller.GetPermissionsByIds(permissionIds))?.Data ?? new();
-                permissions.AddRange(groupPermissions.Where(p =>p.Enable));
+                permissions.AddRange(groupPermissions.Where(p => p.Enable));
             }
         }
         return ApiResultResponse<List<PermissionItemResponse>>.ResponseSuccess(permissions, "Success");

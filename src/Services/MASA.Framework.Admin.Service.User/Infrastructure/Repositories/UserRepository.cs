@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Infrastructure.Repositories;
 
-public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User>, IUserRepository
+public class UserRepository : Repository<UserDbContext, Domain.Aggregates.User, Guid>, IUserRepository
 {
     public UserRepository(UserDbContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
     {

@@ -17,12 +17,13 @@ public class VisitStatisticsRecord : AggregateRoot<Guid>
 
     }
 
-    public VisitStatisticsRecord(int pv, int uv, int ipCount, VisitStatisticType type)
+    public VisitStatisticsRecord(int pv, int uv, int ipCount, VisitStatisticType type, DateTime dateTime)
     {
         PV = pv;
         UV = uv;
         IPCount = ipCount;
         Type = type;
+        DateTime = dateTime;
     }
 
     public void Update(int pv, int uv, int ipCount)

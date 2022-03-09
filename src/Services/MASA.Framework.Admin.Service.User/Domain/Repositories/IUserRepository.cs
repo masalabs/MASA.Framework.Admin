@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Domain.Repositories;
 
-public interface IUserRepository : IRepository<Aggregates.User>
+public interface IUserRepository : IRepository<Aggregates.User, Guid>
 {
     Task<Aggregates.User> GetByIdAsync(Guid Id);
 

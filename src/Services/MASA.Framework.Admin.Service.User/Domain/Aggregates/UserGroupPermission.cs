@@ -6,11 +6,7 @@ public class UserGroupPermission : Entity<Guid>
 
     public virtual UserGroup UserGroup { get; private set; }
 
-    private UserGroupPermission()
-    {
-    }
-
-    public UserGroupPermission(Guid permissionId) : this()
+    public UserGroupPermission(Guid permissionId)
     {
         PermissionId = permissionId;
     }

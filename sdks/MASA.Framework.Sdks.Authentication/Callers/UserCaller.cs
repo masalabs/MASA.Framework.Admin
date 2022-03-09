@@ -7,9 +7,10 @@ public class UserCaller : CallerBase
 
     protected override string BaseAddress { get; set; }
 
-    public UserCaller(AuthenticationCaller authenticationCaller,IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    public override string Name { get; set; } = nameof(UserCaller);
+
+    public UserCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        Name = nameof(UserCaller);
         BaseAddress = configuration["ApiGateways:UserCaller"];
         _authenticationCaller = authenticationCaller;
         _userGroupCaller = new UserGroupCaller(authenticationCaller, serviceProvider, configuration);
@@ -197,9 +198,10 @@ public class UserCaller : CallerBase
 
                 rolePermissionsReponse.Data!.AddRange(groupPermissionsReponse.Data!.Select(p => new AuthorizeItemResponse()
                 {
-                    PermissionId = p.Id,PermissionName = p.Name,
+                    PermissionId = p.Id,
+                    PermissionName = p.Name,
                     ObjectType = (ObjectType)p.ObjectType,
-                    Resource=p.Resource,
+                    Resource = p.Resource,
                     Scope = p.Scope,
                     Action = p.Action,
                     PermissionType = (PermissionType)p.PermissionType

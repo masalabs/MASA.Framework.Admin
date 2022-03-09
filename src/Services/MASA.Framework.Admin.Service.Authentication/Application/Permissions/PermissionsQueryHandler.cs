@@ -4,9 +4,9 @@ namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions;
 
 public class PermissionsQueryHandler
 {
-    private readonly IRepository<Permission> _repository;
+    private readonly IRepository<Permission, Guid> _repository;
 
-    public PermissionsQueryHandler(IRepository<Permission> repository)
+    public PermissionsQueryHandler(IRepository<Permission, Guid> repository)
     {
         _repository = repository;
     }

@@ -36,20 +36,20 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Authentications Service HTTP API"
         });
     })
-    .AddDomainEventBus(options =>
-    {
-        options.UseEventBus(typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly)
-            .UseUoW<AuthenticationDbContext>(dbOptions =>
-            {
-                var option = serviceProvider
-                    .GetRequiredService<IOptions<AppConfigOption>>();
-                dbOptions.UseSqlServer(option.Value.DbConn);
-                dbOptions.UseSoftDelete(builder.Services);
-            })
-            .UseDaprEventBus<IntegrationEventLogService>()
-            .UseEventLog<AuthenticationDbContext>()
-            .UseRepository<AuthenticationDbContext>();
-    })
+    .AddDomainEventBus(new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly }, options =>
+      {
+          options.UseEventBus()
+              .UseUoW<AuthenticationDbContext>(dbOptions =>
+              {
+                  var option = serviceProvider
+                      .GetRequiredService<IOptions<AppConfigOption>>();
+                  dbOptions.UseSqlServer(option.Value.DbConn);
+                  dbOptions.UseSoftDelete(builder.Services);
+              })
+              .UseDaprEventBus<IntegrationEventLogService>()
+              .UseEventLog<AuthenticationDbContext>()
+              .UseRepository<AuthenticationDbContext>();
+      })
     .AddServices(builder);
 app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {

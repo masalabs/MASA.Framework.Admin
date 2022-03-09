@@ -22,8 +22,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
 
     private Menu()
     {
-        CreationTime = DateTime.UtcNow;
-        ModificationTime = DateTime.UtcNow;
+
     }
 
     public Menu(
@@ -36,7 +35,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         Guid? parentId,
         int sort,
         bool disabled,
-        bool onlyJump) : this()
+        bool onlyJump)
     {
         Creator = creator;
         Modifier = creator;

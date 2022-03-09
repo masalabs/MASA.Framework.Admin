@@ -2,9 +2,9 @@ namespace Masa.Framework.Admin.Configuration.Application.Menu;
 
 public class CommandHandler
 {
-    private readonly IRepository<Domain.Aggregate.Menu> _repository;
+    private readonly IRepository<Domain.Aggregate.Menu, Guid> _repository;
 
-    public CommandHandler(IRepository<Domain.Aggregate.Menu> repository)
+    public CommandHandler(IRepository<Domain.Aggregate.Menu, Guid> repository)
     {
         _repository = repository;
     }

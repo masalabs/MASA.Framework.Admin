@@ -18,17 +18,17 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public bool IsAdmin { get; private set; }
 
-    public bool Enable { get; private set; }
+    public bool Enable { get; private set; } = true;
 
     public DateTimeOffset LastLoginTime { get; private set; }
 
     public DateTimeOffset LastUpdateTime { get; private set; }
 
-    private List<UserRole> userRoles;
+    private List<UserRole> userRoles = new();
 
     public virtual IReadOnlyCollection<UserRole> UserRoles => userRoles;
 
-    private List<UserGroupItem> userGroups;
+    private List<UserGroupItem> userGroups = new();
 
     public virtual IReadOnlyCollection<UserGroupItem> UserGroups => userGroups;
 
@@ -36,43 +36,30 @@ public class User : AuditAggregateRoot<Guid, Guid>
 
     public virtual IReadOnlyCollection<DepartmentUser> DepartmentUsers => departmentUsers;
 
-    private User()
-    {
-        Id = Guid.NewGuid();
-        Enable = true;
-        LastLoginTime = DateTimeOffset.Now;
-        LastUpdateTime = DateTimeOffset.Now;
-        userRoles = new();
-        userGroups = new();
-    }
-
     public User(Guid id)
     {
         Id = id;
         Enable = true;
         LastLoginTime = DateTimeOffset.Now;
         LastUpdateTime = DateTimeOffset.Now;
-        userRoles = new();
     }
 
-    public User(Guid? creator, string account, string password) : this()
+    public User(Guid? creator, string account, string password)
     {
         Account = account;
         Salt = RandomUtils.GenerateSpecifiedString(6);
         Password = SHA1Utils.Encrypt($"{password}{Salt}");
         Creator = creator ?? Id;
         Modifier = Creator;
-        userRoles = new();
     }
 
-    public User(Guid? creator, string account, string password, bool isAdmin) : this()
+    public User(Guid? creator, string account, string password, bool isAdmin)
     {
         Account = account;
         Salt = RandomUtils.GenerateSpecifiedString(6);
         Password = SHA1Utils.Encrypt($"{password}{Salt}");
         Creator = creator ?? Id;
         Modifier = Creator;
-        userRoles = new();
         IsAdmin = isAdmin;
     }
 

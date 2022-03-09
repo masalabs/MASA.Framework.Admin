@@ -10,10 +10,6 @@ public class OperationLog : AuditAggregateRoot<Guid, Guid>
 
     public Guid UserId { get; private set; }
 
-    private OperationLog()
-    {
-
-    }
     public OperationLog(Guid userId, OperationLogType type, string description)
     {
         ClientIP = "";

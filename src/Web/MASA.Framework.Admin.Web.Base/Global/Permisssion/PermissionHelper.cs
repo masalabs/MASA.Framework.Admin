@@ -39,6 +39,16 @@ public class PermissionHelper
         Menus = menusResponse.Data ?? new();
         if (IsAdmin)
         {
+            var indexNav = new MenuItemResponse
+            {
+                Id = Guid.NewGuid(),
+                Code = "0001",
+                Url = "dashboard/index",
+                Icon = "mdi-circle",
+                Name = "Index",
+                Sort = 0,
+                ParentId = null,
+            };
             var adminNav = new MenuItemResponse
             {
                 Id = Guid.NewGuid(),
@@ -46,7 +56,7 @@ public class PermissionHelper
                 Url = "",
                 Icon = "mdi-file-outline",
                 Name = "Authentication",
-                Sort = -1,
+                Sort = 1,
                 ParentId = null,
             };
             var menuNav = new MenuItemResponse
@@ -80,6 +90,7 @@ public class PermissionHelper
                 OnlyJump = true,
                 ParentId = adminNav.Id,
             };
+            Menus.Add(indexNav);
             Menus.Add(adminNav);
             Menus.Add(menuNav);
             Menus.Add(permissionNav);
@@ -91,7 +102,7 @@ public class PermissionHelper
                 Url = "",
                 Icon = "mdi-account-check-outline",
                 Name = "Organization",
-                Sort = 0,
+                Sort = 2,
                 ParentId = null,
             };
             var org = new MenuItemResponse

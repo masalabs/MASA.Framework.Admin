@@ -4,9 +4,10 @@ public class AuthenticationCaller : CallerBase
 {
     protected override string BaseAddress { get; set; }
 
+    public override string Name { get; set; } = nameof(AuthenticationCaller);
+
     public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        Name = nameof(AuthenticationCaller);
         BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
     }
 

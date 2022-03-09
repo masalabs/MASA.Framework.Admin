@@ -1,7 +1,7 @@
-﻿namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.Repositories;
+namespace Masa.Framework.Admin.Service.Authentication.Infrastructure.Repositories;
 
 public class PermissionRepository :
-    Repository<AuthenticationDbContext, Permission>,
+    Repository<AuthenticationDbContext, Permission, Guid>,
     IPermissionRepository
 {
     public PermissionRepository(AuthenticationDbContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)

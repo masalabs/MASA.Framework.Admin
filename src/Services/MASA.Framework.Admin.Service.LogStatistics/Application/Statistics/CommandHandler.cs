@@ -1,5 +1,3 @@
-using Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands;
-
 namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics
 {
     public class CommandHandler
@@ -22,7 +20,7 @@ namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics
             var hourStatistics = await _visitStatisticsRecordRepository.FindAsync(statistic => statistic.DateTime == date);
             if (hourStatistics == null)
             {
-                hourStatistics = new VisitStatisticsRecord(pv, uv, ipCount, VisitStatisticType.Day);
+                hourStatistics = new VisitStatisticsRecord(pv, uv, ipCount, VisitStatisticType.Day, date);
                 await _visitStatisticsRecordRepository.AddAsync(hourStatistics);
             }
             else
@@ -44,7 +42,7 @@ namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics
             var hourStatistics = await _visitStatisticsRecordRepository.FindAsync(statistic => statistic.DateTime == time);
             if (hourStatistics == null)
             {
-                hourStatistics = new VisitStatisticsRecord(pv, uv, ipCount, VisitStatisticType.Hour);
+                hourStatistics = new VisitStatisticsRecord(pv, uv, ipCount, VisitStatisticType.Hour, time);
                 await _visitStatisticsRecordRepository.AddAsync(hourStatistics);
             }
             else

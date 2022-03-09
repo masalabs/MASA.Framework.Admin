@@ -4,13 +4,9 @@ public class RolePermission : Entity<Guid>
 {
     public Guid PermissionsId { get; private set; }
 
-    public Role Role { get; private set; }
+    public Role Role { get; private set; } = null!;
 
-    private RolePermission()
-    {
-    }
-
-    public RolePermission(Guid permissionsId) : this()
+    public RolePermission(Guid permissionsId)
     {
         PermissionsId = permissionsId;
     }

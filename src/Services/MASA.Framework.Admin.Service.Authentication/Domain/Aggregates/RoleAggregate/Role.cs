@@ -10,23 +10,20 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     public bool Enable { get; private set; }
 
-    private readonly List<RolePermission> permissions;
+    private readonly List<RolePermission> permissions = new();
 
     public virtual IReadOnlyCollection<RolePermission> Permissions => permissions;
 
-    private readonly List<RoleItem> roleItems;
+    private readonly List<RoleItem> roleItems = new();
 
     public virtual IReadOnlyCollection<RoleItem> RoleItems => roleItems;
 
-    public Role()
+    private Role()
     {
-        Id = Guid.NewGuid();
-        Describe = string.Empty;
-        permissions = new List<RolePermission>();
-        roleItems = new List<RoleItem>();
+
     }
 
-    public Role(Guid @operator, string name, int number, string? describe) : this()
+    public Role(Guid @operator, string name, int number, string? describe)
     {
         Creator = @operator;
         Modifier = @operator;

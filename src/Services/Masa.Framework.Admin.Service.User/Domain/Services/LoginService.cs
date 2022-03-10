@@ -37,7 +37,8 @@ public class LoginService
             Subject = new ClaimsIdentity(new Claim[]
             {
                     new Claim("UserId",userId.ToString()),
-                    new Claim("IsAdmin",isAdmin.ToString())
+                    new Claim("IsAdmin",isAdmin.ToString()),
+                    new Claim("SessionId",Guid.NewGuid().ToString()),
             }),
             Expires = DateTime.UtcNow.AddDays(expiration),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

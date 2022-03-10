@@ -4,9 +4,11 @@ namespace Masa.Framework.Admin.Web.Controllers;
 public class AccountController : Controller
 {
     readonly UserCaller _userCaller;
+    public ProtectedLocalStorage _protectedLocalStorage;
 
-    public AccountController(UserCaller userCaller)
+    public AccountController(UserCaller userCaller, ProtectedLocalStorage protectedLocalStorage)
     {
+        _protectedLocalStorage = protectedLocalStorage;
         _userCaller = userCaller;
     }
 
@@ -31,17 +33,19 @@ public class AccountController : Controller
         }, out SecurityToken validatedToken);
 
         var jwtToken = (JwtSecurityToken)validatedToken;
+
         var userId = jwtToken.Claims.First(x => x.Type == "UserId").Value;
         var isAdmin = jwtToken.Claims.First(x => x.Type == "IsAdmin").Value;
         var permissions = await _userCaller.GetAuthorizeByUserAsync(Guid.Parse(userId));
 
+
         var claims = new List<Claim>
-            {
-                new Claim("UserId", userId),
-                new Claim("Token",token),
-                new Claim("Permissions",System.Text.Json.JsonSerializer.Serialize(permissions.Data)),
-                new Claim("IsAdmin",isAdmin),
-            };
+        {
+            new Claim("UserId", userId),
+            new Claim("Token",token),
+            new Claim("Permissions",System.Text.Json.JsonSerializer.Serialize(permissions.Data)),
+            new Claim("IsAdmin",isAdmin)
+        };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var authProperties = new AuthenticationProperties

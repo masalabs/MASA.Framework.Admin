@@ -17,6 +17,8 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
     public override async Task OnConnectedAsync()
     {
         var userIdClaim = Context.User?.Claims.FirstOrDefault(claim => claim.Type == "UserId");
+        var sessionId = Context.User?.Claims.FirstOrDefault(claim => claim.Type == "SessionId");
+
         if (!Guid.TryParse(userIdClaim?.Value, out Guid userId))
         {
             //SignalR链接异常，没有传递sub参数
@@ -25,7 +27,7 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
         {
             OnlineUserModel? onlineUser = _loginService.GetOnlineUserByUserId(userId);
 
-            if (onlineUser != null && !string.IsNullOrWhiteSpace(onlineUser.ConnectionId))
+            if (onlineUser != null && !string.IsNullOrWhiteSpace(onlineUser.ConnectionId) && onlineUser.SessionId != sessionId?.Value)
             {
                 string message = $"当前登录的账号已在其他客户端登录，您的登录已被注销。";
                 //send message to client
@@ -44,6 +46,7 @@ public class LoginHub : Microsoft.AspNetCore.SignalR.Hub
                     UserId = user.Id,
                     NickName = user.Name,
                     Account = user.Account,
+                    SessionId = sessionId?.Value
                 };
             }
             onlineUser.LoginTime = DateTime.Now;

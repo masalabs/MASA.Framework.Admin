@@ -33,7 +33,6 @@ namespace Masa.Framework.Admin.Web.Shared
         {
             if (firstRender)
             {
-
                 var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
                 var isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
 
@@ -45,7 +44,6 @@ namespace Masa.Framework.Admin.Web.Shared
                 {
                     await StartSignalR(token.Value);
                 }
-
             }
         }
 
@@ -65,9 +63,7 @@ namespace Masa.Framework.Admin.Web.Shared
                 })
                 .WithAutomaticReconnect()
                 .Build();
-
             _hubConnection.On<string>("Logout", Logout);
-
             await _hubConnection.StartAsync();
         }
 

@@ -13,5 +13,7 @@ public class OnlineUserModel
     public DateTime LoginTime { get; set; }
 
     public string LoginIP { get; set; } = "";
+
+    public string? SessionId { get; set; }
 }
 

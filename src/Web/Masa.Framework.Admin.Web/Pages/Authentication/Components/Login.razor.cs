@@ -1,4 +1,4 @@
-﻿namespace Masa.Framework.Admin.Web.Pages.Authentication.Components;
+namespace Masa.Framework.Admin.Web.Pages.Authentication.Components;
 
 public partial class Login
 {
@@ -14,7 +14,7 @@ public partial class Login
     public double Width { get; set; } = 410;
 
     [Parameter]
-    public StringNumber? Elevation { get; set; }
+    public StringNumber Elevation { get; set; }
 
     [Parameter]
     public string CreateAccountRoute { get; set; } = $"pages/authentication/register-v1";

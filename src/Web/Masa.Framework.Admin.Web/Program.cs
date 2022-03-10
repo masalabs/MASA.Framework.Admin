@@ -1,7 +1,7 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDaprClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMasaBlazor(builder =>
@@ -13,8 +13,21 @@ builder.Services.AddMasaBlazor(builder =>
         }
     );
 });
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddGlobalForServer();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+
+Assembly[] assemblies = { typeof(ConfigurationCaller).Assembly };
+builder.Services.AddCaller(assemblies);
+builder.Services.AddRBAC();
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 var app = builder.Build();
 

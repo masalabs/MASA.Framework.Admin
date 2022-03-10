@@ -1,0 +1,162 @@
+﻿@inherits AdminCompontentBase
+
+<MRow Justify="@JustifyTypes.Center">
+    <MDialog Persistent @bind-Value="Visible" Width="800">
+        <ChildContent>
+            <MCard>
+                <div class="block-between pa-4">
+                    <span class="text-h6">@T("Add Menu")</span>
+                    <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>UpdateVisible(false)">mdi-close</MIcon>
+                </div>
+                <MDivider></MDivider>
+                <MCardText Class="pb-3">
+                    <MRow Class="mt-0">
+                        <MCol Class="pt-0" Style="height:480px;border-right:solid 1px #e9edf7;">
+                            <MTextField @bind-Value="_search" Color="primary" Class="my-2 rounded-2" HideDetails="@("auto")" Flat Dense Solo Outlined Placeholder="@T("Search")">
+                                <PrependInnerContent>
+                                    <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                                </PrependInnerContent>
+                            </MTextField>
+                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => MenuPage.BottomLayerMenus.Where(m => m.Name.Contains(_search ?? string.Empty)).ForEach(m => m.Select = true)">@T("All")</div>
+                            <div style="overflow:scroll;max-height:400px;">
+                                <MTreeview Items="QueryMenuNavs()"
+                                           Activatable
+                                           ItemKey="m => m.Id"
+                                           ItemChildren="m => m.Children?.ToList()"
+                                           ItemText="m => m.Name"
+                                           OpenOnClick>
+                                    <PrependContent>
+                                        @if (context.Item.Children is not null)
+                                        {
+                                            <MIcon>
+                                                @(context.Open ? "mdi-folder-open" : "mdi-folder")
+                                            </MIcon>
+                                        }
+                                        else
+                                        {                              
+                                            <MCheckbox Class="mt-n1" @bind-Value="context.Item.Select" />
+                                        }
+                                    </PrependContent>
+                                </MTreeview>
+                            </div>
+                        </MCol>
+                        <MCol Class="pt-0" Style="height:480px;">
+                            <div class="block-between my-2">
+                                <span>@T("Added menu")</span>
+                                <div class="hover-pointer" style="color:blue" @onclick="() => MenuPage.BottomLayerMenus.ForEach(m => m.Select = false)">@T("Clear")</div>
+                            </div>
+                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@MenuPage.BottomLayerMenus.Where(m => m.Select).ToList()">
+                                <ItemContent>
+                                    <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
+                                        <span class="text-btn neutral-lighten-1--text">@(context.Name)</span>
+                                        <MIcon Color="neutral-lighten-3" Size=24 OnClick="() => context.Select = false">mdi-close</MIcon>
+                                    </div>
+                                </ItemContent>
+                            </MVirtualScroll>
+                        </MCol>
+                    </MRow>
+                </MCardText>
+                <MDivider></MDivider>
+                <MCardActions>
+                    <MSpacer></MSpacer>
+                    <MButton MinWidth=80 Height=35 Outlined Class="text-btn rounded-pill" OnClick="() => UpdateVisible(false)">@T("Cancel")</MButton>
+                    <MButton MinWidth=80 Height=35 Color="primary" Class="ml-6 rounded-pill" OnClick="async()=> await Submit()">@T("Confirm")</MButton>
+                </MCardActions>
+            </MCard>
+        </ChildContent>
+    </MDialog>
+</MRow>
+
+@code {
+    [Inject]
+    public RoleDetailsPage DetailPage { get; set; } = default!;
+
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
+
+    [Parameter]
+    public string SelectMenuNames { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> SelectMenuNamesChanged { get; set; }
+
+    [Parameter]
+    public string SelectMenuCodes { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> SelectMenuCodesChanged { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    string _search;
+
+    private async Task UpdateVisible(bool visible)
+    {
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(visible);
+        }
+        else
+        {
+            Visible = visible;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        var arr = SelectMenuCodes.Split(',');
+        MenuPage.BottomLayerMenus.ForEach(m =>
+        {
+            if (arr.Contains(m.Code)) m.Select = true;
+        });
+    }
+
+    private List<MenuNav> QueryMenuNavs()
+    {
+        if (string.IsNullOrEmpty(_search)) return MenuPage.MenuNavs;
+        else
+        {
+            var menuNavs = new List<MenuNav>();
+            foreach(var menuNav in MenuPage.MenuNavs)
+            {
+                if(CheckContansSonByName(menuNav,_search))
+                {
+                    menuNavs.Add(menuNav);
+                }
+            }
+            return menuNavs;
+        }
+
+        bool CheckContansSonByName(MenuNav menuNav,string name)
+        {
+            if (menuNav.Name.ToUpper().Contains(name.ToUpper())) return true;
+            else
+            {
+                if (menuNav.Children is not null)
+                {
+                    foreach(var child in menuNav.Children)
+                    {
+                        if (CheckContansSonByName(child, name) is true) return true;
+                    }
+                    return false;
+                }
+                else return false;
+            }
+        }
+    }
+
+    private async Task Submit()
+    {
+        var selectMenus = MenuPage.BottomLayerMenus.Where(m => m.Select);
+        SelectMenuNames = string.Join(',', selectMenus.Select(m => m.Name));
+        await SelectMenuNamesChanged.InvokeAsync(SelectMenuNames);
+        SelectMenuCodes = string.Join(',', selectMenus.Select(m => m.Code));
+        await SelectMenuCodesChanged.InvokeAsync(SelectMenuCodes);
+
+        await UpdateVisible(false);
+    }
+}

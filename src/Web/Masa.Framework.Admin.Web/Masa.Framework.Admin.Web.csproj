@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
 	<WarningsAsErrors>
 		$(WarningsAsErrors);CS8605
 	</WarningsAsErrors>
@@ -13,18 +12,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Masa.Blazor" Version="0.2.10277" />
+    <PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
+    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.1.1" />
+    <PackageReference Include="Masa.Utils.Configuration.Json" Version="0.3.1.1" />
+    <PackageReference Include="Masa.Utils.Extensions.DependencyInjection" Version="0.3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\i18n\en-US.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <ProjectReference Include="..\..\..\sdks\Masa.Framework.Sdks.Authentication\Masa.Framework.Sdks.Authentication.csproj" />
+    <ProjectReference Include="..\Masa.Framework.Admin.Rcl.Rbac\Masa.Framework.Admin.Rcl.Rbac.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Shared\Menus.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\i18n\languageConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\i18n\zh-CN.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\nav\nav.json">

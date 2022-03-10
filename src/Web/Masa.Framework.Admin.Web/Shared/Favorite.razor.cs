@@ -1,21 +1,39 @@
-﻿namespace Masa.Framework.Admin.Web.Shared
+namespace Masa.Framework.Admin.Web.Shared
 {
     public partial class Favorite
     {
-        List<int> _favoriteMenus = FavoriteService.GetDefaultFavoriteMenuList();
+        List<string> _favoriteMenus = new();
+
+        List<string> FavoriteMenus
+        {
+            get
+            {
+                if (GlobalConfig.Favorite is null && _favoriteMenus.Count == 0)
+                {
+                    if (NavHelper.BottomLevelNavs.Count <= 3) _favoriteMenus = NavHelper.BottomLevelNavs.Select(n => n.Code).ToList();
+                    else _favoriteMenus = NavHelper.BottomLevelNavs.GetRange(0, 3).Select(n => n.Code).ToList();
+                }
+                return _favoriteMenus;
+            }
+            set { _favoriteMenus = value; }
+        }
+
+        [Parameter]
+        public NavHelper NavHelper { get; set; }
+
+        [Parameter]
+        public string CurrentUri { get; set; }
 
         protected override void OnInitialized()
         {
             if (GlobalConfig.Favorite == "")
             {
-                _favoriteMenus.Clear();
+                FavoriteMenus.Clear();
             }
             else if (GlobalConfig.Favorite is not null)
             {
-                _favoriteMenus = GlobalConfig.Favorite.Split('|').Select(v => Convert.ToInt32(v)).ToList();
+                FavoriteMenus = GlobalConfig.Favorite.Split('|').ToList();
             }
-
-            GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
         }
 
         bool _open;
@@ -34,10 +52,10 @@
         {
             var output = new List<NavModel>();
 
-            if (search is null || search == "") output.AddRange(NavHelper.SameLevelNavs.Where(n => _favoriteMenus.Contains(n.Id)));
+            if (search is null || search == "") output.AddRange(NavHelper.BottomLevelNavs.Where(n => FavoriteMenus.Contains(n.Code)));
             else
             {
-                output.AddRange(NavHelper.SameLevelNavs.Where(n => n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
+                output.AddRange(NavHelper.BottomLevelNavs.Where(n => GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
             }
 
             return output;
@@ -45,11 +63,11 @@
 
         List<NavModel> GetFavoriteMenus() => GetNavs(null);
 
-        void AddOrRemoveFavoriteMenu(int id)
+        void AddOrRemoveFavoriteMenu(string code)
         {
-            if (_favoriteMenus.Contains(id)) _favoriteMenus.Remove(id);
-            else _favoriteMenus.Add(id);
-            GlobalConfig.Favorite = string.Join("|", _favoriteMenus);
+            if (FavoriteMenus.Contains(code)) FavoriteMenus.Remove(code);
+            else FavoriteMenus.Add(code);
+            GlobalConfig.Favorite = string.Join("|", FavoriteMenus);
         }
 
         string GetI18nFullTitle(string fullTitle)
@@ -58,15 +76,8 @@
             if (arr.Count == 1) return T(fullTitle);
             else
             {
-                var parent = arr[0];
-                arr.RemoveAt(0);
-                return $"{T(parent)} {T(string.Join(' ', arr))}";
+                return string.Join(" ", arr.Select(a => T(a)));
             }
-        }
-
-        public void Dispose()
-        {
-            GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
         }
     }
 }

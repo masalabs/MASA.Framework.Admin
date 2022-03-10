@@ -1,0 +1,52 @@
+﻿@inherits AdminCompontentBase
+@inject NavHelper NavHelper
+
+@if (MenuNavs?.Count() > 0)
+{
+    @foreach (var nav in MenuNavs)
+    {
+        if (nav.Children is null)
+        {
+            if (nav.Hide is false && nav.OnlyJump is false)
+            {
+                <MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
+                    <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1" Href="@(nav.Href ?? "")">
+                        <ItemContent>
+                            @if (string.IsNullOrEmpty(nav.Icon) is false)
+                            {
+                                <MListItemIcon>
+                                    <MIcon Color="@(context.Active?"primary":"neutral-lighten-2")" Size=20>@nav.Icon</MIcon>
+                                </MListItemIcon>
+                            }
+                            <MListItemContent>
+                                <div style="@(nav.ParentId is null ?"margin-left:6.5px;":"")" class="text-truncate white-space:nowrap @(context.Active?"text-subtitle":"text-body neutral-lighten-2--text")">@nav.Title</div>
+                            </MListItemContent>
+                        </ItemContent>
+                    </MListItem>
+                </MBorder>
+            }
+
+        }
+        else if (nav.Hide is false)
+        {
+            <MListGroup Group="@nav.Children.Select(n => n.Href ?? "").ToList()" Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText">
+                <ActivatorContent>
+                    <MListItemContent>
+                        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@nav.Title</div>
+                    </MListItemContent>
+                </ActivatorContent>
+                <ChildContent>
+                    <Menus MenuNavs="@nav.Children" />
+                </ChildContent>
+            </MListGroup>
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public NavModel[]? MenuNavs { get; set; }
+
+    [Parameter]
+    public EventCallback<NavModel> OnClick { get; set; }
+}

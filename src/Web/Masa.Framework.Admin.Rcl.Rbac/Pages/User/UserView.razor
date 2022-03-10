@@ -1,0 +1,264 @@
+﻿@page "/userDetail/{Id}"
+@inherits AdminCompontentBase
+
+<MCard Height="200" class="pt-2 pb-2">
+    <MCardText>
+        <MRow>
+            <MCol Cols="@("auto")">
+                <div style="width:300px;" class="text-center">
+                    @if (string.IsNullOrEmpty(_userDetail.Cover))
+                    {
+                        <MAvatar Size="80">
+                            <span class="@($"text-h3")">U</span>
+                        </MAvatar>
+                    }
+                    else
+                    {
+                        <MAvatar Size="80">
+                            <MImage Contain Src="@_userDetail.Cover" />
+                        </MAvatar>
+                    }
+                    <h5 class="mt-1">@_userDetail.Account</h5>
+                    <span class="mt-1 text-caption">@_userDetail.Email</span>
+                </div>
+            </MCol>
+            <MDivider Vertical />
+            <MCol class="ml-3 d-flex flex-column">
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>Name</span>
+                    <span class="text-caption">@_userDetail.Name</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-check</MIcon>State</span>
+                    <span class="text-caption">@_userDetail.State</span>
+                </div>
+                <div class="mb-3 d-flex justify-space-between">
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>LastLoginTime</span>
+                    <span class="text-caption">@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                </div>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+<MCard class="mt-6" Color="transparent">
+    <MTabs @bind-Value="_tab" BackgroundColor="transparent" Grow SliderColor="primary">
+        <MTab Class="text-capitalize">@T("Basic Information")</MTab>
+        <MTab Class="text-capitalize">@T("PermissionInfo")</MTab>
+        <MTab Class="text-capitalize">@T("AccessRecord")</MTab>
+    </MTabs>
+    <MTabsItems Value="@_tab">
+        <MTabItem>
+            <MCard Flat>
+                <MCardTitle>
+                    @T("Basic Information")
+                </MCardTitle>
+                <MDivider />
+                <MCardText>
+                    <MRow>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("UserID")" Title="@_userDetail.Id.ToString()" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("Account")" Title="@_userDetail.Account" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("UserName")" Title="@_userDetail.Name" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("Email")" Title="@_userDetail.Email" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("State")" Title="@(((State)_userDetail.State).ToString())" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("LastLoginTime")" Title="@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("LastUpdateTime")" Title="@_userDetail.LastUpdateTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                        <MCol Md="3">
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("CreationTime")" Title="@_userDetail.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        </MCol>
+                    </MRow>
+                </MCardText>
+            </MCard>
+            <MCard class="mt-6">
+                <MCardTitle>
+                    @T("UserGroup")
+                    <MSpacer />
+                    <MButton Text OnClick="OpenGroupDialog">
+                        <MIcon Left>mdi-plus-circle-outline</MIcon>
+                        @T("Add")
+                    </MButton>
+                </MCardTitle>
+                <MDivider />
+                <MCardText>
+                    <MDataTable Headers="_userGroupHeaders" TItem="UserGroupItemResponse" Items="_userGroups" HideDefaultFooter Class="user ml-2 table-border-none">
+                        <HeaderColContent Context="header">
+                            <span class="text-subtitle">@header.Text</span>
+                        </HeaderColContent>
+                        <ItemColContent>
+                            @switch (context.Header.Value)
+                            {
+                                case nameof(UserGroupItemResponse.Id):
+                                    <MTooltip Top>
+                                        <ActivatorContent Context="_">
+                                            <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="async ()=>await RemoveUserGroup(context.Item.Id)">mdi-delete</MIcon>
+                                        </ActivatorContent>
+                                        <ChildContent>
+                                            <span>@T("Remove UserGroup")</span>
+                                        </ChildContent>
+                                    </MTooltip>
+                                    break;
+                                default:
+                                    @context.Value
+                                    break;
+                            }
+                        </ItemColContent>
+                    </MDataTable>
+                </MCardText>
+            </MCard>
+            <MCard class="mt-6" Flat>
+                <MCardTitle>
+                    @T("JsonRowData")
+                </MCardTitle>
+                <MDivider />
+                <MCardText>
+                    <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.JsonEditor Disabled="true" Value="@JsonSerializer.Serialize(_userDetail,new JsonSerializerOptions{WriteIndented = true})" />
+                </MCardText>
+            </MCard>
+        </MTabItem>
+        <MTabItem>
+            <MCard Flat>
+                <MCardTitle>
+                    @T("UserRole")
+                    <MSpacer />
+                    <MButton Text OnClick="OpenRoleDialog">
+                        <MIcon Left>mdi-plus-circle-outline</MIcon>
+                        @T("Add")
+                    </MButton>
+                </MCardTitle>
+                <MDivider />
+                <MCardText>
+                    <MDataTable Headers="_roleItemHeaders" Items="_userRoles" TItem="RoleItemResponse" HideDefaultFooter Class="user ml-2 table-border-none">
+                        <HeaderColContent Context="header">
+                            <span class="text-subtitle">@header.Text</span>
+                        </HeaderColContent>
+                        <ItemColContent>
+                            @switch (context.Header.Value)
+                            {
+                                case nameof(RoleItemResponse.Id):
+                                        <MTooltip Top>
+                                        <ActivatorContent Context="_">
+                                            <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="async ()=>await RemoveUserRole(context.Item.Id)">mdi-delete</MIcon>
+                                        </ActivatorContent>
+                                        <ChildContent>
+                                            <span>@T("RemoveUserRole")</span>
+                                        </ChildContent>
+                                    </MTooltip>
+                                    break;
+                                default:
+                                    @context.Value
+                                    break;
+                            }
+                        </ItemColContent>
+                    </MDataTable>
+                </MCardText>
+            </MCard>
+        </MTabItem>
+        <MTabItem>
+            <MCard Flat>
+                <MCardTitle>
+                    @T("AccessRecord")
+                </MCardTitle>
+                <MDivider />
+                <MCardText>Todo</MCardText>
+            </MCard>
+            <MCard class="mt-6" Flat>
+                <MCardTitle>
+                    @T("Position")
+                </MCardTitle>
+                <MDivider />
+                <MCardText>Todo</MCardText>
+            </MCard>
+        </MTabItem>
+    </MTabsItems>
+</MCard>
+
+<MDialog @bind-Value="_addRoleDialog" Persistent Width="500">
+    <ChildContent>
+        <MCard class="pa-6">
+            <MCardTitle class="pa-0 mb-2">
+                @T("UserRole")
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="() => _addRoleDialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+            </MCardTitle>
+            <MDivider />
+            <MCardText class="pt-5">
+                <MSelect Label="@T("SelectRole")" Outlined Items="@_roleSelectItems" @bind-Value="@_addRoleId"
+                         ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
+                    <ItemContent>
+                        <MListItemContent v-else>
+                            <MListItemTitle>
+                                @context.Item.Name
+                            </MListItemTitle>
+                            <MListItemSubtitle>
+                                @context.Item.Describetion
+                            </MListItemSubtitle>
+                        </MListItemContent>
+                    </ItemContent>
+                </MSelect>
+            </MCardText>
+            <MDivider />
+            <MCardActions class="mt-2 d-flex justify-end">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
+                    @T("Cancel")
+                </MButton>
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserRole">
+                    @T("Save")
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>
+
+<MDialog @bind-Value="_addGroupDialog" Persistent Width="500">
+    <ChildContent>
+        <MCard class="pa-6">
+            <MCardTitle class="pa-0 mb-2">
+                @T("UserGroup")
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="() => _addGroupDialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+            </MCardTitle>
+            <MDivider />
+            <MCardText class="pt-5">
+                <MSelect Label="@T("SelectGroup")" Outlined Items="@_groupSelectItems" @bind-Value="@_addGroupId"
+                         ItemText="u => u.Name" ItemValue="u => u.Id.ToString()" HideDetails="true">
+                    <ItemContent>
+                        <MListItemContent v-else>
+                            <MListItemTitle>
+                                @context.Item.Name
+                            </MListItemTitle>
+                            <MListItemSubtitle>
+                                @context.Item.Describetion
+                            </MListItemSubtitle>
+                        </MListItemContent>
+                    </ItemContent>
+                </MSelect>
+            </MCardText>
+            <MDivider />
+            <MCardActions class="mt-2 d-flex justify-end">
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="() => _addRoleDialog = false">
+                    @T("Cancel")
+                </MButton>
+                <MButton Color="primary" Width="100" class="rounded-pill" OnClick="AddUserGroup">
+                    @T("Save")
+                </MButton>
+            </MCardActions>
+        </MCard>
+    </ChildContent>
+</MDialog>

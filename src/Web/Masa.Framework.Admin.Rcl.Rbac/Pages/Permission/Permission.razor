@@ -1,0 +1,29 @@
+﻿@page "/permission"
+@inherits AdminCompontentBase
+
+<div class="text-h6">@T("Authority Management")</div>
+
+<MAlert Color="light-blue lighten-5" Class="my-4">
+    @T("Admin's permission system is based on RBAC (Role-based access control, role-based access control) and can perform more fine-grained permission control through environment attributes. It can not only manage your business system entity resources, but also manage resource permissions such as menus and buttons in your application. For details, please refer to the documentation.")
+</MAlert>
+
+<MCard>
+    <MCardText Class="px-6 pb-6">
+        <MTabs @bind-Value="Page.Tab" HideSlider Height=10 Color="sample-green">
+            <MTab Class="ml-2" Value="@("Role")">
+                <MIcon Size=16 Color="@(Page.Tab=="Role"?"sample-green":"fill")">mdi-circle</MIcon>
+                <span class="ml-2 text-btn @(Page.Tab=="Role"?"neutral--text":"")">@T("Role")</span>
+            </MTab>
+        </MTabs>
+        <MTabsItems @bind-Value="Page.Tab" Class="">
+            <MTabItem Value="@("Role")">
+                <Masa.Framework.Admin.Rcl.Rbac.Pages.Permission.Role.Role />
+            </MTabItem>
+        </MTabsItems>
+    </MCardText>
+</MCard>
+
+@code {
+    [Inject]
+    public PermissionPage Page { get; set; } = default!;
+}

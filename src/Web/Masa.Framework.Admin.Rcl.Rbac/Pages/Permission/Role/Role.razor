@@ -1,0 +1,88 @@
+﻿@inherits AdminCompontentBase
+
+<MCard Class="mt-2">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <span class="text-btn neutral-lighten-1--text">@T("Show"):</span>
+                <MSelect @bind-Value="Page.PageSize"
+                         Color="primary"
+                         Style="max-width:120px;"
+                         Dense
+                         Class="mx-6"
+                         HideDetails="@("auto")"
+                         Outlined
+                         Items="@Page.PageSizes"
+                         ItemText="u => u.ToString()"
+                         ItemValue="u => u">
+                </MSelect>
+                <span class="text-btn">@T("Entries")</span>
+            </MCol>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <MTextField @bind-Value="Page.Search" Color="primary" Class="ml-4 rounded-2" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="@T("Search")">
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="()=>Page.OpenObjectForm()">
+                    @T("Add Role")
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+
+<MDataTable HideDefaultFooter Headers="Page.Headers" TItem="RoleItemResponse" Items="Page.Datas" ItemsPerPage="Page.PageSize" Class="table-header-fill table-border-solid">
+    <HeaderColContent Context="header">
+        <span class="text-body neutral-lighten-1--text">@header.Text</span>
+    </HeaderColContent>
+
+    <ItemColContent>
+        @switch (context.Header.Value)
+        {
+            case nameof(RoleItemResponse.Name):
+                <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToRoleDetails(context.Item)">
+                    <span style="color:blue">@context.Item.Name</span>
+                </div>
+                break;
+            case nameof(RoleItemResponse.Number):
+                 <span>@context.Item.Number</span>
+                break;
+            case nameof(RoleItemResponse.CreationTime):
+                <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            break;
+            case nameof(RoleItemResponse.Describe):
+                 <span>@context.Item.Describe</span>
+                break;
+            case "Action":
+                <MButton Color="primary" OnClick="()=> Page.NavigateToRoleDetails(context.Item)">Detail</MButton>
+                <MButton Class="ml-2" Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">Delete</MButton>
+                break;
+            default:
+                @context.Value
+                break;
+        }
+    </ItemColContent>
+</MDataTable>
+
+
+<div class="d-flex">
+    <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">@T("Show") @((Page.PageIndex-1)*Page.PageSize+1) to @(Page.PageIndex*Page.PageSize) of @Page.TotalCount @T("Entries")</div>
+    @if (Page.PageCount > 0)
+    {
+        <MPagination @bind-Value="Page.PageIndex" Color="primary" Circle Length=@Page.PageCount></MPagination>
+    }
+</div>
+
+<AddRole @bind-Visible=Page.IsOpenRoleForm />
+
+@code{
+    [Inject]
+    public RolePage Page { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        RegisterPage(Page);
+        await Page.QueryPageDatasAsync();
+    }
+}

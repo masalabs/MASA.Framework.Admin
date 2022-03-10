@@ -1,0 +1,125 @@
+﻿@page "/menu/list"
+@inherits AdminCompontentBase
+
+<div class="d-flex">
+    <MNavigationDrawer Class="navigation py-4 rounded-4" Width=410 Style="min-height:800px">
+        <MList Nav Dense Class="pa-0">
+            <Menus OnClick=SetCurentData MenuNavs="@Page.MenuNavs.ToArray()" />
+        </MList>
+        <div class="mt-5" style="text-align:center;">
+            @if (Page.IsEdit)
+            {
+                <MButton Color="primary" Class="mt-6 ml-2" OnClick="()=> AddDefaultMenu(false)">
+                    @T("Add Menu")
+                </MButton>
+                <MButton Color="error" Class="mt-6 ml-2" OnClick="async ()=> await Page.OpenDeleteMenuDialog(Page.CurrentData)">
+                    @T("Delete Menu")
+                </MButton>
+            }
+            <br />
+            <MButton Color="primary" Class="mt-6" OnClick="()=> AddDefaultMenu(true)">
+                @T("Add First Level Menu")
+            </MButton>
+        </div>
+    </MNavigationDrawer>
+
+    <MCard Class="max-width ml-8">
+        <MCardText>
+            <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
+                <MRow>
+                    <MCol>
+                        <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Menu.Name")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                    <MCol>
+                        <MTextField @bind-Value="Page.CurrentData.Code" Disabled="@Page.IsEdit" Class="mb-6" Label="@T("Code")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                </MRow>
+                <MRow>
+                    <MCol>
+                        <MTextField @bind-Value="Page.CurrentData.Icon" Class="mb-6" Label="@T("Icon")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                    <MCol>
+                        <MTextField @bind-Value="Page.CurrentData.Url" Class="mb-6" Label="@T("Url")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                </MRow>
+                <MRow>
+                    <MCol>
+                        <MTextField @bind-Value="Page.CurrentData.Sort" Class="mb-6" Label="@T("Sort")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                    <MCol>
+                        <MRadioGroup @bind-Value="Page.CurrentData.Disabled" Row Class="mb-6">
+                            <MRadio Label="@T("Enable")" Value="false" />
+                            <MRadio Label="@T("Disabled")" Value="true" />
+                        </MRadioGroup>
+                    </MCol>
+                </MRow>
+                <MRow>
+                     <MCol>                       
+                        <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                    </MCol>
+                    <MCol>
+                        <MCheckbox Label="@T("OnlyJump（The menu list will not show this menu）")" @bind-Value="Page.CurrentData.OnlyJump" />
+                    </MCol>                 
+                </MRow>
+                @if (Page.IsEdit)
+                {
+                    <MButton Color="primary" Class="mt-6" OnClick="async () => await EditData(context)">
+                        @T("Save")
+                    </MButton>
+                }
+            </MForm>
+        </MCardText>
+    </MCard>
+</div>
+@code {
+
+    [Inject]
+    public MenuPage Page { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        RegisterPage(Page);
+        await Page.GetAllMenus();
+        if (Page.AllDatas.Count > 0) Page.CurrentData = Page.AllDatas.First(m => m.Id == Page.MenuNavs.First().Id).Copy();
+    }
+
+    public async Task AddDefaultMenu(bool firstLevel)
+    {
+        Random rd = new Random();
+        string code = rd.Next(10000, 100000).ToString();
+        int sort = 1;
+        Guid? id = firstLevel ? null : Page.CurrentData.Id;
+        var childDatas = Page.AllDatas.Where(m => m.ParentId == id);
+        if (childDatas.Count() > 0)
+        {
+            sort = childDatas.Max(m => m.Sort) + 1;
+        }
+        var input = new MenuItemResponse
+            {
+                Code = code,
+                Icon = firstLevel ? "mdi-file-outline" : "",
+                Name = $"{(firstLevel ? "Default Menu" : Page.CurrentData.Name)}_{sort}",
+                Url = "",
+                Sort = sort,
+                ParentId = id,
+            };
+        await Page.AddOrUpdateAsync(input);
+        if (firstLevel)
+        {
+            Page.CurrentData = Page.AllDatas.First(m => m.Code == input.Code).Copy();
+        }
+    }
+
+    private async Task EditData(EditContext context)
+    {
+        if (context.Validate())
+        {
+            await Page.AddOrUpdateAsync();
+        }
+    }
+
+    void SetCurentData(MenuNav menuNav)
+    {
+        Page.CurrentData = Page.AllDatas.First(m => m.Id == menuNav.Id).Copy();
+    }
+}

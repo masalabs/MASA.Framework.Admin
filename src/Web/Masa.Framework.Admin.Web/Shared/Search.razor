@@ -1,5 +1,5 @@
-﻿@inherits ProCompontentBase
-@inject NavHelper NavHelper
+﻿@inherits AdminCompontentBase
+@inject NavigationManager NavigationManager
 
 @{
     var navs = GetNavs(_search);
@@ -15,14 +15,14 @@
         </div>
     </ActivatorContent>
     <ChildContent>
-        @if(navs.Count>0)
+        @if (navs.Count > 0)
         {
-           <MList>
+            <MList>
                 @foreach (var nav in navs)
                 {
-                    <MListItem OnClick="()=>NavHelper.NavigateToByEvent(nav)">
+                    <MListItem OnClick="()=>NavigationManager.NavigateTo(nav.Href)">
                         <MListItemAction>
-                            <MIcon Size=20 Color="neutral-lighten-4">@nav.ParentIcon</MIcon>
+                            <MIcon Size=20 Color="neutral-lighten-4">@nav.InheritIcon</MIcon>
                         </MListItemAction>
                         <MListItemContent>
                             <span Class="text-btn">@GetI18nFullTitle(nav.FullTitle)</span>
@@ -31,7 +31,7 @@
                 }
             </MList>
         }
-        else if(string.IsNullOrEmpty(_search) is false)
+        else if (string.IsNullOrEmpty(_search) is false)
         {
             <MList>
                 <MListItem>
@@ -45,12 +45,15 @@
 @code {
     string? _search;
 
+    [Parameter]
+    public NavHelper NavHelper { get; set; }
+
     List<NavModel> GetNavs(string? search)
     {
         var output = new List<NavModel>();
-        if (search is not null && search!="")
+        if (search is not null && search != "")
         {
-            output.AddRange(NavHelper.SameLevelNavs.Where(n=>n.Href is not null && GetI18nFullTitle(n.FullTitle).Contains(search,StringComparison.OrdinalIgnoreCase)));
+            output.AddRange(NavHelper.BottomLevelNavs.Where(n => GetI18nFullTitle(n.FullTitle).Contains(search, StringComparison.OrdinalIgnoreCase)));
         }
         return output;
     }
@@ -61,9 +64,7 @@
         if (arr.Count == 1) return T(fullTitle);
         else
         {
-            var parent = arr[0];
-            arr.RemoveAt(0);
-            return $"{T(parent)} {T(string.Join(' ',arr))}";
+            return string.Join(" ", arr.Select(a => T(a)));
         }
     }
 }

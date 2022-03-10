@@ -1,4 +1,4 @@
-﻿namespace Masa.Framework.Admin.Web.Data.App.Todo.Dto;
+namespace Masa.Framework.Admin.Web.Data.App.Todo.Dto;
 
 public class TodoDto
 {
@@ -24,7 +24,7 @@ public class TodoDto
     [Required]
     public List<string> Tag { get; set; } = new List<string>();
 
-    public string? Description { get; set; }
+    public string Description { get; set; }
 
     public TodoDto() { }
 

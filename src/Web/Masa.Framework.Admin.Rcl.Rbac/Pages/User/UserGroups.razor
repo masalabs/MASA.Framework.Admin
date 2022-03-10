@@ -1,0 +1,101 @@
+﻿@page "/usergroup/list"
+@inherits AdminCompontentBase
+@inject NavigationManager Nav
+
+<MCard Class="mt-6">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <span class="text-btn neutral-lighten-1--text">@T("View"):</span>
+                <MSelect @bind-Value="_pageData.PageSize"
+                         Color="primary"
+                         Style="max-width:120px;"
+                         Dense
+                         Class="mx-6"
+                         HideDetails="@("auto")"
+                         Outlined
+                         Items="@_pageSizes"
+                         ItemText="u => u.ToString()"
+                         ItemValue="u => u">
+                </MSelect>
+                <span class="text-btn">@T("Entries")</span>
+            </MCol>
+            <MCol Md=6 Sm=12 Class="d-flex block-center">
+                <MTextField @bind-Value="_pageData.Name" Color="primary" Class="rounded-2 ml-6" HideDetails="@("auto")" Flat Dense Solo BackgroundColor="fill-lighten-1" Placeholder="Search">
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
+                    @T("Add UserGroup")
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardText>
+    <MDataTable Headers="_headers" Items="_pageData.PageData" TItem="UserGroupItemResponse" ItemsPerPage="_pageData.PageSize" HideDefaultFooter Class="user ml-2 table-border-none">
+        <HeaderColContent Context="header">
+            <span class="text-subtitle">@header.Text</span>
+        </HeaderColContent>
+        <ItemColContent>
+            @switch (context.Header.Value)
+            {
+                case nameof(UserGroupItemResponse.CreationTime):
+                    @context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    break;
+                case nameof(UserGroupItemResponse.ModificationTime):
+                    @context.Item.ModificationTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    break;
+                case "Action":
+                    <MMenu Right Bottom>
+                        <ActivatorContent Context="activatorContext">
+                            <MButton Icon @attributes="@activatorContext.Attrs">
+                                <MIcon XSmall>fas fa-ellipsis-v</MIcon>
+                            </MButton>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <MList>
+                                <MListItem OnClick="()=>NavToDetails(context.Item.Id.ToString())">
+                                    <MIcon Small>fas fa-user-tie</MIcon>
+                                    <MListItemTitle Class="ml-2"> @T("Details")  </MListItemTitle>
+                                </MListItem>
+                                <MListItem>
+                                    <MIcon Small>far fa-trash-alt</MIcon>
+                                    <MListItemTitle Class="ml-2"> @T("Delete") </MListItemTitle>
+                                </MListItem>
+                            </MList>
+                        </ChildContent>
+                    </MMenu>
+                    break;
+                default:
+                    @context.Value
+                    break;
+            }
+        </ItemColContent>
+    </MDataTable>
+    <MCardText>
+        <div class="d-flex">
+            <div class="mr-auto pt-3 text-btn neutral-lighten-1--text">Showing @((_pageData.PageIndex-1)*_pageData.PageSize+1) to @(_pageData.PageIndex*_pageData.PageSize) of @_pageData.CurrentCount entries</div>
+            @if (_pageData.PageCount > 0)
+            {
+                <MPagination @bind-Value="_pageData.PageIndex" Color="primary" Circle Length=@_pageData.PageCount></MPagination>
+            }
+        </div>
+    </MCardText>
+</MCard>
+
+<MNavigationDrawer Stateless Touchless Fixed Right Value=_visible Width="465" Class="pa-6">
+    <div class="block-between mb-12">
+        <span class="text-h6">@T("Add UserGroup")</span>
+        <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
+    </div>
+    <MForm Model=_createUserGroup EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
+        <MTextField @bind-Value="_createUserGroup.Name" Class="mb-6" Label="@T("UserGroupName")" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Code" Class="mb-6" Label="@T("UserGroupCode")" HideDetails="@("auto")" Dense Outlined />
+        <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="@T("UserGroupDescribtion")" HideDetails="@("auto")" Dense Outlined />
+
+        <div style="bottom:48px;right:24px;position:absolute">
+            <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="()=>_visible = false"> @T("Cancel") </MButton>
+            <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="()=>CreateGroup(context)"> @T("Add") </MButton>
+        </div>
+    </MForm>
+</MNavigationDrawer>

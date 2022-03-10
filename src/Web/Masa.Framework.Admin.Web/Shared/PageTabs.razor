@@ -1,9 +1,8 @@
-﻿@inherits ProCompontentBase
+﻿@inherits AdminCompontentBase
 @inject NavHelper NavHelper
-@inject GlobalConfig GlobalConfig
-@implements IDisposable
+@inject NavigationManager NavigationManager
 
-<MPageTabs Value="NavHelper.PageTabItems.FindIndex(tab => tab.Url == GlobalConfig.CurrentNav?.Href)" Class="px-6 pagetabs" Items="NavHelper.PageTabItems">
+<MPageTabs Value="NavHelper.PageTabItems.FindIndex(tab => tab.Url == NavigationManager.Uri.Replace(NavigationManager.BaseUri,string.Empty))" Class="px-6 pagetabs" Items="NavHelper.PageTabItems">
     <TabContent>
         <MTab Value="NavHelper.PageTabItems.FindIndex(tab=> tab.Url==context.Item.Url)" Href="@context.Item.Url" @attributes="@context.Attrs" class="px-6 rounded-t-xl m-page_tab"
               ActiveClass="m-page_tab_active" IsActive=context.IsActive Ripple="false">
@@ -27,16 +26,4 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    protected override void OnInitialized()
-    {
-        GlobalConfig.OnLanguageChanged += base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
-    }
-
-    public void Dispose()
-    {
-        GlobalConfig.OnLanguageChanged -= base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
-    }
 }

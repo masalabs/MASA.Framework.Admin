@@ -2,18 +2,19 @@ version: '3.4'
 
 services:
 
-  redis:
-    image: redis:alpine
+  zipkin:
+    container_name: zipkin
+    ports:
+      - 9412:9411
 
   masa.admin.database:
-     image: mcr.microsoft.com/mssql/server:2019-latest
-     ports:
-       - "1433:1433"
-     environment:
-      - SA_PASSWORD=P@ssw0rd
-      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    environment:
+     - SA_PASSWORD=P@ssw0rd
+     - ACCEPT_EULA=Y
 
-  masa.admin.services.order:
+  masa.admin.services.user:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 #https://+:443;
@@ -22,19 +23,67 @@ services:
       - "9091:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - zipkin
 
-  masa.admin.services.order.dapr:
+  masa.admin.services.user.dapr:
     image: "daprio/daprd:1.5.1"
     command: ["./daprd",
-      "-app-id", "masa-admin-services-order",
+      "-app-id", "masa-admin-services-user",
       "-app-port", "80",
       "-components-path", "/components"
       ]
     depends_on:
-      - masa.admin.services.order
+      - masa.admin.services.user
     volumes:
       - "./dapr/components/:/components"
-    network_mode: "service:masa.admin.services.order"
+    network_mode: "service:masa.admin.services.user"
+
+  masa.admin.services.configuration:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "8082:80"
+      - "9092:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.services.configuration.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+              "-app-id", "masa-admin-services-configuration",
+              "-app-port", "80",
+              "-components-path", "/components"
+    ]
+    depends_on:
+      - masa.admin.services.configuration
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.services.configuration"
+
+  masa.admin.services.authentication:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "8083:80"
+      - "9093:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.services.authentication.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+              "-app-id", "masa-admin-services-authentication",
+              "-app-port", "80",
+              "-components-path", "/components"
+    ]
+    depends_on:
+      - masa.admin.services.authentication
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.services.authentication"
 
   masa.admin.web:
     environment:
@@ -45,6 +94,43 @@ services:
       - "8443:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  masa.admin.web.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa.admin.web",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.web
+    volumes:
+      - "./dapr/components/localSecretStore.yaml:/components/localSecretStore.yaml"
+      - "./dapr/components/secretsFile.json:/components/secretsFile.json"
+    network_mode: "service:masa.admin.web"
+
+  masa.admin.service.logstatistics:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 #https://+:443;
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  masa.admin.service.logstatistics.dapr:
+    image: "daprio/daprd:1.5.1"
+    command: ["./daprd",
+      "-app-id", "masa.admin.service.logstatistics",
+      "-app-port", "80",
+      "-components-path", "/components"
+      ]
+    depends_on:
+      - masa.admin.service.logstatistics
+    volumes:
+      - "./dapr/components/:/components"
+    network_mode: "service:masa.admin.service.logstatistics"
 
   dapr-placement:
     command: ["./placement", "-port", "50000", "-log-level", "debug"]

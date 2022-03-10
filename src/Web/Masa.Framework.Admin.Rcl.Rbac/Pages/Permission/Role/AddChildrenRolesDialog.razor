@@ -1,0 +1,89 @@
+﻿@inherits AdminCompontentBase
+
+<MRow Justify="@JustifyTypes.Center">
+    <MDialog Persistent @bind-Value="Visible" Width="800">
+        <ChildContent>
+            <MCard>
+                <div class="block-between pa-4">
+                    <span class="text-h6">@T("Add Role")</span>
+                    <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>UpdateVisible(false)">mdi-close</MIcon>
+                </div>
+                <MDivider></MDivider>
+                <MCardText Class="pb-3">
+                    <MRow Class="mt-0">
+                        <MCol Class="pt-0" Style="height:480px;border-right:solid 1px #e9edf7;">
+                            <MTextField @bind-Value="_roleSearch" Color="primary" Class="my-2 rounded-2" HideDetails="@("auto")" Flat Dense Solo Outlined Placeholder="@T("Search")">
+                                <PrependInnerContent>
+                                    <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
+                                </PrependInnerContent>
+                            </MTextField>
+                            <div class="hover-pointer pa-2" style="color:blue" @onclick="() => DetailPage.SelectRoles.Where(r => r.Name.Contains(_roleSearch ?? string.Empty)).ForEach(r => r.Select = true)" >@T("All")</div>
+                            <MVirtualScroll Height=380 OverscanCount=4 ItemHeight=64 Items="@DetailPage.SelectRoles.Where(r => !r.Select  && r.Name.Contains(_roleSearch ?? "")).ToList()">
+                                <ItemContent>
+                                    <div class="hover-pointer pa-2" style="color:blue" @onclick="() => context.Select = true" >@context.Name</div>
+                                </ItemContent>
+                            </MVirtualScroll>
+                        </MCol>
+                        <MCol Class="pt-0" Style="height:480px;">
+                            <div class="block-between my-2">
+                                <span>@T("Inherit the following roles")</span>
+                                <div class="hover-pointer" style="color:blue" @onclick="() => DetailPage.SelectRoles.ForEach(r => r.Select = false)">@T("Clear")</div>
+                            </div>
+                            <MVirtualScroll Height=440 OverscanCount=4 ItemHeight=64 Items="@DetailPage.SelectRoles.Where(r => r.Select).ToList()">
+                                <ItemContent>                                   
+                                    <div class="block-between pa-2 mb-1" style="background-color: #f1f2f5">
+                                        <span class="text-btn neutral-lighten-1--text">@(context.Name)</span>
+                                        <MIcon Color="neutral-lighten-3" Size=24 OnClick="() => context.Select = false">mdi-close</MIcon>
+                                    </div>
+                                </ItemContent>
+                            </MVirtualScroll>
+                        </MCol>
+                    </MRow>
+                </MCardText>
+                <MDivider></MDivider>
+                <MCardActions>
+                    <MSpacer></MSpacer>
+                    <MButton MinWidth=80 Height=35 Outlined Class="text-btn rounded-pill" OnClick="() =>  UpdateVisible(false)">@T("Cancel")</MButton>
+                    <MButton MinWidth=80 Height=35 Color="primary" Class="ml-6 rounded-pill" OnClick="async()=> await Submit()">@T("Confirm")</MButton>
+                </MCardActions>
+            </MCard>
+        </ChildContent>
+    </MDialog>
+</MRow>
+
+@code {
+    [Inject]
+    public RoleDetailsPage DetailPage { get; set; } = default!;
+
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    string _roleSearch;
+
+    private async Task UpdateVisible(bool visible)
+    {
+        if(visible == false)
+        {
+            await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
+            await DetailPage.SelectRoleAsync();
+        }
+
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(visible);
+        }
+        else
+        {
+            Visible = visible;
+        }    
+    }
+
+    private async Task Submit()
+    {
+        await DetailPage.AddChildrenRolesAsync();
+        await UpdateVisible(false);
+    }
+}

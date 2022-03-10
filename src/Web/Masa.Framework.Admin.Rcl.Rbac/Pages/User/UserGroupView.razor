@@ -1,0 +1,74 @@
+﻿@page "/usergroupDetail/{Id}"
+@inherits AdminCompontentBase
+
+<MCard class="mt-6">
+    <MCardTitle>
+        @T("User")
+        <MSpacer />
+    </MCardTitle>
+    <MDivider />
+    <MCardText>
+        <MDataTable Headers="_userHeaders" TItem="UserItemResponse" Items="_groupUsers" HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(UserItemResponse.Id):
+                        <MTooltip Top>
+                            <ActivatorContent Context="_">
+                                <MIcon Small Class="mr-2" @attributes="@_.Attrs">mdi-delete</MIcon>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@T("RemoveUser")</span>
+                            </ChildContent>
+                        </MTooltip>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+    </MCardText>
+</MCard>
+
+<MCard class="mt-6">
+    <MCardTitle>
+        @T("Authorize")
+        <MSpacer />
+        <MButton Text OnClick="()=>_permissionDialog = true">
+            <MIcon Left>mdi-plus-circle-outline</MIcon>
+            @T("Add")
+        </MButton>
+    </MCardTitle>
+    <MDivider />
+    <MCardText>
+        <MDataTable Headers="_permissionHeaders" TItem="PermissionItemResponse" Items="_groupPermissions" HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(PermissionItemResponse.Id):
+                        <MTooltip Top>
+                            <ActivatorContent Context="_">
+                                <MIcon Small Class="mr-2" @attributes="@_.Attrs" OnClick="()=>RemovePermissionAsync(context.Item.Id)">mdi-delete</MIcon>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@T("Remove UserGroup")</span>
+                            </ChildContent>
+                        </MTooltip>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+    </MCardText>
+</MCard>
+
+<Masa.Framework.Admin.Rcl.Rbac.Pages.Permission.Authorize.AddAuthorize @bind-Visible="_permissionDialog" ConfirmHandle="AddAuthorize"/>

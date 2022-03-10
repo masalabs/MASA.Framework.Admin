@@ -1,17 +1,46 @@
 version: '3.4'
 
 services:
-  masa.admin.services.order:
-    image: ${DOCKER_REGISTRY-}masa-services-order
+
+  redis:
+    image: redis:alpine
+
+  zipkin:
+    image: openzipkin/zipkin
+
+  masa.admin.database:
+     image: mcr.microsoft.com/mssql/server:2019-latest
+
+  masa.admin.services.user:
+    image: ${DOCKER_REGISTRY-}masa-services-user
     build:
       context: .
-      dockerfile: src/Services/Masa.Framework.Admin.Service/Dockerfile
+      dockerfile: src/Services/Masa.Framework.Admin.Service.User/Dockerfile
+
+  masa.admin.services.configuration:
+    image: ${DOCKER_REGISTRY-}masa-services-authentication
+    build:
+      context: .
+      dockerfile: src/Services/Masa.Framework.Admin.Service.Configuration/Dockerfile
+
+  masa.admin.services.authentication:
+    image: ${DOCKER_REGISTRY-}masa-services-authentication
+    build:
+      context: .
+      dockerfile: src/Services/Masa.Framework.Admin.Service.Authentication/Dockerfile
 
   masa.admin.web:
     image: ${DOCKER_REGISTRY-}masa-admin
     build:
       context: .
       dockerfile: src/Web/Masa.Framework.Admin.Web/Dockerfile
+
+
+  masa.admin.service.logstatistics:
+    image: ${DOCKER_REGISTRY-}masa-service-logstatistics
+    build:
+      context: .
+      dockerfile: src/Services/Masa.Framework.Admin.Service.LogStatistics/Dockerfile
 
   dapr-placement:
     image: "daprio/dapr:1.5.1"

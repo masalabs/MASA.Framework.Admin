@@ -1,6 +1,6 @@
-﻿namespace Masa.Framework.Admin.Web.Pages.App.Invoice
+namespace Masa.Framework.Admin.Web.Pages.App.Invoice
 {
-    public partial class Add : ProCompontentBase
+    public partial class Add : AdminCompontentBase
     {
         private bool _showAddPayment;
         private string _invoiceTo = "";

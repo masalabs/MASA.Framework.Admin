@@ -1,8 +1,6 @@
-﻿@inherits ProCompontentBase
+﻿@inherits AdminCompontentBase
 @inject NavigationManager NavigationManager
-@inject NavHelper NavHelper
 @inject GlobalConfig GlobalConfig
-@implements IDisposable
 
 @{
     var items = GetBreadcrumbItems();
@@ -32,32 +30,31 @@
 }
 
 @code {
-    protected override void OnInitialized()
-    {
-       GlobalConfig.OnLanguageChanged += base.StateHasChanged;
-       GlobalConfig.OnCurrentNavChanged += base.StateHasChanged;
-    }
+
+    [Parameter]
+    public NavHelper NavHelper { get; set; }
+
+    [Parameter]
+    public string CurrentUri { get; set; }
 
     private List<BreadcrumbItem> GetBreadcrumbItems()
     {
         var items = new List<BreadcrumbItem>();
-        var currentNav = NavHelper.SameLevelNavs.FirstOrDefault(n => n.Href is not null && NavigationManager.Uri.Contains(n.Href));
+        var currentNav = NavHelper.BottomLevelNavs.FirstOrDefault(n => string.IsNullOrEmpty(n.Href) is false && CurrentUri.Contains(n.Href));
         if (currentNav is not null)
         {
-            if (currentNav.ParentId != 0)
-            {
-                var parentNav = NavHelper.SameLevelNavs.First(n => n.Id == currentNav.ParentId);
-                items.Add(new BreadcrumbItem { Text = T(parentNav.Title), Href = parentNav.Href ?? parentNav.Children?.FirstOrDefault()?.Href ?? "" });
-            }
+            AddParentBreadcrumbItemLoop(currentNav);
             items.Add(new BreadcrumbItem { Text = T(currentNav.Title), Href = currentNav.Href });
-            items.Last().Href = currentNav.Href;
         }
         return items;
-    }
 
-    public void Dispose()
-    {
-        GlobalConfig.OnLanguageChanged -= base.StateHasChanged;
-        GlobalConfig.OnCurrentNavChanged -= base.StateHasChanged;
+        void AddParentBreadcrumbItemLoop(NavModel? nav)
+        {
+            if(nav.ParentNav is not null)
+            {
+                items.Add(new BreadcrumbItem { Text = T(nav.ParentNav.Title), Href = nav.ParentNav.Href });
+                AddParentBreadcrumbItemLoop(nav.ParentNav);
+            }
+        }
     }
 }

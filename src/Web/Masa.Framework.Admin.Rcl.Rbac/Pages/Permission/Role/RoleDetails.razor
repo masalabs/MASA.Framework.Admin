@@ -1,0 +1,240 @@
+﻿@page "/role/details"
+@page "/role/details/{id}"
+@using Masa.Framework.Admin.Rcl.Rbac.Pages.Permission.Authorize
+@inherits AdminCompontentBase
+@inject NavigationManager NavigationManager
+
+<MCard>
+    <MCardText>
+        <div class="d-flex block-center mt-3">
+            <MAvatar Size="120">
+                <MIcon Size=90>mdi-account</MIcon>
+            </MAvatar>
+            <div Class="ml-6">
+                <h5 class="mb-6">@Page.Detail.Name</h5>
+                <span>@T("A role is a logical collection. You can authorize a role to perform certain operations, and then grant the role to a user, who will inherit all the permissions in the role.")</span>
+            </div>
+        </div>
+    </MCardText>
+</MCard>
+
+<MCard Class="mt-4">
+    <MForm Model=Page.Detail EnableDataAnnotationsValidation>
+        <MCardText>
+            <div class="block-between">
+                <span class="text-btn neutral-lighten-1--text">@T("Basic Information")</span>
+                <span class="hover-pointer" style="color:blue" @onclick="async () => await Page.UpdateRoleInfoAsync(context)">@T("Save")</span>
+            </div>
+        </MCardText>
+
+        <MDivider />
+
+        <MCardText>
+            <MRow>
+                <MCol>
+                    <MTextField @bind-Value="Page.Detail.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
+                </MCol>
+                <MCol>
+                    <MTextField @bind-Value="Page.Detail.Number" Disabled Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
+                </MCol>
+            </MRow>
+            <MRow>
+                <MCol>
+                    <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                </MCol>
+            </MRow>
+        </MCardText>
+    </MForm>
+</MCard>
+
+<MCard Class="mt-4">
+    <MCardText>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Inherited Role")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddChildrenRolesDialog = true">@T("Add Role")</span>
+        </div>
+    </MCardText>
+
+    <MDivider />
+
+    <MCardText>
+        <MDataTable Items="Page.SelectRoles.Where(r => r.Select).ToList()" Headers="Page.ChildrenRoleHeaders" TItem="RoleItemResponse" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(RoleItemResponse.Name):
+                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.RolePage.NavigateToRoleDetails(context.Item)">
+                            <span style="color:blue">@context.Item.Name</span>
+                        </div>
+                        break;
+                    case nameof(RoleItemResponse.Number):
+                        <span>@context.Item.Number</span>
+                        break;
+                    case nameof(RoleItemResponse.CreationTime):
+                        <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                        break;
+                    case nameof(RoleItemResponse.Describe):
+                        <span>@context.Item.Describe</span>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+    </MCardText>
+</MCard>
+
+<MCard Class="mt-4">
+    <MCardText>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Authorized User")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddUserRoleDialog = true">@T("Add User")</span>
+        </div>
+    </MCardText>
+
+    <MDivider />
+
+    <MCardText>
+        <MDataTable Items="Page.AllUsers.Where(u => u.Select).ToList()" TItem="UserItemResponse" Headers="Page.UserHeaders" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+            <HeaderColContent Context="header">
+                <span class="text-subtitle">@header.Text</span>
+            </HeaderColContent>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(UserItemResponse.Account):
+                        <div class="hover-pointer d-flex my-2" @onclick="() => Page.NavigateToUserDetails(context.Item)">
+                            <span style="color:blue">@context.Item.Account</span>
+                        </div>
+                        break;
+                    case nameof(UserItemResponse.Name):
+                        <span>@context.Item.Name</span>
+                        break;
+                    case (nameof(UserItemResponse.Email)):
+                        <span>@context.Item.Email</span>
+                        break;
+                    case (nameof(UserItemResponse.LastLoginTime)):
+                        @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                        break;
+                    case nameof(UserItemResponse.State):
+                        @if (context.Item.State == (int)State.Enable)
+                        {
+                            <MChip Color="green" TextColor="white" Ripple="false">
+                                <span>@T(State.Enable.ToString())</span>
+                            </MChip>
+                        }
+                        else
+                        {
+                            <MChip Color="gray" Ripple="false">
+                                <span>@T(State.Disabled.ToString())</span>
+                            </MChip>
+                        }
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+    </MCardText>
+</MCard>
+
+<MCard Class="my-4">
+    <MCardText>
+        <div class="block-between">
+            <span class="text-btn neutral-lighten-1--text">@T("Authorized Rules")</span>
+            <span class="hover-pointer" style="color:blue" @onclick="() => Page.OpenAddAuthorizeDialog = true">@T("Add Authorization")</span>
+        </div>
+    </MCardText>
+
+    <MDivider />
+
+    <MCardText>
+        <MRow>
+            @foreach (var permission in Page.Detail.Permissions)
+            {
+                <MCol Class="ma-4" Md=3 Style="background-color:rgb(248 249 251)">
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("PermissionName")</span>
+                        <span class="text-caption">@permission.PermissionName</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("ObjectType")</span>
+                        <span class="text-caption">@T(permission.ObjectType.ToString())</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Resource")</span>
+                        <span class="text-caption">@permission.Resource</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Scope")</span>
+                        <span class="text-caption">@GetScopeName(permission)</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("Action")</span>
+                        <span class="text-caption">@permission.Action</span>
+                    </div>
+                    <div class="mb-5 d-flex justify-space-between">
+                        <span class="text-body2 neutral-lighten-1--text">@T("PermissionType")</span>
+                        <span class="text-caption">@permission.PermissionType</span>
+                    </div>
+                    <div class="block-center mt-3 max-width">
+                        <MButton Color="error" OnClick="()=> Page.OpenDeleteAuthorizeDialog(permission.PermissionId)">
+                            @T("Cancel Authorization")
+                        </MButton>
+                    </div>
+                </MCol>
+            }
+        </MRow>
+    </MCardText>
+</MCard>
+
+<AddUserRoleDialog @bind-Visible=Page.OpenAddUserRoleDialog />
+<AddAuthorize @bind-Visible=Page.OpenAddAuthorizeDialog ConfirmHandle="AddAuthorize"/>
+<AddChildrenRolesDialog @bind-Visible=Page.OpenAddChildrenRolesDialog />
+
+@code {
+    [Inject]
+    public RoleDetailsPage Page { get; set; } = default!;
+
+    [Inject]
+    public MenuPage MenuPage { get; set; } = default!;
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RegisterPage(Page);
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await Page.InitAsync(Id);
+        await MenuPage.GetAllMenus();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (Id is null && Page.Detail.Id == Guid.Empty) NavigationManager.NavigateTo("/permission");
+    }
+
+    private async Task AddAuthorize(AuthorizeItemResponse data)
+    {
+         await Page.AddAuthorizeAsync(data);
+         await Page.QueryRoleById(Id);
+    }
+
+    public string GetScopeName(AuthorizeItemResponse permission)
+    {
+        if (permission.ObjectType == ObjectType.Menu)
+        {
+            return string.Join(',', permission.Scope.Split(',').Select(s => MenuPage.AllDatas.FirstOrDefault(m => m.Code == s)?.Name ?? "")); 
+        }
+        else return permission.Scope;
+    }
+}

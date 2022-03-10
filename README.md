@@ -1,1 +1,1 @@
-# MASA.Framework.Admin
+# Masa.Framework.Admin

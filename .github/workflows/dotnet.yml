@@ -1,0 +1,30 @@
+name: .NET
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: git pull
+      uses: actions/checkout@v2
+
+    - name: setting dotnet 
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+
+    - name: build
+      run: dotnet build src
+
+    
+
+    

@@ -74,7 +74,7 @@ public partial class Users
         }
         if (!_createUserModel.Pwd.Trim().Equals(_createUserModel.ConfirmPwd.Trim()))
         {
-            GlobalConfig.OpenMessage(I18n.T("ConfirmPasswordError"), MessageType.Error);
+            GlobalConfig.OpenMessage(I18n.T("ConfirmPasswordError"), MessageTypes.Error);
             return;
         }
         await HandleCallerAsync(await UserCaller.CreateAsync(_createUserModel), async () =>

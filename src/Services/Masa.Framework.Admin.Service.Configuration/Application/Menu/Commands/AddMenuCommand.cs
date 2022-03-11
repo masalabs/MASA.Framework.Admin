@@ -12,7 +12,7 @@ public record AddMenuCommand : CommandBase
 
     public Guid? ParentId { get; set; }
 
-    public string Url { get; set; }
+    public string Url { get; set; } = default!;
 
     public int Sort { get; set; }
 

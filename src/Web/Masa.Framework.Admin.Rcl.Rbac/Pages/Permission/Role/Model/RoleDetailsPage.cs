@@ -61,13 +61,13 @@ public class RoleDetailsPage : ComponentPageBase
 
     public async Task InitAsync(string? roleId)
     {
-        Lodding = true;
+        Loading = true;
         await QueryRoleById(roleId);
         await SelectAllRoleItemsAsync();
         await SelectRoleAsync();
         await GetAllUserAsync();
         await GetUserListByRole();
-        Lodding = false;
+        Loading = false;
     }
 
     public async Task QueryRoleById(string? roleId)
@@ -130,11 +130,11 @@ public class RoleDetailsPage : ComponentPageBase
     {
         if (context.Validate())
         {
-            Lodding = true;
+            Loading = true;
             var request = new EditRoleRequest(Detail.Id, Detail.Name, Detail.Describe);
             var result = await AuthenticationCaller.EditRoleAsync(request);
             CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
-            Lodding = false;
+            Loading = false;
             return result.Success;
         }
         return false;
@@ -142,11 +142,11 @@ public class RoleDetailsPage : ComponentPageBase
 
     public async Task AddChildrenRolesAsync()
     {
-        Lodding = true;
+        Loading = true;
         var request = new AddChildRolesRequest(Detail.Id, AllRoles.Where(r => r.Select).Select(r => r.Id).ToList());
         var result = await AuthenticationCaller.AddChildrenRolesAsync(request);
         CheckApiResult(result, I18n.T("Add children roles successfully"), result.Message);
-        Lodding = false;
+        Loading = false;
     }
 
     public async Task GetAllUserAsync()
@@ -193,7 +193,7 @@ public class RoleDetailsPage : ComponentPageBase
 
     public async Task AddAuthorizeAsync(AuthorizeItemResponse authoriedData)
     {
-        Lodding = true;
+        Loading = true;
         var permission = new AddPermissionRequest()
         {
             ObjectType = authoriedData.ObjectType,
@@ -206,7 +206,7 @@ public class RoleDetailsPage : ComponentPageBase
         };
         var result = await AuthenticationCaller.AddPermissionAsync(permission);
         CheckApiResult(result, I18n.T("Add Authorize Successful"), result.Message);
-        Lodding = false;
+        Loading = false;
     }
 
     public void OpenDeleteAuthorizeDialog(Guid permissionId)
@@ -219,14 +219,14 @@ public class RoleDetailsPage : ComponentPageBase
 
     public async Task DeleteAuthorizeAsync(Guid permissionId)
     {
-        Lodding = true;
+        Loading = true;
         var result = await AuthenticationCaller.DeleteRolePermissionAsync(new DeleteRolePermissionRequest(Detail.Id, permissionId));
         CheckApiResult(result, I18n.T("Cancel Authorize Successful"), result.Message);
         if (result.Success)
         {
             await QueryRoleById(Detail.Id.ToString());
         }
-        Lodding = false;
+        Loading = false;
     }
 
     public void NavigateToUserDetails(UserItemResponse item)

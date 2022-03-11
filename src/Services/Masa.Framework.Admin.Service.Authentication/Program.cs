@@ -1,31 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddMasaConfiguration(
-        configurationBuilder =>
-        {
-            configurationBuilder.UseMasaOptions(options =>
-            {
-                options.Mapping<RedisConfigurationOptions>(SectionTypes.Local, "Appsettings",
-                    "RedisConfig"); //Map the RedisConfigurationOptions binding to the Local:Appsettings:RedisConfig node
-            });
-        },
-        assemblies: typeof(AppConfigOption).Assembly);
+builder.AddMasaConfiguration();
 
-var serviceProvider = builder.Services.BuildServiceProvider()!;
-var redisOptions = serviceProvider.GetService<IOptions<RedisConfigurationOptions>>();
-builder.Services
-    .AddMasaRedisCache(redisOptions!.Value)
-    .AddMasaMemoryCache();
+#if DEBUG
 
-var appConfigOption = serviceProvider.GetRequiredService<IOptions<AppConfigOption>>();
-if (appConfigOption.Value.EnableDapr)
-    builder.Services.AddDaprStarter();
+builder.Services.AddDaprStarter();
 
-var app = builder.Services.AddFluentValidation(options =>
-    {
-        options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
-    })
-    .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
+#endif
+
+var app = builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
     {
@@ -36,41 +19,52 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Authentications Service HTTP API"
         });
     })
-    .AddDomainEventBus(new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly }, options =>
-      {
-          options.UseEventBus()
-              .UseUoW<AuthenticationDbContext>(dbOptions =>
-              {
-                  var option = serviceProvider
-                      .GetRequiredService<IOptions<AppConfigOption>>();
-                  dbOptions.UseSqlServer(option.Value.DbConn);
-                  dbOptions.UseSoftDelete(builder.Services);
-              })
-              .UseDaprEventBus<IntegrationEventLogService>()
-              .UseEventLog<AuthenticationDbContext>()
-              .UseRepository<AuthenticationDbContext>();
-      })
+    .AddMasaMemoryCache(options => options.UseRedisCache())
+    .AddFluentValidation(options =>
+    {
+        options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
+    })
+    .AddDomainEventBus(
+        new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly },
+        options =>
+        {
+            options
+                .UseEventBus()
+                .UseUoW<AuthenticationDbContext>(dbOptions =>
+                {
+                    dbOptions.UseSqlServer(builder.GetMasaConfiguration().Local["ConnectionStrings:DefaultConnection"]);
+                    dbOptions.UseSoftDelete(builder.Services);
+                })
+                .UseDaprEventBus<IntegrationEventLogService>()
+                .UseEventLog<AuthenticationDbContext>()
+                .UseRepository<AuthenticationDbContext>()
+                .UseMiddleware(typeof(ValidatorMiddleware<>));
+        }
+    )
     .AddServices(builder);
+
 app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {
 });
-app.UseMasaExceptionHandling(opt =>
+
+app.UseMasaExceptionHandling(options =>
+{
+    options.CustomExceptionHandler = exception =>
     {
-        opt.CustomExceptionHandler = exception =>
+        Exception friendlyException = exception;
+        if (exception is ValidationException validationException)
         {
-            Exception friendlyException = exception;
-            if (exception is ValidationException validationException)
-            {
-                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
-            }
-            return (friendlyException, false);
-        };
-    })
-    .UseSwagger()
-    .UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
-    });
+            friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+        }
+        return (friendlyException, false);
+    };
+});
+
+app.UseSwagger()
+   .UseSwaggerUI(c =>
+   {
+       c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
+   });
 
 app.UseRouting();
 app.UseCloudEvents();

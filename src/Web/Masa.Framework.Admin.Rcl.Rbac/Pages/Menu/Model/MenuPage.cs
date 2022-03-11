@@ -21,13 +21,13 @@ public class MenuPage : ComponentPageBase
 
     public async Task GetAllMenus()
     {
-        Lodding = true;
+        Loading = true;
         var result = await ConfigurationCaller.GetAllAsync();
         if (result.Success)
         {
             AllDatas = result.Data ?? new();
         }
-        Lodding = false;
+        Loading = false;
         MenuNavs = GetMenuNavs(AllDatas);
     }
 
@@ -60,7 +60,7 @@ public class MenuPage : ComponentPageBase
 
     public async Task AddOrUpdateAsync(MenuItemResponse? item = null)
     {
-        Lodding = true;
+        Loading = true;
         var result = default(ApiResultResponseBase);
         var input = item ?? CurrentData;
         if (input.Id == Guid.Empty)
@@ -75,13 +75,13 @@ public class MenuPage : ComponentPageBase
             result = await ConfigurationCaller.EditAsync(request);
             await CheckApiResult(result, I18n.T("Edit menu successfully"), result.Message);
         }
-        Lodding = false;
+        Loading = false;
     }
 
     public async Task OpenDeleteMenuDialog(MenuItemResponse item)
     {
         CurrentData = item.Copy();
-        Lodding = true;
+        Loading = true;
         var result = await ConfigurationCaller.AnyChildAsync(CurrentData.Id);
         if (result.Data)
         {
@@ -91,20 +91,20 @@ public class MenuPage : ComponentPageBase
         {
             OpenDeleteConfirmDialog(DeleteAsync);
         }
-        Lodding = false;
+        Loading = false;
     }
 
     public async Task DeleteAsync(bool confirm)
     {
         if(confirm)
         {
-            Lodding = true;
+            Loading = true;
             var result = await ConfigurationCaller.DeleteByIdsAsync(GetAllChildIds().ToArray());
             await CheckApiResult(result, I18n.T("Delete menu successfully"), result.Message);
             var firstLevelMenus = AllDatas.Where(m => m.ParentId == CurrentData.ParentId).OrderByDescending(m => m.Sort);
             var frontMenu = firstLevelMenus.FirstOrDefault(m => m.Sort <= CurrentData.Sort);
             CurrentData = (frontMenu ?? firstLevelMenus.LastOrDefault(m => m.Sort >= CurrentData.Sort) ?? AllDatas.FirstOrDefault(m => m.Id == CurrentData.ParentId) ?? new()).Copy();
-            Lodding = false;
+            Loading = false;
         }
     }
 

@@ -20,11 +20,6 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
 
     public bool OnlyJump { get; private set; }
 
-    private Menu()
-    {
-
-    }
-
     public Menu(
         Guid creator,
         string code,

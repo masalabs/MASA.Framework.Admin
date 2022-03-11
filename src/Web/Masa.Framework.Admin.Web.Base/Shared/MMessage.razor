@@ -25,36 +25,40 @@
     public string? Message { get; set; }
 
     [Parameter]
-    public int TimeOut { get; set; } = 2000;
+    public int Timeout { get; set; } = 2000;
 
     [Parameter]
-    public MessageType MessageType { get; set; }
+    public MessageTypes MessageType { get; set; }
 
     async Task Close()
     {
+        Show = false;
+
         if (ShowChanged.HasDelegate)
         {
             await ShowChanged.InvokeAsync(false);
         }
-        else Show = false;
     }
 
-    public void ShowMessage(string message,MessageType messageType,int timeOut)
+    public void ShowMessage(string message,MessageTypes messageType,int timeout)
     {
         Show = true;
         Message = message;
         MessageType = messageType;
-        TimeOut = timeOut;
+        Timeout = timeout;
 
         base.StateHasChanged();
     }
 
     (string icon,string color) GetMessageIconInfo()
     {
-        if(MessageType == MessageType.Information) return ("mdi-information","blue");
-        else if(MessageType == MessageType.Success) return ("mdi-check-circle","green");
-        else if(MessageType == MessageType.Error) return ("mdi-close-circle","error");
-        else return ("mdi-alert-circle","warning");
+        return MessageType switch
+        {
+            MessageTypes.Information => ("mdi-information", "info"),
+            MessageTypes.Success => ("mdi-check-circle", "success"),
+            MessageTypes.Error => ("mdi-alert-circle-outline", "error"),
+            _ => ("mdi-alert-outline", "warning")
+        };
     } 
 
     protected override void OnInitialized()

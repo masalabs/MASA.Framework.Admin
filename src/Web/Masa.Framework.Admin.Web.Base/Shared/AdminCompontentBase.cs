@@ -34,7 +34,7 @@ public abstract class AdminCompontentBase : ComponentBase
     {
         if (!res.Success)
         {
-            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
+            GlobalConfig.OpenMessage(res.Message, MessageTypes.Error);
             return;
         }
         successAction.Invoke();
@@ -44,7 +44,7 @@ public abstract class AdminCompontentBase : ComponentBase
     {
         if (!res.Success)
         {
-            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
+            GlobalConfig.OpenMessage(res.Message, MessageTypes.Error);
             return;
         }
         var result = successAction.Invoke();
@@ -55,7 +55,7 @@ public abstract class AdminCompontentBase : ComponentBase
     {
         if (!res.Success)
         {
-            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
+            GlobalConfig.OpenMessage(res.Message, MessageTypes.Error);
             return;
         }
         if (res.Data != null)
@@ -68,7 +68,7 @@ public abstract class AdminCompontentBase : ComponentBase
     {
         if (!res.Success)
         {
-            GlobalConfig.OpenMessage(res.Message, MessageType.Error);
+            GlobalConfig.OpenMessage(res.Message, MessageTypes.Error);
             return;
         }
         if (res.Data != null)
@@ -95,10 +95,10 @@ public abstract class ComponentPageBase
 
     public I18n I18n { get; }
 
-    public bool Lodding
+    public bool Loading
     {
-        get => GlobalConfig.Lodding;
-        set => GlobalConfig.Lodding = value;
+        get => GlobalConfig.Loading;
+        set => GlobalConfig.Loading = value;
     }
 
     public ComponentPageBase(GlobalConfig globalConfig, I18n i18n)
@@ -125,22 +125,22 @@ public abstract class ComponentPageBase
 
     public void OpenInformationMessage(string message)
     {
-        GlobalConfig.OpenMessage(message, MessageType.Information);
+        GlobalConfig.OpenMessage(message, MessageTypes.Information);
     }
 
     public void OpenSuccessMessage(string message)
     {
-        GlobalConfig.OpenMessage(message, MessageType.Success);
+        GlobalConfig.OpenMessage(message, MessageTypes.Success);
     }
 
     public void OpenWarningMessage(string message)
     {
-        GlobalConfig.OpenMessage(message, MessageType.Warning);
+        GlobalConfig.OpenMessage(message, MessageTypes.Warning);
     }
 
     public void OpenErrorMessage(string message)
     {
-        GlobalConfig.OpenMessage(message, MessageType.Error);
+        GlobalConfig.OpenMessage(message, MessageTypes.Error);
     }
 
     public static List<KeyValuePair<string, TEnum>> GetEnumMap<TEnum>() where TEnum : struct, Enum

@@ -49,8 +49,6 @@ global using Masa.Utils.Caching.Redis.Models;
 global using Masa.Utils.Data.EntityFrameworkCore;
 global using Masa.Utils.Development.Dapr.AspNetCore;
 global using Masa.Utils.Exceptions.Extensions;
-global using Masa.Framework.Admin.Service.Authentication.Application.Permissions.Commands;
-global using Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

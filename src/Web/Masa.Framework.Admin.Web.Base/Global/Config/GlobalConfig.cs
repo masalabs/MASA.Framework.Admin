@@ -9,7 +9,7 @@ public class GlobalConfig
     private bool _expandOnHover;
     private bool _navigationMini;
     private string? _favorite;
-    private bool _lodding;
+    private bool _loading;
     private CookieStorage? _cookieStorage;
 
     #endregion
@@ -90,15 +90,15 @@ public class GlobalConfig
         }
     }
 
-    public bool Lodding
+    public bool Loading
     {
-        get => _lodding;
+        get => _loading;
         set
         {
-            if (_lodding != value)
+            if (_loading != value)
             {
-                _lodding = value;
-                OnLoddingChanged?.Invoke(_lodding);
+                _loading = value;
+                OnLoadingChanged?.Invoke(_loading);
             }
         }
     }
@@ -108,7 +108,7 @@ public class GlobalConfig
         OnConfirmChanged?.Invoke(title, message, confirmFunc);
     }
 
-    public void OpenMessage(string message, MessageType messageType, int timeOut = 2)
+    public void OpenMessage(string message, MessageTypes messageType, int timeOut = 2)
     {
         OnMessageChanged?.Invoke(message, messageType, timeOut);
     }
@@ -125,11 +125,11 @@ public class GlobalConfig
     #region event
 
     public delegate void GlobalConfigChanged();
-    public delegate void LoddingChanged(bool lodding);
-    public delegate void MessageChanged(string message, MessageType messageType, int timeOut);
+    public delegate void LoadingChanged(bool loading);
+    public delegate void MessageChanged(string message, MessageTypes messageType, int timeOut);
     public delegate void ConfirmChanged(string title, string message, EventCallback<bool> confirmFunc);
 
-    public event LoddingChanged? OnLoddingChanged;
+    public event LoadingChanged? OnLoadingChanged;
     public event ConfirmChanged? OnConfirmChanged;
     public event MessageChanged? OnMessageChanged;
 

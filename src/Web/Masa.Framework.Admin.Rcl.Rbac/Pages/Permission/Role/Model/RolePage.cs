@@ -84,7 +84,7 @@ public class RolePage : ComponentPageBase
 
     public async Task QueryPageDatasAsync()
     {
-        Lodding = true;
+        Loading = true;
         var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, StateEnum is null ? -1 : Convert.ToInt32(StateEnum), Search);
         if (result.Success)
         {
@@ -93,7 +93,7 @@ public class RolePage : ComponentPageBase
             TotalCount = pageData.Count;
             Datas = pageData.Items.ToList();
         }        
-        Lodding = false;
+        Loading = false;
     }
 
     public void OpenObjectForm()
@@ -104,22 +104,22 @@ public class RolePage : ComponentPageBase
 
     public async Task<bool> AddAsync()
     {
-        Lodding = true;
+        Loading = true;
         var request = new AddRoleRequest(CurrentData.Name, CurrentData.Describe, CurrentData.Number);
         var result = await AuthenticationCaller.AddRoleAsync(request);
         await CheckApiResult(result, I18n.T("Added Role successfully"), I18n.T(result.Message));
-        Lodding = false;
+        Loading = false;
 
         return result.Success;
     }
 
     public async Task<bool> UpdateAsync()
     {
-        Lodding = true;
+        Loading = true;
         var request = new EditRoleRequest(CurrentData.Id, CurrentData.Name, CurrentData.Describe);
         var result = await AuthenticationCaller.EditRoleAsync(request);
         await CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
-        Lodding = false;
+        Loading = false;
 
         return result.Success;
     }
@@ -134,13 +134,13 @@ public class RolePage : ComponentPageBase
     {
         if(confirm)
         {
-            Lodding = true;
+            Loading = true;
             var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
             {
                 RoleId = CurrentData.Id,
             });           
             await CheckApiResult(result, I18n.T("Delete role successfully"), result.Message);
-            Lodding = false;
+            Loading = false;
         }
     }
 

@@ -35,8 +35,8 @@ var app = builder.Services
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
                 .UseUoW<AuthenticationDbContext>(dbOptions =>
                 {
-                    dbOptions.UseSqlServer(builder.GetMasaConfiguration().Local["ConnectionStrings:DefaultConnection"]);
-                    dbOptions.UseSoftDelete(builder.Services);
+                    dbOptions.UseSqlServer(builder.Configuration["Local:ConnectionStrings:DefaultConnection"]);
+                    dbOptions.UseSoftDelete();
                 })
                 .UseDaprEventBus<IntegrationEventLogService>()
                 .UseEventLog<AuthenticationDbContext>()

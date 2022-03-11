@@ -8,6 +8,10 @@ builder.Services.AddDaprStarter();
 
 #endif
 
+builder.Services
+    .AddMasaRedisCache(options => { })
+    .AddMasaMemoryCache();
+
 var app = builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
@@ -19,7 +23,6 @@ var app = builder.Services
             Description = "The Authentications Service HTTP API"
         });
     })
-    .AddMasaMemoryCache(options => options.UseRedisCache())
     .AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
@@ -29,7 +32,7 @@ var app = builder.Services
         options =>
         {
             options
-                .UseEventBus()
+                .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
                 .UseUoW<AuthenticationDbContext>(dbOptions =>
                 {
                     dbOptions.UseSqlServer(builder.GetMasaConfiguration().Local["ConnectionStrings:DefaultConnection"]);
@@ -37,8 +40,7 @@ var app = builder.Services
                 })
                 .UseDaprEventBus<IntegrationEventLogService>()
                 .UseEventLog<AuthenticationDbContext>()
-                .UseRepository<AuthenticationDbContext>()
-                .UseMiddleware(typeof(ValidatorMiddleware<>));
+                .UseRepository<AuthenticationDbContext>();
         }
     )
     .AddServices(builder);

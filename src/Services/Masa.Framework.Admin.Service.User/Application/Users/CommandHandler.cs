@@ -6,14 +6,12 @@ public class CommandHandler
 {
     readonly IUserRepository _userRepository;
     readonly LoginService _loginService;
-    readonly IOptions<AppConfigOption> _options;
     readonly DbContext _dbContext;
 
-    public CommandHandler(IUserRepository userRepository, UserDbContext dbContext, IMemoryCache memoryCache, IOptions<AppConfigOption> options)
+    public CommandHandler(IUserRepository userRepository, UserDbContext dbContext, IMemoryCache memoryCache)
     {
         _userRepository = userRepository;
         _loginService = new LoginService(memoryCache);
-        _options = options;
         _dbContext = dbContext;
     }
 

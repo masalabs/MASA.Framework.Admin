@@ -7,7 +7,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.1.1" />
+    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
   </ItemGroup>

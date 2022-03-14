@@ -1,7 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
-var configOption = builder.Configuration.GetSection("AppConfig").Get<AppConfigOption>();
-builder.AddMasaConfiguration(null, assemblies: typeof(AppConfigOption).Assembly);
+builder.AddMasaConfiguration();
 
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddSignalR().AddHubOptions<LoginHub>(options =>
@@ -103,7 +102,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<UserDbContext>(dbOptions =>
             {
-                dbOptions.UseSqlServer(configOption.DbConn);
+                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<UserDbContext>()

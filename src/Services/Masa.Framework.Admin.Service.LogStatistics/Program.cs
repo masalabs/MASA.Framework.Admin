@@ -1,10 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
-var configOption = builder.Configuration.GetSection("AppConfig").Get<AppConfigOption>();
-
-builder.AddMasaConfiguration(
-    null,
-    assemblies: typeof(AppConfigOption).Assembly);
+builder.AddMasaConfiguration();
 
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -31,7 +27,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<LogStatisticsDbContext>(dbOptions =>
             {
-                dbOptions.UseSqlServer(configOption.DbConn);
+                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<LogStatisticsDbContext>()

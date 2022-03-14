@@ -16,7 +16,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
 
     public int Sort { get; private set; }
 
-    public bool Enable { get; private set; }
+    public bool Enable { get; private set; } = true;
 
     public bool OnlyJump { get; private set; }
 
@@ -29,7 +29,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         string? describe,
         Guid? parentId,
         int sort,
-        bool disabled,
+        bool enable,
         bool onlyJump)
     {
         Creator = creator;
@@ -38,7 +38,7 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         Name = name;
         Url = url ?? string.Empty;
         Sort = sort;
-        Enable = !disabled;
+        Enable = enable;
         Icon = icon ?? string.Empty;
         Describe = describe;
         ParentId = parentId;
@@ -53,13 +53,13 @@ public class Menu : AuditAggregateRoot<Guid, Guid>
         string? describe,
         Guid? parentId,
         int sort,
-        bool disabled,
+        bool enable,
         bool onlyJump)
     {
         Name = name;
         Url = url ?? string.Empty;
         Sort = sort;
-        Enable = !disabled;
+        Enable = enable;
         Icon = icon ?? string.Empty;
         Describe = describe;
         ParentId = parentId;

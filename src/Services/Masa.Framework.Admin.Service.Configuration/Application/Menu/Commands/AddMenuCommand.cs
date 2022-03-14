@@ -16,7 +16,7 @@ public record AddMenuCommand : CommandBase
 
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     public bool OnlyJump { get; set; }
 }

@@ -9,7 +9,7 @@ builder.Services.AddDaprStarter();
 #endif
 
 builder.Services
-    .AddMasaRedisCache(options => { })
+    .AddMasaRedisCache(builder.Configuration.GetSection("Local:Appsettings:RedisConfig"))
     .AddMasaMemoryCache();
 
 var app = builder.Services
@@ -35,7 +35,7 @@ var app = builder.Services
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
                 .UseUoW<AuthenticationDbContext>(dbOptions =>
                 {
-                    dbOptions.UseSqlServer(builder.Configuration["Local:ConnectionStrings:DefaultConnection"]);
+                    dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
                     dbOptions.UseSoftDelete();
                 })
                 .UseDaprEventBus<IntegrationEventLogService>()

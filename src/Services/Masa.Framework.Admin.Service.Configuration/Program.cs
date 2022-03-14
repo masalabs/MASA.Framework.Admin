@@ -1,13 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 
-var configOption = builder.Configuration.GetSection("AppConfig").Get<AppConfigOption>();
-builder.AddMasaConfiguration(
-    null,
-    assemblies: typeof(AppConfigOption).Assembly);
+builder.AddMasaConfiguration();
 
-if (configOption.EnableDapr)
-    builder.Services.AddDaprStarter();
+#if DEBUG
+
+builder.Services.AddDaprStarter();
+
+#endif
 
 var app = builder.Services.AddFluentValidation(options =>
     {
@@ -29,7 +29,7 @@ var app = builder.Services.AddFluentValidation(options =>
         options.UseEventBus()
             .UseUoW<ConfigurationDbContext>(dbOptions =>
             {
-                dbOptions.UseSqlServer(configOption.DbConn);
+                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
             })
             .UseDaprEventBus<IntegrationEventLogService>()
             .UseEventLog<ConfigurationDbContext>()

@@ -26,7 +26,6 @@ global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Extension
 global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Jobs;
 global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Middlewares;
 global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Models;
-global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Options;
 global using Masa.Framework.Admin.Service.LogStatistics.Services;
 global using Masa.Framework.Sdks.Authentication.Internal.Enum;
 global using Masa.Framework.Sdks.Authentication.Response.LogStatistics;

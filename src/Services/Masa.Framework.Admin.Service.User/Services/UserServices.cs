@@ -31,7 +31,7 @@ public class UserServices : ServiceBase
         [FromQuery] int pageIndex = 1,
         [FromQuery] int pageSize = 20,
         [FromQuery] string account = "",
-        [FromQuery] int state = -1)
+        [FromQuery] bool enabled = true)
     {
         using var activity = activitySource.StartActivity("GetItemsAsync", ActivityKind.Internal);
 

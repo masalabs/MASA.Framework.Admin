@@ -19,13 +19,13 @@ public class AuthenticationCaller : CallerBase
     #region Role
 
     public async Task<ApiResultResponse<PaginatedItemResponse<RoleItemResponse>>?> GetRoleItemsAsync(int pageIndex, int pageSize,
-        int state = -1, string? name = null)
+        bool enabled, string? name = null)
     {
         var paramters = new Dictionary<string, string>
         {
             ["pageIndex"] = pageIndex.ToString(),
             ["pageSize"] = pageSize.ToString(),
-            ["state"] = state.ToString(),
+            ["enabled"] = enabled.ToString(),
             ["name"] = name ?? "",
         };
 

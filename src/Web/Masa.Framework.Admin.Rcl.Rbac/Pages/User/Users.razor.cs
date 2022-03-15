@@ -14,7 +14,7 @@ public partial class Users
         new() { Text = "账号", Value = nameof(UserItemResponse.Account), CellClass = "" },
         new() { Text = "姓名", Value = nameof(UserItemResponse.Name) },
         new() { Text = "邮箱", Value = nameof(UserItemResponse.Email) },
-        new() { Text = "状态", Value = nameof(UserItemResponse.State) },
+        new() { Text = "状态", Value = nameof(UserItemResponse.Enabled) },
         new() { Text = "性别", Value = nameof(UserItemResponse.Gender) },
         new() { Text = "最后登录时间", Value = nameof(UserItemResponse.LastLoginTime) },
         new() { Text = "操作", Value = "Action", Sortable = false }
@@ -22,8 +22,8 @@ public partial class Users
 
     private List<StateItem> _selectStateList => new List<StateItem>
     {
-        new StateItem((int)State.Enable,State.Enable.ToString()),
-        new StateItem((int)State.Disabled,State.Disabled.ToString()),
+        new StateItem(true,"Enable"),
+        new StateItem(false,"State"),
     };
 
     [Inject]
@@ -36,7 +36,7 @@ public partial class Users
 
     private async Task LoadData()
     {
-        var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "", _pageData.State);
+        var dataRes = await UserCaller.GetListAsync(_pageData.PageIndex, _pageData.PageSize, _pageData.Name ?? "", _pageData.Enabled);
         HandleCaller(dataRes, (data) =>
         {
             if (data != null)

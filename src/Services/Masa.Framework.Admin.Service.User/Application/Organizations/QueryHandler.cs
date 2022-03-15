@@ -20,7 +20,7 @@ public class QueryHandler
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            State = Convert.ToInt32(user.Enable),
+            Enabled = user.Enable,
             Cover = user.Cover,
             Gender = user.Gender,
             Select = user.DepartmentUsers.Any(d => d.Department.Id == departmentUserQuery.DepartmentId),

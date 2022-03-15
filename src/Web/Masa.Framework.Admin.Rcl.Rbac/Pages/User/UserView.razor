@@ -30,7 +30,7 @@
                 </div>
                 <div class="mb-3 d-flex justify-space-between">
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-check</MIcon>State</span>
-                    <span class="text-caption">@_userDetail.State</span>
+                    <span class="text-caption">@_userDetail.Enabled</span>
                 </div>
                 <div class="mb-3 d-flex justify-space-between">
                     <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>LastLoginTime</span>
@@ -68,7 +68,7 @@
                             <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("Email")" Title="@_userDetail.Email" />
                         </MCol>
                         <MCol Md="3">
-                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("State")" Title="@(((State)_userDetail.State).ToString())" />
+                            <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("State")" Title="@_userDetail.Enabled.ToString()" />
                         </MCol>
                         <MCol Md="3">
                             <Masa.Framework.Admin.Rcl.Rbac.Pages.User.Components.DataDisplayComponent Subtitle="@T("LastLoginTime")" Title="@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
@@ -205,7 +205,7 @@
                                 @context.Item.Name
                             </MListItemTitle>
                             <MListItemSubtitle>
-                                @context.Item.Describetion
+                                @context.Item.Descriptiontion
                             </MListItemSubtitle>
                         </MListItemContent>
                     </ItemContent>
@@ -244,7 +244,7 @@
                                 @context.Item.Name
                             </MListItemTitle>
                             <MListItemSubtitle>
-                                @context.Item.Describetion
+                                @context.Item.Descriptiontion
                             </MListItemSubtitle>
                         </MListItemContent>
                     </ItemContent>

@@ -12,7 +12,7 @@ public class RoleDomainService : DomainService
             new AddRoleDomainEvent(
                 role.Id,
                 role.Name,
-                role.Describe,
+                role.Description,
                 role.Number,
                 role.Enable,
                 role.RoleItems.Select(role => role.RoleId).ToList()));

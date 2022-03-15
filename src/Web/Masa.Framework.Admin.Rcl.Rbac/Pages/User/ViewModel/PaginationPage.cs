@@ -6,7 +6,7 @@ namespace Masa.Framework.Admin.Rcl.Rbac.Pages.User.ViewModel
 
         public string? Name { get; set; }
 
-        public int State { get; set; }
+        public bool Enabled { get; set; }
 
         public int PageIndex { get; set; } = 1;
 

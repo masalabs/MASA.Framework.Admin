@@ -47,15 +47,15 @@
                         <MTextField @bind-Value="Page.CurrentData.Sort" Class="mb-6" Label="@T("Sort")" HideDetails="@("auto")" Outlined />
                     </MCol>
                     <MCol>
-                        <MRadioGroup @bind-Value="Page.CurrentData.Disabled" Row Class="mb-6">
-                            <MRadio Label="@T("Enable")" Value="false" />
-                            <MRadio Label="@T("Disabled")" Value="true" />
+                        <MRadioGroup @bind-Value="Page.CurrentData.Enabled" Row Class="mb-6">
+                            <MRadio Label="@T("Enable")" Value="true" />
+                            <MRadio Label="@T("Disabled")" Value="false" />
                         </MRadioGroup>
                     </MCol>
                 </MRow>
                 <MRow>
                      <MCol>                       
-                        <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                        <MTextarea @bind-Value="Page.CurrentData.Description" Class="mb-6" Label="@T("Description")" HideDetails="@("auto")" Outlined />
                     </MCol>
                     <MCol>
                         <MCheckbox Label="@T("OnlyJump（The menu list will not show this menu）")" @bind-Value="Page.CurrentData.OnlyJump" />

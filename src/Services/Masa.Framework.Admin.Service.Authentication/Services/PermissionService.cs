@@ -18,9 +18,9 @@ namespace Masa.Framework.Admin.Service.Authentication.Services
             [FromQuery] int pageIndex = QueryConfig.DEFAULT_PAGE_INDEX,
             [FromQuery] int pageSize = QueryConfig.DEFAULT_PAGE_SIZE,
             [FromQuery] string name = "",
-            [FromQuery] int state = -1)
+            [FromQuery] bool enabled = true)
         {
-            var query = new PermissionListQuery(pageIndex, pageSize, name, state);
+            var query = new PermissionListQuery(pageIndex, pageSize, name, enabled);
             await eventBus.PublishAsync(query);
             return query.Result;
         }

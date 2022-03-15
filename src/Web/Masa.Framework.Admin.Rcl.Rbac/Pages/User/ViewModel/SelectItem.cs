@@ -6,6 +6,6 @@ namespace Masa.Framework.Admin.Rcl.Rbac.Pages.User.ViewModel
 
         public string Name { get; set; } = default!;
 
-        public string Describetion { get; set; } = "";
+        public string Descriptiontion { get; set; } = "";
     }
 }

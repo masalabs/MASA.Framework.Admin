@@ -40,7 +40,7 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    describe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     icon = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     parent_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     url = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),

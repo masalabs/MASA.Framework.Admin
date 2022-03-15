@@ -15,10 +15,11 @@ public class PermissionsQueryHandler
     public async Task GetListAsync(PermissionListQuery query)
     {
         Expression<Func<Permission, bool>> condition = permission => true;
-        if (query.State == 1)
+        if (query.Enabled)
             condition = condition.And(permission => permission.Enable == true);
-        else if (query.State == 0)
+        else
             condition = condition.And(permission => permission.Enable == false);
+
         if (!string.IsNullOrEmpty(query.Name))
             condition = condition.And(permission => permission.Name.Contains(query.Name));
 

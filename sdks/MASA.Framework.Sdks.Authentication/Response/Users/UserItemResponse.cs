@@ -14,7 +14,7 @@ public class UserItemResponse
 
     public string? Email { get; set; }
 
-    public int State { get; set; }
+    public bool Enabled { get; set; }
 
     public DateTimeOffset LastLoginTime { get; set; }
 

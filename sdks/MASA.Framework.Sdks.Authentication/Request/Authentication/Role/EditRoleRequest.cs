@@ -6,12 +6,12 @@ public class EditRoleRequest
 
     public string Name { get; set; }
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
-    public EditRoleRequest(Guid roleId, string name, string? describe)
+    public EditRoleRequest(Guid roleId, string name, string? description)
     {
         RoleId = roleId;
         Name = name;
-        Describe = describe;
+        Description = description;
     }
 }

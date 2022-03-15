@@ -22,14 +22,14 @@ public class UserCaller : CallerBase
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
-        string account = "", int state = -1)
+        string account = "", bool enabled = true)
     {
         var queryArguments = new Dictionary<string, string?>()
         {
             { "pageIndex", pageIndex.ToString() },
             { "pageSize", pageSize.ToString() },
             { "account", account },
-            { "state", state.ToString() }
+            { "enabled", enabled.ToString() }
         };
 
         return await ResultAsync(async () =>

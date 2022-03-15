@@ -90,9 +90,9 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("creator");
 
-                    b.Property<string>("Describe")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("describe");
+                        .HasColumnName("description");
 
                     b.Property<bool>("Enable")
                         .HasColumnType("bit")

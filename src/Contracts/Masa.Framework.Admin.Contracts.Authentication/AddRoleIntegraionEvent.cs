@@ -3,7 +3,7 @@
 public record AddRoleIntegraionEvent(
     Guid RoleId,
     string Name,
-    string Describe,
+    string Description,
     int Number,
     bool Enable,
     List<Guid> ChildrenRoleIds) : IntegrationEvent

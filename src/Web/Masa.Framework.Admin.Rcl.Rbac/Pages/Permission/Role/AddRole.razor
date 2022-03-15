@@ -9,7 +9,7 @@
     <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
         <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="Page.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
-        <MTextarea @bind-Value="Page.CurrentData.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+        <MTextarea @bind-Value="Page.CurrentData.Description" Class="mb-6" Label="@T("Description")" HideDetails="@("auto")" Outlined />
         <div style="bottom:48px;right:24px;position:absolute">
             <MButton MinWidth=80 Height=40 Outlined Class="text-btn rounded-pill" OnClick="async() => await UpdateVisible(false)">@T("Cancel")</MButton>
             <MButton MinWidth=80 Height=40 Color="primary" Class="ml-6 rounded-pill" OnClick="async ()=> await AddOrUpdateAsync(context)">@T("Confirm")</MButton>

@@ -4,16 +4,16 @@ public class AddRoleRequest
 {
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public int Number { get; set; } = -1;
 
     public List<Guid> ChildrenRoleIds { get; set; }
 
-    public AddRoleRequest(string name, string? describe, int number, List<Guid>? childrenRoleIds = null)
+    public AddRoleRequest(string name, string? description, int number, List<Guid>? childrenRoleIds = null)
     {
         Name = name;
-        Describe = describe;
+        Description = description;
         Number = number;
         ChildrenRoleIds = childrenRoleIds ?? new();
     }

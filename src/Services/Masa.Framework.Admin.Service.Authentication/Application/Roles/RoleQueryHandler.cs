@@ -22,9 +22,9 @@ public class RoleQueryHandler
         if (!string.IsNullOrEmpty(query.Name))
             condition = condition.And(role => role.Name.Contains(query.Name));
 
-        if (query.State == 1)
+        if (query.Enabled)
             condition = condition.And(role => role.Enable == true);
-        else if (query.State == 0)
+        else
             condition = condition.And(role => role.Enable == false);
 
         var roles = await _repository.GetPaginatedListAsync(
@@ -46,7 +46,7 @@ public class RoleQueryHandler
                 {
                     Id = role.Id,
                     Name = role.Name,
-                    Describe = role.Describe,
+                    Description = role.Description,
                     Number = role.Number,
                     Enable = role.Enable,
                     CreationTime = role.CreationTime
@@ -61,7 +61,7 @@ public class RoleQueryHandler
         query.Result = new RoleInfo()
         {
             Name = role.Name,
-            Describe = role.Describe,
+            Description = role.Description,
             Number = role.Number,
             Enable = role.Enable,
             ChildrenRoleIds = role.RoleItems.Select(roleItem => roleItem.RoleId).ToList()
@@ -106,7 +106,7 @@ public class RoleQueryHandler
         {
             Id = role.Id,
             Name = role.Name,
-            Describe = role.Describe,
+            Description = role.Description,
             Number = role.Number,
             Enable = role.Enable,
             CreationTime = role.CreationTime,
@@ -323,7 +323,7 @@ public class RoleQueryHandler
     //     {
     //         Id = role.Id,
     //         Name = role.Name,
-    //         Describe = role.Describe,
+    //         Description = role.Description,
     //         Number = role.Number,
     //         Enable = role.Enable,
     //         CreationTime = role.CreationTime,
@@ -373,7 +373,7 @@ public class RoleQueryHandler
         {
             Id = role.Id,
             Name = role.Name,
-            Describe = role.Describe,
+            Description = role.Description,
         }).ToList();
     }
 
@@ -395,7 +395,7 @@ public class RoleQueryHandler
             {
                 Id = role.Id,
                 Name = role.Name,
-                Describe = role.Describe,
+                Description = role.Description,
                 Number = role.Number,
                 Enable = role.Enable,
             }).ToList();

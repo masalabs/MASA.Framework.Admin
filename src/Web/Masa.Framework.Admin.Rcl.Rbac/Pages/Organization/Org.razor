@@ -100,17 +100,17 @@
                             }
                             <span>@genderText</span>
                             break;
-                        case nameof(UserItemResponse.State):
-                            @if (context.Item.State == (int)State.Enable)
+                        case nameof(UserItemResponse.Enabled):
+                            @if (context.Item.Enabled)
                             {
                                 <MChip Color="green" TextColor="white" Ripple="false">
-                                    <span>@State.Enable.ToString()</span>
+                                    <span>Enabled</span>
                                 </MChip>
                             }
                             else
                             {
                                 <MChip Color="gray" Ripple="false">
-                                    <span>@State.Disabled.ToString()</span>
+                                    <span>Disabled</span>
                                 </MChip>
                             }
                             break;

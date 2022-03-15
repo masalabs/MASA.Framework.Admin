@@ -4,7 +4,7 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 {
     public string Name { get; private set; } = default!;
 
-    public string Describe { get; set; } = default!;
+    public string Description { get; set; } = default!;
 
     public int Number { get; private set; }
 
@@ -23,13 +23,13 @@ public class Role : AuditAggregateRoot<Guid, Guid>
 
     }
 
-    public Role(Guid @operator, string name, int number, string? describe)
+    public Role(Guid @operator, string name, int number, string? description)
     {
         Creator = @operator;
         Modifier = @operator;
         Name = name;
         Number = number;
-        Describe = describe ?? "";
+        Description = description ?? "";
         Enable = true;
     }
 
@@ -40,12 +40,12 @@ public class Role : AuditAggregateRoot<Guid, Guid>
             this.roleItems.AddRange(roleIdList.Select(id => new RoleItem(id)));
     }
 
-    public void Update(Guid @operator, string name, string? describe)
+    public void Update(Guid @operator, string name, string? description)
     {
         Modifier = @operator;
         ModificationTime = DateTime.UtcNow;
         Name = name;
-        Describe = describe ?? string.Empty;
+        Description = description ?? string.Empty;
     }
 
     public void AddRolePermission(Guid @operator, Guid permissionsId)

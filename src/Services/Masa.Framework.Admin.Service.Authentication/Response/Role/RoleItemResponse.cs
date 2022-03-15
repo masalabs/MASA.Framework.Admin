@@ -6,7 +6,7 @@ public class RoleItemResponse
 
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Current role limit

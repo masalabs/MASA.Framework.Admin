@@ -35,7 +35,7 @@
   "Menu.Name": "菜单名称",
   "Icon": "图标",
   "Sort": "排序",
-  "Describe": "描述",
+  "Description": "描述",
   "Disabled": "禁用",
   "Enable": "启用",
   "Confirm": "确认",

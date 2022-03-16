@@ -7,8 +7,6 @@ namespace Masa.Framework.Sdks.Authentication.Callers
     {
         protected override string BaseAddress { get; set; }
 
-        public override string Name { get; set; } = nameof(LogStatisticsCaller);
-
         public LogStatisticsCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
         {
             BaseAddress = configuration["ApiGateways:LogStatisticsCaller"];

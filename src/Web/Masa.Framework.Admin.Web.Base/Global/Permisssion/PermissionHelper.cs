@@ -44,8 +44,8 @@ public class PermissionHelper
                 Id = Guid.NewGuid(),
                 Code = "0001",
                 Url = "dashboard/index",
-                Icon = "mdi-circle",
-                Name = "Index",
+                Icon = "mdi-trending-up",
+                Name = "Dashboard",
                 Sort = 0,
                 ParentId = null,
             };

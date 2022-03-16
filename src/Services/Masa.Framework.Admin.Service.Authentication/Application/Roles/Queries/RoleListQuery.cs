@@ -1,8 +1,8 @@
-﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Roles.Queries;
 
-public record RoleListQuery(int PageIndex, int PageSize, string Name, int State) : Query<PaginatedItemResponse<RoleItemResponse>>
+public record RoleListQuery(int PageIndex, int PageSize, string Name, bool Enabled) : Query<PaginatedItemResponse<RoleItemResponse>>
 {
-    public int State { get; set; } = State;
+    public bool Enabled { get; set; } = Enabled;
 
     public string Name { get; set; } = Name;
 

@@ -11,7 +11,7 @@ public class RoleEntityTypeConfiguration
         builder.Property(role => role.Id).HasColumnName("id").IsRequired();
 
         builder.Property(role => role.Name).HasColumnName("name").HasMaxLength(10).IsRequired();
-        builder.Property(role => role.Describe).HasColumnName("describe").IsRequired();
+        builder.Property(role => role.Description).HasColumnName("description").IsRequired();
         builder.Property(role => role.Number).HasColumnName("number").IsRequired();
         builder.Property(role => role.Enable).HasColumnName("enable").IsRequired();
         builder.Property(role => role.IsDeleted).HasColumnName("is_deleted").IsRequired();

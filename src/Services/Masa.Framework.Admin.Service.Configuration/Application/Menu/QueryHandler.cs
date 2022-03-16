@@ -30,13 +30,13 @@ public class QueryHandler
                               Id = menu.Id,
                               Code = menu.Code,
                               Name = menu.Name,
-                              Describe = menu.Describe,
+                              Description = menu.Description,
                               Icon = menu.Icon,
                               Url = menu.Url,
                               ParentId = menu.ParentId,
                               ParentName = newMenu.Name,
                               Sort = menu.Sort,
-                              Disabled = !menu.Enable,
+                              Enabled = menu.Enabled,
                               OnlyJump = menu.OnlyJump,
                               CreationTime = menu.CreationTime
                           }).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToListAsync();
@@ -68,13 +68,13 @@ public class QueryHandler
                                   Id = menu.Id,
                                   Code = menu.Code,
                                   Name = menu.Name,
-                                  Describe = menu.Describe,
+                                  Description = menu.Description,
                                   Icon = menu.Icon,
                                   Url = menu.Url,
                                   ParentId = menu.ParentId,
                                   ParentName = newMenu.Name,
                                   Sort = menu.Sort,
-                                  Disabled = !menu.Enable,
+                                  Enabled = menu.Enabled,
                                   OnlyJump = menu.OnlyJump,
                                   CreationTime = menu.CreationTime
                               }).ToListAsync();
@@ -99,11 +99,11 @@ public class QueryHandler
             Id = menuInfo.Id,
             Code = menuInfo.Code,
             Name = menuInfo.Name,
-            Describe = menuInfo.Describe,
+            Description = menuInfo.Description,
             Icon = menuInfo.Icon,
             Url = menuInfo.Url,
             ParentId = menuInfo.ParentId,
-            Disabled = menuInfo.Enable,
+            Enabled = menuInfo.Enabled,
             Sort = menuInfo.Sort
         };
     }

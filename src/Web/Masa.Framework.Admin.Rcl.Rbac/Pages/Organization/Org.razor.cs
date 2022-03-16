@@ -13,7 +13,7 @@ namespace Masa.Framework.Admin.Rcl.Rbac.Pages.Organization
         {
             new() { Text = "姓名", Value = nameof(UserItemResponse.Name) },
             new() { Text = "邮箱", Value = nameof(UserItemResponse.Email) },
-            new() { Text = "状态", Value = nameof(UserItemResponse.State) },
+            new() { Text = "状态", Value = nameof(UserItemResponse.Enabled) },
             new() { Text = "性别", Value = nameof(UserItemResponse.Gender) },
             new() { Text = "操作", Value = "Action", Sortable = false }
         };

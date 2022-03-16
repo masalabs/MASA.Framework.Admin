@@ -10,7 +10,7 @@ public class MenuItemResponse
     [Required]
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 
@@ -21,7 +21,7 @@ public class MenuItemResponse
     [Range(1, int.MaxValue)]
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     public bool OnlyJump { get; set; }
 

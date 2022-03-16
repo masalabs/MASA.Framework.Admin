@@ -8,7 +8,7 @@ public class MenuItemResponse
 
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 
@@ -20,7 +20,7 @@ public class MenuItemResponse
 
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public bool OnlyJump { get; set; }
 

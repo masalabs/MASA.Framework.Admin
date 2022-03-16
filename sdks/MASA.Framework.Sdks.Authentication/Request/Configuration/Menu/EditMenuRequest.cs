@@ -6,7 +6,7 @@ public class EditMenuRequest
 
     public string Name { get; set; }
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 
@@ -16,20 +16,20 @@ public class EditMenuRequest
 
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public bool OnlyJump { get; set; }
 
-    public EditMenuRequest(Guid menuId, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled, bool onlyJump)
+    public EditMenuRequest(Guid menuId, string name, string? description, string? icon, Guid? parentId, string url, int sort, bool enabled, bool onlyJump)
     {
         MenuId = menuId;
         Name = name;
-        Describe = describe;
+        Description = description;
         Icon = icon;
         ParentId = parentId;
         Url = url;
         Sort = sort;
-        Disabled = disabled;
+        Enabled = enabled;
         OnlyJump = onlyJump;
     }
 }

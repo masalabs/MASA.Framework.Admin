@@ -4,7 +4,7 @@ public record AddRoleCommand : CommandBase
 {
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public int Number { get; set; } = -1;
 

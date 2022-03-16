@@ -4,9 +4,7 @@ public class UserGroupCaller : CallerBase
 {
     AuthenticationCaller _authenticationCaller;
 
-    protected override string BaseAddress { get; set; } = "";
-
-    public override string Name { get; set; } = nameof(UserGroupCaller);
+    protected override string BaseAddress { get; set; }
 
     public UserGroupCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {

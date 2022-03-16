@@ -4,7 +4,7 @@ public class RoleInfo
 {
     public string Name { get; set; } = default!;
 
-    public string Describe { get; set; } = default!;
+    public string Description { get; set; } = default!;
 
     public int Number { get; set; }
 

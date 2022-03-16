@@ -52,32 +52,18 @@ public class RolePage : ComponentPageBase
 
      public bool IsOpenRoleForm { get; set; }
 
-    public State? _stateEnum;
-    public State? StateEnum
-    {
-        get { return _stateEnum; }
-        set
-        {
-            _stateEnum = value;
-            QueryPageDatasAsync().ContinueWith(_ => Reload?.Invoke());
-        }
-    }
-
-    public List<KeyValuePair<string, State>> StateSelect { get; set; }
-
     public NavigationManager NavigationManager { get; set; }
 
     public RolePage(AuthenticationCaller authenticationCaller,NavigationManager navigationManager, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         NavigationManager = navigationManager;
-        StateSelect = GetEnumMap<State>();
         Headers = new()
         {
             new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
             new() { Text = i18n.T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
             new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
-            new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
+            new() { Text = i18n.T("Description"), Value = nameof(RoleItemResponse.Description), Sortable = false },
             new() { Text = i18n.T("Action"), Value = "Action", Sortable = false }
         };
     }
@@ -85,7 +71,7 @@ public class RolePage : ComponentPageBase
     public async Task QueryPageDatasAsync()
     {
         Loading = true;
-        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, StateEnum is null ? -1 : Convert.ToInt32(StateEnum), Search);
+        var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, true, Search);
         if (result.Success)
         {
             var pageData = result.Data!;
@@ -105,7 +91,7 @@ public class RolePage : ComponentPageBase
     public async Task<bool> AddAsync()
     {
         Loading = true;
-        var request = new AddRoleRequest(CurrentData.Name, CurrentData.Describe, CurrentData.Number);
+        var request = new AddRoleRequest(CurrentData.Name, CurrentData.Description, CurrentData.Number);
         var result = await AuthenticationCaller.AddRoleAsync(request);
         await CheckApiResult(result, I18n.T("Added Role successfully"), I18n.T(result.Message));
         Loading = false;
@@ -116,7 +102,7 @@ public class RolePage : ComponentPageBase
     public async Task<bool> UpdateAsync()
     {
         Loading = true;
-        var request = new EditRoleRequest(CurrentData.Id, CurrentData.Name, CurrentData.Describe);
+        var request = new EditRoleRequest(CurrentData.Id, CurrentData.Name, CurrentData.Description);
         var result = await AuthenticationCaller.EditRoleAsync(request);
         await CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
         Loading = false;

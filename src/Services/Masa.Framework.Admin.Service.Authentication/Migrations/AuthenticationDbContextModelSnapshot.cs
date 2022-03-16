@@ -210,10 +210,10 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("creator");
 
-                    b.Property<string>("Describe")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("describe");
+                        .HasColumnName("description");
 
                     b.Property<bool>("Enable")
                         .HasColumnType("bit")

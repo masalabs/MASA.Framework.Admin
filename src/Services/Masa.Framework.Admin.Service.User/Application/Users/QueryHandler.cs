@@ -33,7 +33,7 @@ public class QueryHandler
             LastLoginTime = user.LastLoginTime,
             LastUpdateTime = user.LastUpdateTime,
             CreationTime = user.CreationTime,
-            State = Convert.ToInt32(user.Enable)
+            Enabled = user.Enable
         };
     }
 
@@ -58,7 +58,7 @@ public class QueryHandler
                 Account = user.Account,
                 Name = user.Name,
                 Email = user.Email,
-                State = Convert.ToInt32(user.Enable),
+                Enabled = user.Enable,
                 Cover = user.Cover,
                 Gender = user.Gender,
                 LastLoginTime = user.LastLoginTime
@@ -75,7 +75,7 @@ public class QueryHandler
             Account = user.Account,
             Name = user.Name,
             Email = user.Email,
-            State = Convert.ToInt32(user.Enable),
+            Enabled = user.Enable,
             Cover = user.Cover,
             Gender = user.Gender,
             LastLoginTime = user.LastLoginTime
@@ -96,7 +96,7 @@ public class QueryHandler
                  Account = user.Account,
                  Name = user.Name,
                  Email = user.Email,
-                 State = Convert.ToInt32(user.Enable),
+                 Enabled = user.Enable,
                  Cover = user.Cover,
                  Gender = user.Gender,
                  LastLoginTime = user.LastLoginTime

@@ -51,8 +51,8 @@
             case nameof(RoleItemResponse.CreationTime):
                 <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
             break;
-            case nameof(RoleItemResponse.Describe):
-                 <span>@context.Item.Describe</span>
+            case nameof(RoleItemResponse.Description):
+                 <span>@context.Item.Description</span>
                 break;
             case "Action":
                 <MButton Color="primary" OnClick="()=> Page.NavigateToRoleDetails(context.Item)">Detail</MButton>

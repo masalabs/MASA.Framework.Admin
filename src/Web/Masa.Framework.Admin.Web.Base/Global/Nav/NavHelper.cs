@@ -20,7 +20,7 @@ public class NavHelper
     public async Task InitializationAsync()
     {
         await _permissionHelper.InitializationMenusAsync();
-        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.OnlyJump, m.Disabled, m.ParentId, null, null)).OrderBy(m => m.Sort).ToList();
+        var menuNavs = _permissionHelper.Menus.Select(m => new NavModel(m.Id, m.Code, m.Url, m.Icon, m.Name, m.Sort, m.OnlyJump, !m.Enabled, m.ParentId, null, null)).OrderBy(m => m.Sort).ToList();
 
         Navs = GetMenuNavs(menuNavs);
 
@@ -48,6 +48,7 @@ public class NavHelper
 
         void BindChild(NavModel nav)
         {
+            if(nav.InheritIcon is null) nav.InheritIcon = nav.Icon;
             var childs = menuNavs.Where(n => n.ParentId == nav.Id).ToArray();
             if (childs.Count() > 0)
             {

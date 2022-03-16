@@ -40,7 +40,7 @@
             </MRow>
             <MRow>
                 <MCol>
-                    <MTextarea @bind-Value="Page.Detail.Describe" Class="mb-6" Label="@T("Describe")" HideDetails="@("auto")" Outlined />
+                    <MTextarea @bind-Value="Page.Detail.Description" Class="mb-6" Label="@T("Description")" HideDetails="@("auto")" Outlined />
                 </MCol>
             </MRow>
         </MCardText>
@@ -76,8 +76,8 @@
                     case nameof(RoleItemResponse.CreationTime):
                         <span>@T(context.Item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                         break;
-                    case nameof(RoleItemResponse.Describe):
-                        <span>@context.Item.Describe</span>
+                    case nameof(RoleItemResponse.Description):
+                        <span>@context.Item.Description</span>
                         break;
                     default:
                         @context.Value
@@ -120,17 +120,17 @@
                     case (nameof(UserItemResponse.LastLoginTime)):
                         @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
                         break;
-                    case nameof(UserItemResponse.State):
-                        @if (context.Item.State == (int)State.Enable)
+                    case nameof(UserItemResponse.Enabled):
+                        @if (context.Item.Enabled)
                         {
                             <MChip Color="green" TextColor="white" Ripple="false">
-                                <span>@T(State.Enable.ToString())</span>
+                                <span>@T("Enable")</span>
                             </MChip>
                         }
                         else
                         {
                             <MChip Color="gray" Ripple="false">
-                                <span>@T(State.Disabled.ToString())</span>
+                                <span>@T("Disabled")</span>
                             </MChip>
                         }
                         break;

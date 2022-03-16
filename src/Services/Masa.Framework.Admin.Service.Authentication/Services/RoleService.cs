@@ -26,9 +26,9 @@ public class RoleService : ServiceBase
         [FromQuery] int pageIndex = QueryConfig.DEFAULT_PAGE_INDEX,
         [FromQuery] int pageSize = QueryConfig.DEFAULT_PAGE_SIZE,
         [FromQuery] string name = "",
-        [FromQuery] int state = -1)
+        [FromQuery] bool enabled = true)
     {
-        var query = new RoleListQuery(pageIndex, pageSize, name, state);
+        var query = new RoleListQuery(pageIndex, pageSize, name, enabled);
         await eventBus.PublishAsync(query);
         return query.Result;
     }

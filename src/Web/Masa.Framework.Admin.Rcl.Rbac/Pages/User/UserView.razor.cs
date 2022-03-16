@@ -25,7 +25,7 @@ public partial class UserView
     };
     private List<DataTableHeader<RoleItemResponse>> _roleItemHeaders = new List<DataTableHeader<RoleItemResponse>> {
         new (){ Text= "角色名称", Sortable= false, Value= nameof(RoleItemResponse.Name)},
-        new (){ Text= "角色描述", Sortable= false, Value= nameof(RoleItemResponse.Describe)},
+        new (){ Text= "角色描述", Sortable= false, Value= nameof(RoleItemResponse.Description)},
         new (){ Text= "操作", Sortable= false, Value= nameof(RoleItemResponse.Id)}
     };
 
@@ -78,7 +78,7 @@ public partial class UserView
             _roleSelectItems = data.Select(role => new SelectItem
             {
                 Name = role.Name,
-                Describetion = role.Describe ?? "",
+                Descriptiontion = role.Description ?? "",
                 Id = role.Id
             }).ToList();
         });
@@ -92,7 +92,7 @@ public partial class UserView
             _groupSelectItems = data.Select(userGroup => new SelectItem
             {
                 Name = userGroup.Name,
-                Describetion = userGroup.Describtion,
+                Descriptiontion = userGroup.Describtion,
                 Id = userGroup.Id
             }).ToList();
         });

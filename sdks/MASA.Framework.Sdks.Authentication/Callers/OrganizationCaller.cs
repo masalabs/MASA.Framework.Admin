@@ -5,8 +5,6 @@ public class OrganizationCaller : CallerBase
 
     protected override string BaseAddress { get; set; }
 
-    public override string Name { get; set; } = nameof(OrganizationCaller);
-
     public OrganizationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         BaseAddress = configuration["ApiGateways:UserCaller"];

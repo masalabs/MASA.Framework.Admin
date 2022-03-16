@@ -1,8 +1,8 @@
-﻿namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions.Queries;
+namespace Masa.Framework.Admin.Service.Authentication.Application.Permissions.Queries;
 
-public record PermissionListQuery(int PageIndex, int PageSize, string Name, int State) : Query<PaginatedItemResponse<PermissionItemResponse>>
+public record PermissionListQuery(int PageIndex, int PageSize, string Name, bool Enabled) : Query<PaginatedItemResponse<PermissionItemResponse>>
 {
-    public int State { get; set; } = State;
+    public bool Enabled { get; set; } = Enabled;
 
     public string Name { get; set; } = Name;
 

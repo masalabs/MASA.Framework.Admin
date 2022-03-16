@@ -13,6 +13,7 @@ namespace Masa.Framework.Admin.Web.Shared
                     if (NavHelper.BottomLevelNavs.Count <= 3) _favoriteMenus = NavHelper.BottomLevelNavs.Select(n => n.Code).ToList();
                     else _favoriteMenus = NavHelper.BottomLevelNavs.GetRange(0, 3).Select(n => n.Code).ToList();
                 }
+
                 return _favoriteMenus;
             }
             set { _favoriteMenus = value; }

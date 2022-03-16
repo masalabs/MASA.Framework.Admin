@@ -6,7 +6,7 @@ public record EditMenuCommand : CommandBase
 
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 

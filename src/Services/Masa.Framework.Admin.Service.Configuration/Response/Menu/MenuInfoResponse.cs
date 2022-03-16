@@ -8,7 +8,7 @@ public class MenuInfoResponse
 
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 
@@ -16,7 +16,7 @@ public class MenuInfoResponse
 
     public Guid? ParentId { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public int Sort { get; set; }
 }

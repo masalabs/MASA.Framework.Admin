@@ -46,7 +46,7 @@ public class RoleDetailsPage : ComponentPageBase
             new() { Text = i18n.T("Role.Name"), Value = nameof(RoleItemResponse.Name) },
             new() { Text = i18n.T("Role.Number"), Value = nameof(RoleItemResponse.Number) },
             new() { Text = i18n.T("CreationTime"), Value = nameof(RoleItemResponse.CreationTime), Sortable = false },
-            new() { Text = i18n.T("Describe"), Value = nameof(RoleItemResponse.Describe), Sortable = false },
+            new() { Text = i18n.T("Description"), Value = nameof(RoleItemResponse.Description), Sortable = false },
         };
 
         UserHeaders = new()
@@ -54,7 +54,7 @@ public class RoleDetailsPage : ComponentPageBase
             new() { Text = i18n.T("Account"), Value = nameof(UserItemResponse.Account) },
             new() { Text = i18n.T("Name"), Value = nameof(UserItemResponse.Name) },
             new() { Text = i18n.T("Email"), Value = nameof(UserItemResponse.Email) },
-            new() { Text = i18n.T("State"), Value = nameof(UserItemResponse.State) },
+            new() { Text = i18n.T("State"), Value = nameof(UserItemResponse.Enabled) },
             new() { Text = i18n.T("LastLoginTime"), Value = nameof(UserItemResponse.LastLoginTime) },
         };
     }
@@ -131,7 +131,7 @@ public class RoleDetailsPage : ComponentPageBase
         if (context.Validate())
         {
             Loading = true;
-            var request = new EditRoleRequest(Detail.Id, Detail.Name, Detail.Describe);
+            var request = new EditRoleRequest(Detail.Id, Detail.Name, Detail.Description);
             var result = await AuthenticationCaller.EditRoleAsync(request);
             CheckApiResult(result, I18n.T("Edit Role successfully"), result.Message);
             Loading = false;

@@ -6,12 +6,12 @@ public record EditRoleCommand : CommandBase
 
     public string Name { get; set; } = default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
-    public EditRoleCommand(Guid roleId, string name, string? describe)
+    public EditRoleCommand(Guid roleId, string name, string? description)
     {
         RoleId = roleId;
         Name = name;
-        Describe = describe;
+        Description = description;
     }
 }

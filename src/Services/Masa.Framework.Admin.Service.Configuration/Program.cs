@@ -5,7 +5,7 @@ builder.AddMasaConfiguration();
 
 #if DEBUG
 
-builder.Services.AddDaprStarter();
+//builder.Services.AddDaprStarter();
 
 #endif
 

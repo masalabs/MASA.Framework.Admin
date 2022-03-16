@@ -21,7 +21,7 @@
                 <span class="text-btn">@T("Entries")</span>
             </MCol>
             <MCol Md=6 Sm=12 Class="d-flex block-center">
-                <MSelect @bind-Value="_pageData.State"
+                <MSelect @bind-Value="_pageData.Enabled"
                          Color="primary"
                          HideDetails="@("auto")"
                          Clearable
@@ -91,17 +91,17 @@
                 case (nameof(UserItemResponse.LastLoginTime)):
                     @context.Item.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")
                     break;
-                case nameof(UserItemResponse.State):
-                    @if (context.Item.State == (int)State.Enable)
+                case nameof(UserItemResponse.Enabled):
+                    @if (context.Item.Enabled)
                     {
                         <MChip Color="green" TextColor="white" Ripple="false">
-                            <span>@State.Enable.ToString()</span>
+                            <span>Enable</span>
                         </MChip>
                     }
                     else
                     {
                         <MChip Color="gray" Ripple="false">
-                            <span>@State.Disabled.ToString()</span>
+                            <span>Disabled</span>
                         </MChip>
                     }
                     break;

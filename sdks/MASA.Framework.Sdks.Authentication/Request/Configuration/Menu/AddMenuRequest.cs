@@ -6,7 +6,7 @@ public class AddMenuRequest
 
     public string Name { get; }= default!;
 
-    public string? Describe { get; set; }
+    public string? Description { get; set; }
 
     public string? Icon { get; set; }
 
@@ -16,20 +16,20 @@ public class AddMenuRequest
 
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public bool OnlyJump { get; set; }
 
-    public AddMenuRequest(string code, string name, string? describe, string? icon, Guid? parentId, string url, int sort, bool disabled,bool onlyJump)
+    public AddMenuRequest(string code, string name, string? description, string? icon, Guid? parentId, string url, int sort, bool enabled, bool onlyJump)
     {
         Code = code;
         Name = name;
-        Describe = describe;
+        Description = description;
         Icon = icon;
         ParentId = parentId;
         Url = url;
         Sort = sort;
-        Disabled = disabled;
+        Enabled = enabled;
         OnlyJump = onlyJump;
     }
 }

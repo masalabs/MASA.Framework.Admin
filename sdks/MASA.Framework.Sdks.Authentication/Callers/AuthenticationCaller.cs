@@ -4,18 +4,15 @@ public class AuthenticationCaller : CallerBase
 {
     protected override string BaseAddress { get; set; }
 
-    public override string Name { get; set; } 
-
     public AuthenticationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
-        Name = nameof(AuthenticationCaller);
     }
 
-    //protected override IHttpClientBuilder UseHttpClient()
-    //{
-    //    return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-    //}
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
 
     #region Role
 

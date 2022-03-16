@@ -13,7 +13,7 @@
     <Authorized>
         <MApp>
             <MAppBar Elevation=0 App MaxHeight=60 Class="@($"{(GlobalConfig.PageMode == PageModes.PageTab ?"mx-6":"mx-6 rounded-b-4")}")">
-                @*<Favorite NavHelper=NavHelper CurrentUri="@NavigationManager.Uri" />*@
+                <Favorite NavHelper=NavHelper CurrentUri="@NavigationManager.Uri" />
                 <MSpacer />
                 <Search NavHelper=NavHelper />
                 <MIcon Size=20 Class="ml-5" Color="neutral-lighten-3">mdi-message-processing-outline</MIcon>

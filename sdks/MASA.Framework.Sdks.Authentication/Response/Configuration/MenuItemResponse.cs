@@ -21,7 +21,7 @@ public class MenuItemResponse
     [Range(1, int.MaxValue)]
     public int Sort { get; set; }
 
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     public bool OnlyJump { get; set; }
 

@@ -13,9 +13,9 @@
 
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
-    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.3" />
-    <PackageReference Include="Masa.Utils.Configuration.Json" Version="0.3.2" />
-    <PackageReference Include="Masa.Utils.Extensions.DependencyInjection" Version="0.3.2" />
+    <PackageReference Include="Masa.Utils.Caller.HttpClient" Version="0.3.4" />
+    <PackageReference Include="Masa.Utils.Configuration.Json" Version="0.3.4" />
+    <PackageReference Include="Masa.Utils.Extensions.DependencyInjection" Version="0.3.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />

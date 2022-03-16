@@ -5,18 +5,15 @@ public class OrganizationCaller : CallerBase
 
     protected override string BaseAddress { get; set; }
 
-    public override string Name { get; set; } 
-
     public OrganizationCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         BaseAddress = configuration["ApiGateways:UserCaller"];
-        Name = nameof(OrganizationCaller);
     }
 
-    //protected override IHttpClientBuilder UseHttpClient()
-    //{
-    //    return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-    //}
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
 
     public async Task<ApiResultResponse<List<DepartmentItemResponse>>> GetListAsync(Guid parentId = default(Guid))
     {

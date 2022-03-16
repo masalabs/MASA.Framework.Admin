@@ -177,6 +177,15 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
             await UpdateOnlineUserCountAsync();
         }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            var res = await LogStatisticsCaller.CreateLogAsync(new OperationLogCreateRequest
+            {
+                Description = "访问了Dashboard页面",
+                OperationLogType = OperationLogType.VisitPage
+            });
+        }
+
         private async Task UpdateOperationLogsAsync(int offset = 0, int limit = 10)
         {
             var res = await LogStatisticsCaller.GetLogListAsync(offset + 1, limit);

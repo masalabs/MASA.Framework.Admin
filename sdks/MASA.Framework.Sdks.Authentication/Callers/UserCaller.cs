@@ -7,19 +7,20 @@ public class UserCaller : CallerBase
 
     protected override string BaseAddress { get; set; }
 
-    public override string Name { get; set; } = nameof(UserCaller);
+    public override string Name { get; set; }
 
     public UserCaller(AuthenticationCaller authenticationCaller, IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
         BaseAddress = configuration["ApiGateways:UserCaller"];
+        Name = nameof(UserCaller);
         _authenticationCaller = authenticationCaller;
         _userGroupCaller = new UserGroupCaller(authenticationCaller, serviceProvider, configuration);
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
-    {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-    }
+    //protected override IHttpClientBuilder UseHttpClient()
+    //{
+    //    return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    //}
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
         string account = "", bool enabled = true)

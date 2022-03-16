@@ -7,17 +7,18 @@ namespace Masa.Framework.Sdks.Authentication.Callers
     {
         protected override string BaseAddress { get; set; }
 
-        public override string Name { get; set; } = nameof(LogStatisticsCaller);
+        public override string Name { get; set; }
 
         public LogStatisticsCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
         {
             BaseAddress = configuration["ApiGateways:LogStatisticsCaller"];
+            Name = nameof(LogStatisticsCaller);
         }
 
-        protected override IHttpClientBuilder UseHttpClient()
-        {
-            return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-        }
+        //protected override IHttpClientBuilder UseHttpClient()
+        //{
+        //    return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        //}
 
         public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetDayStatisticsAsync(DateTime start, DateTime end)
         {

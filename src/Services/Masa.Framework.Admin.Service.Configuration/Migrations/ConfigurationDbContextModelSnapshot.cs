@@ -94,9 +94,9 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
-                    b.Property<bool>("Enable")
+                    b.Property<bool>("Enabled")
                         .HasColumnType("bit")
-                        .HasColumnName("enable");
+                        .HasColumnName("enabled");
 
                     b.Property<string>("Icon")
                         .IsRequired()

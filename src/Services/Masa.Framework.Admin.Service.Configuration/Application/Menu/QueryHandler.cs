@@ -36,7 +36,7 @@ public class QueryHandler
                               ParentId = menu.ParentId,
                               ParentName = newMenu.Name,
                               Sort = menu.Sort,
-                              Disabled = !menu.Enable,
+                              Enabled = menu.Enabled,
                               OnlyJump = menu.OnlyJump,
                               CreationTime = menu.CreationTime
                           }).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToListAsync();
@@ -74,7 +74,7 @@ public class QueryHandler
                                   ParentId = menu.ParentId,
                                   ParentName = newMenu.Name,
                                   Sort = menu.Sort,
-                                  Disabled = !menu.Enable,
+                                  Enabled = menu.Enabled,
                                   OnlyJump = menu.OnlyJump,
                                   CreationTime = menu.CreationTime
                               }).ToListAsync();
@@ -103,7 +103,7 @@ public class QueryHandler
             Icon = menuInfo.Icon,
             Url = menuInfo.Url,
             ParentId = menuInfo.ParentId,
-            Disabled = menuInfo.Enable,
+            Enabled = menuInfo.Enabled,
             Sort = menuInfo.Sort
         };
     }

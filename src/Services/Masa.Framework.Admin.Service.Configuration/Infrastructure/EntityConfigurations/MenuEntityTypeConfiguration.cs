@@ -17,7 +17,7 @@ public class MenuEntityTypeConfiguration
         builder.Property(menu => menu.ParentId).HasColumnName("parent_id");
         builder.Property(menu => menu.Url).HasColumnName("url").HasMaxLength(200).IsRequired();
         builder.Property(menu => menu.Sort).HasColumnName("sort").IsRequired();
-        builder.Property(menu => menu.Enable).HasColumnName("enable").IsRequired();
+        builder.Property(menu => menu.Enabled).HasColumnName("enabled").IsRequired();
         builder.Property(menu => menu.OnlyJump).HasColumnName("onlyJump").IsRequired();
 
         builder.Property(menu => menu.IsDeleted).HasColumnName("is_deleted").IsRequired();

@@ -45,7 +45,7 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                     parent_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     url = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     sort = table.Column<int>(type: "int", nullable: false),
-                    enable = table.Column<bool>(type: "bit", nullable: false),
+                    enabled = table.Column<bool>(type: "bit", nullable: false),
                     onlyJump = table.Column<bool>(type: "bit", nullable: false),
                     is_deleted = table.Column<bool>(type: "bit", nullable: false),
                     creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

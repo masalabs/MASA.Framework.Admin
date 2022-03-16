@@ -20,7 +20,7 @@ public class MenuItemResponse
 
     public int Sort { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public bool OnlyJump { get; set; }
 

@@ -16,7 +16,7 @@ public class MenuInfoResponse
 
     public Guid? ParentId { get; set; }
 
-    public bool Disabled { get; set; }
+    public bool Enabled { get; set; }
 
     public int Sort { get; set; }
 }

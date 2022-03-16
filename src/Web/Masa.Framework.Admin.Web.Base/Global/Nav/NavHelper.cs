@@ -48,6 +48,7 @@ public class NavHelper
 
         void BindChild(NavModel nav)
         {
+            if(nav.InheritIcon is null) nav.InheritIcon = nav.Icon;
             var childs = menuNavs.Where(n => n.ParentId == nav.Id).ToArray();
             if (childs.Count() > 0)
             {

@@ -66,6 +66,7 @@ public partial class UserView
                 Description = "访问了用户详情页面",
                 OperationLogType = OperationLogType.VisitPage
             });
+            StateHasChanged();
         }
         await base.OnAfterRenderAsync(firstRender);
     }

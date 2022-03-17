@@ -66,5 +66,13 @@ namespace Masa.Framework.Admin.Web.Pages.Authentication
                 return string.Empty;
             }
         }
+
+        private async Task KeyHandler(KeyboardEventArgs e)
+        {
+            if (e.Key == "Enter")
+            {
+                await LoginAsync();
+            }
+        }
     }
 }

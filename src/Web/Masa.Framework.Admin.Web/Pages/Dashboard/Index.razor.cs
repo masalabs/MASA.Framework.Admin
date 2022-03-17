@@ -205,6 +205,20 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
             {
                 _pageviewDayStatistics = res.Data;
             }
+            if(_pageviewDayStatistics.Count() == 0)
+            {
+                _pageviewDayStatistics = new List<StatisticsQueryResponse>
+                {
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        IPCount =0,
+                        PV =0,
+                        UV =0,
+                        DateTime = DateTime.Today,
+                    }
+                };
+            }
         }
 
         private async Task UpdateVisitPageHourStatisticsAsync()

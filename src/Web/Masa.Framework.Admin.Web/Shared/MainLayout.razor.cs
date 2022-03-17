@@ -34,7 +34,15 @@ namespace Masa.Framework.Admin.Web.Shared
             if (firstRender)
             {
                 var token = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "Token");
-                var isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
+                var isLogined = false;
+                try
+                {
+                    isLogined = (await ProtectedLocalStorage.GetAsync<bool>("IsLogined")).Value;
+                }
+                catch (Exception ex)
+                {
+
+                }
 
                 if (token == null || isLogined != true)
                 {

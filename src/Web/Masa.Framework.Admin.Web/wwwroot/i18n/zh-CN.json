@@ -153,5 +153,10 @@
   "Number of IPs": "IP数",
   "Online/Offline users": "在线/离线用户",
   "User Name": "用户名",
-  "DateTime": "时间"
+  "DateTime": "时间",
+  "Org": "部门",
+  "RoleDetail": "角色详情",
+  "Usergroup": "用户组",
+  "UserDetail": "用户详情",
+  "UsergroupDetail": "用户组详情"
 }

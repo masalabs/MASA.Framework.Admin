@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Rcl.Rbac;
 
-public class RoleDetailsPage : ComponentPageBase
+public class RoleDetailPage : ComponentPageBase
 {
     public RoleDetailResponse Detail { get; set; } = new();
 
@@ -34,7 +34,7 @@ public class RoleDetailsPage : ComponentPageBase
 
     public List<DataTableHeader<UserItemResponse>> UserHeaders { get; set; }
 
-    public RoleDetailsPage(AuthenticationCaller authenticationCaller, UserCaller userCaller, NavigationManager navigationManager, RolePage rolePage, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
+    public RoleDetailPage(AuthenticationCaller authenticationCaller, UserCaller userCaller, NavigationManager navigationManager, RolePage rolePage, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         UserCaller = userCaller;

@@ -1,5 +1,5 @@
-﻿@page "/roleDetails"
-@page "/roleDetails/{id}"
+﻿@page "/roleDetail"
+@page "/roleDetail/{id}"
 @using Masa.Framework.Admin.Rcl.Rbac.Pages.Permission.Authorize
 @inherits AdminCompontentBase
 @inject NavigationManager NavigationManager
@@ -199,7 +199,7 @@
 
 @code {
     [Inject]
-    public RoleDetailsPage Page { get; set; } = default!;
+    public RoleDetailPage Page { get; set; } = default!;
 
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;

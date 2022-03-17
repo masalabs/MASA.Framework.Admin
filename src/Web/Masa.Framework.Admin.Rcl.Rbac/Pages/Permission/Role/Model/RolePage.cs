@@ -133,7 +133,7 @@ public class RolePage : ComponentPageBase
     public void NavigateToRoleDetails(RoleItemResponse item)
     {
         CurrentData = item.Copy();
-        NavigationManager.NavigateTo($"/role/details/{CurrentData.Id}");
+        NavigationManager.NavigateTo($"/roleDetails/{CurrentData.Id}");
     }
 
     async Task CheckApiResult(ApiResultResponseBase result, string successMessage, string errorMessage)

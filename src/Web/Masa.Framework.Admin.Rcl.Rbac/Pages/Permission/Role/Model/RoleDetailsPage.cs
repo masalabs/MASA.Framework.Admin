@@ -63,9 +63,7 @@ public class RoleDetailsPage : ComponentPageBase
     {
         Loading = true;
         await QueryRoleById(roleId);
-        await SelectAllRoleItemsAsync();
         await SelectRoleAsync();
-        await GetAllUserAsync();
         await GetUserListByRole();
         Loading = false;
     }

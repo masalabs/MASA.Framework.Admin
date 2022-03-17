@@ -92,7 +92,7 @@
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
 
-    string _search;
+    string? _search;
 
     private async Task UpdateVisible(bool visible)
     {
@@ -106,13 +106,17 @@
         }
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        var arr = SelectMenuCodes.Split(',');
-        MenuPage.BottomLayerMenus.ForEach(m =>
+        if(Visible is true)
         {
-            if (arr.Contains(m.Code)) m.Select = true;
-        });
+            await MenuPage.GetAllMenus();
+            var arr = SelectMenuCodes.Split(',');
+            MenuPage.BottomLayerMenus.ForEach(m =>
+            {
+                if (arr.Contains(m.Code)) m.Select = true;
+            });
+        }
     }
 
     private List<MenuNav> QueryMenuNavs()

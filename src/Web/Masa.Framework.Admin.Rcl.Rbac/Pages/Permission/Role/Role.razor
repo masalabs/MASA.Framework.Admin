@@ -55,8 +55,8 @@
                  <span>@context.Item.Description</span>
                 break;
             case "Action":
-                <MButton Color="primary" OnClick="()=> Page.NavigateToRoleDetails(context.Item)">Detail</MButton>
-                <MButton Class="ml-2" Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">Delete</MButton>
+                <MButton Color="primary" OnClick="()=> Page.NavigateToRoleDetails(context.Item)">@T("Detail")</MButton>
+                <MButton Class="ml-2" Color="error" OnClick="()=> Page.OpenDeleteRoleDialog(context.Item)">@T("Delete")</MButton>
                 break;
             default:
                 @context.Value

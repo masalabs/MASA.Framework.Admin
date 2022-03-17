@@ -50,7 +50,8 @@
   "Error": "异常",
   "Information": "提示",
   "Authority Management": "权限管理",
-  "Admin's permission system is based on RBAC (Role-based access control, role-based access control) and can perform more fine-grained permission control through environment attributes. It can not only manage your business system entity resources, but also manage resource permissions such as menus and buttons in your application. For details, please refer to the documentation.": "Authing 的权限系统基于 RBAC（Role-based access control，基于角色的访问控制）并可以通过环境属性进行更细粒度的权限控制。既可以管理你的业务系统实体资源，也能管理你的应用中的菜单、按钮等资源权限，具体可以参考文档。",
+  "Role Management": "角色管理",
+  "Admin's permission system is based on RBAC (Role-based access control, role-based access control) and can perform more fine-grained permission control through environment attributes. It can not only manage your business system entity resources, but also manage resource permissions such as menus and buttons in your application. For details, please refer to the documentation.": "Admin 的权限系统基于 RBAC（Role-based access control，基于角色的访问控制）并可以通过环境属性进行更细粒度的权限控制。既可以管理你的业务系统实体资源，也能管理你的应用中的菜单、按钮等资源权限，具体可以参考文档。",
   "Object": "资源",
   "Role": "角色",
   "Authorize": "授权",
@@ -143,5 +144,6 @@
   "Api": "接口",
   "Cancel Authorize Successful": "取消授权成功",
   "RemoveUser": "移除用户",
-  "OnlyJump（The menu list will not show this menu）": "仅跳转（菜单列表将不展示此菜单）"
+  "OnlyJump（The menu list will not show this menu）": "仅跳转（菜单列表将不展示此菜单）",
+  "Detail": "详情"
 }

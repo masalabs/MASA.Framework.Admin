@@ -142,14 +142,13 @@
         }
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         SelectMenuCodes = "";
         SelectMenuNames = "";
         if (Visible is true)
         {
-            AuthoriedData = new();          
-            await MenuPage.GetAllMenus();
+            AuthoriedData = new();       
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
         private IEnumerable<StatisticsQueryResponse> _pageviewDayStatistics;
         private IEnumerable<StatisticsQueryResponse> _pageviewHourStatistics;
         private StringNumber _current = "PV";
-        private List<DataTableHeader<OperationLogItemResponse>> _headers = new List<DataTableHeader<OperationLogItemResponse>>
+        private List<DataTableHeader<OperationLogItemResponse>> _headers => new List<DataTableHeader<OperationLogItemResponse>>
         {
            new ()
            {
-                Text= "用户名",
+                Text= T("User Name"),
                 Align= "start",
                 Sortable= false,
                 Value= nameof(OperationLogItemResponse.UserName),
@@ -22,13 +22,13 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
           },
           new ()
           {
-                Text= "描述",
+                Text= T("Description"),
                 Value= nameof(OperationLogItemResponse.Description),
                 CellClass="text-subtitle"
           },
           new ()
           {
-                Text= "时间",
+                Text= T("Datetime"),
                 Value= nameof(OperationLogItemResponse.CreateTime),
                 CellClass="text-subtitle"}
         };
@@ -204,6 +204,20 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
             if (res.Success)
             {
                 _pageviewDayStatistics = res.Data;
+            }
+            if(_pageviewDayStatistics.Count() == 0)
+            {
+                _pageviewDayStatistics = new List<StatisticsQueryResponse>
+                {
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        IPCount =0,
+                        PV =0,
+                        UV =0,
+                        DateTime = DateTime.Today,
+                    }
+                };
             }
         }
 

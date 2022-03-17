@@ -97,6 +97,8 @@ public class CommandHandler
         {
             throw new UserFriendlyException("该账号已禁用！");
         }
+        user.UpdateLastLoginTime();
+        await _userRepository.UpdateAsync(user);
 
         string token = "";
         var pwd = SHA1Utils.Encrypt($"{loginCommand.UserLoginRequest.Password}{user.Salt}");
@@ -104,6 +106,7 @@ public class CommandHandler
         {
             throw new UserFriendlyException("密码错误！");
         }
+
         var SECRET_STORE_NAME = "localsecretstore";
         using var client = new DaprClientBuilder().Build();
         var security = await client.GetSecretAsync(SECRET_STORE_NAME, "jwt_security");

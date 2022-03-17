@@ -1,5 +1,5 @@
-﻿@page "/role/details"
-@page "/role/details/{id}"
+﻿@page "/roleDetail"
+@page "/roleDetail/{id}"
 @using Masa.Framework.Admin.Rcl.Rbac.Pages.Permission.Authorize
 @inherits AdminCompontentBase
 @inject NavigationManager NavigationManager
@@ -58,7 +58,7 @@
     <MDivider />
 
     <MCardText>
-        <MDataTable Items="Page.SelectRoles.Where(r => r.Select).ToList()" Headers="Page.ChildrenRoleHeaders" TItem="RoleItemResponse" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+        <MDataTable Items="Page.AllRoles.Where(r => Page.Detail.ChildrenRoleIds.Contains(r.Id)).ToList()" Headers="Page.ChildrenRoleHeaders" TItem="RoleItemResponse" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
             <HeaderColContent Context="header">
                 <span class="text-subtitle">@header.Text</span>
             </HeaderColContent>
@@ -99,7 +99,7 @@
     <MDivider />
 
     <MCardText>
-        <MDataTable Items="Page.AllUsers.Where(u => u.Select).ToList()" TItem="UserItemResponse" Headers="Page.UserHeaders" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
+        <MDataTable Items="Page.SelectUsers" TItem="UserItemResponse" Headers="Page.UserHeaders" ItemsPerPage=1000 HideDefaultFooter Class="user ml-2 table-border-none">
             <HeaderColContent Context="header">
                 <span class="text-subtitle">@header.Text</span>
             </HeaderColContent>
@@ -199,7 +199,7 @@
 
 @code {
     [Inject]
-    public RoleDetailsPage Page { get; set; } = default!;
+    public RoleDetailPage Page { get; set; } = default!;
 
     [Inject]
     public MenuPage MenuPage { get; set; } = default!;

@@ -8,8 +8,8 @@
                 <div style="width:300px;" class="text-center">
                     @if (string.IsNullOrEmpty(_userDetail.Cover))
                     {
-                        <MAvatar Size="80">
-                            <span class="@($"text-h3")">U</span>
+                        <MAvatar Color="sample-green-lighten-5" Size="80">
+                            <span class="text-h3 sample-green--text">@_userDetail.Name?[0]</span>
                         </MAvatar>
                     }
                     else
@@ -25,15 +25,15 @@
             <MDivider Vertical />
             <MCol class="ml-3 d-flex flex-column">
                 <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>Name</span>
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-account-outline</MIcon>@T("Name")</span>
                     <span class="text-caption">@_userDetail.Name</span>
                 </div>
                 <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-check</MIcon>State</span>
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-check</MIcon>@T("State")</span>
                     <span class="text-caption">@_userDetail.Enabled</span>
                 </div>
                 <div class="mb-3 d-flex justify-space-between">
-                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>LastLoginTime</span>
+                    <span class="text-body2 neutral-lighten-1--text"><MIcon Small class="mr-2" Color="neutral-lighten-1">mdi-alarm-check</MIcon>@T("LastLoginTime")</span>
                     <span class="text-caption">@_userDetail.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
                 </div>
             </MCol>

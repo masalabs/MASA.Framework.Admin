@@ -16,7 +16,7 @@
         </div>
     </MCol>
     <MCol Md=8 Sm=12 Class="fill-lighten-1 block-center">
-        <MCard Width=510 Height=680 Class="mx-auto my-auto">
+        <MCard Width=510 Height=680 Class="mx-auto my-auto" @onkeydown="KeyHandler">
             <div style="height:60px;"></div>
             <div class="mt-2 mx-auto text-center" style="width:420px;">
                 <MAvatar Size=80>
@@ -29,9 +29,10 @@
                             Rules="_requiredRules"
                             @bind-Value="_account"
                             Label="Account"
-                            Placeholder="admin"
+                            Placeholder="Account"
                             Outlined
-                            HideDetails="@("auto")">
+                            HideDetails="@("auto")"
+                            Autofocus>
                 </MTextField>
                 <MTextField TValue="string"
                             @bind-Value="_password"
@@ -39,21 +40,18 @@
                             Class="mt-10"
                             Label="Password"
                             Type="@(_show ? "text" : "password")"
-                            Placeholder="admin"
+                            Placeholder="Password"
                             AppendIcon="@(_show ? "mdi-eye" : "mdi-eye-off")"
                             OnAppendClick="()=>_show = !_show"
                             Outlined
                             HideDetails="@("auto")">
                 </MTextField>
                 <span class="d-flex justify-end mt-1 text-caption hover-pointer">
-                    @*@onclick=@(()=>Navigation.NavigateTo(Navigation.BaseUri+ForgotPasswordRoute))*@
                     Forgot Password?
                 </span>
                 <MButton Class="mt-11 rounded-4 text-btn white--text" Loading="_loading" Disabled="_loading" OnClick="LoginAsync" Height=46 Width=340 Color="primary">Login</MButton>
 
                 <div class="my-6">
-                    @*<span class="text-btn">New on our platform? &nbsp;</span>
-                    <span class="primary--text hover-pointer">Create an account</span>@onclick="@(()=>Navigation.NavigateTo(Navigation.BaseUri+CreateAccountRoute))"*@
                 </div>
                 <div class="d-flex block-center">
                     <div style="height:0.5px;width:152px;" class="neutral-lighten-5"></div>

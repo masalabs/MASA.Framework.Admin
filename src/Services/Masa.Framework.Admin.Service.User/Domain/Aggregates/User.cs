@@ -78,4 +78,9 @@ public class User : AuditAggregateRoot<Guid, Guid>
             userRoles.RemoveAll(r => r.RoleId == roleId);
         }
     }
+
+    public void UpdateLastLoginTime()
+    {
+        LastLoginTime = DateTime.Now;
+    }
 }

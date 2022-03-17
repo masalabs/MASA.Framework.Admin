@@ -374,6 +374,7 @@ public class RoleQueryHandler
             Id = role.Id,
             Name = role.Name,
             Description = role.Description,
+            CreationTime = role.CreationTime,
         }).ToList();
     }
 

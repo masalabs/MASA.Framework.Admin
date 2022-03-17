@@ -69,13 +69,13 @@ public class PermissionHelper
                 Sort = 1,
                 ParentId = adminNav.Id,
             };
-            var permissionNav = new MenuItemResponse
+            var roleNav = new MenuItemResponse
             {
                 Id = Guid.NewGuid(),
                 Code = "000002",
-                Url = "permission",
+                Url = "role",
                 Icon = "",
-                Name = "Permission",
+                Name = "Role",
                 Sort = 2,
                 ParentId = adminNav.Id,
             };
@@ -83,9 +83,9 @@ public class PermissionHelper
             {
                 Id = Guid.NewGuid(),
                 Code = "000003",
-                Url = "role/details",
+                Url = "roleDetail",
                 Icon = "",
-                Name = "roleDetail",
+                Name = "RoleDetail",
                 Sort = 3,
                 OnlyJump = true,
                 ParentId = adminNav.Id,
@@ -93,7 +93,7 @@ public class PermissionHelper
             Menus.Add(indexNav);
             Menus.Add(adminNav);
             Menus.Add(menuNav);
-            Menus.Add(permissionNav);
+            Menus.Add(roleNav);
             Menus.Add(roleDetailNav);
             var organization = new MenuItemResponse
             {
@@ -141,7 +141,7 @@ public class PermissionHelper
                 Code = "000014",
                 Url = "usergroupDetail",
                 Icon = "",
-                Name = "usergroupDetail",
+                Name = "UsergroupDetail",
                 Sort = 4,
                 OnlyJump = true,
                 ParentId = organization.Id,

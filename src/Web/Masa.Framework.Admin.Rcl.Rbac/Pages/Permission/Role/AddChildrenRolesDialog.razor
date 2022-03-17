@@ -53,7 +53,7 @@
 
 @code {
     [Inject]
-    public RoleDetailsPage DetailPage { get; set; } = default!;
+    public RoleDetailPage DetailPage { get; set; } = default!;
 
     [Parameter]
     public bool Visible { get; set; }
@@ -61,16 +61,10 @@
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
 
-    string _roleSearch;
+    string? _roleSearch;
 
     private async Task UpdateVisible(bool visible)
-    {
-        if(visible == false)
-        {
-            await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
-            await DetailPage.SelectRoleAsync();
-        }
-
+    {        
         if (VisibleChanged.HasDelegate)
         {
             await VisibleChanged.InvokeAsync(visible);
@@ -81,9 +75,19 @@
         }    
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+       if(Visible == true)
+        {
+            await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
+            await DetailPage.SelectRoleAsync();
+        }
+    }
+
     private async Task Submit()
     {
         await DetailPage.AddChildrenRolesAsync();
+        await DetailPage.QueryRoleById(DetailPage.Detail.Id.ToString());
         await UpdateVisible(false);
     }
 }

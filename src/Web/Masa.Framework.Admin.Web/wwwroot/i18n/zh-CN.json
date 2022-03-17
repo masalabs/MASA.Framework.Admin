@@ -145,5 +145,13 @@
   "Cancel Authorize Successful": "取消授权成功",
   "RemoveUser": "移除用户",
   "OnlyJump（The menu list will not show this menu）": "仅跳转（菜单列表将不展示此菜单）",
-  "Detail": "详情"
+  "Detail": "详情",
+  "ToDay": "今日",
+  "Yesterday": "昨日",
+  "Page Views (PV)": "浏览量(PV)",
+  "Visitors (UV)": "访客数(UV)",
+  "Number of IPs": "IP数",
+  "Online/Offline users": "在线/离线用户",
+  "User Name": "用户名",
+  "DateTime": "时间"
 }

@@ -1,4 +1,5 @@
 ﻿@page "/dashboard/index"
+@inherits AdminCompontentBase
 
 <MRow>
     <MCol Md=8 Sm=12>
@@ -10,14 +11,14 @@
                         {
                             <MRow>
                                 <MSpacer></MSpacer>
-                                <MCol>浏览量(PV)</MCol>
-                                <MCol>访客数(UV)</MCol>
-                                <MCol>IP数</MCol>
+                                <MCol>@T("Page Views (PV)")</MCol>
+                                <MCol>@T("Visitors (UV)")</MCol>
+                                <MCol>@T("Number of IPs")</MCol>
                             </MRow>
                             @if (TodayStatistics != null)
                             {
                                 <MRow>
-                                    <MCol>今日</MCol>
+                                    <MCol>@T("ToDay")</MCol>
                                     <MCol>@TodayStatistics.PV</MCol>
                                     <MCol>@TodayStatistics.UV</MCol>
                                     <MCol>@TodayStatistics.IPCount</MCol>
@@ -26,7 +27,7 @@
                             @if (YesterdayStatistics != null)
                             {
                                 <MRow>
-                                    <MCol>昨日</MCol>
+                                    <MCol>@T("Yesterday")</MCol>
                                     <MCol>@YesterdayStatistics.PV</MCol>
                                     <MCol>@YesterdayStatistics.UV</MCol>
                                     <MCol>@YesterdayStatistics.IPCount</MCol>
@@ -41,7 +42,7 @@
                     <MCardText>
                         <MRow>
                             <MCol>
-                                在线/离线用户
+                                @T("Online/Offline users")
                             </MCol>
                         </MRow>
                         <MRow>
@@ -60,10 +61,10 @@
                         <div style="position: absolute;margin-left: 70px;display: inline-block;z-index:2;">
                             <MButtonGroup Value="_current" ValueChanged="HandleOnChangeAsync" Color="primary" Mandatory>
                                 <MButton Value="@("PV")" Small>
-                                    浏览量(PV)
+                                    @T("Page Views (PV)")
                                 </MButton>
                                 <MButton Value="@("UV")" Small>
-                                    访客数(UV)
+                                    @T("Visitors (UV)")
                                 </MButton>
                             </MButtonGroup>
                         </div>

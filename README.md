@@ -1,11 +1,48 @@
-# Masa.Framework.Admin
+# MASA Framework Admin
 
-目前项目中使用github的仓库源，如果拉取不到，请本地添加github仓库源的授权信息，授权信息不可在项目中存放，否则会导致秘钥失效
+MASA Framework Admin是一个管理后台演示项目。
 
-Masa.BuildingBlock 最新可用版本：0.0.1868620703
 
-Masa.Contrib 最新可用版本：0.0.1869587016
 
-Masa.Utils 最新可用版本：0.0.1872423660
+## 快速使用
 
-> 新的Nuget.Config文件大家放在C:\Users\{account}\AppData\Roaming\NuGet 目录下即可，后续等nuget源更新后会同一更换为nuget源
+### 开发环境搭建
+
+* 安装[.NET SDK 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
+- 安装[Visual Studio Code](https://code.visualstudio.com/Download/)或[Visual Studio 2022](https://docs.microsoft.com/en-us/visualstudio/releases/2022/release-notes)
+
+* 安装[Docker](https://www.docker.com/products/docker-desktop)
+
+  > 安装部可以参考：https://www.cnblogs.com/doddgu/p/dapr-learning-3.html
+
+
+
+### 克隆代码
+
+```shell
+git clone git@github.com:masalabs/MASA.Framework.Admin.git
+```
+
+
+
+### 运行文档站点
+
+```shell
+docker-compose build
+docker-compose up
+```
+
+
+
+### 访问
+
+推荐使用 chrome 或 edge 访问 `https://localhost:8443/`
+
+
+
+## 相关项目
+
+- [MASA Blazor（Material Design Blazor组件库）](https://github.com/BlazorComponent/MASA.Blazor)
+- [MASA Blazor Pro（包含各种业务场景的示例）](https://github.com/BlazorComponent/Masa.Blazor.Pro)
+- [MASA Contrib（MASA Framework的构建块，提供接口标准）](https://github.com/masastack/MASA.Contrib)
+- [MASA Contrib（MASA Framework的贡献库，提供构建块的接口实现）](https://github.com/masastack/MASA.Contrib)

@@ -15,6 +15,10 @@ MASA Framework Admin是一个管理后台演示项目。
 
   > 安装部可以参考：https://www.cnblogs.com/doddgu/p/dapr-learning-3.html
 
+* 安装[Dapr](https://docs.dapr.io/getting-started/install-dapr-cli/)
+
+  > 安装部可以参考：https://www.cnblogs.com/doddgu/p/dapr-learning-3.html
+
 
 
 ### 克隆代码
@@ -25,12 +29,9 @@ git clone git@github.com:masalabs/MASA.Framework.Admin.git
 
 
 
-### 运行文档站点
+### 运行站点
 
-```shell
-docker-compose build
-docker-compose up
-```
+使用vs，启动项目切换为`docker-compose`，F5运行即可
 
 
 
@@ -41,6 +42,40 @@ docker-compose up
 账号：admin
 
 密码：admin123
+
+
+
+### 截图
+
+面包屑
+
+![breadcrum](imgs\screenshot\breadcrum.png)
+
+多页签
+
+![pagetabs](imgs\screenshot\pagetabs.png)
+
+菜单
+
+![menu](imgs\screenshot\menu.png)
+
+部门
+
+![org](imgs\screenshot\org.png)
+
+
+
+角色
+
+![role](D:\Project\MASA\MASALabs\MASA.Framework.Admin\imgs\screenshot\role.png)
+
+用户
+
+![user](imgs\screenshot\user.png)
+
+用户组
+
+![usergroup](D:\Project\MASA\MASALabs\MASA.Framework.Admin\imgs\screenshot\usergroup.png)
 
 
 

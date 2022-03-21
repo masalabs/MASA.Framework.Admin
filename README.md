@@ -49,33 +49,33 @@ git clone git@github.com:masalabs/MASA.Framework.Admin.git
 
 面包屑
 
-![breadcrum](imgs\screenshot\breadcrum.png)
+![breadcrum](imgs/screenshot/breadcrum.png)
 
 多页签
 
-![pagetabs](imgs\screenshot\pagetabs.png)
+![pagetabs](imgs/screenshot/pagetabs.png)
 
 菜单
 
-![menu](imgs\screenshot\menu.png)
+![menu](imgs/screenshot/menu.png)
 
 部门
 
-![org](imgs\screenshot\org.png)
+![org](imgs/screenshot/org.png)
 
 
 
 角色
 
-![role](D:\Project\MASA\MASALabs\MASA.Framework.Admin\imgs\screenshot\role.png)
+![role](imgs/screenshot/role.png)
 
 用户
 
-![user](imgs\screenshot\user.png)
+![user](imgs/screenshot/user.png)
 
 用户组
 
-![usergroup](D:\Project\MASA\MASALabs\MASA.Framework.Admin\imgs\screenshot\usergroup.png)
+![usergroup](imgs/screenshot/usergroup.png)
 
 
 

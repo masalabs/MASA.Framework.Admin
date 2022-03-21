@@ -38,6 +38,10 @@ docker-compose up
 
 推荐使用 chrome 或 edge 访问 `https://localhost:8443/`
 
+账号：admin
+
+密码：admin123
+
 
 
 ## 相关项目

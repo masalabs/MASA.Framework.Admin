@@ -55,6 +55,6 @@ docker-compose up
 
 ## 交流
 
-| QQ group                                        | WX public account                                            | WX Customer Service                                          |
-| ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![masa.blazor-qq](img/masa.blazor-qq-group.png) | ![masa.blazor-weixin](img/masa.blazor-wechat-public-account.png) | ![masa.blazor-weixin](img/masa.blazor-wechat-customer-service.png) |
+| QQ group                                         | WX public account                                            | WX Customer Service                                          |
+| ------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![masa.blazor-qq](imgs/masa.blazor-qq-group.png) | ![masa.blazor-weixin](imgs/masa.blazor-wechat-public-account.png) | ![masa.blazor-weixin](imgs/masa.blazor-wechat-customer-service.png) |

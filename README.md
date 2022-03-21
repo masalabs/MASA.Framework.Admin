@@ -50,3 +50,11 @@ docker-compose up
 - [MASA Blazor Pro（包含各种业务场景的示例）](https://github.com/BlazorComponent/Masa.Blazor.Pro)
 - [MASA Contrib（MASA Framework的构建块，提供接口标准）](https://github.com/masastack/MASA.Contrib)
 - [MASA Contrib（MASA Framework的贡献库，提供构建块的接口实现）](https://github.com/masastack/MASA.Contrib)
+
+
+
+## 交流
+
+| QQ group                                        | WX public account                                            | WX Customer Service                                          |
+| ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![masa.blazor-qq](img/masa.blazor-qq-group.png) | ![masa.blazor-weixin](img/masa.blazor-wechat-public-account.png) | ![masa.blazor-weixin](img/masa.blazor-wechat-customer-service.png) |

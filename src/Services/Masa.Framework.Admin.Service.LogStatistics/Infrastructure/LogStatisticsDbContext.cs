@@ -1,9 +1,8 @@
 using Masa.Utils.Data.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Masa.Framework.Admin.Service.LogStatistics.Infrastructure
 {
-    public class LogStatisticsDbContext : IntegrationEventLogContext
+    public class LogStatisticsDbContext : MasaDbContext
     {
         public const string DEFAULT_SCHEMA = "log";
 

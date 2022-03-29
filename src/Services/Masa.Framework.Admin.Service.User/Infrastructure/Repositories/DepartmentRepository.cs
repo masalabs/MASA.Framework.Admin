@@ -8,7 +8,7 @@ public class DepartmentRepository : Repository<UserDbContext, Department>, IDepa
 
     public async Task<Department?> GetByIdAsync(Guid Id)
     {
-        return await _context.Set<Department>().Where(a => a.Id == Id)
+        return await Context.Set<Department>().Where(a => a.Id == Id)
         .Include(b => b.DepartmentUsers).FirstOrDefaultAsync();
     }
 }

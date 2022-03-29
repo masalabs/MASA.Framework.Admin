@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Configuration.Infrastructure;
 
-public class ConfigurationDbContext : IntegrationEventLogContext
+public class ConfigurationDbContext : MasaDbContext
 {
     public const string DEFAULT_SCHEMA = "configuration";
 

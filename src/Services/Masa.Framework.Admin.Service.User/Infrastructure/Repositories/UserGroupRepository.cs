@@ -9,7 +9,7 @@ public class UserGroupRepository : Repository<UserDbContext, UserGroup>, IUserGr
 
     public async Task<UserGroup?> GetByIdAsync(Guid Id)
     {
-        return await _context.Set<UserGroup>().Where(a => a.Id == Id).Include(u => u.UserGroupPermissions)
+        return await Context.Set<UserGroup>().Where(a => a.Id == Id).Include(u => u.UserGroupPermissions)
             .Include(b => b.UserGroupItems).ThenInclude(u => u.User).FirstOrDefaultAsync();
     }
 }

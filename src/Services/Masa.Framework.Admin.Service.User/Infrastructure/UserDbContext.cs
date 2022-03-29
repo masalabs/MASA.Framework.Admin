@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Infrastructure;
 
-public class UserDbContext : IntegrationEventLogContext
+public class UserDbContext : MasaDbContext
 {
     public const string DEFAULT_SCHEMA = "user";
 

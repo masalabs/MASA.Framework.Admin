@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
-public class Department : AuditAggregateRoot<Guid, Guid>
+public class Department : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 {
     public string Name { get; private set; }
 

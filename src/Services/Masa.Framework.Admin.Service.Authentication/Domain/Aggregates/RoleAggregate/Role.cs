@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate;
 
-public class Role : AuditAggregateRoot<Guid, Guid>
+public class Role : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 {
     public string Name { get; private set; } = default!;
 

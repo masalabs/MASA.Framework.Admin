@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Masa.Framework.Admin.Configuration.Migrations
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20220316061538_init")]
+    [Migration("20220329161724_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,11 +47,10 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                     b.Property<DateTime>("ModificationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
+                    b.Property<string>("RowVersion")
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -63,6 +62,8 @@ namespace Masa.Framework.Admin.Configuration.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex(new[] { "EventId", "RowVersion" }, "index_eventid_version");
 
                     b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
 

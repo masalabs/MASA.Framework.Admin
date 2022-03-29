@@ -1,17 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddMasaConfiguration();
-
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddHostedService<JobHostedService>();
 
-var app = builder.Services.AddFluentValidation(options =>
-{
-    options.RegisterValidatorsFromAssemblyContaining<OperationLogService>();
-})
-    .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
+var app = builder.Services
+    .AddFluentValidation(options =>
+    {
+        options.RegisterValidatorsFromAssemblyContaining<OperationLogService>();
+    })
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
     {
@@ -22,16 +20,12 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Users Service HTTP API"
         });
     })
-    .AddDomainEventBus(options =>
+    .AddDomainEventBus(dispatcherOption =>
     {
-        options.UseEventBus()
-            .UseUoW<LogStatisticsDbContext>(dbOptions =>
-            {
-                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
-            })
-            .UseDaprEventBus<IntegrationEventLogService>()
-            .UseEventLog<LogStatisticsDbContext>()
-            .UseRepository<LogStatisticsDbContext>();
+        dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<LogStatisticsDbContext>())
+                        .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
+                        .UseUoW<LogStatisticsDbContext>(dbOptions => dbOptions.UseSqlServer())
+                        .UseRepository<LogStatisticsDbContext>();
     })
     .AddServices(builder);
 

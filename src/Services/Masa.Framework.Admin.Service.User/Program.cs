@@ -1,7 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddMasaConfiguration();
-
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddSignalR().AddHubOptions<LoginHub>(options =>
 {
@@ -86,7 +84,6 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<UserServices>();
     })
-    .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
     {
@@ -97,16 +94,12 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Users Service HTTP API"
         });
     })
-    .AddDomainEventBus(options =>
+    .AddDomainEventBus(dispatcherOption =>
     {
-        options.UseEventBus()
-            .UseUoW<UserDbContext>(dbOptions =>
-            {
-                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
-            })
-            .UseDaprEventBus<IntegrationEventLogService>()
-            .UseEventLog<UserDbContext>()
-            .UseRepository<UserDbContext>();
+        dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<UserDbContext>())
+                        .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
+                        .UseUoW<UserDbContext>(dbOptions => dbOptions.UseSqlServer())
+                        .UseRepository<UserDbContext>();
     })
     .AddServices(builder);
 

@@ -1,7 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddMasaConfiguration();
-
 #if DEBUG
 
 //builder.Services.AddDaprStarter();
@@ -9,7 +7,7 @@ builder.AddMasaConfiguration();
 #endif
 
 builder.Services
-    .AddMasaRedisCache(builder.Configuration.GetSection("Local:Appsettings:RedisConfig"))
+    .AddMasaRedisCache(builder.Configuration.GetSection("RedisConfig"))
     .AddMasaMemoryCache();
 
 var app = builder.Services
@@ -29,17 +27,11 @@ var app = builder.Services
     })
     .AddDomainEventBus(
         new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly },
-        options =>
+        dispatcherOption =>
         {
-            options
+            dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<AuthenticationDbContext>())
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                .UseUoW<AuthenticationDbContext>(dbOptions =>
-                {
-                    dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
-                    dbOptions.UseSoftDelete();
-                })
-                .UseDaprEventBus<IntegrationEventLogService>()
-                .UseEventLog<AuthenticationDbContext>()
+                .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseSoftDelete().UseSqlServer())
                 .UseRepository<AuthenticationDbContext>();
         }
     )

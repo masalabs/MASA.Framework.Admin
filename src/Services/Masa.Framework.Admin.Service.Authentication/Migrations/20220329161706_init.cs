@@ -1,3 +1,4 @@
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -24,7 +25,7 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
                     ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                    RowVersion = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,27 +55,6 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_permission", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "resources",
-                schema: "authentication",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    object_type = table.Column<int>(type: "int", nullable: false),
-                    enable = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false),
-                    creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    creation_time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    modifier_time = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_resources", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,6 +121,11 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "index_eventid_version",
+                table: "IntegrationEventLog",
+                columns: new[] { "EventId", "RowVersion" });
+
+            migrationBuilder.CreateIndex(
                 name: "index_state_modificationtime",
                 table: "IntegrationEventLog",
                 columns: new[] { "State", "ModificationTime" });
@@ -170,10 +155,6 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
 
             migrationBuilder.DropTable(
                 name: "permission",
-                schema: "authentication");
-
-            migrationBuilder.DropTable(
-                name: "resources",
                 schema: "authentication");
 
             migrationBuilder.DropTable(

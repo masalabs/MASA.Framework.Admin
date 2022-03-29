@@ -46,7 +46,7 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                     ModificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                    RowVersion = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -217,6 +217,11 @@ namespace Masa.Framework.Admin.Service.User.Migrations
                 schema: "user",
                 table: "department_users",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "index_eventid_version",
+                table: "IntegrationEventLog",
+                columns: new[] { "EventId", "RowVersion" });
 
             migrationBuilder.CreateIndex(
                 name: "index_state_modificationtime",

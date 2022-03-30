@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Configuration.Domain.Aggregate;
 
-public class Menu : AuditAggregateRoot<Guid, Guid>
+public class Menu : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 {
     public string Code { get; private set; } = default!;
 

@@ -1,8 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 
-builder.AddMasaConfiguration();
-
 #if DEBUG
 
 //builder.Services.AddDaprStarter();
@@ -13,7 +11,6 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<MenuService>();
     })
-    .AddTransient(typeof(IMiddleware<>), typeof(ValidatorMiddleware<>))
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
     {
@@ -24,16 +21,12 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Configurations Service HTTP API"
         });
     })
-    .AddDomainEventBus(options =>
+    .AddDomainEventBus(dispatcherOption =>
     {
-        options.UseEventBus()
-            .UseUoW<ConfigurationDbContext>(dbOptions =>
-            {
-                dbOptions.UseSqlServer(builder.Configuration["Local:Appsettings:ConnectionStrings:DefaultConnection"]);
-            })
-            .UseDaprEventBus<IntegrationEventLogService>()
-            .UseEventLog<ConfigurationDbContext>()
-            .UseRepository<ConfigurationDbContext>();
+        dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<ConfigurationDbContext>())
+                        .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
+                        .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer())
+                        .UseRepository<ConfigurationDbContext>();
     })
     .AddServices(builder);
 

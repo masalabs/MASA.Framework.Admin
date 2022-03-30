@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.Authentication.Infrastructure;
 
-public class AuthenticationDbContext : IntegrationEventLogContext
+public class AuthenticationDbContext : MasaDbContext
 {
     public const string DEFAULT_SCHEMA = "authentication";
 

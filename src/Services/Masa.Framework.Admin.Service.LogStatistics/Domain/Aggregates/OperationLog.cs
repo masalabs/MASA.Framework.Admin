@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
 
-public class OperationLog : AuditAggregateRoot<Guid, Guid>
+public class OperationLog : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 {
     public string Description { get; private set; }
 

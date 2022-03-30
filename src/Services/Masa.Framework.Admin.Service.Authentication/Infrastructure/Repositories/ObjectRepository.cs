@@ -10,6 +10,6 @@ public class PermissionRepository :
 
     public Task<bool> AnyAsync(Expression<Func<Permission, bool>> condition)
     {
-        return _context.Set<Permission>().AnyAsync(condition);
+        return Context.Set<Permission>().AnyAsync(condition);
     }
 }

@@ -8,7 +8,7 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
 
     public async Task<Role?> FindAsync(Guid id)
     {
-        return await _context.Set<Role>()
+        return await Context.Set<Role>()
             .Include(role => role.RoleItems)
             .Include(role => role.Permissions)
             .Where(role => role.Id == id)
@@ -19,7 +19,7 @@ public class RoleRepository : Repository<AuthenticationDbContext, Role>, IRoleRe
         Expression<Func<Role, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
-        return await _context.Set<Role>().Where(predicate)
+        return await Context.Set<Role>().Where(predicate)
             .Include(role => role.RoleItems)
             .Include(role => role.Permissions)
             .ToListAsync(cancellationToken);

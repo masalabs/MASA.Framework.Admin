@@ -45,11 +45,10 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
                     b.Property<DateTime>("ModificationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
+                    b.Property<string>("RowVersion")
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -62,63 +61,13 @@ namespace Masa.Framework.Admin.Service.Authentication.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex(new[] { "EventId", "RowVersion" }, "index_eventid_version");
+
                     b.HasIndex(new[] { "State", "ModificationTime" }, "index_state_modificationtime");
 
                     b.HasIndex(new[] { "State", "TimesSent", "ModificationTime" }, "index_state_timessent_modificationtime");
 
                     b.ToTable("IntegrationEventLog", (string)null);
-                });
-
-            modelBuilder.Entity("Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.ObjectAggregate.Object", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("code");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("creation_time");
-
-                    b.Property<Guid>("Creator")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("creator");
-
-                    b.Property<bool>("Enable")
-                        .HasColumnType("bit")
-                        .HasColumnName("enable");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime>("ModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modifier_time");
-
-                    b.Property<Guid>("Modifier")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("modifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasColumnName("name");
-
-                    b.Property<int>("ObjectType")
-                        .HasColumnType("int")
-                        .HasColumnName("object_type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("resources", "authentication");
                 });
 
             modelBuilder.Entity("Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate.Permission", b =>

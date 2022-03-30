@@ -81,10 +81,10 @@ git clone git@github.com:masalabs/MASA.Framework.Admin.git
 
 ## 相关项目
 
-- [MASA Blazor（Material Design Blazor组件库）](https://github.com/BlazorComponent/MASA.Blazor)
-- [MASA Blazor Pro（包含各种业务场景的示例）](https://github.com/BlazorComponent/Masa.Blazor.Pro)
-- [MASA Contrib（MASA Framework的构建块，提供接口标准）](https://github.com/masastack/MASA.Contrib)
-- [MASA Contrib（MASA Framework的贡献库，提供构建块的接口实现）](https://github.com/masastack/MASA.Contrib)
+- [MASA Blazor (Material Design Blazor组件库)](https://github.com/BlazorComponent/MASA.Blazor)
+- [MASA Blazor Pro (包含各种业务场景的示例)](https://github.com/BlazorComponent/Masa.Blazor.Pro)
+- [MASA BuildingBlocks (MASA Framework的构建块，提供接口标准)](https://github.com/masastack/MASA.BuildingBlocks)
+- [MASA Contrib (MASA Framework的贡献库，提供构建块的接口实现)](https://github.com/masastack/MASA.Contrib)
 
 
 

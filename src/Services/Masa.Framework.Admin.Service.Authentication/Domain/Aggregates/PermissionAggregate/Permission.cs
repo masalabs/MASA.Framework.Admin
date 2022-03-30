@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate;
 
-public class Permission : AuditAggregateRoot<Guid, Guid>
+public class Permission : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 {
     public ObjectType ObjectType { get; private set; }
 

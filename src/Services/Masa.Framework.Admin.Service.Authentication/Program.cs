@@ -31,7 +31,7 @@ var app = builder.Services
         {
             dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<AuthenticationDbContext>())
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseSoftDelete().UseSqlServer())
+                .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
                 .UseRepository<AuthenticationDbContext>();
         }
     )

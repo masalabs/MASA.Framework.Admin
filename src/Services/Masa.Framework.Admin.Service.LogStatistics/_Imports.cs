@@ -1,10 +1,14 @@
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
+global using Masa.BuildingBlocks.Data.Contracts.DataFiltering;
 global using Masa.BuildingBlocks.Data.UoW;
 global using Masa.BuildingBlocks.Ddd.Domain.Entities;
 global using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
 global using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 global using Masa.BuildingBlocks.Dispatcher.Events;
+global using Masa.Contrib.Data.Contracts.EF;
+global using Masa.Contrib.Data.EntityFrameworkCore;
+global using Masa.Contrib.Data.EntityFrameworkCore.SqlServer;
 global using Masa.Contrib.Data.UoW.EF;
 global using Masa.Contrib.Ddd.Domain;
 global using Masa.Contrib.Ddd.Domain.Repository.EF;
@@ -28,9 +32,8 @@ global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Middlewar
 global using Masa.Framework.Admin.Service.LogStatistics.Infrastructure.Models;
 global using Masa.Framework.Admin.Service.LogStatistics.Services;
 global using Masa.Framework.Sdks.Authentication.Internal.Enum;
+global using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
 global using Masa.Framework.Sdks.Authentication.Response.LogStatistics;
-global using Masa.Utils.Data.EntityFrameworkCore;
-global using Masa.Utils.Data.EntityFrameworkCore.SqlServer;
 global using Masa.Utils.Exceptions.Extensions;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

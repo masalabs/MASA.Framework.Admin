@@ -16,6 +16,8 @@ public class UserGroup : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public virtual IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
 
+    public bool IsDeleted { get; private set; }
+
     public UserGroup(string name, string code, string describtion)
     {
         Name = name;

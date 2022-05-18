@@ -18,6 +18,8 @@ public class Permission : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public PermissionType PermissionType { get; private set; }
 
+    public bool IsDeleted { get; private set; }
+
     private Permission()
     {
         Id = Guid.NewGuid();

@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
     <MicrosoftPackageVersion>6.0.0</MicrosoftPackageVersion>
-    <MasaUtilsPackageVersion>0.4.0-preview.2</MasaUtilsPackageVersion>
-    <MasaContribPackageVersion>0.4.0-prevew.1</MasaContribPackageVersion>
+    <MasaUtilsPackageVersion>0.4.0-rc1</MasaUtilsPackageVersion>
+    <MasaContribPackageVersion>0.4.0-rc1</MasaContribPackageVersion>
     <MasaBlazorPackageVersion>0.3.0</MasaBlazorPackageVersion>
     <DaprPackageVersion>1.5.0</DaprPackageVersion>
     <SwashbucklePackageVersion>6.2.3</SwashbucklePackageVersion>

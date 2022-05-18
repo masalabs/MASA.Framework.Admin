@@ -20,6 +20,8 @@ public class User : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public bool Enable { get; private set; } = true;
 
+    public bool IsDeleted { get; private set; }
+
     public DateTimeOffset LastLoginTime { get; private set; }
 
     public DateTimeOffset LastUpdateTime { get; private set; }

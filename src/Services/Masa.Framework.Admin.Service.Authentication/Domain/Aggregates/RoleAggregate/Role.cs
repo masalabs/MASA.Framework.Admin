@@ -18,6 +18,8 @@ public class Role : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public virtual IReadOnlyCollection<RoleItem> RoleItems => roleItems;
 
+    public bool IsDeleted { get; private set; }
+
     private Role()
     {
 

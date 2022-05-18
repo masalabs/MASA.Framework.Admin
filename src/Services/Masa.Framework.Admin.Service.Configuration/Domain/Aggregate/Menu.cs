@@ -20,6 +20,8 @@ public class Menu : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public bool OnlyJump { get; private set; }
 
+    public bool IsDeleted { get; private set; }
+
     public Menu(
         Guid creator,
         string code,

@@ -10,6 +10,8 @@ public class OperationLog : AuditAggregateRoot<Guid, Guid>, ISoftDelete
 
     public Guid UserId { get; private set; }
 
+    public bool IsDeleted { get; private set; }
+
     public OperationLog(Guid userId, OperationLogType type, string description)
     {
         ClientIP = "";
@@ -18,4 +20,3 @@ public class OperationLog : AuditAggregateRoot<Guid, Guid>, ISoftDelete
         UserId = userId;
     }
 }
-

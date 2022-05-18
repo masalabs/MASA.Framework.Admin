@@ -24,7 +24,7 @@ var app = builder.Services
     {
         dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<LogStatisticsDbContext>())
                         .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                        .UseUoW<LogStatisticsDbContext>(dbOptions => dbOptions.UseSqlServer())
+                        .UseUoW<LogStatisticsDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
                         .UseRepository<LogStatisticsDbContext>();
     })
     .AddServices(builder);

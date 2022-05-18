@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Masa.Utils.Data.EntityFrameworkCore.SqlServer" Version="$(MasaUtilsPackageVersion)" />
     <PackageReference Include="Masa.Utils.Development.Dapr.AspNetCore" Version="$(MasaUtilsPackageVersion)" />
-    <PackageReference Include="Masa.Utils.Expressions" Version="$(MasaUtilsPackageVersion)" />
+    <PackageReference Include="Masa.Utils.Extensions.Expressions" Version="$(MasaUtilsPackageVersion)" />
     <PackageReference Include="Masa.Utils.Exceptions" Version="$(MasaUtilsPackageVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(MicrosoftPackageVersion)">
       <PrivateAssets>all</PrivateAssets>
@@ -28,6 +27,7 @@
     <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="$(MasaContribPackageVersion)" />
     <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="$(MasaContribPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Data.EntityFrameworkCore.SqlServer" Version="$(MasaUtilsPackageVersion)" />
   </ItemGroup>
 
   <ItemGroup>

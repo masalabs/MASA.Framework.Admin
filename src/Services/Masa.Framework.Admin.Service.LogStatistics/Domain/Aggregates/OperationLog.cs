@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.LogStatistics.Domain.Aggregates;
 
-public class OperationLog : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class OperationLog : FullAggregateRoot<Guid, Guid>
 {
     public string Description { get; private set; }
 
@@ -9,8 +9,6 @@ public class OperationLog : AuditAggregateRoot<Guid, Guid>, ISoftDelete
     public string ClientIP { get; private set; }
 
     public Guid UserId { get; private set; }
-
-    public bool IsDeleted { get; private set; }
 
     public OperationLog(Guid userId, OperationLogType type, string description)
     {

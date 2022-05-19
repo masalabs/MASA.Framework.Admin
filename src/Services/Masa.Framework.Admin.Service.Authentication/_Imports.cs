@@ -1,10 +1,9 @@
 global using Dapr;
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
-global using Masa.BuildingBlocks.Data.Contracts.DataFiltering;
 global using Masa.BuildingBlocks.Data.UoW;
 global using Masa.BuildingBlocks.Ddd.Domain.Entities;
-global using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
+global using Masa.BuildingBlocks.Ddd.Domain.Entities.Full;
 global using Masa.BuildingBlocks.Ddd.Domain.Events;
 global using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 global using Masa.BuildingBlocks.Dispatcher.Events;

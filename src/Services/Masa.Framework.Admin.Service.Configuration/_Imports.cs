@@ -1,7 +1,6 @@
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
-global using Masa.BuildingBlocks.Data.Contracts.DataFiltering;
-global using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
+global using Masa.BuildingBlocks.Ddd.Domain.Entities.Full;
 global using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 global using Masa.BuildingBlocks.Dispatcher.Events;
 global using Masa.Contrib.Data.Contracts.EF;

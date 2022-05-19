@@ -1,24 +1,7 @@
 namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.PermissionAggregate;
 
-public class Permission : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class Permission : FullAggregateRoot<Guid, Guid>
 {
-    public ObjectType ObjectType { get; private set; }
-
-    public string Name { get; private set; } = default!;
-
-    public string Resource { get; private set; } = default!;
-
-    public string Scope { get; private set; } = default!;
-
-    public string Action { get; private set; } = default!;
-
-    public string Code { get; private set; } = default!;
-
-    public bool Enable { get; private set; }
-
-    public PermissionType PermissionType { get; private set; }
-
-    public bool IsDeleted { get; private set; }
 
     private Permission()
     {
@@ -51,6 +34,22 @@ public class Permission : AuditAggregateRoot<Guid, Guid>, ISoftDelete
         Code = $"{Resource}/{scope}/{Action}";
         PermissionType = permissionType;
     }
+
+    public ObjectType ObjectType { get; }
+
+    public string Name { get; private set; } = default!;
+
+    public string Resource { get; } = default!;
+
+    public string Scope { get; } = default!;
+
+    public string Action { get; } = default!;
+
+    public string Code { get; } = default!;
+
+    public bool Enable { get; private set; }
+
+    public PermissionType PermissionType { get; }
 
     public void Update(Guid @operator, string name)
     {

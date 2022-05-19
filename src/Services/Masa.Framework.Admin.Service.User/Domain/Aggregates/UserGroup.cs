@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
-public class UserGroup : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class UserGroup : FullAggregateRoot<Guid, Guid>
 {
     public string Name { get; private set; }
 
@@ -15,8 +15,6 @@ public class UserGroup : AuditAggregateRoot<Guid, Guid>, ISoftDelete
     private List<UserGroupPermission> userGroupPermissions = new();
 
     public virtual IReadOnlyCollection<UserGroupPermission> UserGroupPermissions => userGroupPermissions;
-
-    public bool IsDeleted { get; private set; }
 
     public UserGroup(string name, string code, string describtion)
     {
@@ -57,4 +55,3 @@ public class UserGroup : AuditAggregateRoot<Guid, Guid>, ISoftDelete
         }
     }
 }
-

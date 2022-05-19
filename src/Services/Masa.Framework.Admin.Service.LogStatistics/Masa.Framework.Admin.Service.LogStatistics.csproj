@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Masa.Contrib.Data.EntityFrameworkCore.SqlServer" Version="$(MasaUtilsPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Data.EntityFrameworkCore.SqlServer" Version="$(MasaContribPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="$(MasaContribPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="$(MasaContribPackageVersion)" />
     <PackageReference Include="Masa.BuildingBlocks.Dispatcher.Events" Version="$(MasaContribPackageVersion)" />

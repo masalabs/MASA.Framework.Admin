@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
-public class User : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class User : FullAggregateRoot<Guid, Guid>
 {
     public string Account { get; private set; } = default!;
 
@@ -19,8 +19,6 @@ public class User : AuditAggregateRoot<Guid, Guid>, ISoftDelete
     public bool IsAdmin { get; private set; }
 
     public bool Enable { get; private set; } = true;
-
-    public bool IsDeleted { get; private set; }
 
     public DateTimeOffset LastLoginTime { get; private set; }
 

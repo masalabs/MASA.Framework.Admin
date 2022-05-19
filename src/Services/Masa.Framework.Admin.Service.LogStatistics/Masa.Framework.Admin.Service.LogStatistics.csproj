@@ -11,27 +11,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Masa.Utils.Data.EntityFrameworkCore.SqlServer" Version="0.4.0-preview.2" />
-    <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.BuildingBlocks.Dispatcher.Events" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Data.Contracts.EF" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-    <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Utils.Caching.DistributedMemory" Version="0.4.0-preview.2" />
-    <PackageReference Include="Masa.Utils.Caching.Redis" Version="0.4.0-preview.2" />
-    <PackageReference Include="Masa.Utils.Configuration.Json" Version="0.4.0-preview.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
-    <PackageReference Include="Masa.Contrib.Data.UoW.EF" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.4.0-prevew.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+    <PackageReference Include="Masa.Contrib.Data.EntityFrameworkCore.SqlServer" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.BuildingBlocks.Dispatcher.Events" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Data.Contracts.EF" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Dapr.AspNetCore" Version="$(DaprPackageVersion)" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbucklePackageVersion)" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Utils.Caching.DistributedMemory" Version="$(MasaUtilsPackageVersion)" />
+    <PackageReference Include="Masa.Utils.Caching.Redis" Version="$(MasaUtilsPackageVersion)" />
+    <PackageReference Include="Masa.Utils.Configuration.Json" Version="$(MasaUtilsPackageVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(MicrosoftPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Data.UoW.EF" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="$(MasaContribPackageVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(MicrosoftPackageVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(MicrosoftPackageVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(MicrosoftPackageVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -10,37 +10,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Masa.Utils.Data.EntityFrameworkCore.SqlServer" Version="0.4.0-preview.2" />
-      <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Utils.Security.Cryptography" Version="0.4.0-preview.2" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.2" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+      <PackageReference Include="Masa.Contrib.Data.EntityFrameworkCore.SqlServer" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.ReadWriteSpliting.Cqrs" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Utils.Security.Cryptography" Version="$(MasaUtilsPackageVersion)" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(MicrosoftPackageVersion)" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="$(MicrosoftPackageVersion)" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(MicrosoftPackageVersion)">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-      <PackageReference Include="OpenTelemetry" Version="1.2.0-rc2" />
-      <PackageReference Include="OpenTelemetry.Api" Version="1.2.0-rc2" />
-      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.1.0" />
-      <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.2.0-rc2" />
-      <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.1.0" />
+      <PackageReference Include="OpenTelemetry" Version="$(OpenTelemetryPackageVersion)" />
+      <PackageReference Include="OpenTelemetry.Api" Version="$(OpenTelemetryPackageVersion)" />
+      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="$(OpenTelemetryPackageVersion)" />
+      <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryPackageVersion)" />
+      <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="$(OpenTelemetryPackageVersion)" />
       <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9" />
       <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9" />
       <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9" />
       <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
-      <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-      <PackageReference Include="Masa.Contrib.Data.Contracts.EF" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Data.UoW.EF" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="0.4.0-prevew.1" />
-      <PackageReference Include="Masa.Utils.Exceptions" Version="0.4.0-preview.2" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbucklePackageVersion)" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(MicrosoftPackageVersion)" />
+      <PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Data.Contracts.EF" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Data.UoW.EF" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EF" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="$(MasaContribPackageVersion)" />
+      <PackageReference Include="Masa.Utils.Exceptions" Version="$(MasaUtilsPackageVersion)" />
       <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
     </ItemGroup>
 

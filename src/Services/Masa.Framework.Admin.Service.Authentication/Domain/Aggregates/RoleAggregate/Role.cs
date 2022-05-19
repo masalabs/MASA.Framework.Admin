@@ -1,22 +1,11 @@
 namespace Masa.Framework.Admin.Service.Authentication.Domain.Aggregates.RoleAggregate;
 
-public class Role : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class Role : FullAggregateRoot<Guid, Guid>
 {
-    public string Name { get; private set; } = default!;
-
-    public string Description { get; set; } = default!;
-
-    public int Number { get; private set; }
-
-    public bool Enable { get; private set; }
 
     private readonly List<RolePermission> permissions = new();
 
-    public virtual IReadOnlyCollection<RolePermission> Permissions => permissions;
-
     private readonly List<RoleItem> roleItems = new();
-
-    public virtual IReadOnlyCollection<RoleItem> RoleItems => roleItems;
 
     private Role()
     {
@@ -33,11 +22,23 @@ public class Role : AuditAggregateRoot<Guid, Guid>, ISoftDelete
         Enable = true;
     }
 
+    public string Name { get; private set; } = default!;
+
+    public string Description { get; set; } = default!;
+
+    public int Number { get; }
+
+    public bool Enable { get; }
+
+    public virtual IReadOnlyCollection<RolePermission> Permissions => permissions;
+
+    public virtual IReadOnlyCollection<RoleItem> RoleItems => roleItems;
+
     public void SetInheritedRole(List<Guid>? roleIdList)
     {
-        this.roleItems.Clear();
+        roleItems.Clear();
         if (roleIdList != null)
-            this.roleItems.AddRange(roleIdList.Select(id => new RoleItem(id)));
+            roleItems.AddRange(roleIdList.Select(id => new RoleItem(id)));
     }
 
     public void Update(Guid @operator, string name, string? description)

@@ -25,7 +25,7 @@ var app = builder.Services.AddFluentValidation(options =>
     {
         dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<ConfigurationDbContext>())
                         .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                        .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer())
+                        .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
                         .UseRepository<ConfigurationDbContext>();
     })
     .AddServices(builder);

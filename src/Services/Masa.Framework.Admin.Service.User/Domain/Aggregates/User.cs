@@ -1,6 +1,6 @@
 namespace Masa.Framework.Admin.Service.User.Domain.Aggregates;
 
-public class User : AuditAggregateRoot<Guid, Guid>, ISoftDelete
+public class User : FullAggregateRoot<Guid, Guid>
 {
     public string Account { get; private set; } = default!;
 

@@ -45,7 +45,6 @@ global using Masa.Utils.Caching.Core.Interfaces;
 global using Masa.Utils.Caching.DistributedMemory.DependencyInjection;
 global using Masa.Utils.Caching.Redis.DependencyInjection;
 global using Masa.Utils.Exceptions.Extensions;
-global using Masa.Utils.Extensions.Expressions;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

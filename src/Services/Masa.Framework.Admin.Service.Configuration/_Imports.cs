@@ -27,7 +27,6 @@ global using Masa.Framework.Admin.Configuration.Services;
 global using Masa.Framework.Admin.Infrastructure.Configurations.Const;
 global using Masa.Framework.Admin.Infrastructure.Configurations.Response;
 global using Masa.Utils.Exceptions.Extensions;
-global using Masa.Utils.Extensions.Expressions;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

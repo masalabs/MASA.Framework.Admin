@@ -1,3 +1,5 @@
+using Masa.Contrib.Dispatcher.IntegrationEvents;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<LoginService>();
@@ -46,30 +48,31 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenTelemetryTracing(options =>
-    options
-    .AddSource(TelemetryConstants.SERVICE_NAME)
-    .SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService(serviceName: TelemetryConstants.SERVICE_NAME, serviceVersion: TelemetryConstants.SERVICE_VERSION).AddTelemetrySdk())
-        .AddSqlClientInstrumentation(options =>
-        {
-            options.SetDbStatementForText = true;
-            options.RecordException = true;
-        })
-        .AddAspNetCoreInstrumentation(options =>
-        {
-            options.Filter = (req) => !req.Request.Path.ToUriComponent().Contains("index.html", StringComparison.OrdinalIgnoreCase)
-                && !req.Request.Path.ToUriComponent().Contains("swagger", StringComparison.OrdinalIgnoreCase);
-        })
-        .AddHttpClientInstrumentation()
-        .AddZipkinExporter(o =>
-        {
-            o.Endpoint = new Uri("http://zipkin:9411/api/v2/spans");
-        })
+        options
+            .AddSource(TelemetryConstants.SERVICE_NAME)
+            .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                .AddService(serviceName: TelemetryConstants.SERVICE_NAME, serviceVersion: TelemetryConstants.SERVICE_VERSION)
+                .AddTelemetrySdk())
+            .AddSqlClientInstrumentation(options =>
+            {
+                options.SetDbStatementForText = true;
+                options.RecordException = true;
+            })
+            .AddAspNetCoreInstrumentation(options =>
+            {
+                options.Filter = (req) => !req.Request.Path.ToUriComponent().Contains("index.html", StringComparison.OrdinalIgnoreCase)
+                    && !req.Request.Path.ToUriComponent().Contains("swagger", StringComparison.OrdinalIgnoreCase);
+            })
+            .AddHttpClientInstrumentation()
+            .AddZipkinExporter(o =>
+            {
+                o.Endpoint = new Uri("http://zipkin:9411/api/v2/spans");
+            })
     //.AddOtlpExporter(otlpOptions =>
     //{
     //    otlpOptions.Endpoint = new Uri(builder.Configuration.GetValue<string>("AppSettings:OtelEndpoint"));
     //})
-    );
+);
 
 //https://www.meziantou.net/monitoring-a-dotnet-application-using-opentelemetry.htm
 //TODO change zipkin to OTLP
@@ -96,10 +99,10 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddDomainEventBus(dispatcherOption =>
     {
-        dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<UserDbContext>())
-                        .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                        .UseUoW<UserDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
-                        .UseRepository<UserDbContext>();
+        dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<UserDbContext>())
+            .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
+            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+            .UseRepository<UserDbContext>();
     })
     .AddServices(builder);
 
@@ -110,24 +113,23 @@ app.MigrateDbContext<UserDbContext>((context, services) =>
         return;
     }
 
-    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123", true)
-    {
-        Name = "Administrator",
-        Email = "admin@masastack.com"
-    });
+    context.Set<Masa.Framework.Admin.Service.User.Domain.Aggregates.User>().Add(
+        new Masa.Framework.Admin.Service.User.Domain.Aggregates.User(Guid.Empty, "admin", "admin123", true)
+        {
+            Name = "Administrator",
+            Email = "admin@masastack.com"
+        });
     context.SaveChanges();
 });
 
-app.UseMasaExceptionHandling(opt =>
+app.UseMasaExceptionHandler(option =>
     {
-        opt.CustomExceptionHandler = exception =>
+        option.ExceptionHandler = context =>
         {
-            Exception friendlyException = exception;
-            if (exception is ValidationException validationException)
+            if (context.Exception is ValidationException validationException)
             {
-                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+                context.ToResult(validationException.Errors.Select(validationFailure => validationFailure.ToString()).FirstOrDefault()!);
             }
-            return (friendlyException, false);
         };
     })
     .UseSwagger()
@@ -146,9 +148,9 @@ app.UseEndpoints(endpoint =>
 {
     endpoint.MapSubscribeHandler();
     app.MapHub<LoginHub>("/hub/login",
-                    options => options.Transports =
-                        HttpTransportType.WebSockets |
-                        HttpTransportType.LongPolling);
+        options => options.Transports =
+            HttpTransportType.WebSockets |
+            HttpTransportType.LongPolling);
 });
 
 app.Run();

@@ -1,27 +1,25 @@
-using System.Net.Http.Json;
-
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddGlobalForServer(this IServiceCollection services)
-        {     
-            services.AddMasaI18nForServer("wwwroot/i18n");
-            services.AddScoped<NavHelper>();
-            services.AddScoped<GlobalConfig>();
-            services.AddScoped<PermissionHelper>();
+        public static IBlazorComponentBuilder AddGlobalForServer(this IBlazorComponentBuilder blazorComponentBuilder)
+        {
+            blazorComponentBuilder.AddI18nForServer("wwwroot/i18n");
+            blazorComponentBuilder.Services.AddScoped<NavHelper>();
+            blazorComponentBuilder.Services.AddScoped<GlobalConfig>();
+            blazorComponentBuilder.Services.AddScoped<PermissionHelper>();
 
-            return services;
+            return blazorComponentBuilder;
         }
 
-        public static async Task<IServiceCollection> AddGlobalForWasmAsync(this IServiceCollection services, string baseUri)
-        {          
-            await services.AddMasaI18nForWasmAsync(Path.Combine(baseUri, $"i18n"));
-            services.AddScoped<NavHelper>();
-            services.AddScoped<GlobalConfig>();
-            services.AddScoped<PermissionHelper>();
+        public static async Task<IBlazorComponentBuilder> AddGlobalForWasmAsync(this IBlazorComponentBuilder blazorComponentBuilder, string baseUri)
+        {
+            await blazorComponentBuilder.AddI18nForWasmAsync(Path.Combine(baseUri, $"i18n"));
+            blazorComponentBuilder.Services.AddScoped<NavHelper>();
+            blazorComponentBuilder.Services.AddScoped<GlobalConfig>();
+            blazorComponentBuilder.Services.AddScoped<PermissionHelper>();
 
-            return services;
+            return blazorComponentBuilder;
         }
     }
 }

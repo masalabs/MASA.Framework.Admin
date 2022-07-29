@@ -30,7 +30,7 @@
     <Content Update="Shared\Menus.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="wwwroot\i18n\languageConfig.json">
+    <Content Update="wwwroot\i18n\supportedCultures.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\nav\nav.json">

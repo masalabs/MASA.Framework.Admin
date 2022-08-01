@@ -12,8 +12,7 @@ builder.Services.AddMasaBlazor(builder =>
             option.Accent = "#4318FF";
         }
     );
-});
-builder.Services.AddGlobalForServer();
+}).AddGlobalForServer();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();

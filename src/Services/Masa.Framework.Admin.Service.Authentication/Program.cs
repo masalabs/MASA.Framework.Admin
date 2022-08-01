@@ -29,7 +29,7 @@ var app = builder.Services
         new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly },
         dispatcherOption =>
         {
-            dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<AuthenticationDbContext>())
+            dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<AuthenticationDbContext>())
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
                 .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
                 .UseRepository<AuthenticationDbContext>();
@@ -41,24 +41,22 @@ app.MigrateDbContext<AuthenticationDbContext>((context, services) =>
 {
 });
 
-app.UseMasaExceptionHandling(options =>
+app.UseMasaExceptionHandler(option =>
 {
-    options.CustomExceptionHandler = exception =>
+    option.ExceptionHandler = context =>
     {
-        Exception friendlyException = exception;
-        if (exception is ValidationException validationException)
+        if (context.Exception is ValidationException validationException)
         {
-            friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+            context.ToResult(validationException.Errors.Select(validationFailure => validationFailure.ToString()).FirstOrDefault()!);
         }
-        return (friendlyException, false);
     };
 });
 
 app.UseSwagger()
-   .UseSwaggerUI(c =>
-   {
-       c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
-   });
+    .UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Masa.Framework.Admin Service HTTP API v1");
+    });
 
 app.UseRouting();
 app.UseCloudEvents();

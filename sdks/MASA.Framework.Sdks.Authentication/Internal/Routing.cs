@@ -1,5 +1,3 @@
-using Masa.Framework.Admin.Infrastructure.Configurations.Const;
-
 namespace Masa.Framework.Sdks.Authentication.Internal;
 
 public class Routing

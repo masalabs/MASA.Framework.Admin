@@ -1,6 +1,3 @@
-using Masa.Utils.Exceptions;
-using System.Net;
-
 namespace Masa.Framework.Sdks.Authentication.Callers;
 
 public abstract class CallerBase : HttpClientCallerBase

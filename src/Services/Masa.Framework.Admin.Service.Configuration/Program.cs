@@ -23,26 +23,25 @@ var app = builder.Services.AddFluentValidation(options =>
     })
     .AddDomainEventBus(dispatcherOption =>
     {
-        dispatcherOption.UseDaprEventBus<IntegrationEventLogService>(option => option.UseEventLog<ConfigurationDbContext>())
-                        .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                        .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
-                        .UseRepository<ConfigurationDbContext>();
+        dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<ConfigurationDbContext>())
+            .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
+            .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+            .UseRepository<ConfigurationDbContext>();
     })
     .AddServices(builder);
 
 app.MigrateDbContext<ConfigurationDbContext>((context, services) =>
 {
 });
-app.UseMasaExceptionHandling(opt =>
+
+app.UseMasaExceptionHandler(option =>
     {
-        opt.CustomExceptionHandler = exception =>
+        option.ExceptionHandler = context =>
         {
-            Exception friendlyException = exception;
-            if (exception is ValidationException validationException)
+            if (context.Exception is ValidationException validationException)
             {
-                friendlyException = new UserFriendlyException(validationException.Errors.Select(err => err.ToString()).FirstOrDefault()!);
+                context.ToResult(validationException.Errors.Select(validationFailure => validationFailure.ToString()).FirstOrDefault()!);
             }
-            return (friendlyException, false);
         };
     })
     .UseSwagger()

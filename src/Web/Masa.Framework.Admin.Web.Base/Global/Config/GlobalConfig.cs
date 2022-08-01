@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Masa.Framework.Admin.Web.Base.Global;
 
 public class GlobalConfig

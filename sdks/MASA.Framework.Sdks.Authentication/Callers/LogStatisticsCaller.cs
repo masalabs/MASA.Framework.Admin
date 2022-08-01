@@ -1,74 +1,71 @@
-using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
-using Masa.Framework.Sdks.Authentication.Response.LogStatistics;
+namespace Masa.Framework.Sdks.Authentication.Callers;
 
-namespace Masa.Framework.Sdks.Authentication.Callers
+public class LogStatisticsCaller : CallerBase
 {
-    public class LogStatisticsCaller : CallerBase
+    protected override string BaseAddress { get; set; }
+
+    public LogStatisticsCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
     {
-        protected override string BaseAddress { get; set; }
+        BaseAddress = configuration["ApiGateways:LogStatisticsCaller"];
+    }
 
-        public LogStatisticsCaller(IServiceProvider serviceProvider, IConfiguration configuration) : base(serviceProvider)
+    protected override IHttpClientBuilder UseHttpClient()
+    {
+        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+    }
+
+    public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetDayStatisticsAsync(DateTime start, DateTime end)
+    {
+        var paramters = new Dictionary<string, string>
         {
-            BaseAddress = configuration["ApiGateways:LogStatisticsCaller"];
-        }
+            ["StartTime"] = start.ToString(),
+            ["EndTime"] = end.ToString()
+        };
 
-        protected override IHttpClientBuilder UseHttpClient()
+        return await ResultAsync(async () =>
         {
-            return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-        }
+            var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.DayStatistics, paramters);
+            return response!;
+        });
+    }
 
-        public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetDayStatisticsAsync(DateTime start, DateTime end)
+    public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetHourStatisticsAsync(DateTime start, DateTime end)
+    {
+        var paramters = new Dictionary<string, string>
         {
-            var paramters = new Dictionary<string, string>
-            {
-                ["StartTime"] = start.ToString(),
-                ["EndTime"] = end.ToString()
-            };
-
-            return await ResultAsync(async () =>
-            {
-                var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.DayStatistics, paramters);
-                return response!;
-            });
-        }
-
-        public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetHourStatisticsAsync(DateTime start, DateTime end)
+            ["StartTime"] = start.ToString(),
+            ["EndTime"] = end.ToString()
+        };
+        return await ResultAsync(async () =>
         {
-            var paramters = new Dictionary<string, string>
-            {
-                ["StartTime"] = start.ToString(),
-                ["EndTime"] = end.ToString()
-            };
-            return await ResultAsync(async () =>
-            {
-                var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.HourStatistics, paramters);
-                return response!;
-            });
-        }
+            var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.HourStatistics, paramters);
+            return response!;
+        });
+    }
 
-        public async Task<ApiResultResponseBase> CreateLogAsync(OperationLogCreateRequest operationLogCreateRequest)
+    public async Task<ApiResultResponseBase> CreateLogAsync(OperationLogCreateRequest operationLogCreateRequest)
+    {
+        return await ResultAsync(async () =>
         {
-            return await ResultAsync(async () =>
-            {
-                var response = await CallerProvider.PostAsync(Routing.OperateLog, operationLogCreateRequest);
-                return response!;
-            });
-        }
+            var response = await CallerProvider.PostAsync(Routing.OperateLog, operationLogCreateRequest);
+            return response!;
+        });
+    }
 
-        public async Task<ApiResultResponse<PaginatedItemResponse<OperationLogItemResponse>>> GetLogListAsync(int pageIndex = 1, int pageSize = 20)
+    public async Task<ApiResultResponse<PaginatedItemResponse<OperationLogItemResponse>>> GetLogListAsync(int pageIndex = 1,
+        int pageSize = 20)
+    {
+        var queryArguments = new Dictionary<string, string?>()
         {
-            var queryArguments = new Dictionary<string, string?>()
-            {
-                { "pageIndex", pageIndex.ToString() },
-                { "pageSize", pageSize.ToString() },
-            };
+            { "pageIndex", pageIndex.ToString() },
+            { "pageSize", pageSize.ToString() },
+        };
 
-            return await ResultAsync(async () =>
-            {
-                var url = QueryHelpers.AddQueryString(Routing.LogList, queryArguments);
-                var response = await CallerProvider.GetAsync<PaginatedItemResponse<OperationLogItemResponse>>(url);
-                return response!;
-            });
-        }
+        return await ResultAsync(async () =>
+        {
+            var url = QueryHelpers.AddQueryString(Routing.LogList, queryArguments);
+            var response = await CallerProvider.GetAsync<PaginatedItemResponse<OperationLogItemResponse>>(url);
+            return response!;
+        });
     }
 }

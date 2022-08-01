@@ -1,5 +1,3 @@
-using Masa.Contrib.Dispatcher.IntegrationEvents;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<LoginService>();

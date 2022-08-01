@@ -14,6 +14,7 @@ global using Masa.Contrib.Data.EntityFrameworkCore;
 global using Masa.Contrib.Data.UoW.EF;
 global using Masa.Contrib.Ddd.Domain.Repository.EF;
 global using Masa.Contrib.Dispatcher.Events;
+global using Masa.Contrib.Dispatcher.IntegrationEvents;
 global using Masa.Contrib.Dispatcher.IntegrationEvents.Dapr;
 global using Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EF;
 global using Masa.Contrib.Service.MinimalAPIs;

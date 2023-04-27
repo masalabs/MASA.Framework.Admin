@@ -14,9 +14,9 @@ public class UserCaller : CallerBase
         _userGroupCaller = new UserGroupCaller(authenticationCaller, serviceProvider, configuration);
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
@@ -33,7 +33,7 @@ public class UserCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.UserList, queryArguments);
-            var response = await CallerProvider.GetAsync<PaginatedItemResponse<UserItemResponse>>(url);
+            var response = await Caller.GetAsync<PaginatedItemResponse<UserItemResponse>>(url);
             return response!;
         });
     }
@@ -48,7 +48,7 @@ public class UserCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.UserRole, queryArguments);
-            var response = await CallerProvider.GetAsync<List<UserRoleResponse>>(url);
+            var response = await Caller.GetAsync<List<UserRoleResponse>>(url);
             return response!;
         });
     }
@@ -57,7 +57,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.AllUser);
+            var response = await Caller.GetAsync<List<UserItemResponse>>(Routing.AllUser);
             return response!;
         });
     }
@@ -71,7 +71,7 @@ public class UserCaller : CallerBase
 
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.UserListByRole, queryArguments);
+            var response = await Caller.GetAsync<List<UserItemResponse>>(Routing.UserListByRole, queryArguments);
             return response!;
         });
     }
@@ -81,7 +81,7 @@ public class UserCaller : CallerBase
         var url = Routing.UserDetail.Replace($"{{{nameof(id)}}}", id);
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<UserDetailResponse>(url);
+            var response = await Caller.GetAsync<UserDetailResponse>(url);
             return response!;
         });
     }
@@ -90,7 +90,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.OperateUser, userCreateRequest);
+            var response = await Caller.PostAsync(Routing.OperateUser, userCreateRequest);
             return response!;
         });
     }
@@ -99,7 +99,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.UserRole, createUserRoleRequest);
+            var response = await Caller.PostAsync(Routing.UserRole, createUserRoleRequest);
             return response!;
         });
     }
@@ -108,7 +108,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.UserRole, removeUserRoleRequest);
+            var response = await Caller.DeleteAsync(Routing.UserRole, removeUserRoleRequest);
             return response!;
         });
     }
@@ -117,7 +117,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.UserRoles, request);
+            var response = await Caller.PostAsync(Routing.UserRoles, request);
             return response!;
         });
     }
@@ -126,7 +126,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.UserGroup, createUserGroupRequest);
+            var response = await Caller.PostAsync(Routing.UserGroup, createUserGroupRequest);
             return response!;
         });
     }
@@ -135,7 +135,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.UserGroup, removeUserGroupRequest);
+            var response = await Caller.DeleteAsync(Routing.UserGroup, removeUserGroupRequest);
             return response!;
         });
     }
@@ -149,7 +149,7 @@ public class UserCaller : CallerBase
         };
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.UserWithDepartment, queryArguments);
+            var response = await Caller.GetAsync<List<UserItemResponse>>(Routing.UserWithDepartment, queryArguments);
             return response!;
         });
     }
@@ -158,7 +158,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.OperateUser, new { UserId = id });
+            var response = await Caller.DeleteAsync(Routing.OperateUser, new { UserId = id });
             return response!;
         });
     }
@@ -167,7 +167,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync<UserLoginRequest, string>(Routing.UserLogin, new UserLoginRequest { Account = account, Password = password });
+            var response = await Caller.PostAsync<UserLoginRequest, string>(Routing.UserLogin, new UserLoginRequest { Account = account, Password = password });
             return response!;
         });
     }
@@ -176,7 +176,7 @@ public class UserCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<UserStatisticResponse>("");
+            var response = await Caller.GetAsync<UserStatisticResponse>("");
             return response!;
         });
     }

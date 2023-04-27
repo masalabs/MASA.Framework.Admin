@@ -31,7 +31,7 @@ public class NavHelper
         PageTabItems.Clear();
         SameLevelNavs.Where(nav => nav.Href is not null).ForEach(nav =>
         {
-            PageTabItems.Add(new PageTabItem(nav.Title, nav.Href, nav.Icon ?? nav.ParentNav?.Icon ?? "", PageTabsMatch.Prefix));
+            PageTabItems.Add(new(nav.Title, nav.Href, nav?.Icon));
         });
     }
 
@@ -48,7 +48,7 @@ public class NavHelper
 
         void BindChild(NavModel nav)
         {
-            if(nav.InheritIcon is null) nav.InheritIcon = nav.Icon;
+            if (nav.InheritIcon is null) nav.InheritIcon = nav.Icon;
             var childs = menuNavs.Where(n => n.ParentId == nav.Id).ToArray();
             if (childs.Count() > 0)
             {
@@ -65,5 +65,6 @@ public class NavHelper
             }
         }
     }
+    public record PageTabItem(string Title, string Href, string Icon);
 }
 

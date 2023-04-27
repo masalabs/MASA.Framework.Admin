@@ -9,9 +9,9 @@ public class AuthenticationCaller : CallerBase
         BaseAddress = configuration["ApiGateways:AuthenticationCaller"];
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     #region Role
@@ -29,7 +29,7 @@ public class AuthenticationCaller : CallerBase
 
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<PaginatedItemResponse<RoleItemResponse>>(Routing.RoleList, paramters);
+            var response = await Caller.GetAsync<PaginatedItemResponse<RoleItemResponse>>(Routing.RoleList, paramters);
             return response!;
         });
     }
@@ -42,31 +42,31 @@ public class AuthenticationCaller : CallerBase
             {
                 ["id"] = id.ToString(),
             };
-            var response = await CallerProvider.GetAsync<RoleDetailResponse>(Routing.RoleDetail, paramters);
+            var response = await Caller.GetAsync<RoleDetailResponse>(Routing.RoleDetail, paramters);
             return response!;
         });
     }
 
     public async Task<ApiResultResponseBase> AddRoleAsync(AddRoleRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.OperateRole, request));
+        return await ResultAsync(async () => await Caller.PostAsync(Routing.OperateRole, request));
     }
 
     public async Task<ApiResultResponseBase> AddChildrenRolesAsync(AddChildRolesRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.AddChildRoles, request));
+        return await ResultAsync(async () => await Caller.PostAsync(Routing.AddChildRoles, request));
     }
 
     public async Task<ApiResultResponseBase> EditRoleAsync(EditRoleRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PutAsync(Routing.OperateRole, request));
+        return await ResultAsync(async () => await Caller.PutAsync(Routing.OperateRole, request));
     }
 
     public async Task<ApiResultResponse<List<RoleItemResponse>>> SelectRoleAsync()
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<RoleItemResponse>>(Routing.RoleSelect);
+            var response = await Caller.GetAsync<List<RoleItemResponse>>(Routing.RoleSelect);
             return response!;
         });
     }
@@ -75,7 +75,7 @@ public class AuthenticationCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<RoleItemsResponse>>(Routing.AllRoleItem);
+            var response = await Caller.GetAsync<List<RoleItemsResponse>>(Routing.AllRoleItem);
             return response!;
         });
     }
@@ -88,7 +88,7 @@ public class AuthenticationCaller : CallerBase
             {
                 { "roleIds", JsonSerializer.Serialize(roleIds) }
             };
-            return await CallerProvider.GetAsync<List<AuthorizeItemResponse>>(Routing.PermissionsByRoles, queryArguments);
+            return await Caller.GetAsync<List<AuthorizeItemResponse>>(Routing.PermissionsByRoles, queryArguments);
         }))!;
     }
 
@@ -100,23 +100,23 @@ public class AuthenticationCaller : CallerBase
             {
                 { "roleIds", JsonSerializer.Serialize(roleIds) }
             };
-            return await CallerProvider.GetAsync<List<RoleItemResponse>>(Routing.RoleListByIds, queryArguments!);
+            return await Caller.GetAsync<List<RoleItemResponse>>(Routing.RoleListByIds, queryArguments!);
         }))!;
     }
 
     public async Task<ApiResultResponseBase> DeleteRoleAsync(DeleteRoleRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.OperateRole, request));
+        return await ResultAsync(async () => await Caller.DeleteAsync(Routing.OperateRole, request));
     }
 
     public async Task<ApiResultResponseBase> DeleteRolePermissionAsync(DeleteRolePermissionRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.DeleteRolePermission, request));
+        return await ResultAsync(async () => await Caller.DeleteAsync(Routing.DeleteRolePermission, request));
     }
 
     public async Task<ApiResultResponseBase> AddRolePermissionAsync(AddRolePermissionRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.AddRolePermission, request));
+        return await ResultAsync(async () => await Caller.PostAsync(Routing.AddRolePermission, request));
     }
 
     #endregion
@@ -124,7 +124,7 @@ public class AuthenticationCaller : CallerBase
     #region Permission
     public async Task<ApiResultResponseBase> AddPermissionAsync(AddPermissionRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.OperatePermission, request));
+        return await ResultAsync(async () => await Caller.PostAsync(Routing.OperatePermission, request));
     }
 
     public async Task<ApiResultResponse<List<PermissionItemResponse>>> GetPermissionsByIds(List<Guid> permissionIds)
@@ -135,7 +135,7 @@ public class AuthenticationCaller : CallerBase
             {
                 { "permissionIds", JsonSerializer.Serialize(permissionIds) }
             };
-            return await CallerProvider.GetAsync<List<PermissionItemResponse>>(Routing.PermissionListByIds, queryArguments!);
+            return await Caller.GetAsync<List<PermissionItemResponse>>(Routing.PermissionListByIds, queryArguments!);
         }))!;
     }
     #endregion

@@ -15,7 +15,7 @@ namespace Masa.Framework.Admin.Web.Pages.Dashboard
            new ()
            {
                 Text= T("User Name"),
-                Align= "start",
+                Align=  DataTableHeaderAlign.Start,
                 Sortable= false,
                 Value= nameof(OperationLogItemResponse.UserName),
                 CellClass="text-subtitle"

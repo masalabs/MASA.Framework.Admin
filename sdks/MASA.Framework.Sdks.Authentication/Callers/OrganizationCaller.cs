@@ -10,9 +10,9 @@ public class OrganizationCaller : CallerBase
         BaseAddress = configuration["ApiGateways:UserCaller"];
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     public async Task<ApiResultResponse<List<DepartmentItemResponse>>> GetListAsync(Guid parentId = default(Guid))
@@ -25,7 +25,7 @@ public class OrganizationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.DepartmentList, queryArguments);
-            var response = await CallerProvider.GetAsync<List<DepartmentItemResponse>>(url);
+            var response = await Caller.GetAsync<List<DepartmentItemResponse>>(url);
             return response!;
         });
     }
@@ -34,7 +34,7 @@ public class OrganizationCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.OperateDepartment, createDepartmentRequest);
+            var response = await Caller.PostAsync(Routing.OperateDepartment, createDepartmentRequest);
             return response!;
         });
     }
@@ -51,7 +51,7 @@ public class OrganizationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.DepartmentUsers, queryArguments);
-            var response = await CallerProvider.GetAsync<PaginatedItemResponse<UserItemResponse>>(url);
+            var response = await Caller.GetAsync<PaginatedItemResponse<UserItemResponse>>(url);
             return response!;
         });
     }
@@ -60,7 +60,7 @@ public class OrganizationCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.DepartmentUsers, updateDepartmentUserRequest);
+            var response = await Caller.PostAsync(Routing.DepartmentUsers, updateDepartmentUserRequest);
             return response!;
         });
     }

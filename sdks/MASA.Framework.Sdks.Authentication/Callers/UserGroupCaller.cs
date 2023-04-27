@@ -12,9 +12,9 @@ public class UserGroupCaller : CallerBase
         _authenticationCaller = authenticationCaller;
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<UserGroupItemResponse>>> GetListAsync(int pageIndex = 1, int pageSize = 20,
@@ -30,7 +30,7 @@ public class UserGroupCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.UserGroupList, queryArguments);
-            var response = await CallerProvider.GetAsync<PaginatedItemResponse<UserGroupItemResponse>>(url);
+            var response = await Caller.GetAsync<PaginatedItemResponse<UserGroupItemResponse>>(url);
             return response!;
         });
     }
@@ -39,7 +39,7 @@ public class UserGroupCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.OperateGroup, createUserGroupRequest);
+            var response = await Caller.PostAsync(Routing.OperateGroup, createUserGroupRequest);
             return response!;
         });
     }
@@ -48,7 +48,7 @@ public class UserGroupCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.OperateGroup, new { id });
+            var response = await Caller.DeleteAsync(Routing.OperateGroup, new { id });
             return response!;
         });
     }
@@ -61,7 +61,7 @@ public class UserGroupCaller : CallerBase
         };
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserGroupItemResponse>>(Routing.GroupByUser, queryArguments);
+            var response = await Caller.GetAsync<List<UserGroupItemResponse>>(Routing.GroupByUser, queryArguments);
             return response!;
         });
     }
@@ -74,7 +74,7 @@ public class UserGroupCaller : CallerBase
         };
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserItemResponse>>(Routing.GroupUsers, queryArguments);
+            var response = await Caller.GetAsync<List<UserItemResponse>>(Routing.GroupUsers, queryArguments);
             return response!;
         });
     }
@@ -83,7 +83,7 @@ public class UserGroupCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<UserGroupItemResponse>>(Routing.UserGroupSelect);
+            var response = await Caller.GetAsync<List<UserGroupItemResponse>>(Routing.UserGroupSelect);
             return response!;
         });
     }
@@ -92,7 +92,7 @@ public class UserGroupCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.OperateGroup, createUserGroupRequest);
+            var response = await Caller.PostAsync(Routing.OperateGroup, createUserGroupRequest);
             return response!;
         });
     }
@@ -107,7 +107,7 @@ public class UserGroupCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.UserGroupPermissions, queryArguments);
-            var response = await CallerProvider.GetAsync<List<Guid>>(url);
+            var response = await Caller.GetAsync<List<Guid>>(url);
             return response!;
         });
     }
@@ -134,7 +134,7 @@ public class UserGroupCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.DeleteAsync(Routing.GroupPermission, removeGroupPermissionRequest);
+            var response = await Caller.DeleteAsync(Routing.GroupPermission, removeGroupPermissionRequest);
             return response!;
         });
     }

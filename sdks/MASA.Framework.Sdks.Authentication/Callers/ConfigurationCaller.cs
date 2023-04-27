@@ -9,9 +9,9 @@ public class ConfigurationCaller : CallerBase
         BaseAddress = configuration["ApiGateways:ConfigurationCaller"];
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     public async Task<ApiResultResponse<PaginatedItemResponse<MenuItemResponse>>> GetItemsAsync(
@@ -28,13 +28,13 @@ public class ConfigurationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.MenuList, paramters);
-            return (await CallerProvider.GetAsync<PaginatedItemResponse<MenuItemResponse>>(url))!;
+            return (await Caller.GetAsync<PaginatedItemResponse<MenuItemResponse>>(url))!;
         });
     }
 
     public async Task<ApiResultResponse<List<MenuItemResponse>>> GetAllAsync()
     {
-        return (await ResultAsync(async () => await CallerProvider.GetAsync<List<MenuItemResponse>>(Routing.AllMenus)))!;
+        return (await ResultAsync(async () => await Caller.GetAsync<List<MenuItemResponse>>(Routing.AllMenus)))!;
     }
 
     public async Task<ApiResultResponse<bool>> AnyChildAsync(Guid menuId)
@@ -46,27 +46,27 @@ public class ConfigurationCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.AnyChild, paramters);
-            return await CallerProvider.GetAsync<bool>(url);
+            return await Caller.GetAsync<bool>(url);
         });
     }
 
     public async Task<ApiResultResponseBase> CreateAsync(AddMenuRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PostAsync(Routing.OperateMenu, request));
+        return await ResultAsync(async () => await Caller.PostAsync(Routing.OperateMenu, request));
     }
 
     public async Task<ApiResultResponseBase> EditAsync(EditMenuRequest request)
     {
-        return await ResultAsync(async () => await CallerProvider.PutAsync(Routing.OperateMenu, request));
+        return await ResultAsync(async () => await Caller.PutAsync(Routing.OperateMenu, request));
     }
 
     public async Task<ApiResultResponseBase> DeleteAsync(Guid id)
     {
-        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.OperateMenu, new DeleteMenuRequest { MenuId = id }));
+        return await ResultAsync(async () => await Caller.DeleteAsync(Routing.OperateMenu, new DeleteMenuRequest { MenuId = id }));
     }
 
     public async Task<ApiResultResponseBase> DeleteByIdsAsync(Guid[] menuIds)
     {
-        return await ResultAsync(async () => await CallerProvider.DeleteAsync(Routing.DeleteMenuByIds, new DeleteMenuByIdsRequest(menuIds)));
+        return await ResultAsync(async () => await Caller.DeleteAsync(Routing.DeleteMenuByIds, new DeleteMenuByIdsRequest(menuIds)));
     }
 }

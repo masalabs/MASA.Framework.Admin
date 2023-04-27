@@ -21,7 +21,7 @@ global using Masa.Framework.Sdks.Authentication.Callers;
 global using Masa.Framework.Sdks.Authentication.Internal;
 global using Masa.Framework.Sdks.Authentication.Internal.Enum;
 global using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
-global using Masa.Utils.Caller.Core;
+global using Masa.Contrib.Service.Caller;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Authorization;

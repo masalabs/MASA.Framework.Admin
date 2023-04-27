@@ -1,4 +1,4 @@
-using Masa.Contrib.ReadWriteSpliting.Cqrs.Commands;
+using Masa.Contrib.ReadWriteSplitting.Cqrs.Commands;
 
 namespace Masa.Framework.Admin.Service.LogStatistics.Application.Statistics.Commands
 {

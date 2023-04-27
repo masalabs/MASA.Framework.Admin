@@ -161,9 +161,9 @@
                     <MCol Md=4 Sm=12>
                         <span class="text-btn">Contact Options</span>
                         <div class="d-flex mt-n2">
-                            <MCheckbox Label="Email" HideDetails="@("auto")" Color="primary"></MCheckbox>
-                            <MCheckbox Label="Message" HideDetails="@("auto")" Color="primary" Class="ml-2"></MCheckbox>
-                            <MCheckbox Label="Phone" HideDetails="@("auto")" Color="primary" Class="ml-2"></MCheckbox>
+                            <MCheckbox Label="Email" HideDetails="@("auto")" Color="primary" Value="false"></MCheckbox>
+                            <MCheckbox Label="Message" HideDetails="@("auto")" Color="primary" Class="ml-2" Value="false"></MCheckbox>
+                            <MCheckbox Label="Phone" HideDetails="@("auto")" Color="primary" Class="ml-2" Value="false"></MCheckbox>
                         </div>
 
                     </MCol>
@@ -260,9 +260,9 @@
     private List<DataTableHeader<PermissionDto>> _headers = new List<DataTableHeader<PermissionDto>>
     {
         new (){ Text= "MODULE", Sortable= false, Value= nameof(PermissionDto.Module)},
-        new (){ Text= "READ", Sortable= false, Value= nameof(PermissionDto.Read),Align="center"},
-        new (){ Text= "WRITE", Sortable= false, Value= nameof(PermissionDto.Write),Align="center"},
-        new (){ Text= "CREATE", Sortable= false, Value= nameof(PermissionDto.Create),Align="center"},
-        new (){ Text= "DELETE", Sortable= false, Value= nameof(PermissionDto.Delete),Align="center"}
+        new (){ Text= "READ", Sortable= false, Value= nameof(PermissionDto.Read),Align= DataTableHeaderAlign.Center},
+        new (){ Text= "WRITE", Sortable= false, Value= nameof(PermissionDto.Write),Align= DataTableHeaderAlign.Center},
+        new (){ Text= "CREATE", Sortable= false, Value= nameof(PermissionDto.Create),Align= DataTableHeaderAlign.Center},
+        new (){ Text= "DELETE", Sortable= false, Value= nameof(PermissionDto.Delete),Align= DataTableHeaderAlign.Center}
     };
 }

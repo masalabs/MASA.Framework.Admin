@@ -26,7 +26,7 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;_form.Reset();}">
                     @T("Add UserGroup")
                 </MButton>
             </MCol>
@@ -88,7 +88,7 @@
         <span class="text-h6">@T("Add UserGroup")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=_createUserGroup EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
+    <MForm Model=_createUserGroup EnableValidation @bind-Value="_valid" @ref="_form">
         <MTextField @bind-Value="_createUserGroup.Name" Class="mb-6" Label="@T("UserGroupName")" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_createUserGroup.Code" Class="mb-6" Label="@T("UserGroupCode")" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_createUserGroup.Describtion" Class="mb-6" Label="@T("UserGroupDescribtion")" HideDetails="@("auto")" Dense Outlined />

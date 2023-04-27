@@ -4,21 +4,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDaprClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddMasaBlazor(builder =>
-{
-    builder.UseTheme(option =>
-        {
-            option.Primary = "#4318FF";
-            option.Accent = "#4318FF";
-        }
-    );
-}).AddGlobalForServer();
+builder.Services.AddMasaBlazor().AddGlobalForServer();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
 Assembly[] assemblies = { typeof(ConfigurationCaller).Assembly };
-builder.Services.AddCaller(assemblies);
+builder.Services.AddAutoRegistrationCaller(assemblies);
 builder.Services.AddRBAC();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>

@@ -37,7 +37,7 @@
                         <MIcon Size=16 Class="mr-2 neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
-                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;await _form.ResetAsync();}">
+                <MButton Color="primary" MinWidth=80 Height=32 Class="ml-6 rounded-pill" OnClick="async ()=>{_visible=true;_form.Reset();}">
                     @T("Add User")
                 </MButton>
             </MCol>
@@ -148,7 +148,7 @@
         <span class="text-h6">@T("Add User")</span>
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="()=>_visible=false">mdi-close</MIcon>
     </div>
-    <MForm Model=_createUserModel EnableDataAnnotationsValidation @bind-Value="_valid" @ref="_form">
+    <MForm Model=_createUserModel EnableValidation @bind-Value="_valid" @ref="_form">
         <MTextField @bind-Value="_createUserModel.Account" Class="mb-6" Label="@T("Account")" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_createUserModel.Pwd" Class="mb-6" Type="password" Label="@T("Password")" HideDetails="@("auto")" Dense Outlined />
         <MTextField @bind-Value="_createUserModel.ConfirmPwd" Class="mb-6" Type="password" Label="@T("ConfirmPassword")" HideDetails="@("auto")" Dense Outlined />

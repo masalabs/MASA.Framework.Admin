@@ -25,7 +25,7 @@
 
     <MCard Class="max-width ml-8">
         <MCardText>
-            <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
+            <MForm Model=Page.CurrentData EnableValidation>
                 <MRow>
                     <MCol>
                         <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Menu.Name")" HideDetails="@("auto")" Outlined />
@@ -110,7 +110,7 @@
         }
     }
 
-    private async Task EditData(EditContext context)
+    private async Task EditData(FormContext context)
     {
         if (context.Validate())
         {

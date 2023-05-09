@@ -1,5 +1,3 @@
-using Masa.BuildingBlocks.Dispatcher.IntegrationEvents;
-
 var builder = WebApplication.CreateBuilder(args);
 
 #if DEBUG
@@ -8,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #endif
 
-builder.Services.AddDistributedCache(options=>options.UseStackExchangeRedisCache());
+builder.Services.AddMultilevelCache(options=>options.UseStackExchangeRedisCache());
 
 var app = builder.Services
     .AddEndpointsApiExplorer()

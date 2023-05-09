@@ -77,7 +77,7 @@ public partial class TodoDetail
 
         if (ValueChanged.HasDelegate && !Value && _mForm != null)
         {
-            _mForm.Reset();
+            _mForm.ResetValidation();
         }
     }
 

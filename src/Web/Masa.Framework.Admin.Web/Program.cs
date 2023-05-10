@@ -4,7 +4,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDaprClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddMasaBlazor().AddGlobalForServer();
+builder.Services.AddMasaBlazor(options => options.ConfigureTheme(config =>
+{
+    config.Themes.Light.Primary= "#4318FF";
+    config.Themes.Light.Accent= "#4318FF";
+})).AddGlobalForServer();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();

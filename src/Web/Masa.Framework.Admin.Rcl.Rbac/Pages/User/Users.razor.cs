@@ -65,7 +65,7 @@ public partial class Users
         });
     }
 
-    private async Task CreateUser(EditContext context)
+    private async Task CreateUser(FormContext context)
     {
         var success = context.Validate();
         if (!success)

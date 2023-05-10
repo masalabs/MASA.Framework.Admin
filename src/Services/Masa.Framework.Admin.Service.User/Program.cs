@@ -95,11 +95,12 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Users Service HTTP API"
         });
     })
+    .AddMasaDbContext<UserDbContext>(dbOptions => dbOptions.UseSqlServer().UseFilter())
     .AddDomainEventBus(dispatcherOption =>
     {
         dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<UserDbContext>())
             .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-            .UseUoW<UserDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+            .UseUoW<UserDbContext>()
             .UseRepository<UserDbContext>();
     })
     .AddServices(builder);

@@ -1,6 +1,7 @@
 global using BlazorComponent;
 global using Dapr.Client;
 global using Masa.Blazor;
+global using Masa.Contrib.Service.Caller;
 global using Masa.Framework.Admin.Web.Base.Global;
 global using Masa.Framework.Admin.Web.Base.Shared;
 global using Masa.Framework.Admin.Web.Data.App.ECommerce;
@@ -21,7 +22,6 @@ global using Masa.Framework.Sdks.Authentication.Callers;
 global using Masa.Framework.Sdks.Authentication.Internal;
 global using Masa.Framework.Sdks.Authentication.Internal.Enum;
 global using Masa.Framework.Sdks.Authentication.Request.LogStatistics;
-global using Masa.Utils.Caller.Core;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Authorization;

@@ -41,7 +41,7 @@ namespace Masa.Framework.Admin.Rcl.Rbac.Pages.User
             });
         }
 
-        private async Task CreateGroup(EditContext context)
+        private async Task CreateGroup(FormContext context)
         {
             var success = context.Validate();
             if (!success)

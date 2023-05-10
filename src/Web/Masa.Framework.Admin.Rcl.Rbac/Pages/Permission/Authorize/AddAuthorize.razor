@@ -6,7 +6,7 @@
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="async ()=> await UpdateVisible(false)">mdi-close</MIcon>
     </div>
 
-    <MForm Model=AuthoriedData EnableDataAnnotationsValidation>       
+    <MForm Model=AuthoriedData EnableValidation>       
         <MSelect
                  Value="@AuthoriedData.ObjectType"
                  ValueChanged="value => ObjectValueChanged(value)"
@@ -133,7 +133,7 @@
         }
     }
 
-    private async Task AddAuthorizeeAsync(EditContext context)
+    private async Task AddAuthorizeeAsync(FormContext context)
     {
         if (context.Validate())
         {

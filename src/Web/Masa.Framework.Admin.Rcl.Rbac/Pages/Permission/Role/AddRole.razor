@@ -6,7 +6,7 @@
         <MIcon Color="neutral-lighten-3" Size=24 OnClick="async ()=> await UpdateVisible(false)">mdi-close</MIcon>
     </div>
 
-    <MForm Model=Page.CurrentData EnableDataAnnotationsValidation>
+    <MForm Model=Page.CurrentData EnableValidation="true">
         <MTextField @bind-Value="Page.CurrentData.Name" Class="mb-6" Label="@T("Role.Name")" HideDetails="@("auto")" Outlined />
         <MTextField @bind-Value="Page.CurrentData.Number" Class="mb-6" Label="@T("Role.Number")" HideDetails="@("auto")" Outlined />
         <MTextarea @bind-Value="Page.CurrentData.Description" Class="mb-6" Label="@T("Description")" HideDetails="@("auto")" Outlined />
@@ -39,7 +39,7 @@
         }
     }
 
-    private async Task AddOrUpdateAsync(EditContext context)
+    private async Task AddOrUpdateAsync(FormContext context)
     {
         if (context.Validate())
         {

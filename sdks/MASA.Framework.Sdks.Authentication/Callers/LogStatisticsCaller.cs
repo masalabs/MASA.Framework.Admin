@@ -9,9 +9,9 @@ public class LogStatisticsCaller : CallerBase
         BaseAddress = configuration["ApiGateways:LogStatisticsCaller"];
     }
 
-    protected override IHttpClientBuilder UseHttpClient()
+    protected override void UseHttpClientPost(MasaHttpClientBuilder masaHttpClientBuilder)
     {
-        return base.UseHttpClient().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+        masaHttpClientBuilder.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
     }
 
     public async Task<ApiResultResponse<List<StatisticsQueryResponse>>> GetDayStatisticsAsync(DateTime start, DateTime end)
@@ -24,7 +24,7 @@ public class LogStatisticsCaller : CallerBase
 
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.DayStatistics, paramters);
+            var response = await Caller.GetAsync<List<StatisticsQueryResponse>>(Routing.DayStatistics, paramters);
             return response!;
         });
     }
@@ -38,7 +38,7 @@ public class LogStatisticsCaller : CallerBase
         };
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.GetAsync<List<StatisticsQueryResponse>>(Routing.HourStatistics, paramters);
+            var response = await Caller.GetAsync<List<StatisticsQueryResponse>>(Routing.HourStatistics, paramters);
             return response!;
         });
     }
@@ -47,7 +47,7 @@ public class LogStatisticsCaller : CallerBase
     {
         return await ResultAsync(async () =>
         {
-            var response = await CallerProvider.PostAsync(Routing.OperateLog, operationLogCreateRequest);
+            var response = await Caller.PostAsync(Routing.OperateLog, operationLogCreateRequest);
             return response!;
         });
     }
@@ -64,7 +64,7 @@ public class LogStatisticsCaller : CallerBase
         return await ResultAsync(async () =>
         {
             var url = QueryHelpers.AddQueryString(Routing.LogList, queryArguments);
-            var response = await CallerProvider.GetAsync<PaginatedItemResponse<OperationLogItemResponse>>(url);
+            var response = await Caller.GetAsync<PaginatedItemResponse<OperationLogItemResponse>>(url);
             return response!;
         });
     }

@@ -4,21 +4,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDaprClient();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddMasaBlazor(builder =>
+builder.Services.AddMasaBlazor(options => options.ConfigureTheme(config =>
 {
-    builder.UseTheme(option =>
-        {
-            option.Primary = "#4318FF";
-            option.Accent = "#4318FF";
-        }
-    );
-}).AddGlobalForServer();
+    config.Themes.Light.Primary= "#4318FF";
+    config.Themes.Light.Accent= "#4318FF";
+})).AddGlobalForServer();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
 Assembly[] assemblies = { typeof(ConfigurationCaller).Assembly };
-builder.Services.AddCaller(assemblies);
+builder.Services.AddAutoRegistrationCaller(assemblies);
 builder.Services.AddRBAC();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
@@ -40,6 +36,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+builder.WebHost.UseWebRoot("wwwroot").UseStaticWebAssets();
 
 app.UseHttpsRedirection();
 

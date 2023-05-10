@@ -6,9 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #endif
 
-builder.Services
-    .AddMasaRedisCache(builder.Configuration.GetSection("RedisConfig"))
-    .AddMasaMemoryCache();
+builder.Services.AddMultilevelCache(options=>options.UseStackExchangeRedisCache());
 
 var app = builder.Services
     .AddEndpointsApiExplorer()
@@ -25,13 +23,14 @@ var app = builder.Services
     {
         options.RegisterValidatorsFromAssemblyContaining<AuthenticationDbContext>();
     })
+    .AddMasaDbContext<AuthenticationDbContext>(dbOptions => dbOptions.UseSqlServer().UseFilter())
     .AddDomainEventBus(
         new[] { typeof(AuthenticationDbContext).Assembly, typeof(AddRolePermissionIntegraionEvent).Assembly },
         dispatcherOption =>
         {
             dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<AuthenticationDbContext>())
                 .UseEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-                .UseUoW<AuthenticationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+                .UseUoW<AuthenticationDbContext>()
                 .UseRepository<AuthenticationDbContext>();
         }
     )

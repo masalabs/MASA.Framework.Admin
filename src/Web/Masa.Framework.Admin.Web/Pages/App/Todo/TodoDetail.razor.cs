@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Masa.Framework.Admin.Web.Pages.App.Todo;
 
@@ -77,11 +77,11 @@ public partial class TodoDetail
 
         if (ValueChanged.HasDelegate && !Value && _mForm != null)
         {
-            await _mForm.ResetValidationAsync();
+            _mForm.ResetValidation();
         }
     }
 
-    private async Task AddAsync(EditContext context)
+    private async Task AddAsync(FormContext context)
     {
         var success = context.Validate();
         if (success)
@@ -94,12 +94,12 @@ public partial class TodoDetail
         }
     }
 
-    private async Task UpdateAsync(EditContext context)
+    private async Task UpdateAsync(FormContext context)
     {
         var success = context.Validate();
         if (success)
         {
-            var data = (TodoDto)context.Model;
+            var data = (TodoDto)context.EditContext.Model;
             Todo.UpdateData(data);
             await HideNavigationDrawer();
         }
@@ -109,7 +109,7 @@ public partial class TodoDetail
     {
         if (_mForm != null)
         {
-            await _mForm.ResetValidationAsync();
+            _mForm.ResetValidation();
         }
 
         if (SelectItem != null)

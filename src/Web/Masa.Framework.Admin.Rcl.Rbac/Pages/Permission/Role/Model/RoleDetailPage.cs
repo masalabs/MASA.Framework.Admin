@@ -124,7 +124,7 @@ public class RoleDetailPage : ComponentPageBase
         }
     }
 
-    public async Task<bool> UpdateRoleInfoAsync(EditContext context)
+    public async Task<bool> UpdateRoleInfoAsync(FormContext context)
     {
         if (context.Validate())
         {

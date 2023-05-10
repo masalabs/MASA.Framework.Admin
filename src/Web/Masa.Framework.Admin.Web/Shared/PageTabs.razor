@@ -2,28 +2,29 @@
 @inject NavHelper NavHelper
 @inject NavigationManager NavigationManager
 
-<MPageTabs Value="NavHelper.PageTabItems.FindIndex(tab => tab.Url == NavigationManager.Uri.Replace(NavigationManager.BaseUri,string.Empty))" Class="px-6 pagetabs" Items="NavHelper.PageTabItems">
-    <TabContent>
-        <MTab Value="NavHelper.PageTabItems.FindIndex(tab=> tab.Url==context.Item.Url)" Href="@context.Item.Url" @attributes="@context.Attrs" class="px-6 rounded-t-xl m-page_tab"
-              ActiveClass="m-page_tab_active" IsActive=context.IsActive Ripple="false">
-            <MIcon Size=20>@context.Item.Icon</MIcon>
-            <span class="mx-2 text-capitalize" style="min-width:46px;">@T(context.Item.Name)</span>
-            @if (context.Item.Closable)
-            {
-                <MIcon Size=16 OnClick="context.Close">mdi-close</MIcon>
-            }
-        </MTab>
-    </TabContent>
+<PPageTabs @ref="PPageTabs" TabClass="px-6 rounded-t-xl" Ripple="false" HideSlider SelfPatterns="@SelfPatterns" TabOptions="@TabOptions">
     <ChildContent>
-        <div class="mt-6">
-            @ChildContent
-        </div>
+        @ChildContent
     </ChildContent>
-</MPageTabs>
+</PPageTabs>
 
 @code {
-    StringNumber _tabIndex = 0;
+
+    public PPageTabs? PPageTabs { get; private set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public IEnumerable<string>? SelfPatterns { get; set; }
+
+    private TabOptions TabOptions(PageTabPathValue value)
+    {
+        var item = NavHelper.PageTabItems.FirstOrDefault(u => value.IsMatch(u.Href));
+        var title = T(item?.Title);
+        var icon = item.Icon;
+        var titleClass = $"mx-2 text-capitalize {(value.Selected ? "neutral--text" : "")}";
+        return new TabOptions(title, icon, titleClass);
+    }
+
 }

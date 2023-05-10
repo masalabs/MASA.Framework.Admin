@@ -1,3 +1,4 @@
+global using Masa.Contrib.Service.Caller.HttpClient;
 global using Masa.Framework.Admin.Infrastructure.Configurations.Const;
 global using Masa.Framework.Admin.Infrastructure.Configurations.Response;
 global using Masa.Framework.Sdks.Authentication.Internal;
@@ -12,8 +13,6 @@ global using Masa.Framework.Sdks.Authentication.Response.Base;
 global using Masa.Framework.Sdks.Authentication.Response.Configuration;
 global using Masa.Framework.Sdks.Authentication.Response.LogStatistics;
 global using Masa.Framework.Sdks.Authentication.Response.Users;
-global using Masa.Utils.Caller.HttpClient;
-global using Masa.Utils.Exceptions;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.Extensions.Configuration;

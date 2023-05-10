@@ -21,11 +21,12 @@ var app = builder.Services.AddFluentValidation(options =>
             Description = "The Configurations Service HTTP API"
         });
     })
+    .AddMasaDbContext<ConfigurationDbContext>(dbOptions => dbOptions.UseSqlServer().UseFilter())
     .AddDomainEventBus(dispatcherOption =>
     {
         dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<ConfigurationDbContext>())
             .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-            .UseUoW<ConfigurationDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+            .UseUoW<ConfigurationDbContext>()
             .UseRepository<ConfigurationDbContext>();
     })
     .AddServices(builder);

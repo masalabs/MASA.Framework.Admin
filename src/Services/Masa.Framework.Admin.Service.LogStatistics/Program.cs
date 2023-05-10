@@ -20,11 +20,12 @@ var app = builder.Services
             Description = "The Users Service HTTP API"
         });
     })
+    .AddMasaDbContext<LogStatisticsDbContext>(dbOptions => dbOptions.UseSqlServer().UseFilter())
     .AddDomainEventBus(dispatcherOption =>
     {
         dispatcherOption.UseIntegrationEventBus(option => option.UseDapr().UseEventLog<LogStatisticsDbContext>())
             .UseEventBus(eventBuilder => eventBuilder.UseMiddleware(typeof(ValidatorMiddleware<>)))
-            .UseUoW<LogStatisticsDbContext>(dbOptions => dbOptions.UseFilter().UseSqlServer())
+            .UseUoW<LogStatisticsDbContext>()
             .UseRepository<LogStatisticsDbContext>();
     })
     .AddServices(builder);

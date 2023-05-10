@@ -1,6 +1,6 @@
-﻿namespace Masa.Framework.Admin.Configuration.Infrastructure.Middleware;
+namespace Masa.Framework.Admin.Configuration.Infrastructure.Middleware;
 
-public class ValidatorMiddleware<TEvent> : Middleware<TEvent>
+public class ValidatorMiddleware<TEvent> : EventMiddleware<TEvent>
     where TEvent : notnull, IEvent
 {
     private readonly ILogger<ValidatorMiddleware<TEvent>> _logger;

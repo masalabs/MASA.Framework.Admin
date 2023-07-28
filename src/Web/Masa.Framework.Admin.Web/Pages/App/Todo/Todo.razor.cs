@@ -1,4 +1,4 @@
-﻿namespace Masa.Framework.Admin.Web.Pages.App.Todo
+namespace Masa.Framework.Admin.Web.Pages.App.Todo
 {
     public partial class Todo
     {
@@ -6,9 +6,9 @@
         private readonly string[] _avas = TodoService.GetAvatars();
 
         private TodoDto _selectItem = new();
-        private string? _filterText;
-        private bool _visible = false;
-        private string? _inputText;
+        private string _filterText = "";
+        private bool? _visible = false;
+        private string _inputText = "";
         private List<TodoDto> _thisList = new();
         private readonly List<TodoDto> _dataList = TodoService.GetList();
 
@@ -62,7 +62,7 @@
             _thisList = _thisList.OrderBy(d => d.DueDate).ToList();
         }
 
-        private void InputTextChanged(string? text)
+        private void InputTextChanged(string text)
         {
             if (!string.IsNullOrWhiteSpace(text))
                 _thisList = _dataList.Where(item => item.Title.Contains(text)).ToList();
@@ -70,7 +70,7 @@
                 _thisList = _dataList;
         }
 
-        public string? InputText
+        public string InputText
         {
             get { return _inputText; }
             set

@@ -24,11 +24,9 @@ public class RoleDetailPage : ComponentPageBase
 
     public bool OpenAddUserRoleDialog { get; set; }
 
-    public bool OpenAddAuthorizeDialog { get; set; }
+    public bool? OpenAddAuthorizeDialog { get; set; }
 
     public bool OpenAddChildrenRolesDialog { get; set; }
-
-    public bool OpenAddMenuDialog { get; set; }
 
     public List<DataTableHeader<RoleItemResponse>> ChildrenRoleHeaders { get; set; }
 

@@ -2,7 +2,7 @@ namespace Masa.Framework.Admin.Rcl.Rbac.Pages.User;
 
 public partial class UserGroupView
 {
-    bool _permissionDialog;
+    bool? _permissionDialog;
     List<UserItemResponse> _groupUsers = new();
     List<PermissionItemResponse> _groupPermissions = new();
     List<DataTableHeader<UserItemResponse>> _userHeaders = new List<DataTableHeader<UserItemResponse>>

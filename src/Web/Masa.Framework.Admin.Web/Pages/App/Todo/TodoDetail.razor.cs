@@ -1,12 +1,11 @@
-using Microsoft.AspNetCore.Components.Forms;
-
 namespace Masa.Framework.Admin.Web.Pages.App.Todo;
 
 public partial class TodoDetail
 {
     private readonly List<SelectData> _tagList = TodoService.GetTagList();
     private readonly List<SelectData> _assigneeList = TodoService.GetAssigneeList();
-    private MForm? _mForm;
+    private MForm _mForm = default!;
+    private bool _dueDateMenu;
     private bool _isEdit;
     private TodoDto _selectData = new();
 
@@ -18,13 +17,13 @@ public partial class TodoDetail
     public Todo Todo { get; set; } = default!;
 
     [Parameter]
-    public bool Value { get; set; }
+    public bool? Value { get; set; }
 
     [Parameter]
-    public TodoDto? SelectItem { get; set; }
+    public TodoDto SelectItem { get; set; }
 
     [Parameter]
-    public EventCallback<bool> ValueChanged { get; set; }
+    public EventCallback<bool?> ValueChanged { get; set; }
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
@@ -48,7 +47,7 @@ public partial class TodoDetail
         _selectData.Tag.Remove(lable);
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (SelectItem == null)
         {
@@ -75,7 +74,7 @@ public partial class TodoDetail
         };
         _selectData.Tag.AddRange(SelectItem.Tag);
 
-        if (ValueChanged.HasDelegate && !Value && _mForm != null)
+        if (ValueChanged.HasDelegate && Value == false && _mForm != null)
         {
             _mForm.ResetValidation();
         }
@@ -105,7 +104,7 @@ public partial class TodoDetail
         }
     }
 
-    private async Task ResetAsync()
+    private void Reset()
     {
         if (_mForm != null)
         {

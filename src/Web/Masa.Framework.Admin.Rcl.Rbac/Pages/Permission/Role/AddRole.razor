@@ -22,10 +22,10 @@
     public RolePage Page { get; set; } = default!;
 
     [Parameter]
-    public bool Visible { get; set; }
+    public bool? Visible { get; set; }
 
     [Parameter]
-    public EventCallback<bool> VisibleChanged { get; set; }
+    public EventCallback<bool?> VisibleChanged { get; set; }
 
     private async Task UpdateVisible(bool visible)
     {

@@ -1,9 +1,9 @@
-﻿namespace Masa.Framework.Admin.Web.Pages.App.Invoice
+namespace Masa.Framework.Admin.Web.Pages.App.Invoice
 {
     public partial class Preview
     {
-        private bool _showSendInvoice;
-        private bool _showAddPayment;
+        private bool? _showSendInvoice;
+        private bool? _showAddPayment;
         private InvoiceRecordDto? _invoiceRecord;
 
         [Parameter]

@@ -2,7 +2,7 @@ namespace Masa.Framework.Admin.Web.Pages.App.Invoice
 {
     public partial class Add : AdminCompontentBase
     {
-        private bool _showAddPayment;
+        private bool? _showAddPayment;
         private string _invoiceTo = "";
         private readonly List<string> _invoices = new()
         {

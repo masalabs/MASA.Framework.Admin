@@ -22,7 +22,7 @@
 
 </MNavigationDrawer>
 
-@if(IsShow)
+@if(IsShow==true)
 {
     <MButton Small Fab Color="primary" Style="@($"bottom:58px;z-index:7;position: fixed;{(GlobalConfig.NavigationMini ? "left:60px;" : "left:280px;")}")" OnClick="()=>{GlobalConfig.ExpandOnHover=!GlobalConfig.ExpandOnHover;}">
         <MIcon Class="white--text">
@@ -32,5 +32,5 @@
 }
 
 @code {
-    bool IsShow { get; set; }
+    bool? IsShow { get; set; }
 }

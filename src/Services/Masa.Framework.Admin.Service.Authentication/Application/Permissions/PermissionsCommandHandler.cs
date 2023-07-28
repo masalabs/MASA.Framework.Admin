@@ -4,11 +4,16 @@ public class PermissionsCommandHandler
 {
     private readonly IPermissionRepository _repository;
     private readonly PermissionDomainService _domainService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PermissionsCommandHandler(IPermissionRepository repository, PermissionDomainService domainService)
+    public PermissionsCommandHandler(
+        IPermissionRepository repository,
+        PermissionDomainService domainService,
+        IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _domainService = domainService;
+        _unitOfWork = unitOfWork;
     }
 
     [EventHandler]
@@ -32,7 +37,7 @@ public class PermissionsCommandHandler
             command.Action,
             command.PermissionType);
         await _repository.AddAsync(permission);
-        await _repository.UnitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
         if (command.RoleId.HasValue)
         {
             await _domainService.AddRolePermissionAsync(permission, command.RoleId, command.PermissionType);

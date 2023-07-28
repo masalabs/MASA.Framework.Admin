@@ -78,10 +78,10 @@
     public bool OpenAddMenuDialog { get; set; }
 
     [Parameter]
-    public bool Visible { get; set; }
+    public bool? Visible { get; set; }
 
     [Parameter]
-    public EventCallback<bool> VisibleChanged { get; set; } 
+    public EventCallback<bool?> VisibleChanged { get; set; } 
 
     public AuthorizeItemResponse AuthoriedData { get; set; } = new();
 

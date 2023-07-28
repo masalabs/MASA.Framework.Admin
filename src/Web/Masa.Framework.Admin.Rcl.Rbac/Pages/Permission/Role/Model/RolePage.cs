@@ -50,11 +50,11 @@ public class RolePage : ComponentPageBase
 
     public List<DataTableHeader<RoleItemResponse>> Headers { get; set; }
 
-     public bool IsOpenRoleForm { get; set; }
+    public bool? IsOpenRoleForm { get; set; }
 
     public NavigationManager NavigationManager { get; set; }
 
-    public RolePage(AuthenticationCaller authenticationCaller,NavigationManager navigationManager, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
+    public RolePage(AuthenticationCaller authenticationCaller, NavigationManager navigationManager, GlobalConfig globalConfig, I18n i18n) : base(globalConfig, i18n)
     {
         AuthenticationCaller = authenticationCaller;
         NavigationManager = navigationManager;
@@ -72,13 +72,13 @@ public class RolePage : ComponentPageBase
     {
         Loading = true;
         var result = await AuthenticationCaller.GetRoleItemsAsync(PageIndex, PageSize, true, Search);
-        if (result.Success)
+        if (result?.Success == true)
         {
             var pageData = result.Data!;
             PageCount = (int)pageData.TotalPages;
             TotalCount = pageData.Count;
             Datas = pageData.Items.ToList();
-        }        
+        }
         Loading = false;
     }
 
@@ -118,13 +118,13 @@ public class RolePage : ComponentPageBase
 
     public async Task DeleteAsync(bool confirm)
     {
-        if(confirm)
+        if (confirm)
         {
             Loading = true;
             var result = await AuthenticationCaller.DeleteRoleAsync(new DeleteRoleRequest
             {
                 RoleId = CurrentData.Id,
-            });           
+            });
             await CheckApiResult(result, I18n.T("Delete role successfully"), result.Message);
             Loading = false;
         }
